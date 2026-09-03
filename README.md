@@ -1,73 +1,236 @@
 # GAS Engineering Playbook
 
-A community-driven knowledge repository for building better Google Apps Script solutions.
+Open-source engineering knowledge repository for building better Google Apps Script solutions.
 
-## Philosophy
+## Purpose
 
-Great software does not start from complexity. It starts from good practices.
+GAS Engineering Playbook is a living knowledge repository designed to collect, organize, and share engineering practices for developing reliable Google Apps Script applications.
 
-Many useful systems begin with simple tools such as Google Sheets, Forms, and Apps Script. As these systems grow, developers need better structure, documentation, testing, and engineering discipline.
+This repository does not attempt to provide a single fixed framework. Instead, it provides reusable patterns, development guidance, and practical knowledge that can evolve through real-world experience.
 
-This repository is a living playbook that collects:
-
-- engineering patterns
-- development practices
-- reusable solutions
-- lessons learned
-- architecture guidance
-
-The goal is not to create the biggest framework, but to share practical knowledge that helps people build better solutions.
-
-## What You Will Find
-
-- Google Apps Script development practices
-- Application architecture patterns
-- AppSheet migration guidance
-- Database integration concepts
-- Performance optimization
-- Security practices
-- Testing approaches
-- Documentation standards
-
-## Core Philosophy
-
-### Learn → Apply → Document → Share
-
-Every project creates experience.
-
-This repository turns experience into reusable knowledge.
-
-## Structure
+The purpose is to help developers progress from:
 
 ```
-skills/
-    Development knowledge modules
+Simple Script Automation
 
-references/
-    Patterns and technical references
+        ↓
 
-examples/
-    Practical implementations
+Structured Application Development
 
-docs/
-    Guides and roadmap
+        ↓
+
+Maintainable Engineering Solution
 ```
 
-## Skills
+## Why This Repository Exists
 
-| Module | Purpose |
-|---|---|
-| GAS Core Engineering | Fundamentals of Apps Script |
-| AppSheet Migration | Migration approaches |
-| Software Architecture | Maintainable application design |
-| Database Engineering | Data modeling practices |
-| PostgreSQL Integration | Backend integration concepts |
-| Performance Engineering | Optimization techniques |
-| Security Engineering | Secure development |
-| Testing Quality | Reliability practices |
-| Monitoring Observability | Operational visibility |
-| Deployment Engineering | Release practices |
-| Documentation Engineering | Knowledge transfer |
+Many Google Workspace solutions begin with simple tools:
+
+- Google Sheets
+- Google Forms
+- Google Apps Script
+- AppSheet workflows
+
+As systems grow, common challenges appear:
+
+- scripts become difficult to maintain,
+- business logic becomes mixed with implementation details,
+- performance decreases,
+- changes become risky,
+- technical knowledge is lost.
+
+This repository helps address those challenges through reusable engineering practices.
+
+## Repository Objectives
+
+### Improve Development Quality
+
+Provide guidance for:
+
+- maintainable Apps Script development,
+- project organization,
+- separation of responsibilities,
+- reducing technical debt.
+
+### Build Reusable Knowledge
+
+Transform experience into reusable patterns:
+
+```
+Problem
+
+↓
+
+Solution
+
+↓
+
+Pattern
+
+↓
+
+Documentation
+
+↓
+
+Reusable Knowledge
+```
+
+### Support System Evolution
+
+Help solutions grow from:
+
+```
+Spreadsheet Automation
+
+↓
+
+Apps Script Application
+
+↓
+
+Database Connected Application
+
+↓
+
+Scalable System Architecture
+```
+
+## Skill Module Purpose
+
+Each skill module has a clear responsibility.
+
+Every module should answer:
+
+1. What problem does this module solve?
+2. When should this knowledge be applied?
+3. What principles does it introduce?
+4. What patterns and examples belong here?
+5. How can it evolve?
+
+## Module Boundaries
+
+### GAS Core Engineering
+
+Focus:
+- Apps Script fundamentals
+- services
+- triggers
+- spreadsheet interaction
+- project organization
+
+### AppSheet Migration
+
+Focus:
+- workflow analysis
+- migration strategy
+- action and automation mapping
+
+### Software Architecture
+
+Focus:
+- layered architecture
+- separation of concern
+- maintainable application structure
+
+### Database Engineering
+
+Focus:
+- data modeling
+- relationships
+- normalization
+- data lifecycle
+
+### PostgreSQL Integration
+
+Focus:
+- database connectivity
+- query strategy
+- backend integration concepts
+
+### Performance Engineering
+
+Focus:
+- batch processing
+- caching
+- quota awareness
+- scalable processing
+
+### Security Engineering
+
+Focus:
+- credential management
+- authorization
+- access control
+- audit concepts
+
+### Testing Quality
+
+Focus:
+- testing strategy
+- validation
+- reliability improvement
+
+### Monitoring Observability
+
+Focus:
+- logging
+- execution tracking
+- troubleshooting
+
+### Deployment Engineering
+
+Focus:
+- versioning
+- environment management
+- release process
+
+### Documentation Engineering
+
+Focus:
+- technical documentation
+- handoff
+- knowledge preservation
+
+## Module Evolution Philosophy
+
+Every module grows through:
+
+```
+Experience
+
+↓
+
+New Pattern Discovery
+
+↓
+
+Documentation Update
+
+↓
+
+Example Implementation
+
+↓
+
+Improved Skill Version
+```
+
+## Contribution Principles
+
+Contributions should be:
+
+- generic
+- reusable
+- documented
+- based on practical experience
+
+Avoid:
+
+- confidential information
+- organization-specific rules
+- hardcoded credentials
+- temporary solutions without explanation
 
 ## References
 
@@ -85,24 +248,6 @@ https://martinfowler.com/
 
 PostgreSQL Documentation:
 https://www.postgresql.org/docs/
-
-## Contribution
-
-Knowledge grows through sharing.
-
-Contributions are welcome:
-
-- new patterns
-- better examples
-- documentation improvements
-- engineering experiences
-
-Please keep contributions:
-
-- generic
-- reusable
-- documented
-- free from confidential information
 
 ## License
 
