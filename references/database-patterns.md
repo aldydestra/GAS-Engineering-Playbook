@@ -1,9 +1,3 @@
 # Database Patterns
 
-Topics:
-
-- data modeling
-- normalization
-- indexing
-- transactions
-- migration strategy
+Reusable database engineering patterns.

@@ -2,8 +2,8 @@
 
 ## Purpose
 
-General guidance for transforming AppSheet workflows into structured applications.
+Patterns for transforming AppSheet workflows into structured applications.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

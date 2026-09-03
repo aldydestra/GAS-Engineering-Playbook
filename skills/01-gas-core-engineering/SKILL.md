@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Google Apps Script fundamentals, project organization, services, triggers, and development practices.
+Google Apps Script fundamentals, structure, services, triggers, and practices.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

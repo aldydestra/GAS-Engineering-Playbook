@@ -1,18 +1,16 @@
-# Contributing Guide
+# Contributing
 
-Thank you for helping improve GAS Engineering Playbook.
+Contributions are welcome.
 
-## Contribution Principles
+Please contribute:
 
-Good contributions:
-
-- solve real problems
-- explain the reasoning
-- include documentation
-- can be reused by others
+- reusable knowledge,
+- engineering patterns,
+- improvements,
+- examples.
 
 Avoid:
 
-- confidential project information
-- hardcoded credentials
-- organization-specific assumptions
+- confidential information,
+- project-specific secrets,
+- hardcoded credentials.

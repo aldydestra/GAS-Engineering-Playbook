@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Optimization strategies, quotas, caching, and scalable processing.
+Optimization, batching, caching, and scalability.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

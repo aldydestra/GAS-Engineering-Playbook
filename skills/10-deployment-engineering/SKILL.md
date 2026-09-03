@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Versioning, environments, and release practices.
+Versioning and release practices.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

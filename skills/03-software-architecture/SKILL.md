@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Application structure, separation of concerns, service layer, and repository patterns.
+Maintainable application design and architecture patterns.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

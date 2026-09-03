@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Documentation, handoff, and knowledge sharing.
+Documentation and knowledge preservation.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

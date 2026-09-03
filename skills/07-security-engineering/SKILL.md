@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Secure coding, access control, and configuration management.
+Security, permissions, and safe development.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

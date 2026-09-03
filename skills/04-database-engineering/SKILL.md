@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Database modeling, relationships, normalization, and lifecycle management.
+Data modeling, relationships, and lifecycle practices.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

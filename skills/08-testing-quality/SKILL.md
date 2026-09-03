@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Testing methods and reliability practices.
+Testing and reliability approaches.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.

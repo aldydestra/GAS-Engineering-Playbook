@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Logging, monitoring, and operational awareness.
+Logging and operational visibility.
 
-## Philosophy
+## Evolution
 
-Build solutions that are understandable, maintainable, and reusable.
+This skill grows from practical experience, discovered patterns, and community improvements.
