@@ -1,19 +1,21 @@
 # Release Manifest
 
-Repository Version: v1.7.0
+Repository Version: v1.8.0
 
 ## Primary Milestone
 
-- Skill 06 — Performance Engineering foundation
+- Skill 07 — Security Engineering foundation
 
-## Updated Knowledge
+## Added
 
-- current Apps Script quota verification
-- performance evidence model
-- bottleneck measurement workflow
-- batch and algorithm optimization patterns
-- caching and concurrency patterns
-- long-running continuation patterns
+- `references/security-engineering-patterns.md`
+- `SECURITY.md`
+
+## Updated
+
+- README Skill 07
+- CHANGELOG v1.8.0
+- GitHub Release Notes
 
 ## Files
 - `CHANGELOG.md`
@@ -22,6 +24,7 @@ Repository Version: v1.7.0
 - `GITHUB_RELEASE_NOTES.md`
 - `LICENSE`
 - `README.md`
+- `SECURITY.md`
 - `docs/module-development-guide.md`
 - `examples/.gitkeep`
 - `references/appsheet-migration-patterns.md`
@@ -32,6 +35,7 @@ Repository Version: v1.7.0
 - `references/gas-recipes.md`
 - `references/performance-engineering-patterns.md`
 - `references/postgresql-integration-patterns.md`
+- `references/security-engineering-patterns.md`
 - `references/software-architecture-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`
 - `skills/02-appsheet-migration/SKILL.md`

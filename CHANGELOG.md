@@ -2,6 +2,87 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.8.0] - 2026-09-04
+
+### Foundation Milestone — Skill 07
+
+Matured `07-security-engineering` as the seventh foundation skill.
+
+### Added — Security Engineering
+
+- explicit trust-boundary modeling,
+- authentication vs authorization separation,
+- Apps Script execution-identity matrix,
+- installable-trigger creator identity guidance,
+- web-app execute-as-owner vs execute-as-user security analysis,
+- prohibition on transmitting owner OAuth tokens to clients,
+- active-user vs effective-user identity handling,
+- temporary active-user-key guidance,
+- least-privilege OAuth scope review,
+- `@OnlyCurrentDoc` guidance,
+- granular OAuth/re-authorization considerations,
+- sensitive/restricted scope review,
+- manifest-scope review,
+- PropertiesService security-boundary guidance,
+- secret classification and rotation,
+- Secret Manager/IAM trade-off guidance,
+- server-side authorization,
+- object-level authorization,
+- RBAC and attribute-based policy guidance,
+- untrusted-input validation and allowlists,
+- public web-app/API surface guidance,
+- webhook authentication/replay concepts,
+- network tunnel vs authorization distinction,
+- PostgreSQL least-privilege guidance,
+- MFA/2FA-aware automation policy,
+- environment separation,
+- audit/security-event logging,
+- safe error/logging rules,
+- dependency/library security review,
+- lightweight threat modeling,
+- security regression-test examples,
+- secure-default and pre-release checklists.
+
+### Added — Reference
+
+- `references/security-engineering-patterns.md`
+
+### Added — Repository Security Policy
+
+- `SECURITY.md`
+
+Provides guidance for reporting security-related issues without publishing live credentials, private infrastructure, or personal data.
+
+### Experience Synthesis
+
+This release generalizes practical lessons from:
+
+- external systems introducing MFA/2FA,
+- self-hosted network/tunnel architecture,
+- PostgreSQL credential/role boundaries,
+- automation ownership and trigger identity,
+- logging/diagnostic requirements.
+
+The repository explicitly rejects bypassing MFA as an automation strategy.
+
+### Evidence Model
+
+Security rules were synthesized from:
+
+- existing GAS base knowledge,
+- reusable project experience,
+- current Apps Script/Google Cloud documentation,
+- OWASP security guidance,
+- community reports about identity/deployment confusion.
+
+Community sources remain signals, not specifications.
+
+### Compatibility
+
+No intentional top-level directory-structure breaking change.
+
+---
+
 ## [v1.7.0] - 2026-09-04
 
 ### Foundation Milestone — Skill 06

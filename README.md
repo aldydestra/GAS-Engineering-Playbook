@@ -244,9 +244,35 @@ This prevents a repository release number from being mistaken for the version of
 
 ## 07 — Security Engineering
 
-**Status:** foundation.
+**Purpose:** define trust boundaries for Google Apps Script identity, OAuth permissions, authorization, secrets, web apps, triggers, external APIs, and database access.
 
-Will focus on credentials, authorization, least privilege, execution identity, data exposure, and audit boundaries.
+**Goals:**
+
+- distinguish interactive actor from effective execution identity,
+- enforce authorization server-side rather than through UI visibility,
+- minimize OAuth scopes and understand sensitive/restricted scope impact,
+- manage secrets without committing them to source or leaking them through logs/URLs,
+- secure owner-executed web apps and installable triggers,
+- validate all client/webhook/import input at trust boundaries,
+- apply least privilege to PostgreSQL and external integrations,
+- preserve MFA/2FA rather than bypass it for automation,
+- log security-relevant events without exposing sensitive data.
+
+**Key strengths:**
+
+- execution-identity matrix,
+- active vs effective user guidance,
+- OAuth scope review,
+- `@OnlyCurrentDoc` strategy,
+- PropertiesService security boundary,
+- Secret Manager/IAM trade-offs,
+- server-side RBAC/object authorization,
+- webhook authentication and replay guidance,
+- SQL injection prevention,
+- network tunnel vs authorization distinction,
+- MFA-aware automation design,
+- secure logging and pre-release checklist.
+
 
 ## 08 — Testing Quality
 
