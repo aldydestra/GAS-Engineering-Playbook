@@ -118,9 +118,33 @@ This module is the recommended starting point before using the more specialized 
 
 ### 04 — Database Engineering
 
-**Purpose:** improve data structure, relationships, integrity, and lifecycle decisions.
+**Purpose:** define reliable data ownership and modeling practices for GAS ecosystems that may evolve from Google Sheets into relational databases.
 
-**Goal:** prevent application logic from compensating for weak data design.
+**Goals:**
+
+- make the authoritative source of truth explicit,
+- preserve stable identity and relationships across Sheets/AppSheet/GAS/database boundaries,
+- enforce important integrity rules close to the data,
+- prevent schema drift from silently corrupting downstream mappings,
+- design imports with staging, rejection visibility, idempotency, and reconciliation,
+- use Sheets intentionally as a source, interface, cache, or reporting read model,
+- choose indexes, transactions, and synchronization strategies from real workload requirements.
+
+**Key strengths:**
+
+- fit-for-purpose Sheet vs database decision model,
+- source-of-truth and dual-write safeguards,
+- stable-key and relationship design,
+- pragmatic normalization/denormalization,
+- constraint and data-type guidance,
+- transaction and concurrency awareness,
+- schema-contract and header-drift protection,
+- staging/import/reject patterns,
+- incremental sync and reconciliation,
+- database-backed Sheet cache/read-model pattern,
+- query/index measurement guidance,
+- schema migration and rollback checklist.
+
 
 ### 05 — PostgreSQL Integration
 

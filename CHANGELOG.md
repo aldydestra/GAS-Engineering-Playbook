@@ -2,6 +2,77 @@
 
 All notable knowledge and skill changes are documented here.
 
+## [v1.5.0] - 2026-09-04
+
+### Improved — Database Engineering
+
+Rebuilt `04-database-engineering/SKILL.md` using three evidence layers:
+
+1. existing GAS/AppSheet base knowledge,
+2. reusable lessons extracted from project experience,
+3. comparison against current official documentation and community experience.
+
+### Added
+
+- fit-for-purpose Google Sheets vs relational database guidance,
+- explicit source-of-truth design,
+- ambiguous dual-write safeguards,
+- database → Sheet cache/read-model pattern,
+- entity/key/relationship modeling,
+- surrogate vs business-key guidance,
+- pragmatic normalization and historical snapshot distinction,
+- constraints and data-type ownership,
+- date/time and null-semantics policies,
+- derived-field ownership,
+- views and generated-column guidance,
+- index-vs-constraint distinction,
+- EXPLAIN-based query optimization,
+- transaction and concurrency awareness,
+- idempotency design,
+- staging/import/reject patterns,
+- schema-drift/header-mapping safeguards,
+- explicit target-schema projection,
+- batch identity and import observability,
+- incremental watermark and reconciliation patterns,
+- cache/source-of-truth distinction,
+- reporting read-model guidance,
+- backward-compatible schema evolution,
+- backup vs rollback distinction,
+- measurable data-quality checks,
+- Sheet/database migration path,
+- database review and pre-release checklists.
+
+### Improved — Reference
+
+Expanded `references/database-patterns.md` with reusable implementation patterns for:
+
+- stable IDs,
+- semantic header mapping,
+- staging imports,
+- reject tracking,
+- idempotency,
+- transactions,
+- database-backed Sheet read models,
+- synchronization ownership,
+- incremental watermarks,
+- reconciliation,
+- constraints,
+- indexing,
+- schema migration,
+- dual-write recovery.
+
+### Research Method
+
+Community/forum discussions are treated as operational experience signals, not authoritative platform specifications.
+
+Official PostgreSQL, Google Apps Script, and AppSheet documentation remain the primary basis for behavior and guarantees.
+
+### Compatibility
+
+No intentional repository-structure breaking changes from v1.4.0.
+
+---
+
 ## [v1.4.0] - 2026-09-04
 
 ### Improved — Software Architecture

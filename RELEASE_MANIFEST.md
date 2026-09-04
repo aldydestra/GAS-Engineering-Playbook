@@ -1,11 +1,12 @@
 # Release Manifest
 
-Version: v1.4.0
+Version: v1.5.0
 
 ## Release Focus
 
-- Mature `03-software-architecture`
-- Add software architecture reference patterns
+- Mature `04-database-engineering`
+- Expand `references/database-patterns.md`
+- Establish four-layer evidence model for future upgrades
 - Update README module purpose/goals
 - Add CHANGELOG entry
 - Add GitHub Release Notes
