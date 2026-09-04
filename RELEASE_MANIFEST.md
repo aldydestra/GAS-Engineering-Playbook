@@ -1,18 +1,19 @@
 # Release Manifest
 
-Repository Version: v1.6.0
+Repository Version: v1.7.0
 
 ## Primary Milestone
 
-- Skill 05 — PostgreSQL Integration foundation
+- Skill 06 — Performance Engineering foundation
 
-## Repository-Wide Changes
+## Updated Knowledge
 
-- independent skill version metadata
-- Foundation Buildout Series version model
-- evidence-separated research method
-- contribution evidence template
-- full Apache 2.0 license text
+- current Apps Script quota verification
+- performance evidence model
+- bottleneck measurement workflow
+- batch and algorithm optimization patterns
+- caching and concurrency patterns
+- long-running continuation patterns
 
 ## Files
 - `CHANGELOG.md`
@@ -29,6 +30,7 @@ Repository Version: v1.6.0
 - `references/gas-patterns.md`
 - `references/gas-quotas.md`
 - `references/gas-recipes.md`
+- `references/performance-engineering-patterns.md`
 - `references/postgresql-integration-patterns.md`
 - `references/software-architecture-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`

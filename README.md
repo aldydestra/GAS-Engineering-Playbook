@@ -213,9 +213,34 @@ This prevents a repository release number from being mistaken for the version of
 
 ## 06 — Performance Engineering
 
-**Status:** foundation.
+**Purpose:** improve Apps Script latency, throughput, quota efficiency, and reliability by measuring the real bottleneck before optimizing.
 
-Will focus on measurement, batch processing, caching, chunking, continuation, data structures, and bottleneck isolation.
+**Goals:**
+
+- measure major workflow phases before rewriting code,
+- reduce expensive Google/external service calls,
+- use batch Spreadsheet operations and bulk formatting,
+- replace repeated scans with Maps/Sets/indexes,
+- define safe CacheService and LockService usage,
+- reduce HTTP/JDBC round trips,
+- design long-running jobs with soft time budgets, checkpoints, and continuation,
+- prevent performance regressions with realistic before/after benchmarks.
+
+**Key strengths:**
+
+- measurement-first optimization,
+- service-call budgeting,
+- batch read/write/formula/format patterns,
+- algorithmic complexity review,
+- cache fallback and stampede protection,
+- minimal lock scope,
+- `fetchAll()` guidance,
+- database push-down/N+1 prevention,
+- UI RPC optimization,
+- current quota verification,
+- idempotent continuation jobs,
+- performance regression checklist.
+
 
 ## 07 — Security Engineering
 

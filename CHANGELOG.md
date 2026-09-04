@@ -2,6 +2,79 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.7.0] - 2026-09-04
+
+### Foundation Milestone — Skill 06
+
+Matured `06-performance-engineering` as the sixth foundation skill.
+
+### Added — Performance Engineering
+
+- measurement-first performance workflow,
+- phase-level timing and baseline guidance,
+- service-call budgeting,
+- batch Spreadsheet read/write patterns,
+- `flush()` synchronization guidance,
+- intentional range sizing,
+- Map/Set lookup optimization,
+- nested-scan elimination,
+- per-execution memoization,
+- bulk formatting and `RangeList` guidance,
+- spreadsheet formula/recalculation awareness,
+- CacheService fallback/invalidation patterns,
+- cache-stampede protection,
+- LockService scope guidance,
+- `UrlFetchApp.fetchAll()` pattern,
+- HTTP timeout budgeting,
+- PostgreSQL push-down and JDBC N+1 prevention,
+- UI `google.script.run` chattiness guidance,
+- custom-function vectorization,
+- soft runtime budgeting,
+- checkpoint/continuation architecture,
+- continuation-trigger hygiene,
+- idempotency as a performance/reliability pattern,
+- batch-size tuning,
+- full vs incremental processing trade-offs,
+- performance regression budgets,
+- realistic data-size testing,
+- bottleneck classification and pre-release checklist.
+
+### Added — Reference
+
+- `references/performance-engineering-patterns.md`
+
+### Corrected — Quota Baseline
+
+Updated `references/gas-quotas.md` against the current official Apps Script quota page.
+
+The previous base-knowledge assumption that time-driven executions could run for 30 minutes is no longer used as the current repository rule.
+
+Current official documentation lists:
+
+- 6 minutes / script execution for Consumer and Workspace,
+- 30 seconds / custom function,
+- 90 minutes/day total trigger runtime for Consumer,
+- 6 hours/day total trigger runtime for Workspace.
+
+This release documents the correction as an example of the repository evidence model: older base knowledge is retained as learning history, while current official documentation defines current platform behavior.
+
+### Evidence Model
+
+Performance guidance was synthesized from:
+
+- uploaded GAS base knowledge,
+- reusable lessons from real project bottleneck diagnosis,
+- current Google documentation,
+- recurring Stack Overflow/community failure patterns.
+
+Community sources reinforce practical failure modes but do not override official specifications.
+
+### Compatibility
+
+No intentional top-level repository structure change.
+
+---
+
 ## [v1.6.0] - 2026-09-04
 
 ### Foundation Milestone — Skill 05
