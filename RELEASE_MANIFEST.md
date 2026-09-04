@@ -1,15 +1,25 @@
 # Release Manifest
 
-Version: v1.2.0
+Version: v1.3.0
+
+## Release Focus
+
+- Mature `02-appsheet-migration`
+- Add AppSheet migration reference patterns
+- Update README module purpose/goals
+- Add CHANGELOG entry
+- Add GitHub Release Notes
 
 ## Files
 - `CHANGELOG.md`
 - `CODE_OF_CONDUCT.md`
 - `CONTRIBUTING.md`
+- `GITHUB_RELEASE_NOTES.md`
 - `LICENSE`
 - `README.md`
 - `docs/module-development-guide.md`
 - `examples/.gitkeep`
+- `references/appsheet-migration-patterns.md`
 - `references/database-patterns.md`
 - `references/gas-patterns.md`
 - `references/gas-quotas.md`

@@ -2,6 +2,49 @@
 
 All notable knowledge and skill changes are documented here.
 
+## [v1.3.0] - 2026-09-04
+
+### Improved — AppSheet Migration
+
+Rebuilt `02-appsheet-migration/SKILL.md` as an experience-driven migration playbook for translating AppSheet behavior into Google Apps Script, hybrid AppSheet + GAS, or database-backed architectures.
+
+### Added
+
+- AppSheet application reverse-engineering workflow,
+- table/key/ref/slice/virtual-column inventory,
+- semantic AppSheet → GAS responsibility mapping,
+- expression classification and extraction guidance,
+- action → command pattern,
+- grouped-action → orchestration pattern,
+- bot/event/process/task decomposition,
+- hybrid AppSheet → Apps Script migration strategy,
+- AppSheet Apps Script execution-identity awareness,
+- synchronous vs asynchronous automation guidance,
+- AppSheet event vs GAS trigger distinction,
+- before/after state-transition preservation,
+- security-filter vs slice migration guidance,
+- offline/sync requirement analysis,
+- staged migration and parity-validation workflow,
+- cutover/rollback thinking,
+- common migration failure modes,
+- migration acceptance criteria.
+
+### Added — Reference
+
+- `references/appsheet-migration-patterns.md`
+
+### Philosophy
+
+Migration is treated as behavior preservation and responsibility redesign, not feature-by-feature transcription.
+
+A full AppSheet replacement is not required. Hybrid migration is considered a valid and often safer target when it solves the actual constraint.
+
+### Compatibility
+
+No intentional repository-structure breaking changes from v1.2.0.
+
+---
+
 ## [v1.2.0] - 2026-09-04
 
 ### Improved — GAS Core Engineering

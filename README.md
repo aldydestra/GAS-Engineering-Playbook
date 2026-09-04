@@ -62,9 +62,30 @@ This module is the recommended starting point before using the more specialized 
 
 ### 02 — AppSheet Migration
 
-**Purpose:** translate low-code workflows into clearer Apps Script/application logic while preserving business behavior.
+**Purpose:** reverse-engineer AppSheet applications and migrate their behavior safely into Google Apps Script, hybrid AppSheet + GAS workflows, or a broader backend architecture.
 
-**Goal:** reduce migration risk and make the resulting workflow easier to extend.
+**Goals:**
+
+- inventory AppSheet tables, expressions, slices, actions, bots, security rules, and UX behavior before coding,
+- preserve stable keys, relationships, calculations, and automation semantics,
+- classify what should stay in AppSheet versus move to GAS or a database,
+- support incremental/hybrid migration instead of forcing a big-bang rewrite,
+- preserve authorization, before/after state transitions, and offline/sync requirements,
+- validate behavioral parity before cutover.
+
+**Key strengths:**
+
+- semantic AppSheet → GAS responsibility mapping,
+- component/dependency inventory,
+- expression and virtual-column migration guidance,
+- action → command and bot → orchestrator patterns,
+- hybrid AppSheet → Apps Script architecture,
+- execution-identity awareness for AppSheet script tasks,
+- security-filter vs slice distinction,
+- trigger/event-semantic safeguards,
+- staged cutover and rollback thinking,
+- migration acceptance checklist.
+
 
 ### 03 — Software Architecture
 
