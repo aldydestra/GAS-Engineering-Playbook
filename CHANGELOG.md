@@ -1,86 +1,75 @@
 # Changelog
 
-All notable changes to this repository will be documented in this file.
+All notable knowledge and skill changes are documented here.
 
-The format follows a simplified version of Keep a Changelog.
+## [v1.2.0] - 2026-09-04
+
+### Improved — GAS Core Engineering
+
+Rebuilt `01-gas-core-engineering/SKILL.md` using the re-uploaded Google Apps Script knowledge base plus reusable patterns learned from ongoing Apps Script development.
+
+### Added
+
+- evidence-first API and enum verification,
+- existing-project inspection workflow,
+- public/private callback discipline,
+- batch-first spreadsheet I/O,
+- spreadsheet header/schema mapping,
+- configuration scope guidance,
+- thin trigger pattern,
+- menu/orchestration guidance,
+- asynchronous `google.script.run` handling,
+- intentional `SpreadsheetApp.flush()` guidance,
+- checkpoint/continuation strategy,
+- idempotency guidance,
+- concurrency and `LockService` pattern,
+- structured external API error handling,
+- logging and bottleneck measurement,
+- custom-function boundary guidance,
+- safer multi-sheet handling,
+- deterministic rebuild pattern,
+- quota-aware engineering checklist,
+- experience-driven skill evolution rules.
+
+### References
+
+Expanded the existing `references/` area with:
+
+- `gas-patterns.md`
+- `gas-quotas.md`
+- `gas-recipes.md`
+
+The references remain supporting material; the primary operating rules live in the skill module.
+
+### Philosophy
+
+Project-specific business logic is intentionally excluded. Only reusable engineering lessons are retained.
 
 ---
 
-# [v1.0.1] - 2026-09-03
+## [v1.1.0]
 
-## Philosophy Update
+### Added
+
+- First experience-driven GAS Core Engineering module.
+- Basic project organization guidance.
+- Maintainability principles.
+- Basic performance practices.
+
+---
+
+## [v1.0.1]
 
 ### Changed
 
-- Updated repository positioning from a static engineering framework into an experience-driven skill repository.
-- Refined README documentation to explain the purpose, evolution, and contribution philosophy.
-- Clarified that skills are based on practical development experiences and can evolve through community contribution.
-
-### Added
-
-- Experience-driven skill development philosophy:
-
-```
-Experience
-    ↓
-Problem
-    ↓
-Solution
-    ↓
-Pattern
-    ↓
-Skill Improvement
-    ↓
-Community Contribution
-```
-
-- Defined module purpose and responsibility boundaries.
-
-### Goal
-
-Create a repository where developers can:
-
-- learn from practical experiences,
-- reuse proven approaches,
-- improve existing skills,
-- contribute new knowledge.
+- Repositioned the repository as an experience-driven skill collection.
+- Added the community contribution model.
 
 ---
 
-# [v1.0.0] - 2026-09-03
-
-## Initial Foundation Release
+## [v1.0.0]
 
 ### Added
 
-- Initial repository structure.
-- Core skill modules.
-- Documentation standards.
-- Contribution guidelines.
-- Open-source repository foundation.
-
-### Included Modules
-
-- GAS Core Engineering
-- AppSheet Migration
-- Software Architecture
-- Database Engineering
-- PostgreSQL Integration
-- Performance Engineering
-- Security Engineering
-- Testing Quality
-- Monitoring Observability
-- Deployment Engineering
-- Documentation Engineering
-
----
-
-# Future Releases
-
-Future updates should document:
-
-- new engineering patterns,
-- discovered solutions,
-- improved practices,
-- community contributions,
-- implementation experiences.
+- Initial repository foundation.
+- Initial skill-module structure.

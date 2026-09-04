@@ -6,122 +6,161 @@ An experience-driven collection of Google Apps Script skills, patterns, and engi
 
 GAS Engineering Playbook is a collection of skills that I use when developing Google Apps Script solutions.
 
-The purpose of this repository is not to provide a fixed framework or claim to be the ultimate solution.
-
-Instead, it documents:
-
-- approaches that have been applied,
-- problems that have been encountered,
-- patterns that have been discovered,
-- improvements that make development more structured.
-
-The philosophy is simple:
+It is not intended to be a fixed framework or an "ultimate" standard. The repository documents approaches that have been applied, problems that have been encountered, patterns that proved useful, and improvements discovered through continued development.
 
 > Here is how I build my Google Apps Script solutions. You can use it, improve it, and contribute your own experience.
 
-## Why This Repository Exists
+## How It Evolves
 
-Many Google Workspace solutions start from simple automation:
-
-- Google Sheets formulas
-- Google Apps Script snippets
-- AppSheet workflows
-- Internal tools
-
-As systems grow, common challenges appear:
-
-- scripts become harder to maintain,
-- business logic becomes mixed,
-- performance decreases,
-- changes become risky,
-- knowledge is lost.
-
-This repository transforms practical experience into reusable skills.
-
-## How This Repository Evolves
-
-Every skill grows through real usage.
-
-```
+```text
 Experience
     ↓
 Problem
     ↓
 Solution
     ↓
-Pattern
+Reusable Pattern
     ↓
 Skill Improvement
     ↓
 Community Contribution
 ```
 
-A skill update should represent:
+A meaningful update should normally represent a solved problem, corrected assumption, improved implementation, reusable pattern, or a community contribution validated through use.
 
-- a better approach,
-- a discovered pattern,
-- a solved problem,
-- an improved practice.
+## Skills
 
-## Skill Module Purpose
+### 01 — GAS Core Engineering
 
-Each skill module contains:
+**Purpose:** provide the default engineering foundation for designing, modifying, debugging, and maintaining Google Apps Script solutions.
 
-- Purpose
-- Problem Context
-- Development Approach
-- Recommended Practices
-- Common Mistakes
-- Improvement Notes
-- References
+**Goals:**
 
-## Available Skills
+- preserve working behavior during changes,
+- structure projects so responsibilities remain understandable,
+- minimize expensive Google service calls,
+- protect spreadsheet data contracts against layout/schema drift,
+- use triggers and HTML callbacks correctly,
+- handle execution limits intentionally,
+- make failures observable,
+- verify Apps Script APIs rather than guessing them.
 
-| Module | Purpose |
-|---|---|
-| GAS Core Engineering | Apps Script foundation and development practices |
-| AppSheet Migration | Workflow migration approaches |
-| Software Architecture | Maintainable application design |
-| Database Engineering | Data modeling practices |
-| PostgreSQL Integration | Database connectivity concepts |
-| Performance Engineering | Optimization patterns |
-| Security Engineering | Secure development practices |
-| Testing Quality | Reliability practices |
-| Monitoring Observability | System visibility |
-| Deployment Engineering | Release management |
-| Documentation Engineering | Knowledge preservation |
+**Key strengths:**
+
+- batch-first spreadsheet processing,
+- header/schema validation,
+- public/private callback discipline,
+- thin trigger pattern,
+- quota-aware long-running job strategy,
+- configuration separation,
+- concurrency/locking awareness,
+- deterministic rebuild pattern,
+- structured logging and error context,
+- experience-driven upgrade checklist.
+
+This module is the recommended starting point before using the more specialized skills below.
+
+### 02 — AppSheet Migration
+
+**Purpose:** translate low-code workflows into clearer Apps Script/application logic while preserving business behavior.
+
+**Goal:** reduce migration risk and make the resulting workflow easier to extend.
+
+### 03 — Software Architecture
+
+**Purpose:** separate UI, orchestration, business logic, and data access when project complexity justifies it.
+
+**Goal:** improve maintainability and reduce tightly coupled scripts.
+
+### 04 — Database Engineering
+
+**Purpose:** improve data structure, relationships, integrity, and lifecycle decisions.
+
+**Goal:** prevent application logic from compensating for weak data design.
+
+### 05 — PostgreSQL Integration
+
+**Purpose:** guide Apps Script solutions that connect to relational backends.
+
+**Goal:** support growth beyond spreadsheet-only storage without coupling SQL directly to UI logic.
+
+### 06 — Performance Engineering
+
+**Purpose:** diagnose and reduce execution bottlenecks.
+
+**Goal:** make processing scale through measurement, batching, caching, chunking, and continuation patterns.
+
+### 07 — Security Engineering
+
+**Purpose:** protect credentials, permissions, execution identity, and sensitive data.
+
+**Goal:** ensure convenience does not override access-control discipline.
+
+### 08 — Testing Quality
+
+**Purpose:** make changes verifiable before production deployment.
+
+**Goal:** reduce regression risk through repeatable tests, edge-case validation, and local/emulated testing where appropriate.
+
+### 09 — Monitoring Observability
+
+**Purpose:** make system behavior and failure modes visible.
+
+**Goal:** reduce troubleshooting time using structured execution logs and meaningful operational signals.
+
+### 10 — Deployment Engineering
+
+**Purpose:** make releases, environments, versioning, and rollback predictable.
+
+**Goal:** reduce operational risk as projects gain users and contributors.
+
+### 11 — Documentation Engineering
+
+**Purpose:** preserve technical context, decisions, and handoff knowledge.
+
+**Goal:** make continued development possible even when the original author is unavailable.
+
+## Repository Structure
+
+```text
+skills/
+references/
+examples/
+docs/
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+```
+
+The repository stays intentionally clean. New knowledge should normally strengthen an existing skill before introducing unnecessary structural complexity.
 
 ## Contribution
 
-Everyone has different experiences.
+If you use these skills and discover a better pattern, a corrected assumption, a new limitation, or a safer implementation, contributions are welcome.
 
-If you discover:
+A strong contribution explains:
 
-- a better pattern,
-- a new solution,
-- an optimization,
-- a missing practice,
+1. the problem encountered,
+2. the approach that was used before,
+3. the improved approach,
+4. why the improvement is reusable,
+5. known trade-offs.
 
-you are welcome to contribute.
-
-The goal is not to keep this repository as a personal collection, but to allow engineering knowledge to grow together.
+Please keep contributions generic and free from confidential project information.
 
 ## References
 
-Google Apps Script Documentation:
-https://developers.google.com/apps-script
+- Google Apps Script  
+  https://developers.google.com/apps-script
 
-Google Workspace Apps Script Samples:
-https://github.com/googleworkspace/apps-script-samples
+- Google Workspace Apps Script Samples  
+  https://github.com/googleworkspace/apps-script-samples
 
-gas-fakes:
-https://github.com/Spencer-Easton/gas-fakes
+- gas-fakes  
+  https://github.com/brucemcpherson/gas-fakes
 
-Martin Fowler:
-https://martinfowler.com/
-
-PostgreSQL Documentation:
-https://www.postgresql.org/docs/
+- PostgreSQL Documentation  
+  https://www.postgresql.org/docs/
 
 ## License
 
