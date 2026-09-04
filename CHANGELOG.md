@@ -2,6 +2,55 @@
 
 All notable knowledge and skill changes are documented here.
 
+## [v1.4.0] - 2026-09-04
+
+### Improved — Software Architecture
+
+Rebuilt `03-software-architecture/SKILL.md` as a pragmatic architecture guide specifically adapted to the Google Apps Script runtime.
+
+### Added
+
+- architecture maturity levels from utility script to layered application,
+- GAS global-scope and no-native-ES-module constraints,
+- thin public entry-point pattern,
+- application/service layer guidance,
+- domain logic separation,
+- repository pattern,
+- infrastructure adapter/gateway pattern,
+- controller boundary guidance,
+- namespace-module pattern,
+- top-level side-effect avoidance,
+- lightweight dependency injection,
+- ports/adapters guidance for replaceable infrastructure,
+- stable application contracts,
+- DTO and mapping layer guidance,
+- validation and error-boundary placement,
+- command/query separation,
+- deterministic rebuild architecture,
+- Apps Script library trade-off guidance,
+- collaboration/ownership considerations,
+- explicit state-management guidance,
+- progressive monolith extraction,
+- strangler refactoring pattern,
+- architecture decision records,
+- architecture smells and review checklist.
+
+### Added — Reference
+
+- `references/software-architecture-patterns.md`
+
+### Philosophy
+
+The module intentionally avoids forcing enterprise-style layers onto small scripts.
+
+Architecture is introduced only when it reduces change risk, duplication, platform coupling, or testing difficulty.
+
+### Compatibility
+
+No intentional repository-structure breaking changes from v1.3.0.
+
+---
+
 ## [v1.3.0] - 2026-09-04
 
 ### Improved — AppSheet Migration

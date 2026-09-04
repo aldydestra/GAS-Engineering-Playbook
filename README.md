@@ -89,9 +89,32 @@ This module is the recommended starting point before using the more specialized 
 
 ### 03 — Software Architecture
 
-**Purpose:** separate UI, orchestration, business logic, and data access when project complexity justifies it.
+**Purpose:** introduce pragmatic architecture boundaries for Google Apps Script projects when simple file organization is no longer enough.
 
-**Goal:** improve maintainability and reduce tightly coupled scripts.
+**Goals:**
+
+- keep public menu/trigger/HTML entry points thin and stable,
+- separate workflow orchestration from business rules and infrastructure,
+- isolate Sheets/API/database access behind repositories and adapters,
+- reduce global-scope collisions and top-level side effects,
+- preserve batch-performance principles while adding layers,
+- create testable seams without importing heavyweight frameworks,
+- make future migration from Sheets to other backends less disruptive.
+
+**Key strengths:**
+
+- GAS-aware layered architecture,
+- service-layer and repository patterns,
+- namespace modules for the shared global scope,
+- lightweight dependency injection,
+- DTO/mapping boundaries,
+- command/query separation,
+- integration gateways,
+- progressive monolith extraction,
+- deterministic rebuild architecture,
+- library reuse trade-off guidance,
+- architecture smell and pre-release checklists.
+
 
 ### 04 — Database Engineering
 

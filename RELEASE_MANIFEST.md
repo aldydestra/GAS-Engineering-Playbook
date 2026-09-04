@@ -1,11 +1,11 @@
 # Release Manifest
 
-Version: v1.3.0
+Version: v1.4.0
 
 ## Release Focus
 
-- Mature `02-appsheet-migration`
-- Add AppSheet migration reference patterns
+- Mature `03-software-architecture`
+- Add software architecture reference patterns
 - Update README module purpose/goals
 - Add CHANGELOG entry
 - Add GitHub Release Notes
@@ -24,6 +24,7 @@ Version: v1.3.0
 - `references/gas-patterns.md`
 - `references/gas-quotas.md`
 - `references/gas-recipes.md`
+- `references/software-architecture-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`
 - `skills/02-appsheet-migration/SKILL.md`
 - `skills/03-software-architecture/SKILL.md`
