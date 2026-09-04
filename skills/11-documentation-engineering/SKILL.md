@@ -1,9 +1,37 @@
-# 11 Documentation Engineering
+---
+name: documentation-engineering
+description: "Documentation engineering for Apps Script handoff, ADRs, runbooks, changelogs, and knowledge continuity."
+skill_version: "0.1.0"
+repository_introduced: "v1.0.0"
+status: "foundation"
+last_repository_update: "v1.0.0"
+tags:
+  - documentation
+  - google-apps-script
+---
 
-## Purpose
+# Documentation Engineering
 
-Documentation and knowledge preservation.
+## Status
 
-## Evolution
+Foundation placeholder.
 
-This skill grows from practical experience, discovered patterns, and community improvements.
+This module is intentionally not yet presented as mature best-practice guidance.
+
+It will be developed during the GAS Engineering Playbook Foundation Buildout Series using the repository evidence model:
+
+```text
+Base knowledge
++
+project experience
++
+official documentation
++
+community signals
+↓
+validated reusable practice
+```
+
+## Contribution
+
+Early contributions are welcome when they include evidence, trade-offs, and a clear generalization beyond one project.

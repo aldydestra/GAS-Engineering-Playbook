@@ -1,47 +1,86 @@
 # Module Development Guide
 
-GAS Engineering Playbook is experience-driven.
-
-When upgrading a skill:
-
-1. Identify a real problem, corrected assumption, or useful pattern.
-2. Confirm the behavior with evidence when it depends on the platform.
-3. Remove confidential or project-specific context.
-4. Convert the learning into a generic rule.
-5. Put the rule in the most relevant existing `SKILL.md`.
-6. Add supporting examples/references only when they improve reuse.
-7. Document the change in `CHANGELOG.md`.
-8. Package the repository as a versioned release.
-
-A skill should grow because it became more useful through experience, not simply because more text could be added.
-## Evidence Model for Future Skill Upgrades
-
-Starting with v1.5.0, skill development should combine four evidence layers:
-
-1. **Base knowledge** — existing skills, references, and previously validated rules.
-2. **Project experience** — reusable lessons discovered during real implementation and troubleshooting.
-3. **Official documentation** — current platform/database behavior, guarantees, constraints, and APIs.
-4. **Community/forum signals** — practical edge cases, trade-offs, and failure reports worth investigating.
-
-Use this priority:
+## Development Pipeline
 
 ```text
-Official specification / verified behavior
-            ↓
+Base Knowledge
+      +
+Project Experience
+      +
+Official Documentation
+      +
+Community Signals
+      ↓
+Compare
+      ↓
+Validate
+      ↓
+Generalize
+      ↓
+Update existing skill
+      ↓
+Update references
+      ↓
+Update skill metadata
+      ↓
+Update CHANGELOG
+      ↓
+Release when milestone is meaningful
+```
+
+## Evidence Priority
+
+```text
+Official specification / verified platform behavior
+                ↓
 Repeated project experience
-            ↓
-High-quality technical references
-            ↓
+                ↓
+Strong technical references
+                ↓
 Community signals
 ```
 
-Community content should trigger investigation, not automatically become a rule.
+Community signals are valuable because they reveal edge cases.
 
-Before adding a new best practice:
+They are not automatically authoritative.
 
-- verify that the lesson is generic,
-- remove confidential context,
-- compare it against current official behavior,
-- document trade-offs,
-- identify which existing skill owns the knowledge,
-- prefer strengthening an existing module over adding structural complexity.
+## Version Metadata
+
+Every skill should use:
+
+```yaml
+skill_version: "1.0.0"
+repository_introduced: "v1.6.0"
+status: "evolving"
+last_repository_update: "v1.6.0"
+```
+
+### Repository Version
+
+Represents the complete repository snapshot.
+
+### Skill Version
+
+Represents the independent evolution of one skill.
+
+### Status
+
+- foundation
+- evolving
+- stable
+
+## Foundation Buildout
+
+The repository `v1.x` series initially matures the 11 planned skill modules.
+
+Completing the foundation does not automatically require `v2.0.0`.
+
+`v2.0.0` should be reserved for genuine breaking redesign.
+
+## Release Threshold
+
+Do not release every small edit.
+
+Release when a meaningful repository milestone is ready.
+
+Small corrections can be grouped until a release is useful, unless the correction is important enough to require an immediate patch release.

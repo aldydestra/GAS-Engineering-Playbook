@@ -1,222 +1,298 @@
 # GAS Engineering Playbook
 
-An experience-driven collection of Google Apps Script skills, patterns, and engineering practices.
+Experience-driven Google Apps Script engineering skills, patterns, and practices that can be learned, reused, improved, and contributed back.
 
-## About This Repository
+## Repository Philosophy
 
-GAS Engineering Playbook is a collection of skills that I use when developing Google Apps Script solutions.
+This repository documents how practical Google Apps Script solutions evolve through real implementation work.
 
-It is not intended to be a fixed framework or an "ultimate" standard. The repository documents approaches that have been applied, problems that have been encountered, patterns that proved useful, and improvements discovered through continued development.
+It is not intended to be a fixed framework or an "ultimate" standard.
 
-> Here is how I build my Google Apps Script solutions. You can use it, improve it, and contribute your own experience.
-
-## How It Evolves
+The operating model is:
 
 ```text
-Experience
-    ↓
-Problem
-    ↓
-Solution
-    ↓
-Reusable Pattern
-    ↓
+Base Knowledge
+      +
+Real Project Experience
+      +
+Official Documentation
+      +
+Community / Forum Signals
+      ↓
+Comparison & Validation
+      ↓
+Reusable Best Practice
+      ↓
 Skill Improvement
-    ↓
+      ↓
 Community Contribution
 ```
 
-A meaningful update should normally represent a solved problem, corrected assumption, improved implementation, reusable pattern, or a community contribution validated through use.
+> Here is how I build my Google Apps Script solutions. You can use it, improve it, and contribute your own validated experience.
 
-## Skills
+## Evidence Model
 
-### 01 — GAS Core Engineering
+Not every source has the same authority.
 
-**Purpose:** provide the default engineering foundation for designing, modifying, debugging, and maintaining Google Apps Script solutions.
+### 1. Official Documentation
 
-**Goals:**
+Used to establish current platform behavior, supported APIs, limits, guarantees, and database semantics.
 
-- preserve working behavior during changes,
-- structure projects so responsibilities remain understandable,
-- minimize expensive Google service calls,
-- protect spreadsheet data contracts against layout/schema drift,
-- use triggers and HTML callbacks correctly,
-- handle execution limits intentionally,
-- make failures observable,
-- verify Apps Script APIs rather than guessing them.
+Examples:
 
-**Key strengths:**
+- Google Apps Script documentation
+- Google Workspace documentation
+- AppSheet documentation
+- PostgreSQL documentation
 
-- batch-first spreadsheet processing,
-- header/schema validation,
-- public/private callback discipline,
-- thin trigger pattern,
-- quota-aware long-running job strategy,
-- configuration separation,
-- concurrency/locking awareness,
-- deterministic rebuild pattern,
-- structured logging and error context,
-- experience-driven upgrade checklist.
+### 2. Project Experience
 
-This module is the recommended starting point before using the more specialized skills below.
+Used to capture real engineering lessons discovered while implementing, debugging, optimizing, or migrating systems.
 
-### 02 — AppSheet Migration
+Project-specific names, credentials, business rules, and confidential context are removed before a lesson becomes public knowledge.
 
-**Purpose:** reverse-engineer AppSheet applications and migrate their behavior safely into Google Apps Script, hybrid AppSheet + GAS workflows, or a broader backend architecture.
+### 3. Community / Forum Signals
 
-**Goals:**
+Used to discover:
 
-- inventory AppSheet tables, expressions, slices, actions, bots, security rules, and UX behavior before coding,
-- preserve stable keys, relationships, calculations, and automation semantics,
-- classify what should stay in AppSheet versus move to GAS or a database,
-- support incremental/hybrid migration instead of forcing a big-bang rewrite,
-- preserve authorization, before/after state transitions, and offline/sync requirements,
-- validate behavioral parity before cutover.
+- edge cases,
+- operational pain points,
+- alternate approaches,
+- outdated assumptions,
+- implementation trade-offs.
 
-**Key strengths:**
+Community content is treated as a **signal to investigate**, not as an authoritative specification.
 
-- semantic AppSheet → GAS responsibility mapping,
-- component/dependency inventory,
-- expression and virtual-column migration guidance,
-- action → command and bot → orchestrator patterns,
-- hybrid AppSheet → Apps Script architecture,
-- execution-identity awareness for AppSheet script tasks,
-- security-filter vs slice distinction,
-- trigger/event-semantic safeguards,
-- staged cutover and rollback thinking,
-- migration acceptance checklist.
+### 4. Synthesis
 
+A best practice is added when the evidence can be generalized and its boundaries are clear.
 
-### 03 — Software Architecture
+A useful rule should answer:
 
-**Purpose:** introduce pragmatic architecture boundaries for Google Apps Script projects when simple file organization is no longer enough.
+- What problem does this solve?
+- What evidence supports it?
+- When should it be used?
+- When should it not be used?
+- What trade-off does it introduce?
 
-**Goals:**
+---
 
-- keep public menu/trigger/HTML entry points thin and stable,
-- separate workflow orchestration from business rules and infrastructure,
-- isolate Sheets/API/database access behind repositories and adapters,
-- reduce global-scope collisions and top-level side effects,
-- preserve batch-performance principles while adding layers,
-- create testable seams without importing heavyweight frameworks,
-- make future migration from Sheets to other backends less disruptive.
+# Versioning Model
 
-**Key strengths:**
+Repository versions and skill versions are intentionally separate.
 
-- GAS-aware layered architecture,
-- service-layer and repository patterns,
-- namespace modules for the shared global scope,
-- lightweight dependency injection,
-- DTO/mapping boundaries,
-- command/query separation,
-- integration gateways,
-- progressive monolith extraction,
-- deterministic rebuild architecture,
-- library reuse trade-off guidance,
-- architecture smell and pre-release checklists.
+## Repository Version
 
-
-### 04 — Database Engineering
-
-**Purpose:** define reliable data ownership and modeling practices for GAS ecosystems that may evolve from Google Sheets into relational databases.
-
-**Goals:**
-
-- make the authoritative source of truth explicit,
-- preserve stable identity and relationships across Sheets/AppSheet/GAS/database boundaries,
-- enforce important integrity rules close to the data,
-- prevent schema drift from silently corrupting downstream mappings,
-- design imports with staging, rejection visibility, idempotency, and reconciliation,
-- use Sheets intentionally as a source, interface, cache, or reporting read model,
-- choose indexes, transactions, and synchronization strategies from real workload requirements.
-
-**Key strengths:**
-
-- fit-for-purpose Sheet vs database decision model,
-- source-of-truth and dual-write safeguards,
-- stable-key and relationship design,
-- pragmatic normalization/denormalization,
-- constraint and data-type guidance,
-- transaction and concurrency awareness,
-- schema-contract and header-drift protection,
-- staging/import/reject patterns,
-- incremental sync and reconciliation,
-- database-backed Sheet cache/read-model pattern,
-- query/index measurement guidance,
-- schema migration and rollback checklist.
-
-
-### 05 — PostgreSQL Integration
-
-**Purpose:** guide Apps Script solutions that connect to relational backends.
-
-**Goal:** support growth beyond spreadsheet-only storage without coupling SQL directly to UI logic.
-
-### 06 — Performance Engineering
-
-**Purpose:** diagnose and reduce execution bottlenecks.
-
-**Goal:** make processing scale through measurement, batching, caching, chunking, and continuation patterns.
-
-### 07 — Security Engineering
-
-**Purpose:** protect credentials, permissions, execution identity, and sensitive data.
-
-**Goal:** ensure convenience does not override access-control discipline.
-
-### 08 — Testing Quality
-
-**Purpose:** make changes verifiable before production deployment.
-
-**Goal:** reduce regression risk through repeatable tests, edge-case validation, and local/emulated testing where appropriate.
-
-### 09 — Monitoring Observability
-
-**Purpose:** make system behavior and failure modes visible.
-
-**Goal:** reduce troubleshooting time using structured execution logs and meaningful operational signals.
-
-### 10 — Deployment Engineering
-
-**Purpose:** make releases, environments, versioning, and rollback predictable.
-
-**Goal:** reduce operational risk as projects gain users and contributors.
-
-### 11 — Documentation Engineering
-
-**Purpose:** preserve technical context, decisions, and handoff knowledge.
-
-**Goal:** make continued development possible even when the original author is unavailable.
-
-## Repository Structure
+Example:
 
 ```text
-skills/
-references/
-examples/
-docs/
-README.md
-CHANGELOG.md
-CONTRIBUTING.md
+GAS Engineering Playbook v1.6.0
 ```
 
-The repository stays intentionally clean. New knowledge should normally strengthen an existing skill before introducing unnecessary structural complexity.
+This identifies the full repository snapshot.
 
-## Contribution
+The `v1.x` line is the **Foundation Buildout Series**:
 
-If you use these skills and discover a better pattern, a corrected assumption, a new limitation, or a safer implementation, contributions are welcome.
+| Repository Release | Primary Foundation Milestone |
+|---|---|
+| v1.0.0 | Repository structure |
+| v1.1.0 | Experience-driven philosophy |
+| v1.2.0 | Skill 01 — GAS Core Engineering |
+| v1.3.0 | Skill 02 — AppSheet Migration |
+| v1.4.0 | Skill 03 — Software Architecture |
+| v1.5.0 | Skill 04 — Database Engineering |
+| v1.6.0 | Skill 05 — PostgreSQL Integration |
+| v1.7.0 | Skill 06 — Performance Engineering |
+| v1.8.0 | Skill 07 — Security Engineering |
+| v1.9.0 | Skill 08 — Testing Quality |
+| v1.10.0 | Skill 09 — Monitoring & Observability |
+| v1.11.0 | Skill 10 — Deployment Engineering |
+| v1.12.0 | Skill 11 — Documentation Engineering |
+| v1.13.0 | Full Foundation Consolidation |
 
-A strong contribution explains:
+A future `v2.0.0` should represent a genuine breaking redesign or compatibility change, not merely completion of the 11 modules.
 
-1. the problem encountered,
-2. the approach that was used before,
-3. the improved approach,
-4. why the improvement is reusable,
-5. known trade-offs.
+## Skill Version
 
-Please keep contributions generic and free from confidential project information.
+Each `SKILL.md` has its own independent metadata:
 
-## References
+```yaml
+skill_version: "1.0.0"
+repository_introduced: "v1.6.0"
+status: "evolving"
+last_repository_update: "v1.6.0"
+```
+
+This prevents a repository release number from being mistaken for the version of one skill.
+
+## Skill Status
+
+- `foundation` — placeholder or early baseline.
+- `evolving` — usable and actively improving through experience.
+- `stable` — behavior and guidance are mature enough to change cautiously.
+
+---
+
+# Available Skills
+
+## 01 — GAS Core Engineering
+
+**Purpose:** foundational engineering practices for building and maintaining Google Apps Script solutions.
+
+**Key value:**
+
+- batch-first Spreadsheet I/O,
+- trigger discipline,
+- public/private callback rules,
+- schema/header mapping,
+- configuration separation,
+- long-running job strategy,
+- logging and error context,
+- API verification before implementation.
+
+## 02 — AppSheet Migration
+
+**Purpose:** reverse-engineer AppSheet behavior and migrate responsibilities safely into GAS, a hybrid architecture, or another backend.
+
+**Key value:**
+
+- behavior inventory,
+- expression/action/bot mapping,
+- stable key preservation,
+- security-filter vs slice distinction,
+- staged migration,
+- parity validation,
+- hybrid AppSheet → GAS strategy.
+
+## 03 — Software Architecture
+
+**Purpose:** add only enough architecture to reduce change risk as Apps Script projects grow.
+
+**Key value:**
+
+- thin public entry points,
+- Service Layer,
+- repositories and adapters,
+- namespace modules,
+- DTO/mapping boundaries,
+- progressive monolith extraction,
+- GAS-aware architecture constraints.
+
+## 04 — Database Engineering
+
+**Purpose:** establish reliable data ownership, identity, relationships, integrity, import, synchronization, and schema-evolution practices.
+
+**Key value:**
+
+- fit-for-purpose Sheets vs database decisions,
+- explicit source of truth,
+- stable keys and relationships,
+- constraints and transactions,
+- staging/import/reject patterns,
+- idempotent sync and reconciliation,
+- Sheet cache/read-model pattern.
+
+## 05 — PostgreSQL Integration
+
+**Purpose:** connect Google Apps Script ecosystems with PostgreSQL through direct JDBC or a controlled integration boundary while preserving security, performance, transactional integrity, and recoverability.
+
+**Key value:**
+
+- direct JDBC vs HTTPS API gateway decision model,
+- current Apps Script PostgreSQL support,
+- network allowlisting and TLS requirements,
+- prepared statements,
+- transactions and savepoints,
+- batch execution,
+- PostgreSQL `ON CONFLICT` upsert,
+- query timeouts and resource lifecycle,
+- idempotent synchronization,
+- database → Sheet cache/read models,
+- self-hosted/private-network integration guidance,
+- evidence-separated best practices.
+
+## 06 — Performance Engineering
+
+**Status:** foundation.
+
+Will focus on measurement, batch processing, caching, chunking, continuation, data structures, and bottleneck isolation.
+
+## 07 — Security Engineering
+
+**Status:** foundation.
+
+Will focus on credentials, authorization, least privilege, execution identity, data exposure, and audit boundaries.
+
+## 08 — Testing Quality
+
+**Status:** foundation.
+
+Will focus on regression safety, pure-function tests, platform tests, fakes/emulation, edge cases, and parity verification.
+
+## 09 — Monitoring & Observability
+
+**Status:** foundation.
+
+Will focus on structured logging, execution telemetry, phase timing, failure classification, and operational signals.
+
+## 10 — Deployment Engineering
+
+**Status:** foundation.
+
+Will focus on versioning, environments, release workflow, rollback, deployment ownership, and configuration changes.
+
+## 11 — Documentation Engineering
+
+**Status:** foundation.
+
+Will focus on handoff, architecture decisions, change history, runbooks, maintenance notes, and durable knowledge transfer.
+
+---
+
+# Repository Structure
+
+```text
+gas-engineering-playbook/
+├── README.md
+├── CHANGELOG.md
+├── GITHUB_RELEASE_NOTES.md
+├── RELEASE_MANIFEST.md
+├── LICENSE
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+├── skills/
+├── references/
+├── examples/
+└── docs/
+```
+
+The structure intentionally stays small.
+
+New learning should normally strengthen an existing skill or reference before introducing additional top-level folders.
+
+---
+
+# Contribution
+
+Contributions are welcome when they improve reusable engineering knowledge.
+
+Strong contributions include:
+
+- a corrected assumption,
+- a verified edge case,
+- a safer implementation,
+- a performance improvement,
+- a migration lesson,
+- an operational failure pattern,
+- a useful trade-off discovered through real use.
+
+Use the evidence model in `CONTRIBUTING.md`.
+
+Do not include confidential project information, credentials, private data, or organization-specific business logic.
+
+---
+
+# References
 
 - Google Apps Script  
   https://developers.google.com/apps-script
@@ -224,11 +300,14 @@ Please keep contributions generic and free from confidential project information
 - Google Workspace Apps Script Samples  
   https://github.com/googleworkspace/apps-script-samples
 
-- gas-fakes  
-  https://github.com/brucemcpherson/gas-fakes
+- AppSheet Help  
+  https://support.google.com/appsheet
 
 - PostgreSQL Documentation  
   https://www.postgresql.org/docs/
+
+- gas-fakes  
+  https://github.com/brucemcpherson/gas-fakes
 
 ## License
 

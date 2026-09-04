@@ -1,15 +1,18 @@
 # Release Manifest
 
-Version: v1.5.0
+Repository Version: v1.6.0
 
-## Release Focus
+## Primary Milestone
 
-- Mature `04-database-engineering`
-- Expand `references/database-patterns.md`
-- Establish four-layer evidence model for future upgrades
-- Update README module purpose/goals
-- Add CHANGELOG entry
-- Add GitHub Release Notes
+- Skill 05 — PostgreSQL Integration foundation
+
+## Repository-Wide Changes
+
+- independent skill version metadata
+- Foundation Buildout Series version model
+- evidence-separated research method
+- contribution evidence template
+- full Apache 2.0 license text
 
 ## Files
 - `CHANGELOG.md`
@@ -22,9 +25,11 @@ Version: v1.5.0
 - `examples/.gitkeep`
 - `references/appsheet-migration-patterns.md`
 - `references/database-patterns.md`
+- `references/evidence-model.md`
 - `references/gas-patterns.md`
 - `references/gas-quotas.md`
 - `references/gas-recipes.md`
+- `references/postgresql-integration-patterns.md`
 - `references/software-architecture-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`
 - `skills/02-appsheet-migration/SKILL.md`
