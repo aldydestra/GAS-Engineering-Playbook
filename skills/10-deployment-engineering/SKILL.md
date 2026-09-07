@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Experience-driven deployment engineering for Google Apps Script, covering environments, immutable versions, versioned deployments, manifests, ownership, release gates, rollback, hotfixes, clasp/API automation, GitHub releases, and post-deploy verification."
-skill_version: "1.0.0"
-repository_introduced: "v1.11.0"
+skill_version: "1.1.0"
+repository_introduced: "vX.Y.Z"
 status: "evolving"
-last_repository_update: "v1.11.0"
+last_repository_update: "v1.13.0"
 tags:
   - google-apps-script
   - deployment
@@ -119,7 +119,7 @@ A deployment has an ID and can be updated to point to a different script version
 A source-control milestone such as:
 
 ```text
-v1.11.0
+vX.Y.Z
 ```
 
 It may include:
@@ -1517,6 +1517,40 @@ Why does this apply beyond one project?
 ```
 
 ---
+
+## Foundation Consolidation Notes — v1.13.0
+
+### `clasp` Technology Snapshot
+
+At the v1.13.0 audit, the latest indexed stable `google/clasp` release is **v3.3.0**.
+
+Current repository metadata indicates:
+
+- Node.js `>=20`,
+- support for explicit project / clasp / extra login scopes,
+- continued fixes around push/config/auth behavior.
+
+This is a tooling snapshot, not a permanent platform requirement.
+
+Always check current `clasp` release notes before automating production deployment.
+
+### Tooling vs Platform
+
+The official Apps Script API remains the source of truth for:
+
+- project versions,
+- deployments,
+- deployment updates,
+- `scripts.run`.
+
+`clasp` is a useful Google-maintained open-source client over those capabilities.
+
+### Related Skills
+
+- 07 Security — deployer identity/scopes.
+- 08 Testing — pre-release/live verification.
+- 09 Observability — post-deploy health.
+- 11 Documentation — release/runbook records.
 
 # References
 

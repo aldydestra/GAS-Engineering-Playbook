@@ -1,10 +1,10 @@
 ---
 name: security-engineering
 description: "Experience-driven security engineering for Google Apps Script covering execution identity, OAuth scopes, authorization, secrets, web apps, triggers, input validation, external integrations, PostgreSQL access, auditability, and secure operational boundaries."
-skill_version: "1.0.0"
+skill_version: "1.1.0"
 repository_introduced: "v1.8.0"
 status: "evolving"
-last_repository_update: "v1.8.0"
+last_repository_update: "v1.13.0"
 tags:
   - google-apps-script
   - security
@@ -1419,6 +1419,38 @@ Why does this apply beyond one project?
 Security contributions should avoid publishing live credentials, private endpoints, exploitable production details, or personal data.
 
 ---
+
+## Foundation Consolidation Notes — v1.13.0
+
+### Workspace Governance Update
+
+Apps Script release notes announced on June 22, 2026 that Apps Script became generally available as a **core service in Google Workspace**, bringing the administrative/data-protection/support model associated with Workspace core services.
+
+This improves organizational governance context, but it does not remove the need for:
+
+- least privilege,
+- explicit execution identity,
+- server-side authorization,
+- secret hygiene,
+- deployment ownership.
+
+### Scope Boundary
+
+Security Engineering owns trust, identity, authorization, secret/data exposure, and privilege.
+
+It does not own:
+
+- release mechanics (Skill 10),
+- test strategy (Skill 08),
+- logging architecture (Skill 09).
+
+### Related Skills
+
+- 02 AppSheet Migration — app-owner execution/security filters.
+- 05 PostgreSQL — DB runtime roles.
+- 08 Testing — security regression tests.
+- 09 Observability — safe audit events.
+- 10 Deployment — OAuth/owner changes.
 
 # References
 

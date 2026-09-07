@@ -1,10 +1,10 @@
 ---
 name: documentation-engineering
 description: "Experience-driven documentation engineering for Google Apps Script projects, covering README, JSDoc, changelog, release notes, handoff, ADRs, runbooks, ownership, troubleshooting, contribution evidence, documentation lifecycle, and durable knowledge transfer."
-skill_version: "1.0.0"
+skill_version: "1.1.0"
 repository_introduced: "v1.12.0"
 status: "evolving"
-last_repository_update: "v1.12.0"
+last_repository_update: "v1.13.0"
 tags:
   - google-apps-script
   - documentation
@@ -514,7 +514,7 @@ This prevents the next maintainer from treating a theory as established fact.
 Useful:
 
 ```text
-v1.12.0 ZIP created
+vX.Y.Z ZIP created
 unit tests passed
 live GAS smoke verified
 known issue X still open
@@ -1233,7 +1233,7 @@ Example:
 
 ```text
 CURRENT VERSION
-v1.12.0
+vX.Y.Z
 
 COMPLETED
 ...
@@ -1542,6 +1542,46 @@ When should this documentation be reviewed again?
 ```
 
 ---
+
+## Foundation Consolidation Notes — v1.13.0
+
+### Technology Watch Becomes a Documentation Artifact
+
+A continuously evolving engineering playbook needs a lightweight place to record:
+
+- source checked,
+- evidence class,
+- last verified date,
+- relevant change,
+- affected skill,
+- whether action is required.
+
+v1.13.0 adds `docs/technology-watch.md` for this purpose.
+
+This prevents transient research from being lost while also preventing every external update from immediately becoming a normative best practice.
+
+### Source Review Rule
+
+Classify source before using it:
+
+```text
+Official platform documentation
+Google-maintained open source
+Third-party/open-source implementation
+Community/forum
+Project experience
+```
+
+Then document what the source can and cannot prove.
+
+### Related Skills
+
+Documentation Engineering connects all skills but should not duplicate their technical rules. Link to the owning skill and preserve:
+
+- rationale,
+- evidence,
+- history,
+- operating context.
 
 # References
 

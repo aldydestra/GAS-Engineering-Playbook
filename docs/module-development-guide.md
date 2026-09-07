@@ -104,3 +104,30 @@ runbook/handoff/ADR if affected
 ```
 
 Time-sensitive platform facts should cite current official documentation and be re-verified when materially used.
+
+
+## Post-Foundation Continuous Evolution
+
+Starting after repository v1.13.0, all 11 foundation skills exist.
+
+Do not map each new repository minor version to a new skill number.
+
+Use:
+
+```text
+new evidence
+↓
+identify owning skill(s)
+↓
+compare with existing rule
+↓
+update skill/reference/docs
+↓
+test/verify
+↓
+release meaningful milestone
+```
+
+A release may update one skill or several skills.
+
+Tool versions and beta features should normally be recorded first in `technology-watch.md` and promoted into normative guidance only after evaluation.

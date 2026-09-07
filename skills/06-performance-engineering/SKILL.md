@@ -1,10 +1,10 @@
 ---
 name: performance-engineering
 description: "Experience-driven performance engineering for Google Apps Script, focusing on measurement, service-call reduction, batching, in-memory algorithms, caching, concurrency, long-running job continuation, external I/O, and regression prevention."
-skill_version: "1.0.0"
+skill_version: "1.1.0"
 repository_introduced: "v1.7.0"
 status: "evolving"
-last_repository_update: "v1.7.0"
+last_repository_update: "v1.13.0"
 tags:
   - google-apps-script
   - performance
@@ -1728,6 +1728,36 @@ Why should this pattern be added to the skill?
 Do not submit "X is faster" without describing workload and evidence.
 
 ---
+
+## Foundation Consolidation Notes — v1.13.0
+
+### Scope Boundary
+
+This skill owns measurement and optimization.
+
+It should not duplicate:
+
+- core runtime syntax from Skill 01,
+- database schema design from Skill 04,
+- PostgreSQL SQL semantics from Skill 05,
+- monitoring vocabulary from Skill 09.
+
+### Current Runtime Freshness
+
+The v1.13.0 audit reconfirmed current official V8 behavior:
+
+- ordinary Apps Script I/O is blocking;
+- `fetchAll()` is the intended path for independent parallel HTTP requests;
+- six-minute ordinary execution remains the current documented limit;
+- quotas can change without notice.
+
+### Related Skills
+
+- 01 GAS Core — platform constraints.
+- 03 Architecture — batch-friendly boundaries.
+- 04/05 Database/PostgreSQL — query push-down.
+- 08 Testing — performance regression.
+- 09 Observability — phase metrics.
 
 # References
 

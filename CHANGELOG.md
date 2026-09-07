@@ -3,6 +3,154 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.13.0] - 2026-09-07
+
+### Full Foundation Consolidation
+
+Completed the first cross-skill audit after all 11 foundation modules were created.
+
+### Critical Repository Correction
+
+The audit found that Skills 01–04 had become substantially compressed relative to the intended foundation depth during an earlier repository reconstruction.
+
+Rebuilt:
+
+- `01-gas-core-engineering`
+- `02-appsheet-migration`
+- `03-software-architecture`
+- `04-database-engineering`
+
+with current official documentation, restored engineering patterns, cross-skill boundaries, and updated experience-derived guidance.
+
+### Updated — All Skills
+
+All 11 skills are now:
+
+```yaml
+skill_version: "1.1.0"
+status: "evolving"
+last_repository_update: "v1.13.0"
+```
+
+`evolving` is intentional: foundation coverage is complete, but the technology/knowledge remains continuously maintained.
+
+### Added — Current Runtime Knowledge
+
+Reconfirmed and documented current Apps Script V8 constraints:
+
+- native ES6 modules unsupported,
+- script files share global scope,
+- ordinary I/O is blocking,
+- `fetchAll()` for parallel independent HTTP requests,
+- private class fields unsupported,
+- direct static class fields unsupported,
+- Rhino is retired/refused after January 31, 2026.
+
+### Added — AppSheet Current Behavior
+
+Expanded AppSheet Migration with:
+
+- current app-owner execution behavior for Call-a-script,
+- security filter vs slice behavior,
+- security filters not being a complete security solution,
+- virtual-column performance considerations,
+- Performance Profile usage,
+- Consistent vs Legacy data-processing mode as a parity inventory item.
+
+### Improved — Evidence Model
+
+`references/evidence-model.md` now separates:
+
+1. official platform documentation,
+2. Google-maintained open source,
+3. third-party open source,
+4. project experience,
+5. community/forum signals,
+6. reproduction/test/benchmark evidence.
+
+Added:
+
+- source capability rule,
+- freshness classification,
+- conflict-resolution guidance.
+
+### Added — Technology Watch
+
+Added `docs/technology-watch.md`.
+
+Initial watch sources include:
+
+- Apps Script release notes,
+- V8/runtime,
+- quotas,
+- `google/clasp`,
+- `googleworkspace/apps-script-samples`,
+- `brucemcpherson/gas-fakes`,
+- AppSheet security/performance/data-processing,
+- Apps Script API `scripts.run`.
+
+### Added — Foundation Audit
+
+Added `docs/foundation-audit-v1.13.0.md` documenting:
+
+- discovered repository imbalance,
+- current platform updates,
+- open-source findings,
+- scope-boundary decisions,
+- post-foundation development model.
+
+### Open-Source Findings Adopted
+
+#### Google `clasp`
+
+Audit snapshot:
+
+- latest indexed stable release `v3.3.0`,
+- Node engine `>=20`,
+- current explicit project/clasp/extra login scope support.
+
+Recorded as a **tool snapshot**, not a permanent platform requirement.
+
+#### Google Workspace Apps Script Samples
+
+Current repository practice includes:
+
+- ESLint,
+- TypeScript-based checking of `.gs` code,
+- JSDoc-assisted type checking,
+- CI workflow registration.
+
+Adopted as optional testing/static-analysis practice.
+
+#### gas-fakes
+
+Current public documentation includes:
+
+- manifest-aware local execution,
+- local web-app/UI emulation,
+- `gas-fakes serve`,
+- `google.script.run` emulation,
+- self-updating agent skill/workflow patterns.
+
+Adopted only as optional local-tooling/testing evidence.
+
+Real GAS remains the platform oracle.
+
+### Repository Philosophy
+
+v1.13.0 marks the end of the numbered **Foundation Buildout Series**.
+
+Future minor releases are driven by meaningful evidence and may update one or several existing skills.
+
+No Skill 12 is introduced simply to continue the numbering.
+
+### Compatibility
+
+No intentional breaking top-level repository structure change.
+
+---
+
+
 ## [v1.12.0] - 2026-09-07
 
 ### Foundation Milestone — Skill 11

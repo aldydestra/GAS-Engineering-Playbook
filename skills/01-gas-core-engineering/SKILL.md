@@ -1,163 +1,1052 @@
 ---
 name: gas-core-engineering
-description: "Core practices for designing, modifying, debugging, and maintaining Google Apps Script solutions."
-skill_version: "1.0.0"
+description: "Experience-driven core engineering for Google Apps Script covering runtime constraints, project structure, Spreadsheet I/O, triggers, HTML callbacks, configuration, long-running jobs, concurrency, external services, quotas, debugging, and safe incremental change."
+skill_version: "1.1.0"
 repository_introduced: "v1.2.0"
 status: "evolving"
-last_repository_update: "v1.2.0"
+last_repository_update: "v1.13.0"
 tags:
   - google-apps-script
   - google-workspace
   - javascript
+  - spreadsheet
   - automation
+  - triggers
+  - v8
 ---
 
 # GAS Core Engineering
 
 ## Purpose
 
-Provide the default engineering foundation for Apps Script work before specialized architecture, database, performance, security, testing, deployment, or monitoring concerns are applied.
+This skill is the default engineering baseline for Google Apps Script (GAS) work.
+
+It applies before more specialized concerns such as:
+
+- AppSheet migration,
+- architecture,
+- PostgreSQL,
+- performance,
+- security,
+- testing,
+- observability,
+- deployment,
+- documentation.
+
+The primary rule is:
+
+> Make the smallest reliable change that preserves the existing contract, then improve the design when evidence justifies it.
+
+---
+
+## Experience Background
+
+The skill is derived from three recurring classes of work:
+
+1. maintaining real spreadsheet automation that has accumulated menus, triggers, formulas, dashboards, and business rules;
+2. diagnosing performance and data-shape failures caused by large Sheets or evolving source schemas;
+3. verifying Apps Script behavior against current Google documentation instead of relying on old snippets or assumptions.
+
+Repeated project experience shows that many GAS failures come from a small set of causes:
+
+- excessive Spreadsheet service calls,
+- implicit active-document assumptions,
+- callback/trigger function visibility mistakes,
+- source columns moving or being inserted,
+- runtime/trigger limitations,
+- hidden global state,
+- duplicated orchestration,
+- long jobs without checkpointing,
+- weak error context,
+- stale platform assumptions.
+
+---
+
+## Problem Context
+
+Apps Script is easy to start but can become difficult to maintain because it combines:
+
+- JavaScript runtime,
+- Google service APIs,
+- spreadsheet state,
+- trigger execution,
+- OAuth authorization,
+- HTML-service client/server RPC,
+- quotas and runtime limits,
+- shared global project scope.
+
+A small script can safely use a direct style.
+
+A growing project needs explicit contracts and boundaries without importing unnecessary complexity from server frameworks that do not match the Apps Script runtime.
+
+---
+
+## Goals
+
+- preserve working behavior while modifying existing projects;
+- minimize remote/service calls;
+- make data contracts explicit;
+- keep public entry points stable;
+- handle runtime, concurrency, and authorization deliberately;
+- support safe long-running work;
+- use current platform facts rather than historical assumptions;
+- generate enough logs/tests to diagnose and prevent regressions.
+
+---
+
+## Benefits / Why It Helps
+
+This approach reduces:
+
+- timeouts,
+- accidental sheet corruption,
+- callback failures,
+- trigger surprises,
+- duplicate processing,
+- brittle column references,
+- regressions caused by refactoring,
+- debugging time.
+
+It also creates a clean baseline for the other ten skills in this repository.
+
+---
 
 ## Core Principles
 
-1. Verify the real Apps Script API before implementation.
-2. Understand existing entry points and data contracts before editing.
-3. Preserve working public behavior during refactoring.
-4. Minimize calls to Google and external services.
-5. Read/write Spreadsheet data in batches.
-6. Treat headers as a schema when source columns can evolve.
-7. Keep configuration separate from business logic.
-8. Keep trigger handlers thin.
-9. Design long jobs around runtime limits.
-10. Log enough context to diagnose failures.
+### 1. Verify the Platform Before Coding
 
-## Evidence Notes
+Before implementing or changing a GAS API call:
 
-### Official documentation
+- confirm the service/class/method exists,
+- confirm parameter and return types,
+- confirm authorization/trigger restrictions,
+- confirm quota/runtime assumptions if they affect design.
 
-Google recommends minimizing service calls, using batch operations, and using caching when repeated reads are expensive.
+Do not invent APIs, enums, or Node-style capabilities.
 
-### Experience-derived learning
+### 2. Inspect the Existing Project Before Editing
 
-Repeated project work showed that:
+Before modifying a mature script, identify:
 
-- fixed column indexes fail when source schemas gain new columns,
-- long-running Sheet operations need phase timing before optimization,
-- generated dashboards are often safer to rebuild deterministically than repair incrementally,
-- public menu/HTML callbacks must remain stable during refactors.
+- public menu handlers,
+- trigger handlers,
+- HTML callbacks,
+- `doGet` / `doPost`,
+- custom functions,
+- config/constants,
+- sheet names and headers,
+- external API/database boundaries,
+- production-critical wrappers.
 
-### Community signals
+Do not rename or remove public functions casually.
 
-Community examples are useful for discovering workarounds and edge cases, but GAS method names, enum ownership, runtime behavior, and authorization rules must be verified against official documentation.
+### 3. Batch Remote Work
 
-## Key Practices
-
-### Batch-first Spreadsheet processing
+Prefer:
 
 ```text
-Read once
-    ↓
-Transform in memory
-    ↓
-Validate shape
-    ↓
-Write once
+read once
+↓
+process in memory
+↓
+write once
 ```
 
-Avoid cell-by-cell reads and writes in large loops.
+over cell-by-cell or request-by-request loops.
 
-### Header mapping
+### 4. Treat Headers as Schema
+
+When data comes from files, Sheets, exports, or third parties, column position is not a durable contract.
+
+Map semantically by header where practical.
+
+### 5. Keep Entry Points Thin
+
+Menus, triggers, web handlers, and HTML callbacks should validate/route then delegate.
+
+### 6. Design for Retry and Concurrency
+
+If a workflow can overlap or retry:
+
+- protect shared mutable state,
+- make durable writes idempotent where possible,
+- preserve a stable job/record identity.
+
+### 7. Current Official Behavior Wins
+
+Historical project notes remain useful as learning evidence, but current official Google documentation defines current platform behavior.
+
+---
+
+## Current Runtime Reality
+
+### V8 Is the Runtime Baseline
+
+Google retired/refused Rhino execution on or after January 31, 2026.
+
+New work should assume V8.
+
+Do not retain Rhino-compatibility patterns unless maintaining a historical export for documentation purposes.
+
+### V8 Is Not Node.js
+
+Current official Apps Script V8 documentation states:
+
+- ES6 modules using native `import` / `export` are not supported in GAS;
+- all script files execute in one global scope;
+- `setTimeout` and `setInterval` are unavailable;
+- Google service and ordinary I/O operations are blocking;
+- `UrlFetchApp.fetchAll()` is the platform mechanism for parallel independent HTTP requests;
+- private class fields such as `#field` are not supported;
+- direct static class-field declarations such as `static count = 0` are not supported.
+
+Therefore do not assume code that runs in modern Node.js will parse or behave identically in GAS.
+
+### Promise / Async Nuance
+
+The V8 runtime processes microtasks such as Promise continuations, but Apps Script does not provide a normal browser/Node macrotask event loop.
+
+Do not redesign Apps Script workflows around browser-style asynchronous timers.
+
+For long-running work use:
+
+- chunking,
+- time-driven continuation,
+- external queues/services,
+- `fetchAll()` for independent HTTP requests.
+
+---
+
+## Project Organization
+
+A small utility can remain:
+
+```text
+Code.gs
+```
+
+An organized script may use:
+
+```text
+Config.gs
+Menu.gs
+Triggers.gs
+Processing.gs
+DataAccess.gs
+Utils.gs
+```
+
+A larger application may delegate architecture to Skill 03.
+
+File names improve navigation only; they do not create module scope.
+
+Avoid relying on file order for side-effectful initialization.
+
+---
+
+## Public vs Private Functions
+
+Public GAS entry points include functions called by:
+
+- menus,
+- simple/installable triggers,
+- `google.script.run`,
+- Apps Script API execution,
+- `doGet`,
+- `doPost`,
+- custom functions,
+- configured automation.
+
+A trailing underscore is a useful convention for private implementation functions.
+
+Example:
+
+```javascript
+function menuRefreshDashboard() {
+  return refreshDashboard_();
+}
+
+function refreshDashboard_() {
+  // implementation
+}
+```
+
+Do not hide a function that must remain callable by Apps Script infrastructure.
+
+---
+
+## Spreadsheet I/O
+
+### Batch Read
+
+Bad:
+
+```javascript
+for (let row = 2; row <= lastRow; row++) {
+  const value = sheet.getRange(row, 1).getValue();
+}
+```
+
+Preferred:
+
+```javascript
+const values = sheet
+  .getRange(2, 1, lastRow - 1, 1)
+  .getValues();
+```
+
+Process `values` in JavaScript.
+
+### Batch Write
+
+Bad:
+
+```javascript
+for (let i = 0; i < results.length; i++) {
+  sheet.getRange(i + 2, 4).setValue(results[i]);
+}
+```
+
+Preferred:
+
+```javascript
+const output = results.map(value => [value]);
+
+if (output.length) {
+  sheet.getRange(2, 4, output.length, 1).setValues(output);
+}
+```
+
+### Range Shape Validation
+
+Before `setValues()`:
+
+```javascript
+if (!rows.length) return;
+
+const width = rows[0].length;
+
+if (!rows.every(row => row.length === width)) {
+  throw new Error('Output rows have inconsistent widths.');
+}
+```
+
+Dimension mismatches should be detected before writes.
+
+---
+
+## Header Mapping
+
+External/spreadsheet schemas evolve.
+
+Use:
 
 ```javascript
 function buildHeaderMap_(headers) {
-  return headers.reduce((map, header, index) => {
-    const key = String(header).trim().toUpperCase();
+  return headers.reduce((map, value, index) => {
+    const key = String(value || '').trim().toUpperCase();
     if (key) map[key] = index;
     return map;
   }, {});
 }
 ```
 
-Use semantic headers when input columns may move.
+Then:
 
-### Thin trigger
+```javascript
+const c = buildHeaderMap_(headers);
+
+const item = {
+  id: row[c.ID],
+  status: row[c.STATUS]
+};
+```
+
+This prevents an inserted source column from shifting every downstream field.
+
+### Required Headers
+
+```javascript
+function requireHeaders_(headerMap, names) {
+  const missing = names.filter(name => headerMap[name] === undefined);
+
+  if (missing.length) {
+    throw new Error(`Missing required headers: ${missing.join(', ')}`);
+  }
+}
+```
+
+Fail clearly rather than silently reading the wrong columns.
+
+---
+
+## Explicit Target Projection
+
+Do not blindly copy a whole source row when the destination schema differs.
+
+Prefer:
+
+```javascript
+function projectRecord_(row, c) {
+  return [
+    row[c.ID],
+    row[c.NAME],
+    row[c.STATUS]
+  ];
+}
+```
+
+This is safer for:
+
+- source exports with new columns,
+- reject sheets with different schemas,
+- caches,
+- database imports,
+- dashboards.
+
+---
+
+## Active Context
+
+Be cautious with:
+
+```javascript
+SpreadsheetApp.getActive()
+SpreadsheetApp.getActiveSheet()
+```
+
+Active context is acceptable when the contract is explicitly user-interactive.
+
+For scheduled/background jobs prefer explicit IDs/names.
+
+Example:
+
+```javascript
+const ss = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID);
+const sheet = ss.getSheetByName(CONFIG.INPUT_SHEET);
+```
+
+This avoids accidental dependency on whichever file/sheet happens to be active.
+
+---
+
+## Menus
+
+Keep menu callbacks stable and thin.
+
+```javascript
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('Operations')
+    .addItem('Refresh', 'menuRefresh')
+    .addItem('Rebuild Dashboard', 'menuRebuildDashboard')
+    .addToUi();
+}
+
+function menuRefresh() {
+  return Application.refresh();
+}
+```
+
+Do not rename callbacks without updating every menu/deployment that references them.
+
+---
+
+## Simple vs Installable Triggers
+
+### Simple Triggers
+
+Useful for lightweight, authorized-without-prompt behavior such as:
+
+- `onOpen`,
+- `onEdit`.
+
+They have authorization restrictions and cannot freely use services that require authorization.
+
+### Installable Triggers
+
+Use when the workflow needs broader authorization or explicit ownership.
+
+Installable triggers run as the account that created the trigger, not necessarily the user who caused the event.
+
+Security implications belong to Skill 07.
+
+### Trigger Handlers Should Filter Early
 
 ```javascript
 function onEdit(e) {
   if (!e || !e.range) return;
-  if (e.range.getSheet().getName() !== CONFIG.INPUT_SHEET) return;
+
+  const sheet = e.range.getSheet();
+
+  if (sheet.getName() !== CONFIG.INPUT_SHEET) return;
+  if (e.range.getColumn() !== CONFIG.STATUS_COLUMN) return;
 
   EditApplication.handle(e);
 }
 ```
 
-### Public entry points
+Do not run a heavy workflow for irrelevant edits.
 
-Keep menu handlers, trigger handlers, web entry points, and HTML callbacks callable by Apps Script.
+---
 
-Implementation helpers can remain private.
+## HTML Service / `google.script.run`
 
-### Long-running jobs
+Client-side calls are asynchronous.
 
-First optimize service calls.
+Use:
 
-If the optimized job still cannot reliably finish:
+```javascript
+google.script.run
+  .withSuccessHandler(handleSuccess)
+  .withFailureHandler(handleFailure)
+  .submitForm(payload);
+```
+
+Server callback functions must remain public/callable.
+
+Validate every payload server-side.
+
+Do not trust:
+
+- hidden form fields,
+- client-side roles,
+- client-selected environment,
+- client validation alone.
+
+---
+
+## Web Apps
+
+`doGet(e)` and `doPost(e)` are API surfaces.
+
+Keep them small:
+
+```javascript
+function doPost(e) {
+  const request = RequestParser.parse(e);
+  return WebApplication.handle(request);
+}
+```
+
+Separate:
+
+- parsing,
+- validation,
+- authorization,
+- business operation,
+- response mapping.
+
+Security details belong to Skill 07.
+
+---
+
+## Custom Functions
+
+Custom functions have stricter execution constraints.
+
+Current official quota documentation lists a 30-second runtime per custom function execution.
+
+Design custom functions to:
+
+- accept ranges rather than thousands of individual calls,
+- perform pure/deterministic calculations when possible,
+- avoid services that require authorization,
+- return correctly shaped arrays.
+
+Example:
+
+```javascript
+/**
+ * Normalizes a range.
+ *
+ * @param {Object[][]} values
+ * @return {Object[][]}
+ * @customfunction
+ */
+function NORMALIZE_RANGE(values) {
+  return values.map(row =>
+    row.map(value => String(value || '').trim())
+  );
+}
+```
+
+---
+
+## `SpreadsheetApp.flush()`
+
+`flush()` applies pending spreadsheet changes.
+
+Use it only when later behavior depends on those changes being committed/visible.
+
+Appropriate cases:
+
+- read formulas that depend on just-written inputs,
+- explicit UI completion boundary,
+- controlled multi-phase spreadsheet operation.
+
+Avoid calling `flush()` in a row loop.
+
+Performance detail belongs to Skill 06.
+
+---
+
+## Formatting / Validation / Protection
+
+Formatting is still service work.
+
+Prefer grouped operations on ranges.
+
+Use data validation and protection to improve integrity and usability, but do not confuse spreadsheet protection with server-side authorization.
+
+Security decisions belong to Skill 07.
+
+---
+
+## External API Wrapper
+
+Centralize external HTTP behavior.
+
+```javascript
+function fetchJson_(url, options = {}) {
+  const response = UrlFetchApp.fetch(url, {
+    muteHttpExceptions: true,
+    ...options
+  });
+
+  const status = response.getResponseCode();
+  const body = response.getContentText();
+
+  if (status < 200 || status >= 300) {
+    throw new Error(`External API failed with status ${status}`);
+  }
+
+  return JSON.parse(body);
+}
+```
+
+Do not scatter:
+
+- authentication headers,
+- response parsing,
+- retries,
+- endpoint rules
+
+through business logic.
+
+---
+
+## Parallel Independent HTTP Requests
+
+Current V8 documentation recommends `UrlFetchApp.fetchAll()` for parallel network requests.
+
+Use only for independent requests.
+
+Do not parallelize calls that:
+
+- depend on prior results,
+- violate upstream rate limits,
+- require ordered mutation.
+
+---
+
+## Configuration
+
+Use explicit configuration ownership.
+
+Example:
+
+```javascript
+const CONFIG = Object.freeze({
+  INPUT_SHEET: 'Input',
+  OUTPUT_SHEET: 'Output'
+});
+```
+
+Use `PropertiesService` for environment/runtime configuration where appropriate.
+
+Secrets and access-control considerations belong to Skill 07.
+
+---
+
+## PropertiesService
+
+Useful scopes:
+
+- Script Properties — shared project configuration;
+- User Properties — per-user configuration;
+- Document Properties — container-document configuration.
+
+Do not use PropertiesService as a large database.
+
+Current official quota documentation lists size and read/write limits; verify current values before designing near those boundaries.
+
+---
+
+## CacheService
+
+Use CacheService for opportunistic short-term caching.
+
+Every cache read must support a cache miss.
+
+```text
+cache
+≠
+source of truth
+```
+
+Detailed caching belongs to Skill 06.
+
+---
+
+## LockService
+
+Use locks when multiple executions can mutate the same Apps Script-side state.
+
+Choose:
+
+- script lock,
+- document lock,
+- user lock
+
+based on scope.
+
+Lock the smallest critical section.
+
+Do not hold a lock around long external calls unless necessary.
+
+---
+
+## Long-Running Jobs
+
+Current Apps Script quota documentation lists ordinary script runtime at six minutes per execution.
+
+Do not design to finish at 5:59.
+
+First optimize:
+
+- service-call count,
+- batch processing,
+- data structures,
+- query/API shape.
+
+If still too large:
 
 ```text
 load checkpoint
 ↓
-process chunk
+process bounded batch
 ↓
-persist output
+persist durable output
 ↓
-save checkpoint
+advance checkpoint
 ↓
 schedule continuation
 ```
 
-Make retryable operations idempotent.
+### Checkpoint Safety
 
-### Error handling
+Advance the checkpoint **after** durable output.
 
-Errors should preserve context:
+Otherwise a failure can skip uncommitted work.
+
+### Continuation Hygiene
+
+Avoid duplicate time-driven triggers.
+
+Track:
+
+- job ID,
+- next offset/key,
+- last successful batch,
+- continuation ownership.
+
+---
+
+## Idempotency
+
+Any retryable operation should have a stable way to avoid duplicate effects.
+
+Examples:
+
+- stable external ID,
+- batch/job ID,
+- unique database constraint,
+- deterministic rebuild,
+- processed-event registry.
+
+Idempotency is shared with Database, PostgreSQL, Performance, and Testing skills.
+
+---
+
+## Quotas
+
+Quotas are time-sensitive platform facts.
+
+For current values use:
+
+https://developers.google.com/apps-script/guides/services/quotas
+
+As of the v1.13.0 audit, Google documents:
+
+- six-minute script runtime per execution,
+- 30-second custom function runtime,
+- 30 simultaneous executions per user,
+- 1,000 simultaneous executions per script,
+- 20 triggers per user per script.
+
+Do not copy quota numbers from old articles without re-verification.
+
+---
+
+## Error Handling
+
+Do not catch exceptions merely to hide them.
+
+Bad:
+
+```javascript
+try {
+  work_();
+} catch (e) {
+  // ignore
+}
+```
+
+Preferred:
+
+```javascript
+try {
+  work_();
+} catch (error) {
+  Logger.log({
+    message: 'Work failed',
+    operation: 'work',
+    errorCategory: 'UNKNOWN'
+  });
+
+  throw error;
+}
+```
+
+Preserve:
 
 - operation,
-- data source,
-- batch,
-- row/key where useful,
-- duration,
-- retryability.
+- relevant entity/job ID,
+- phase,
+- retryability,
+- safe diagnostic context.
 
-Do not catch errors merely to suppress them.
+Observability details belong to Skill 09.
 
-## Common Failure Modes
+---
 
-| Failure | Preferred response |
-|---|---|
-| Slow loop | batch service calls |
-| Source column inserted | semantic header mapping |
-| `google.script.run` callback fails | verify public function + failure handler |
-| privileged operation fails in simple trigger | installable trigger/redesign |
-| long job times out | measure, optimize, chunk |
-| duplicate result after retry | idempotency |
-| overlapping jobs corrupt state | LockService / authoritative transaction |
+## Deterministic Rebuild
 
-## Upgrade Checklist
+For generated dashboards/layouts, deterministic rebuild is often safer than incremental repair.
 
-- [ ] public entry points preserved,
-- [ ] data contracts validated,
-- [ ] service calls batched where practical,
-- [ ] trigger type matches authorization needs,
-- [ ] external APIs validate response codes,
-- [ ] concurrency considered,
-- [ ] long-job strategy defined,
-- [ ] logs include phase/duration context,
-- [ ] official docs checked for current API/limits,
-- [ ] changelog updated.
+Pattern:
+
+```text
+authoritative source
+↓
+build view model
+↓
+clear generated region
+↓
+write values/formulas
+↓
+apply formatting
+↓
+verify
+```
+
+Choose incremental update only when it provides measured benefit and remains reliable.
+
+---
+
+## Development Approach
+
+### Small Utility
+
+Keep direct code.
+
+### Growing Automation
+
+Separate:
+
+- config,
+- entry points,
+- data mapping,
+- service/integration helpers.
+
+### Application
+
+Move into Skill 03 architecture:
+
+```text
+Entry Point
+↓
+Application Service
+↓
+Domain
+↓
+Repository / Adapter
+```
+
+Do not over-architect before the change risk justifies it.
+
+---
+
+## Recommended Practices
+
+- batch all remote work where practical;
+- use semantic headers for evolving input;
+- preserve public callbacks during refactors;
+- keep trigger/web entry points thin;
+- use explicit IDs/names for background jobs;
+- make retryable workflows idempotent;
+- time major phases before optimizing;
+- verify current official behavior;
+- log safe structured context;
+- test regressions introduced by real incidents.
+
+---
+
+## Common Mistakes
+
+- one `getValue()` per row;
+- one `setValue()` per row;
+- `flush()` inside loops;
+- row number used as stable ID;
+- source columns addressed only by position;
+- callback renamed but menu/HTML/trigger not updated;
+- heavy work directly inside `onEdit`;
+- simple trigger expected to use privileged services;
+- background job depending on active sheet;
+- global mutable state expected to persist across executions;
+- `setTimeout`/`setInterval` assumed available;
+- native `import`/`export` pushed directly to GAS;
+- Node private/static class-field syntax assumed supported;
+- quota values copied from stale notes;
+- swallowed errors;
+- retries without idempotency.
+
+---
+
+## Lessons Learned / Improvement Notes
+
+### Schema Drift
+
+A source adding one column can corrupt downstream output without throwing an error.
+
+The reusable fix is:
+
+```text
+header map + explicit target projection
+```
+
+### Performance
+
+The biggest gains usually come from reducing service boundaries rather than micro-optimizing JavaScript syntax.
+
+### Runtime
+
+Long workflows should first be optimized, then chunked only when genuinely necessary.
+
+### Platform Freshness
+
+The repository previously carried older runtime/quota assumptions. v1.13.0 makes re-verification an explicit core practice.
+
+### Local Tooling
+
+Tools such as `clasp` or `gas-fakes` can improve development speed, but tooling behavior does not override the Apps Script platform contract.
+
+---
+
+## Upgrade Path / Future Improvement
+
+Future updates to this skill should be triggered by:
+
+- Apps Script release notes changing runtime capabilities;
+- new quota/limit behavior;
+- new Spreadsheet/trigger/web-app APIs;
+- recurring project failures;
+- official sample repository development changes;
+- verified community edge cases.
+
+Evaluate new knowledge using:
+
+```text
+Official docs
++
+Project experience
++
+Open-source/community signal
++
+Reproduction
+↓
+Reusable rule
+```
+
+---
+
+## Related Skills
+
+- **02 AppSheet Migration** — low-code behavior migration.
+- **03 Software Architecture** — application boundaries.
+- **06 Performance Engineering** — batching/caching/continuation depth.
+- **07 Security Engineering** — OAuth, identity, secrets.
+- **08 Testing Quality** — regression and platform parity.
+- **09 Monitoring & Observability** — production telemetry.
+- **10 Deployment Engineering** — versions/deployments.
+- **11 Documentation Engineering** — JSDoc/runbook/handoff.
+
+---
 
 ## References
 
-- https://developers.google.com/apps-script
-- https://developers.google.com/apps-script/guides/support/best-practices
-- https://developers.google.com/apps-script/guides/triggers
-- https://developers.google.com/apps-script/guides/html/reference/run
+### Official Google Apps Script
+
+- Apps Script documentation  
+  https://developers.google.com/apps-script
+
+- Best practices  
+  https://developers.google.com/apps-script/guides/support/best-practices
+
+- V8 runtime  
+  https://developers.google.com/apps-script/guides/v8-runtime
+
+- V8 migration  
+  https://developers.google.com/apps-script/guides/v8-runtime/migration
+
+- Quotas  
+  https://developers.google.com/apps-script/guides/services/quotas
+
+- Triggers  
+  https://developers.google.com/apps-script/guides/triggers
+
+- HTML `google.script.run`  
+  https://developers.google.com/apps-script/guides/html/reference/run
+
+- Web apps  
+  https://developers.google.com/apps-script/guides/web
+
+- Spreadsheet service  
+  https://developers.google.com/apps-script/reference/spreadsheet
+
+- UrlFetchApp  
+  https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app
+
+### Google-maintained repositories
+
+- Apps Script samples  
+  https://github.com/googleworkspace/apps-script-samples
+
+- clasp  
+  https://github.com/google/clasp
+
+### Community / local emulation
+
+- gas-fakes  
+  https://github.com/brucemcpherson/gas-fakes

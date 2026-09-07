@@ -1,23 +1,35 @@
 # GAS Engineering Playbook
 
-Experience-driven Google Apps Script engineering skills, patterns, and practices that can be learned, reused, improved, and contributed back.
+Experience-driven Google Apps Script engineering skills, patterns, and practices for building maintainable Workspace automation and hybrid application systems.
+
+> These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
+
+## Foundation Status
+
+**Foundation complete as of repository v1.13.0.**
+
+The repository now contains 11 individually matured foundation skills plus a full cross-skill consolidation audit.
+
+Individual skills remain `status: evolving` because Apps Script, AppSheet, PostgreSQL, tooling, and real project experience continue to change.
+
+---
 
 ## Repository Philosophy
-
-This repository documents how practical Google Apps Script solutions evolve through real implementation work.
-
-It is not intended to be a fixed framework or an "ultimate" standard.
-
-The operating model is:
 
 ```text
 Base Knowledge
       +
 Real Project Experience
       +
-Official Documentation
+Official Platform Documentation
+      +
+Google-Maintained Open Source
+      +
+Third-Party Open Source
       +
 Community / Forum Signals
+      +
+Reproduction / Testing
       ↓
 Comparison & Validation
       ↓
@@ -28,72 +40,98 @@ Skill Improvement
 Community Contribution
 ```
 
-> Here is how I build my Google Apps Script solutions. You can use it, improve it, and contribute your own validated experience.
+The repository intentionally avoids "ultimate framework" claims.
+
+The objective is practical, explainable engineering knowledge with clear trade-offs.
+
+---
 
 ## Evidence Model
 
-Not every source has the same authority.
+Not every source proves the same thing.
 
-### 1. Official Documentation
+### 1. Official Platform Documentation
 
-Used to establish current platform behavior, supported APIs, limits, guarantees, and database semantics.
+Primary authority for current:
+
+- APIs,
+- runtime behavior,
+- quotas,
+- authorization,
+- deployment semantics,
+- database guarantees.
+
+### 2. Google-Maintained Open Source
 
 Examples:
 
-- Google Apps Script documentation
-- Google Workspace documentation
-- AppSheet documentation
-- PostgreSQL documentation
+- `google/clasp`
+- `googleworkspace/apps-script-samples`
 
-### 2. Project Experience
+Useful for current tooling and engineering practices, but not automatically platform specifications.
 
-Used to capture real engineering lessons discovered while implementing, debugging, optimizing, or migrating systems.
+### 3. Third-Party Open Source
 
-Project-specific names, credentials, business rules, and confidential context are removed before a lesson becomes public knowledge.
+Example:
 
-### 3. Community / Forum Signals
+- `brucemcpherson/gas-fakes`
 
-Used to discover:
+Useful for emulation, local tooling, alternative architecture, and tested patterns.
+
+### 4. Project Experience
+
+Used to extract reusable lessons from real implementation, debugging, migration, performance, and operations.
+
+Confidential/project-specific details are removed before public contribution.
+
+### 5. Community / Forum Signals
+
+Useful for discovering:
 
 - edge cases,
-- operational pain points,
-- alternate approaches,
-- outdated assumptions,
-- implementation trade-offs.
+- recurring pain points,
+- historical assumptions,
+- alternative approaches.
 
-Community content is treated as a **signal to investigate**, not as an authoritative specification.
+Community content triggers investigation; it does not automatically become a rule.
 
-### 4. Synthesis
+### 6. Reproduction / Tests / Benchmarks
 
-A best practice is added when the evidence can be generalized and its boundaries are clear.
+Used to validate behavior and quantify trade-offs.
 
-A useful rule should answer:
+See:
 
-- What problem does this solve?
-- What evidence supports it?
-- When should it be used?
-- When should it not be used?
-- What trade-off does it introduce?
+- `references/evidence-model.md`
+- `docs/technology-watch.md`
 
 ---
 
 # Versioning Model
 
-Repository versions and skill versions are intentionally separate.
+Repository version and skill version are independent.
 
 ## Repository Version
 
-Example:
+Represents the complete repository snapshot:
 
 ```text
-GAS Engineering Playbook v1.6.0
+v1.13.0
 ```
 
-This identifies the full repository snapshot.
+## Skill Version
 
-The `v1.x` line is the **Foundation Buildout Series**:
+Represents the independent evolution of one skill:
 
-| Repository Release | Primary Foundation Milestone |
+```yaml
+skill_version: "1.1.0"
+repository_introduced: "v1.2.0"
+status: "evolving"
+last_repository_update: "v1.13.0"
+```
+
+## Foundation Buildout History
+
+| Repository Release | Foundation Milestone |
 |---|---|
 | v1.0.0 | Repository structure |
 | v1.1.0 | Experience-driven philosophy |
@@ -104,296 +142,284 @@ The `v1.x` line is the **Foundation Buildout Series**:
 | v1.6.0 | Skill 05 — PostgreSQL Integration |
 | v1.7.0 | Skill 06 — Performance Engineering |
 | v1.8.0 | Skill 07 — Security Engineering |
-| v1.9.0 | Skill 08 — Testing Quality |
+| v1.9.0 | Skill 08 — Testing & Quality |
 | v1.10.0 | Skill 09 — Monitoring & Observability |
 | v1.11.0 | Skill 10 — Deployment Engineering |
 | v1.12.0 | Skill 11 — Documentation Engineering |
-| v1.13.0 | Full Foundation Consolidation |
+| **v1.13.0** | **Full Foundation Consolidation** |
 
-A future `v2.0.0` should represent a genuine breaking redesign or compatibility change, not merely completion of the 11 modules.
+After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
-## Skill Version
-
-Each `SKILL.md` has its own independent metadata:
-
-```yaml
-skill_version: "1.0.0"
-repository_introduced: "v1.6.0"
-status: "evolving"
-last_repository_update: "v1.6.0"
-```
-
-This prevents a repository release number from being mistaken for the version of one skill.
-
-## Skill Status
-
-- `foundation` — placeholder or early baseline.
-- `evolving` — usable and actively improving through experience.
-- `stable` — behavior and guidance are mature enough to change cautiously.
+A future `v2.0.0` should represent genuine breaking structure/compatibility changes.
 
 ---
 
-# Available Skills
+# The 11 Skills
 
 ## 01 — GAS Core Engineering
 
-**Purpose:** foundational engineering practices for building and maintaining Google Apps Script solutions.
+Platform baseline for:
 
-**Key value:**
-
-- batch-first Spreadsheet I/O,
-- trigger discipline,
-- public/private callback rules,
-- schema/header mapping,
-- configuration separation,
-- long-running job strategy,
-- logging and error context,
-- API verification before implementation.
+- current V8 constraints,
+- batch Spreadsheet I/O,
+- headers as schema,
+- public callbacks,
+- triggers,
+- web/HTML entry points,
+- configuration,
+- long-running jobs,
+- quotas,
+- error handling.
 
 ## 02 — AppSheet Migration
 
-**Purpose:** reverse-engineer AppSheet behavior and migrate responsibilities safely into GAS, a hybrid architecture, or another backend.
+Behavior-first migration covering:
 
-**Key value:**
-
-- behavior inventory,
-- expression/action/bot mapping,
-- stable key preservation,
-- security-filter vs slice distinction,
-- staged migration,
-- parity validation,
-- hybrid AppSheet → GAS strategy.
+- keys/Refs,
+- virtual columns,
+- formulas/validation,
+- actions/grouped actions,
+- bots,
+- security filters vs slices,
+- app-owner Apps Script execution,
+- processing mode,
+- performance profile,
+- hybrid/cutover parity.
 
 ## 03 — Software Architecture
 
-**Purpose:** add only enough architecture to reduce change risk as Apps Script projects grow.
-
-**Key value:**
+Pragmatic GAS architecture:
 
 - thin public entry points,
+- namespaces/closures,
 - Service Layer,
-- repositories and adapters,
-- namespace modules,
-- DTO/mapping boundaries,
+- repositories,
+- adapters/gateways,
+- DTO/mappers,
+- dependency seams,
 - progressive monolith extraction,
-- GAS-aware architecture constraints.
+- batch-friendly boundaries.
 
 ## 04 — Database Engineering
 
-**Purpose:** establish reliable data ownership, identity, relationships, integrity, import, synchronization, and schema-evolution practices.
+Platform-neutral data foundation:
 
-**Key value:**
-
-- fit-for-purpose Sheets vs database decisions,
-- explicit source of truth,
-- stable keys and relationships,
-- constraints and transactions,
-- staging/import/reject patterns,
-- idempotent sync and reconciliation,
-- Sheet cache/read-model pattern.
+- source of truth,
+- stable identity,
+- relationships,
+- normalization,
+- constraints,
+- transactions/concurrency,
+- staging/rejects,
+- idempotency,
+- incremental sync,
+- reconciliation,
+- schema evolution.
 
 ## 05 — PostgreSQL Integration
 
-**Purpose:** connect Google Apps Script ecosystems with PostgreSQL through direct JDBC or a controlled integration boundary while preserving security, performance, transactional integrity, and recoverability.
+Concrete GAS/PostgreSQL integration:
 
-**Key value:**
-
-- direct JDBC vs HTTPS API gateway decision model,
-- current Apps Script PostgreSQL support,
-- network allowlisting and TLS requirements,
-- prepared statements,
-- transactions and savepoints,
-- batch execution,
-- PostgreSQL `ON CONFLICT` upsert,
-- query timeouts and resource lifecycle,
-- idempotent synchronization,
-- database → Sheet cache/read models,
-- self-hosted/private-network integration guidance,
-- evidence-separated best practices.
+- JDBC vs HTTPS API boundary,
+- prepared SQL,
+- transactions,
+- batching,
+- upsert,
+- query timeout,
+- resource lifecycle,
+- database → Sheet read model,
+- private/self-hosted networking considerations.
 
 ## 06 — Performance Engineering
 
-**Purpose:** improve Apps Script latency, throughput, quota efficiency, and reliability by measuring the real bottleneck before optimizing.
+Measurement-first optimization:
 
-**Goals:**
-
-- measure major workflow phases before rewriting code,
-- reduce expensive Google/external service calls,
-- use batch Spreadsheet operations and bulk formatting,
-- replace repeated scans with Maps/Sets/indexes,
-- define safe CacheService and LockService usage,
-- reduce HTTP/JDBC round trips,
-- design long-running jobs with soft time budgets, checkpoints, and continuation,
-- prevent performance regressions with realistic before/after benchmarks.
-
-**Key strengths:**
-
-- measurement-first optimization,
+- phase timing,
 - service-call budgeting,
-- batch read/write/formula/format patterns,
-- algorithmic complexity review,
-- cache fallback and stampede protection,
-- minimal lock scope,
-- `fetchAll()` guidance,
-- database push-down/N+1 prevention,
-- UI RPC optimization,
-- current quota verification,
-- idempotent continuation jobs,
-- performance regression checklist.
-
+- batching,
+- Maps/Sets,
+- cache,
+- locks,
+- `fetchAll`,
+- JDBC N+1 prevention,
+- long-running continuation,
+- regression envelopes.
 
 ## 07 — Security Engineering
 
-**Purpose:** define trust boundaries for Google Apps Script identity, OAuth permissions, authorization, secrets, web apps, triggers, external APIs, and database access.
+Trust-boundary engineering:
 
-**Goals:**
+- actor vs execution identity,
+- trigger/web-app ownership,
+- OAuth scope minimization,
+- server-side authorization,
+- secret handling,
+- least privilege,
+- input validation,
+- webhooks/replay,
+- PostgreSQL roles,
+- MFA-aware automation.
 
-- distinguish interactive actor from effective execution identity,
-- enforce authorization server-side rather than through UI visibility,
-- minimize OAuth scopes and understand sensitive/restricted scope impact,
-- manage secrets without committing them to source or leaking them through logs/URLs,
-- secure owner-executed web apps and installable triggers,
-- validate all client/webhook/import input at trust boundaries,
-- apply least privilege to PostgreSQL and external integrations,
-- preserve MFA/2FA rather than bypass it for automation,
-- log security-relevant events without exposing sensitive data.
+## 08 — Testing & Quality
 
-**Key strengths:**
+Layered confidence:
 
-- execution-identity matrix,
-- active vs effective user guidance,
-- OAuth scope review,
-- `@OnlyCurrentDoc` strategy,
-- PropertiesService security boundary,
-- Secret Manager/IAM trade-offs,
-- server-side RBAC/object authorization,
-- webhook authentication and replay guidance,
-- SQL injection prevention,
-- network tunnel vs authorization distinction,
-- MFA-aware automation design,
-- secure logging and pre-release checklist.
+```text
+Unit
+→ Contract
+→ Fake/Emulator
+→ Integration
+→ Live GAS Parity
+→ Smoke/Acceptance
+```
 
+Includes:
 
-## 08 — Testing Quality
-
-**Purpose:** create layered evidence that Apps Script changes preserve intended behavior across pure logic, schemas, integrations, emulators, and the live GAS platform.
-
-**Goals:**
-
-- test behavior at the cheapest reliable layer,
-- separate unit/contract tests from platform integration tests,
-- convert important bugs into permanent regression coverage,
-- use fakes/emulators for fast feedback without treating them as platform truth,
-- run selected live GAS parity tests for service/trigger/auth behavior,
-- isolate and clean up test resources,
-- verify idempotency, migration parity, security, and performance behavior,
-- define practical release quality gates.
-
-**Key strengths:**
-
-- layered confidence model,
-- schema-drift regression tests,
-- test doubles and lightweight dependency injection,
-- deterministic clock/ID seams,
-- `clasp` and Apps Script API execution guidance,
-- fake/emulator parity strategy,
-- integration cleanup/isolation,
-- sync/transaction/idempotency tests,
-- trigger/web-app/security tests,
-- flaky-test controls,
-- Definition of Done and release test reports.
-
+- schema-drift regression,
+- test doubles,
+- deterministic time/ID seams,
+- live Apps Script API execution,
+- `clasp`,
+- gas-fakes parity,
+- security/performance regression,
+- quality gates.
 
 ## 09 — Monitoring & Observability
 
-**Purpose:** make production Apps Script workflows diagnosable across executions, retries, continuations, APIs, databases, and releases.
+Production evidence:
 
-**Goals:**
-
-- distinguish execution log, Cloud Logging, and Error Reporting,
-- use stable structured event names and operational fields,
-- correlate multi-execution jobs with job/batch/request IDs,
-- preserve phase timing and record-count signals,
-- classify failures and retryability,
-- monitor freshness, reconciliation, and stalled jobs,
-- create useful alerts without notification storms,
-- minimize sensitive data in logs,
-- connect incidents back to regression tests and runbook improvements.
-
-**Key strengths:**
-
-- Apps Script logging-surface decision model,
-- `Logger` vs `console` guidance,
-- job/batch correlation,
-- phase/batch summaries,
-- structured error categories,
-- idempotency/reconciliation telemetry,
-- privacy-aware user correlation,
-- health/freshness signals,
+- structured events,
+- job/batch IDs,
+- phase timing,
+- record counts,
+- error categories,
+- Logger vs console,
+- Cloud Logging,
+- Error Reporting,
+- health/freshness,
 - alert deduplication,
-- incident triage and observability runbook template.
-
+- incident learning.
 
 ## 10 — Deployment Engineering
 
-**Purpose:** make Google Apps Script releases traceable, testable, reversible, and operationally owned across source control, Apps Script versions, deployments, triggers, and environment configuration.
+Release/deployment lifecycle:
 
-**Goals:**
-
-- distinguish source synchronization, immutable Apps Script versions, deployments, and repository releases,
-- use versioned deployments for stable/public workloads rather than head deployment,
-- separate DEV/TEST/PROD according to risk,
-- review manifest/configuration changes as part of release,
-- preserve stable deployment URLs/IDs while updating versioned code,
-- record rollback targets before release,
-- coordinate trigger and database-schema changes,
-- verify production behavior after deployment,
-- use `clasp`/Apps Script API automation without confusing tooling limits with platform limits.
-
-**Key strengths:**
-
-- head vs versioned deployment model,
-- deployment rollback to known-good version,
-- environment decision framework,
-- manifest diff/security review,
-- trigger/schema compatibility transitions,
-- release candidate and promotion principles,
-- hotfix and forward-fix guidance,
-- deployment ownership continuity,
-- Git/GitHub Release mapping,
-- pre/post-deploy gates and runbook template.
-
+- source vs immutable GAS version vs deployment,
+- head vs versioned deployments,
+- DEV/TEST/PROD,
+- manifest review,
+- `clasp`/Apps Script API,
+- trigger/schema transitions,
+- rollback/hotfix,
+- post-deploy verification,
+- GitHub Release mapping.
 
 ## 11 — Documentation Engineering
 
-**Purpose:** preserve the intent, contracts, operational knowledge, decisions, release history, and handoff context that code alone cannot explain.
+Durable engineering knowledge:
 
-**Goals:**
+- README,
+- JSDoc,
+- data/config contracts,
+- ADR,
+- runbook,
+- handoff,
+- CHANGELOG,
+- release notes,
+- evidence attribution,
+- ownership,
+- known limitations,
+- technology watch.
 
-- keep README focused as the repository entry point,
-- use JSDoc selectively for public/library/custom-function contracts,
-- document data/configuration/ownership boundaries without exposing secrets,
-- preserve major technical decisions through ADRs,
-- create actionable runbooks for deployment, recovery, and troubleshooting,
-- maintain compact handoffs for cross-session/maintainer continuity,
-- distinguish CHANGELOG, release notes, Git history, and release manifests,
-- keep assumptions, limitations, and current platform facts explicit,
-- convert incidents and project experience into durable learning.
+---
 
-**Key strengths:**
+# Cross-Skill Flow
 
-- audience-based documentation model,
-- JSDoc/comment guidance,
-- data-contract and ownership documentation,
-- handoff safety-net pattern,
-- ADR decision history,
-- operational runbook structure,
-- CHANGELOG vs release-note distinction,
-- documentation freshness/evidence rules,
-- public vs internal documentation boundary,
-- cross-skill documentation consistency,
-- documentation Definition of Done and pre-release checklist.
+A typical mature workflow may use:
 
+```text
+01 GAS Core
+    ↓
+03 Architecture
+    ↓
+04 Data Model
+    ↓
+05 PostgreSQL Integration
+    ↓
+06 Performance
+    ↓
+07 Security
+    ↓
+08 Testing
+    ↓
+09 Observability
+    ↓
+10 Deployment
+    ↓
+11 Documentation
+```
+
+AppSheet migration enters through Skill 02 and connects to the appropriate target layers.
+
+The skills are complementary, not sequential requirements for every project.
+
+---
+
+# Continuous Evolution
+
+After v1.13.0, a new release should be driven by meaningful evidence:
+
+```text
+Official platform change
+OR
+Reusable project lesson
+OR
+Corrected assumption
+OR
+Validated open-source/tooling improvement
+OR
+Cross-skill refinement
+        ↓
+Update owning skill(s)
+        ↓
+Regression / verification
+        ↓
+CHANGELOG + Release Notes
+        ↓
+Full repository snapshot
+```
+
+Do not add new modules just to increase the version number.
+
+See `docs/technology-watch.md`.
+
+---
+
+# Technology Watch Sources
+
+Currently watched public sources include:
+
+### Official
+
+- Apps Script release notes
+- Apps Script V8/runtime
+- Apps Script quotas
+- Apps Script API/deployment/logging
+- AppSheet security/performance/data processing
+- PostgreSQL current documentation
+
+### Google-maintained repositories
+
+- https://github.com/google/clasp
+- https://github.com/googleworkspace/apps-script-samples
+
+### Third-party/open source
+
+- https://github.com/brucemcpherson/gas-fakes
+
+Public repositories that can be accessed directly do not need to be re-uploaded.
+
+If a future branch, private repository, skill file, or artifact cannot be retrieved reliably, upload the relevant repository ZIP or `SKILL.md` so it can be reviewed as evidence.
 
 ---
 
@@ -408,54 +434,99 @@ gas-engineering-playbook/
 ├── LICENSE
 ├── CONTRIBUTING.md
 ├── CODE_OF_CONDUCT.md
+├── SECURITY.md
 ├── skills/
+│   ├── 01-gas-core-engineering/
+│   ├── 02-appsheet-migration/
+│   ├── 03-software-architecture/
+│   ├── 04-database-engineering/
+│   ├── 05-postgresql-integration/
+│   ├── 06-performance-engineering/
+│   ├── 07-security-engineering/
+│   ├── 08-testing-quality/
+│   ├── 09-monitoring-observability/
+│   ├── 10-deployment-engineering/
+│   └── 11-documentation-engineering/
 ├── references/
 ├── examples/
 └── docs/
+    ├── module-development-guide.md
+    ├── technology-watch.md
+    ├── foundation-audit-v1.13.0.md
+    ├── testing-strategy-template.md
+    ├── observability-runbook-template.md
+    ├── deployment-runbook-template.md
+    ├── handoff-template.md
+    └── adr-template.md
 ```
 
-The structure intentionally stays small.
-
-New learning should normally strengthen an existing skill or reference before introducing additional top-level folders.
+The repository deliberately avoids unnecessary top-level folders.
 
 ---
 
 # Contribution
 
-Contributions are welcome when they improve reusable engineering knowledge.
-
 Strong contributions include:
 
-- a corrected assumption,
-- a verified edge case,
-- a safer implementation,
-- a performance improvement,
-- a migration lesson,
-- an operational failure pattern,
-- a useful trade-off discovered through real use.
+- corrected assumptions,
+- new edge cases,
+- safer patterns,
+- performance improvements,
+- migration lessons,
+- security clarifications,
+- operational failure modes,
+- current platform updates.
 
-Use the evidence model in `CONTRIBUTING.md`.
+Contributions should identify:
 
-Do not include confidential project information, credentials, private data, or organization-specific business logic.
+- evidence source,
+- owning skill,
+- validation,
+- trade-offs,
+- compatibility impact.
+
+Do not publish:
+
+- credentials,
+- personal data,
+- private endpoints,
+- confidential business logic.
+
+See `CONTRIBUTING.md`.
 
 ---
 
-# References
+# Core References
 
-- Google Apps Script  
-  https://developers.google.com/apps-script
+## Google Apps Script
 
-- Google Workspace Apps Script Samples  
-  https://github.com/googleworkspace/apps-script-samples
+https://developers.google.com/apps-script
 
-- AppSheet Help  
-  https://support.google.com/appsheet
+## Apps Script Release Notes
 
-- PostgreSQL Documentation  
-  https://www.postgresql.org/docs/
+https://developers.google.com/apps-script/release-notes
 
-- gas-fakes  
-  https://github.com/brucemcpherson/gas-fakes
+## Google Workspace Apps Script Samples
+
+https://github.com/googleworkspace/apps-script-samples
+
+## clasp
+
+https://github.com/google/clasp
+
+## AppSheet
+
+https://support.google.com/appsheet
+
+## PostgreSQL
+
+https://www.postgresql.org/docs/current/
+
+## gas-fakes
+
+https://github.com/brucemcpherson/gas-fakes
+
+---
 
 ## License
 

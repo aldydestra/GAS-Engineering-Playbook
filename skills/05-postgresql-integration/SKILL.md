@@ -1,10 +1,10 @@
 ---
 name: postgresql-integration
 description: "Integrate Google Apps Script with PostgreSQL using direct JDBC or controlled API boundaries with secure connectivity, prepared statements, transactions, batching, idempotent synchronization, and Sheet read models."
-skill_version: "1.0.0"
+skill_version: "1.1.0"
 repository_introduced: "v1.6.0"
 status: "evolving"
-last_repository_update: "v1.6.0"
+last_repository_update: "v1.13.0"
 tags:
   - postgresql
   - google-apps-script
@@ -1340,6 +1340,41 @@ Why is this reusable beyond one project?
 A community report alone should not normally create a normative rule without verification.
 
 ---
+
+## Foundation Consolidation Notes — v1.13.0
+
+### Scope Boundary
+
+This skill owns **concrete GAS ↔ PostgreSQL integration**:
+
+- JDBC/network connection behavior,
+- SQL/prepared statements,
+- transactions/upserts,
+- query/result mapping,
+- direct JDBC vs API boundary.
+
+Use Skill 04 for platform-neutral database modeling and Skill 07 for credentials/authorization.
+
+### Evidence Freshness
+
+Re-verify before implementation:
+
+- Apps Script JDBC guide,
+- PostgreSQL current documentation,
+- current network/TLS requirements.
+
+Connection syntax copied from old blog/forum posts is not authoritative.
+
+### Related Skills
+
+- 01 GAS Core — blocking I/O/runtime.
+- 03 Architecture — repositories/gateways.
+- 04 Database Engineering — schema/integrity.
+- 06 Performance — batching/N+1.
+- 07 Security — secrets/least privilege.
+- 08 Testing — transaction/integration tests.
+- 09 Observability — query/job telemetry.
+- 10 Deployment — schema + application rollout.
 
 # References
 

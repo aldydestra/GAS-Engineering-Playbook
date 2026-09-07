@@ -1,10 +1,10 @@
 ---
 name: testing-quality
 description: "Experience-driven testing and quality engineering for Google Apps Script, covering unit tests, contracts, fakes/emulators, integration tests, live GAS parity, regression, test isolation, release gates, and quality evidence."
-skill_version: "1.0.0"
+skill_version: "1.1.0"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.9.0"
+last_repository_update: "v1.13.0"
 tags:
   - google-apps-script
   - testing
@@ -1183,6 +1183,43 @@ Is real GAS verification required? Why?
 ```
 
 ---
+
+## Foundation Consolidation Notes — v1.13.0
+
+### Official Sample Repository Signal
+
+The current `googleworkspace/apps-script-samples` repository uses:
+
+- ESLint,
+- a TypeScript-based check that validates `.gs` code with JSDoc annotations,
+- CI workflow registration for sample directories.
+
+This is a useful **Google-maintained repository practice**, not a mandatory Apps Script platform requirement.
+
+Reusable lesson:
+
+> Static analysis and JSDoc-assisted type checking can catch syntax/type mistakes before code is pushed to Apps Script.
+
+### Current `gas-fakes` Signal
+
+The current public `gas-fakes` project has expanded beyond service emulation to include local web-app/UI testing through `gas-fakes serve`, including `doGet`/`doPost` and `google.script.run` emulation.
+
+Treat this as optional local-test tooling.
+
+Real GAS remains the oracle for:
+
+- authorization,
+- trigger identity,
+- platform object behavior,
+- exact compatibility.
+
+### Related Skills
+
+- 01 GAS Core — actual runtime contract.
+- 03 Architecture — test seams.
+- 06 Performance — benchmark regression.
+- 07 Security — authorization regression.
+- 10 Deployment — release gates.
 
 # References
 

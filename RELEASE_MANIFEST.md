@@ -1,30 +1,27 @@
 # Release Manifest
 
-Repository Version: v1.12.0
+Repository Version: v1.13.0
 
-## Primary Milestone
+## Release Type
 
-- Skill 11 — Documentation Engineering foundation
+- Full Foundation Consolidation
+- Full repository snapshot
 
-## Added
+## Primary Changes
 
-- `references/documentation-engineering-patterns.md`
-- `docs/handoff-template.md`
-- `docs/adr-template.md`
-
-## Updated
-
-- `skills/11-documentation-engineering/SKILL.md`
-- `README.md`
-- `CONTRIBUTING.md`
-- `docs/module-development-guide.md`
-- `CHANGELOG.md`
-- `GITHUB_RELEASE_NOTES.md`
+- Rebuilt Skills 01–04 to restore foundation depth.
+- Updated all Skills 01–11 to skill version 1.1.0.
+- Added `docs/technology-watch.md`.
+- Added `docs/foundation-audit-v1.13.0.md`.
+- Expanded `references/evidence-model.md`.
+- Added cross-skill consolidation/freshness guidance.
+- Updated README, CHANGELOG, release notes, and module development guide.
 
 ## Foundation Status
 
-- Skills 01–11 now have individual foundation implementations.
-- Next milestone: `v1.13.0 — Full Foundation Consolidation`.
+- Individual foundation skills: 11 / 11 complete.
+- Individual skill status: evolving.
+- Post-v1.13 development mode: continuous evidence-driven evolution.
 
 ## Files
 - `CHANGELOG.md`
@@ -36,9 +33,11 @@ Repository Version: v1.12.0
 - `SECURITY.md`
 - `docs/adr-template.md`
 - `docs/deployment-runbook-template.md`
+- `docs/foundation-audit-v1.13.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
+- `docs/technology-watch.md`
 - `docs/testing-strategy-template.md`
 - `examples/.gitkeep`
 - `references/appsheet-migration-patterns.md`
