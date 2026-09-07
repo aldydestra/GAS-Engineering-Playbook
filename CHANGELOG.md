@@ -3,6 +3,88 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.11.0] - 2026-09-07
+
+### Foundation Milestone — Skill 10
+
+Matured `10-deployment-engineering` as the tenth foundation skill.
+
+### Added — Deployment Engineering
+
+- source vs Apps Script version vs deployment vs repository-release distinction,
+- head vs versioned deployment guidance,
+- `/dev` web-app test-deployment guidance,
+- immutable Apps Script version model,
+- stable deployment update pattern,
+- deployment rollback to previous known-good version,
+- repository/GAS/deployment version mapping,
+- release threshold guidance,
+- DEV/TEST/PROD environment strategies,
+- separate-script vs shared-project environment trade-offs,
+- environment-aware configuration,
+- manifest diff review,
+- `clasp push` vs deployment distinction,
+- `clasp`/Apps Script API deployment automation guidance,
+- deployment deletion caution,
+- current Apps Script version-history limit awareness,
+- deployment/trigger ownership continuity,
+- trigger compatibility migration,
+- database-schema release coordination,
+- backward-compatible release sequencing,
+- release-candidate and build-once/promote principles,
+- pre-deploy gates,
+- deployment records,
+- post-deploy smoke verification,
+- rollback criteria,
+- hotfix and forward-fix guidance,
+- destructive-migration safeguards,
+- CHANGELOG vs release-notes distinction,
+- full release snapshot/artifact integrity,
+- GitHub Latest release guidance,
+- target/scriptId safety,
+- progressive deployment automation,
+- CI vs CD separation,
+- deployment concurrency/optimistic checks,
+- maintenance-window and health-record guidance.
+
+### Added — References
+
+- `references/deployment-engineering-patterns.md`
+- `docs/deployment-runbook-template.md`
+
+### Improved — Contribution Model
+
+Deployment-affecting changes should document environment, migration order, verification, rollback/forward-fix path, and ownership impact.
+
+### Experience Synthesis
+
+This release generalizes lessons from the playbook's own release process:
+
+- meaningful milestones rather than a release for every edit,
+- full repository release snapshots,
+- independent repository/component versioning,
+- CHANGELOG plus GitHub Release Notes,
+- explicit Latest-release metadata,
+- rollback/handoff readiness.
+
+### Evidence Model
+
+Deployment guidance was synthesized from:
+
+- current official Apps Script deployment/version documentation,
+- Apps Script API deployment/version methods,
+- Google collaboration/ownership guidance,
+- Google-maintained `clasp`,
+- community/tooling issues around multi-target environments and deployment configuration,
+- reusable release experience from this project.
+
+### Compatibility
+
+No intentional breaking top-level repository structure change.
+
+---
+
+
 ## [v1.10.0] - 2026-09-07
 
 ### Foundation Milestone — Skill 09

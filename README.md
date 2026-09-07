@@ -336,9 +336,33 @@ This prevents a repository release number from being mistaken for the version of
 
 ## 10 — Deployment Engineering
 
-**Status:** foundation.
+**Purpose:** make Google Apps Script releases traceable, testable, reversible, and operationally owned across source control, Apps Script versions, deployments, triggers, and environment configuration.
 
-Will focus on versioning, environments, release workflow, rollback, deployment ownership, and configuration changes.
+**Goals:**
+
+- distinguish source synchronization, immutable Apps Script versions, deployments, and repository releases,
+- use versioned deployments for stable/public workloads rather than head deployment,
+- separate DEV/TEST/PROD according to risk,
+- review manifest/configuration changes as part of release,
+- preserve stable deployment URLs/IDs while updating versioned code,
+- record rollback targets before release,
+- coordinate trigger and database-schema changes,
+- verify production behavior after deployment,
+- use `clasp`/Apps Script API automation without confusing tooling limits with platform limits.
+
+**Key strengths:**
+
+- head vs versioned deployment model,
+- deployment rollback to known-good version,
+- environment decision framework,
+- manifest diff/security review,
+- trigger/schema compatibility transitions,
+- release candidate and promotion principles,
+- hotfix and forward-fix guidance,
+- deployment ownership continuity,
+- Git/GitHub Release mapping,
+- pre/post-deploy gates and runbook template.
+
 
 ## 11 — Documentation Engineering
 

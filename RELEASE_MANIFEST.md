@@ -1,19 +1,19 @@
 # Release Manifest
 
-Repository Version: v1.10.0
+Repository Version: v1.11.0
 
 ## Primary Milestone
 
-- Skill 09 — Monitoring & Observability foundation
+- Skill 10 — Deployment Engineering foundation
 
 ## Added
 
-- `references/monitoring-observability-patterns.md`
-- `docs/observability-runbook-template.md`
+- `references/deployment-engineering-patterns.md`
+- `docs/deployment-runbook-template.md`
 
 ## Updated
 
-- `skills/09-monitoring-observability/SKILL.md`
+- `skills/10-deployment-engineering/SKILL.md`
 - `README.md`
 - `CONTRIBUTING.md`
 - `CHANGELOG.md`
@@ -27,12 +27,14 @@ Repository Version: v1.10.0
 - `LICENSE`
 - `README.md`
 - `SECURITY.md`
+- `docs/deployment-runbook-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
 - `docs/testing-strategy-template.md`
 - `examples/.gitkeep`
 - `references/appsheet-migration-patterns.md`
 - `references/database-patterns.md`
+- `references/deployment-engineering-patterns.md`
 - `references/evidence-model.md`
 - `references/gas-patterns.md`
 - `references/gas-quotas.md`

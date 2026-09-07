@@ -141,3 +141,21 @@ Useful evidence includes:
 - reconciliation result.
 
 Do not add logging that exposes credentials, personal data, or full production payloads merely to satisfy this guideline.
+
+
+## Deployment Evidence for Release Changes
+
+Changes that affect deployment, OAuth scopes, triggers, environment configuration, database schema, or public entry points should document release impact.
+
+Useful evidence includes:
+
+```text
+affected environment
+current deployment behavior
+migration order
+verification step
+rollback/forward-fix path
+ownership impact
+```
+
+Do not include private deployment IDs, credentials, or production endpoints in public contribution examples.
