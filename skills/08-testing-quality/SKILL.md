@@ -1,38 +1,1222 @@
 ---
 name: testing-quality
-description: "Testing and quality engineering for Apps Script regression safety, fakes, platform tests, and edge cases."
-skill_version: "0.1.0"
-repository_introduced: "v1.0.0"
-status: "foundation"
-last_repository_update: "v1.0.0"
+description: "Experience-driven testing and quality engineering for Google Apps Script, covering unit tests, contracts, fakes/emulators, integration tests, live GAS parity, regression, test isolation, release gates, and quality evidence."
+skill_version: "1.0.0"
+repository_introduced: "v1.9.0"
+status: "evolving"
+last_repository_update: "v1.9.0"
 tags:
+  - google-apps-script
   - testing
   - quality
-  - google-apps-script
+  - regression
+  - clasp
+  - gas-fakes
+  - integration-testing
+  - parity-testing
 ---
 
-# Testing Quality
+# Testing & Quality Engineering for Google Apps Script
 
-## Status
+## Purpose
 
-Foundation placeholder.
+This skill defines a practical test strategy for Google Apps Script (GAS).
 
-This module is intentionally not yet presented as mature best-practice guidance.
+The goal is not to maximize test count. The goal is to build enough **evidence of correctness** that a change can be released with understood risk.
 
-It will be developed during the GAS Engineering Playbook Foundation Buildout Series using the repository evidence model:
+Core rules:
+
+> Test behavior at the cheapest reliable layer.
+
+> A fake or emulator provides fast confidence; real Apps Script remains the oracle for platform-specific behavior.
+
+---
+
+# 1. Evidence Model
+
+## Official documentation
+
+Use official Google documentation for current platform facts such as:
+
+- Apps Script API execution,
+- API executable requirements,
+- OAuth requirements,
+- supported parameter/return types,
+- deployment behavior.
+
+## Project experience
+
+Reusable lessons from real GAS development include:
+
+- performance refactors must prove output parity, not only lower runtime,
+- schema-drift fixes should add regression cases for both old and new input layouts,
+- deterministic dashboard rebuilds should be tested twice against the same source,
+- sync/import workflows need replay and idempotency tests,
+- external authentication changes such as MFA are workflow changes that require validation,
+- every meaningful release benefits from a repeatable smoke checklist.
+
+Project-specific business data and private identifiers are excluded.
+
+## Uploaded `gas-fakes` knowledge
+
+The uploaded `gas-fakes` development material emphasizes:
+
+- comprehensive feature coverage,
+- boundary and invalid-input testing,
+- exact behavior where GAS compatibility matters,
+- cleanup of created test resources,
+- tests that can be verified against a real GAS project,
+- verification of actual GAS APIs and return semantics rather than guesses.
+
+This playbook generalizes those lessons. It **does not** require one test for every trivial private helper; it requires appropriate regression evidence for meaningful behavior.
+
+## Community and open source
+
+Tools and discussions such as `clasp`, `gas-fakes`, GitHub issues, Stack Overflow, and community forums help identify workable test approaches and recurring failure modes.
+
+Community sources are signals, not platform specifications.
+
+---
+
+# 2. Layered Confidence Model
+
+Use multiple test layers:
 
 ```text
-Base knowledge
-+
-project experience
-+
-official documentation
-+
-community signals
-↓
-validated reusable practice
+Pure Unit Tests
+      ↓
+Contract / Mapping Tests
+      ↓
+Fake / Emulator Tests
+      ↓
+Integration Tests
+      ↓
+Live GAS Parity Tests
+      ↓
+Smoke / Acceptance Tests
 ```
 
-## Contribution
+As you move downward:
 
-Early contributions are welcome when they include evidence, trade-offs, and a clear generalization beyond one project.
+- setup cost increases,
+- execution becomes slower,
+- realism increases,
+- platform-specific confidence increases.
+
+Use the lowest-cost layer that can reliably catch the risk.
+
+---
+
+# 3. Test Risk, Not Files
+
+Avoid universal rules like:
+
+```text
+one file = one test file
+one function = one test
+```
+
+Prefer:
+
+```text
+meaningful behavior
+      ↓
+identified failure risk
+      ↓
+appropriate test layer
+```
+
+Examples:
+
+| Behavior | Best first test |
+|---|---|
+| pure score calculation | unit |
+| header mapper | unit/contract |
+| Sheet projection | contract/integration |
+| trigger identity | live GAS |
+| JDBC transaction | integration |
+| emulator method parity | fake + live GAS |
+| generated dashboard | contract + integration |
+
+---
+
+# 4. Pure Logic First
+
+Pure logic is the cheapest test surface.
+
+```javascript
+function calculateCategory(score) {
+  if (score >= 90) return 'A';
+  if (score >= 80) return 'B';
+  return 'C';
+}
+```
+
+Representative tests:
+
+```text
+90 → A
+89 → B
+80 → B
+79 → C
+```
+
+Architecture that separates logic from `SpreadsheetApp`, `DriveApp`, `Jdbc`, and `UrlFetchApp` becomes easier to test.
+
+---
+
+# 5. Separate Logic From I/O
+
+Hard to test:
+
+```javascript
+function processScore() {
+  const score = SpreadsheetApp
+    .getActive()
+    .getSheetByName('Data')
+    .getRange('A1')
+    .getValue();
+
+  // business logic and writing mixed together
+}
+```
+
+Preferred:
+
+```javascript
+function classifyScore_(score) {
+  return score >= 80 ? 'PASS' : 'FAIL';
+}
+
+function processScore() {
+  const score = ScoreRepository.read();
+  const result = classifyScore_(score);
+  ScoreRepository.write(result);
+}
+```
+
+Test the rule locally; test the repository at integration level.
+
+---
+
+# 6. Arrange — Act — Assert
+
+Keep tests readable:
+
+```text
+Arrange  → prepare input/state
+Act      → execute behavior
+Assert   → verify output/side effect
+```
+
+A good test should make the intended contract obvious.
+
+---
+
+# 7. Boundary and Failure Cases
+
+Consider representative cases:
+
+- `null`,
+- `undefined`,
+- empty string,
+- whitespace,
+- zero/negative values,
+- minimum/maximum valid values,
+- missing header,
+- missing Sheet,
+- empty dataset,
+- one-row dataset,
+- duplicate key,
+- invalid enum/status,
+- malformed external response,
+- out-of-range index.
+
+Do not test every possible value. Test boundaries that can reveal distinct failures.
+
+---
+
+# 8. Errors Are Part of Behavior
+
+If invalid input must fail, test the failure.
+
+```javascript
+function normalizeStatus_(value) {
+  const v = String(value || '').trim().toUpperCase();
+  const allowed = new Set(['OPEN', 'CLOSED']);
+
+  if (!allowed.has(v)) {
+    throw new Error('Invalid status.');
+  }
+  return v;
+}
+```
+
+Test:
+
+```text
+open    → OPEN
+CLOSED  → CLOSED
+""      → error
+UNKNOWN → error
+```
+
+Assert exact error text only when compatibility or user/API contract requires it.
+
+---
+
+# 9. Stable Contracts Deserve Stricter Tests
+
+Examples of public/stable contracts:
+
+- menu function names,
+- HTML server callbacks,
+- API response shape,
+- database mappings,
+- generated headers,
+- documented error categories,
+- emulator method return types/chaining.
+
+Refactoring internals should not force test rewrites if public behavior is unchanged.
+
+---
+
+# 10. Spreadsheet Schema Contract Tests
+
+Spreadsheet input/output is a schema contract.
+
+Test that:
+
+- required headers exist,
+- optional/new columns do not shift target output,
+- target projection includes only intended fields,
+- formula-owned/manual columns are preserved,
+- column order is verified where order itself matters.
+
+Example regression:
+
+```javascript
+function testProjectionWithInsertedColumn_() {
+  const headers = ['ID', 'NAME', 'NEW_FIELD', 'STATUS'];
+  const row = ['1', 'Alice', 'unused', 'ACTIVE'];
+
+  const out = mapSourceRow_(headers, row);
+
+  assertEqual_(out.id, '1');
+  assertEqual_(out.name, 'Alice');
+  assertEqual_(out.status, 'ACTIVE');
+}
+```
+
+This converts schema-drift incidents into permanent prevention.
+
+---
+
+# 11. Snapshot / Golden Master — Selectively
+
+Useful for generated reports or dashboards when a stable logical representation exists.
+
+Example:
+
+```json
+{
+  "headers": ["Region", "Count", "Amount"],
+  "rows": [
+    ["A", 10, 1000],
+    ["B", 8, 900]
+  ]
+}
+```
+
+Avoid snapshotting:
+
+- timestamps,
+- random IDs,
+- enormous datasets,
+- incidental formatting.
+
+A snapshot that changes every run provides little value.
+
+---
+
+# 12. Test Logical Output, Not Pixels
+
+For Sheets-generated output, test:
+
+- values,
+- formulas,
+- merged ranges when important,
+- named ranges,
+- validation,
+- protected/generated regions,
+- critical formatting contracts.
+
+Visual/manual review can remain for appearance that is difficult or low-value to automate.
+
+---
+
+# 13. Test Doubles
+
+## Stub
+
+Returns predetermined data.
+
+## Fake
+
+Working simplified implementation, such as:
+
+- in-memory repository,
+- local GAS emulator.
+
+## Mock / spy
+
+Records interactions for assertions.
+
+Use the simplest double that detects the risk.
+
+---
+
+# 14. Avoid Over-Mocking
+
+A test that mocks every layer can prove only that the mocks agree.
+
+Prefer real pure collaborators and fake only expensive/external boundaries.
+
+Test behavior, not call choreography, unless interaction order itself is the contract.
+
+---
+
+# 15. Lightweight Dependency Injection
+
+```javascript
+function createApprovalService_(deps) {
+  return {
+    approve(id) {
+      const record = deps.repository.getById(id);
+      const approved = approveRecord_(record);
+
+      deps.repository.save(approved);
+      deps.notifier.send(approved);
+
+      return approved;
+    }
+  };
+}
+```
+
+Tests can inject an in-memory repository and notifier.
+
+No DI framework is required.
+
+---
+
+# 16. Control Time
+
+If business logic depends on time:
+
+```javascript
+function createService_(deps = {}) {
+  const now = deps.now || (() => new Date());
+
+  return {
+    create() {
+      return { createdAt: now() };
+    }
+  };
+}
+```
+
+Tests inject a fixed clock.
+
+---
+
+# 17. Control Random IDs
+
+```javascript
+function createRecord_(input, deps = {}) {
+  const newId = deps.newId || (() => Utilities.getUuid());
+  return { id: newId(), ...input };
+}
+```
+
+Tests inject a deterministic ID.
+
+This prevents random UUIDs from making assertions brittle.
+
+---
+
+# 18. Control Configuration
+
+Do not let local tests depend on invisible production properties.
+
+Use:
+
+- explicit config objects,
+- test properties,
+- environment-specific files not committed with secrets,
+- injected adapters.
+
+Production credentials should not be needed for unit tests.
+
+---
+
+# 19. Local JavaScript Tests
+
+Pure logic can use any appropriate runner:
+
+- Jest,
+- Mocha,
+- Vitest,
+- Node built-in test,
+- simple custom assertions.
+
+The playbook does not mandate a framework.
+
+Required properties are:
+
+- fast,
+- deterministic,
+- version-controlled,
+- useful failure output.
+
+---
+
+# 20. `clasp` as a Tooling Bridge
+
+`clasp` is maintained under Google's GitHub organization and supports local Apps Script development, source control, deployment management, and remote execution.
+
+Its repository explicitly notes that it is **not an officially supported Google product**.
+
+Use `clasp` as tooling, not as the source of truth for Apps Script runtime semantics.
+
+---
+
+# 21. Official Live Execution With `scripts.run`
+
+The official Apps Script API provides `scripts.run` for remote function execution.
+
+Current requirements include:
+
+- deploy the script as an API executable,
+- use an OAuth-authorized caller,
+- script and caller share a standard Google Cloud project,
+- Apps Script API enabled,
+- inputs/outputs use supported basic serializable data.
+
+Current official documentation also states that this path does **not work with service accounts**.
+
+Re-check current docs before designing unattended CI.
+
+---
+
+# 22. Live Test Probes Should Return Plain Data
+
+Good:
+
+```javascript
+function testProbe_Config() {
+  return {
+    environment: 'TEST',
+    inputSheet: CONFIG.SHEETS.INPUT
+  };
+}
+```
+
+Avoid attempting to return an Apps Script object through the remote API.
+
+---
+
+# 23. Separate Test Probes From Admin Backdoors
+
+Do not expose privileged production actions solely for tests.
+
+Test probes should be:
+
+- test-environment scoped,
+- read-only where possible,
+- safely authorized,
+- explicit,
+- free of secrets.
+
+Testing infrastructure is part of the attack surface.
+
+---
+
+# 24. Fake / Emulator Testing
+
+A local GAS emulator can accelerate:
+
+- service-dependent tests,
+- debugging,
+- repeatability,
+- CI feedback.
+
+Potential differences include:
+
+- authorization,
+- exact errors,
+- API behavior,
+- object types,
+- trigger semantics,
+- newly added platform features.
+
+Therefore:
+
+```text
+emulator → fast feedback
+real GAS → platform truth
+```
+
+---
+
+# 25. Fake Is Not the Oracle
+
+If emulator and live GAS disagree, investigate:
+
+1. current official specification,
+2. reproducible real GAS behavior,
+3. emulator version/coverage.
+
+Do not alter production code only to satisfy a stale fake.
+
+For an emulator project, update the emulator to match GAS.
+
+---
+
+# 26. Parity Testing
+
+A parity test compares equivalent behavior in:
+
+```text
+fake/local
+```
+
+and:
+
+```text
+real GAS
+```
+
+Useful for exact platform contracts such as:
+
+- return type,
+- index conversion,
+- range semantics,
+- chaining,
+- exact errors,
+- `toString()` representations.
+
+Not every application test needs exact parity.
+
+---
+
+# 27. Integration Tests
+
+Integration tests verify real boundaries:
+
+- Spreadsheet read/write,
+- Drive files,
+- UrlFetch endpoints,
+- PostgreSQL JDBC,
+- PropertiesService,
+- triggers,
+- web app endpoints.
+
+Use dedicated test resources.
+
+---
+
+# 28. Resource Isolation
+
+Prefer:
+
+```text
+TEST spreadsheet
+TEST Drive folder
+TEST database/schema
+TEST API endpoint
+TEST properties
+```
+
+Tests should know which resources they own.
+
+Never default to production data.
+
+---
+
+# 29. Unique Test Resource Names
+
+Avoid collisions:
+
+```text
+test-report-<run_id>
+TEST_<timestamp>_<suffix>
+```
+
+A run ID also helps cleanup and debugging.
+
+---
+
+# 30. Cleanup in `finally`
+
+```javascript
+function integrationTest() {
+  const created = [];
+
+  try {
+    const file = createTestFile_();
+    created.push(file);
+
+    // assertions
+  } finally {
+    cleanup_(created);
+  }
+}
+```
+
+Cleanup should run after success and failure.
+
+---
+
+# 31. Preserve Failed Artifacts When Helpful
+
+For difficult failures:
+
+```text
+success → cleanup
+failure → preserve temporarily + log resource IDs
+```
+
+Only in test environments.
+
+Add orphan cleanup so failed artifacts do not accumulate indefinitely.
+
+---
+
+# 32. Synthetic or Sanitized Test Data
+
+Do not copy confidential production data into fixtures.
+
+Use:
+
+- synthetic records,
+- sanitized representative samples,
+- minimal datasets that reproduce the behavior.
+
+Quality engineering includes data governance.
+
+---
+
+# 33. Database Tests
+
+For PostgreSQL integration test:
+
+- prepared statement mapping,
+- constraint failures,
+- transaction commit,
+- transaction rollback,
+- upsert,
+- timestamp conversion,
+- permission denial,
+- retry/idempotency.
+
+Use a dedicated test schema/database.
+
+---
+
+# 34. Transaction Atomicity Test
+
+Test both:
+
+```text
+all steps succeed → commit
+```
+
+and:
+
+```text
+middle step fails → rollback → no partial state
+```
+
+A transaction test that checks only success does not prove atomicity.
+
+---
+
+# 35. Sync and Import Tests
+
+Test:
+
+- initial import,
+- identical replay,
+- updated record,
+- duplicate external ID,
+- rejected row,
+- partial batch failure,
+- watermark retry,
+- reconciliation mismatch.
+
+Idempotency must be demonstrated.
+
+---
+
+# 36. Trigger Tests
+
+Use unit tests for:
+
+- event filtering,
+- command mapping,
+- duplicate-trigger detection logic.
+
+Use live GAS tests for:
+
+- execution identity,
+- actual event shape,
+- authorization,
+- installable/simple trigger behavior.
+
+---
+
+# 37. HTML / `google.script.run` Tests
+
+Test:
+
+- payload validation,
+- callback availability,
+- success result shape,
+- safe failure shape,
+- authorization,
+- duplicate submission behavior.
+
+Keep business rules on the server so UI tests do not carry the entire correctness burden.
+
+---
+
+# 38. Web App Tests
+
+For `doGet` / `doPost`, include:
+
+- missing parameter,
+- malformed JSON,
+- unauthorized caller,
+- invalid action,
+- oversized input,
+- duplicate/replayed request,
+- success response,
+- safe error response.
+
+---
+
+# 39. External API Tests
+
+Use layers:
+
+```text
+local fixture / stub
+↓
+sandbox integration
+↓
+selected production-safe probe
+```
+
+Failure cases:
+
+- timeout,
+- 4xx/5xx,
+- rate limit,
+- malformed JSON,
+- missing required field.
+
+Do not make every unit test depend on a live third-party API.
+
+---
+
+# 40. Security Regression Tests
+
+Examples:
+
+- viewer cannot approve,
+- missing actor denied,
+- client-supplied role ignored,
+- invalid record ID denied,
+- unsafe status rejected,
+- duplicate webhook ignored,
+- secrets absent from error payload.
+
+Security Engineering defines policy; Testing Quality verifies it.
+
+---
+
+# 41. Performance Regression Tests
+
+Avoid fragile millisecond assertions.
+
+For critical jobs:
+
+- use realistic data size,
+- record rough expected envelope,
+- detect severe regression,
+- compare phase metrics where useful.
+
+Example project-specific criterion:
+
+```text
+10k records complete before application soft deadline
+```
+
+The number belongs to the project, not this generic skill.
+
+---
+
+# 42. Convert Bugs Into Regression Tests
+
+High-value flow:
+
+```text
+bug
+↓
+minimal reproduction
+↓
+failing test
+↓
+fix
+↓
+passing test
+↓
+release
+```
+
+This converts incident knowledge into permanent protection.
+
+---
+
+# 43. Schema Drift Regression
+
+When a new source column previously caused target columns to shift:
+
+- add an extra-column fixture,
+- assert semantic target projection,
+- preserve existing output.
+
+This should accompany the fix.
+
+---
+
+# 44. Deterministic Rebuild Test
+
+For a generated dashboard/layout:
+
+```text
+same source
+↓
+rebuild
+↓
+capture logical output
+↓
+rebuild again
+↓
+same logical output
+```
+
+Ignore intentionally volatile timestamps/IDs.
+
+---
+
+# 45. Migration Parity Testing
+
+For AppSheet → GAS or Sheets → PostgreSQL:
+
+```text
+input
+legacy behavior
+new behavior
+side effects
+authorization
+```
+
+Compare representative cases before cutover.
+
+Row count alone is insufficient.
+
+---
+
+# 46. Backward Compatibility Test
+
+If a public wrapper remains for compatibility:
+
+```javascript
+function oldMenuFunction() {
+  return NewApplication.run();
+}
+```
+
+Add a smoke test so refactoring does not silently remove it.
+
+---
+
+# 47. Flaky Test Control
+
+Common causes:
+
+- current time,
+- random IDs,
+- real network,
+- shared mutable Sheet,
+- test ordering,
+- eventual consistency,
+- parallel resource collision,
+- implicit active user/document.
+
+Control or isolate these factors.
+
+A flaky suite teaches developers to ignore failures.
+
+---
+
+# 48. Retry Is Not a Flake Fix
+
+Before adding retry:
+
+1. identify true eventual-consistency behavior,
+2. use a bounded retry,
+3. log the reason,
+4. keep the underlying failure observable.
+
+Random retries can hide races and infrastructure problems.
+
+---
+
+# 49. Test Order Independence
+
+Tests should normally create their own required state.
+
+Avoid:
+
+```text
+test B requires test A to run first
+```
+
+except for an explicitly modeled end-to-end scenario.
+
+---
+
+# 50. Quality Gates
+
+A practical release gate:
+
+```text
+lint / static checks
+↓
+unit + contract tests
+↓
+integration tests
+↓
+selected live GAS tests
+↓
+security/performance smoke checks
+↓
+manual acceptance where needed
+↓
+release
+```
+
+Scale the gate to project risk.
+
+---
+
+# 51. Fast Loop vs Release Loop
+
+## Fast developer loop
+
+- pure unit tests,
+- mapping/contract tests,
+- static checks.
+
+## Pre-release
+
+Add:
+
+- integration tests,
+- live GAS parity tests,
+- migration/sync tests,
+- security checks,
+- performance smoke,
+- manual auth/UI validation where necessary.
+
+Fast tests should remain fast.
+
+---
+
+# 52. CI With Live GAS
+
+Live tests can be automated through Apps Script API or tooling such as `clasp run`.
+
+Trade-offs:
+
+- OAuth setup,
+- API executable deployment,
+- Cloud-project setup,
+- resource cleanup,
+- credential handling.
+
+Do not require live GAS for pure calculations.
+
+---
+
+# 53. Known Gaps Are Allowed — Hidden Gaps Are Not
+
+Some checks remain manual:
+
+```text
+OAuth first-run consent
+visual dashboard spacing
+interactive MFA
+first-time deployment permission
+```
+
+Document them.
+
+A known manual check is better than falsely claiming automated coverage.
+
+---
+
+# 54. Test Report
+
+Example:
+
+```text
+Unit:         42 passed
+Contract:     12 passed
+Integration:   8 passed
+Live GAS:      5 passed
+Manual:        2 verified
+Known skips:   1
+```
+
+Record environment/repository version where useful.
+
+Do not hide skipped or quarantined tests.
+
+---
+
+# 55. Definition of Done
+
+For a meaningful change:
+
+- [ ] intended behavior defined,
+- [ ] suitable test layer selected,
+- [ ] success case covered,
+- [ ] important boundary/failure covered,
+- [ ] fixed bug has regression evidence,
+- [ ] test data isolated/sanitized,
+- [ ] fake-dependent platform behavior verified live when needed,
+- [ ] created resources cleaned,
+- [ ] security/performance impact considered,
+- [ ] manual gaps documented,
+- [ ] changelog/release notes updated.
+
+---
+
+# 56. Anti-Patterns
+
+Avoid:
+
+- tests that only assert "did not throw",
+- testing only implementation details,
+- mocking every collaborator,
+- production data as default fixture,
+- hidden test-order dependency,
+- uncontrolled clock/randomness,
+- fake treated as GAS truth,
+- live GAS for trivial pure logic,
+- no cleanup,
+- exact private error strings everywhere,
+- retry masking flakes,
+- no regression test for the bug just fixed,
+- benchmark comparison with different data,
+- service-account assumption for current `scripts.run`,
+- community snippets treated as current platform specification.
+
+---
+
+# 57. Contribution Evidence Template
+
+```markdown
+## Behavior / Risk
+...
+
+## Test Layer
+- [ ] unit
+- [ ] contract/mapping
+- [ ] fake/emulator
+- [ ] integration
+- [ ] live GAS parity
+- [ ] smoke/acceptance
+
+## Evidence
+
+### Official documentation
+...
+
+### Project experience
+...
+
+### Community / open source
+...
+
+### Reproduction / failing test
+...
+
+## Cases
+- success:
+- boundary:
+- failure:
+- replay/idempotency:
+
+## Platform Parity
+Is real GAS verification required? Why?
+
+## Result
+...
+
+## Known Gaps / Trade-offs
+...
+```
+
+---
+
+# References
+
+## Official Google Apps Script
+
+- Execute functions with Apps Script API  
+  https://developers.google.com/apps-script/api/how-tos/execute
+
+- Apps Script API execution samples  
+  https://developers.google.com/apps-script/api/samples/execute
+
+- Apps Script API reference  
+  https://developers.google.com/apps-script/api/reference/rest
+
+- Apps Script best practices  
+  https://developers.google.com/apps-script/guides/support/best-practices
+
+## Google-maintained open source
+
+- `clasp`  
+  https://github.com/google/clasp
+
+The `clasp` repository states that the project is not an officially supported Google product.
+
+## Local emulation / open source
+
+- `gas-fakes`  
+  https://github.com/brucemcpherson/gas-fakes
+
+Use local emulation to accelerate feedback, then verify selected platform-specific behavior against real Apps Script.
+
+## Community signals
+
+- Stack Overflow — Google Apps Script unit testing  
+  https://stackoverflow.com/questions/tagged/google-apps-script+unit-testing
+
+Community content helps discover failure modes and approaches. Official documentation and reproducible live behavior remain authoritative for GAS platform contracts.

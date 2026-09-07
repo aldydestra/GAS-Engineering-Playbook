@@ -100,3 +100,28 @@ A PR should explain:
 - affected skill(s),
 - compatibility,
 - documentation/changelog impact.
+
+
+## Testing Evidence for Behavior Changes
+
+Behavior-changing contributions should include appropriate regression evidence.
+
+This does not require one test per trivial private helper.
+
+Choose by risk:
+
+```text
+pure rule → unit test
+schema/mapping → contract test
+GAS service → fake/integration
+trigger/auth → live GAS
+emulator parity → fake + live GAS
+```
+
+For bug fixes, prefer:
+
+```text
+reproduce → failing test → fix → passing test
+```
+
+If automation is impractical, document the manual verification and known gap.

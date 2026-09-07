@@ -2,6 +2,67 @@
 
 All notable repository and skill changes are documented here.
 
+
+## [v1.9.0] - 2026-09-07
+
+### Foundation Milestone — Skill 08
+
+Matured `08-testing-quality` as the eighth foundation skill.
+
+### Added — Testing & Quality Engineering
+
+- layered confidence model,
+- risk-based test selection,
+- pure-function and boundary testing,
+- stable-contract testing,
+- spreadsheet schema-drift regression,
+- selective snapshot/golden-master guidance,
+- test doubles and over-mocking warning,
+- lightweight dependency injection,
+- deterministic time/ID/config seams,
+- local runner neutrality,
+- `clasp` tooling guidance,
+- official Apps Script API `scripts.run` live-test path,
+- fake/emulator vs real GAS parity model,
+- resource isolation and cleanup,
+- sanitized test data,
+- PostgreSQL transaction/sync/idempotency tests,
+- trigger, HTML, web-app, and API testing,
+- security/performance regression,
+- bug-to-regression workflow,
+- migration parity and deterministic rebuild tests,
+- flaky-test controls,
+- fast-loop vs pre-release gates,
+- current `scripts.run` service-account limitation,
+- test report, known-gap registry, and Definition of Done.
+
+### Added — References
+
+- `references/testing-quality-patterns.md`
+- `docs/testing-strategy-template.md`
+
+### Improved — Contribution Model
+
+Behavior-changing contributions are expected to include testing/validation evidence at the appropriate layer.
+
+### Experience Synthesis
+
+Generalized principles from the uploaded `gas-fakes` development knowledge:
+
+- feature coverage,
+- edge-case tests,
+- exact compatibility where required,
+- real GAS verification,
+- resource cleanup.
+
+Emulator-specific worker architecture and project-specific registration rules are intentionally not imposed on generic GAS projects.
+
+### Compatibility
+
+No intentional breaking top-level repository structure change.
+
+---
+
 ## [v1.8.0] - 2026-09-04
 
 ### Foundation Milestone — Skill 07

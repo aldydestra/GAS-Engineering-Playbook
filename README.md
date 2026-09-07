@@ -276,9 +276,33 @@ This prevents a repository release number from being mistaken for the version of
 
 ## 08 — Testing Quality
 
-**Status:** foundation.
+**Purpose:** create layered evidence that Apps Script changes preserve intended behavior across pure logic, schemas, integrations, emulators, and the live GAS platform.
 
-Will focus on regression safety, pure-function tests, platform tests, fakes/emulation, edge cases, and parity verification.
+**Goals:**
+
+- test behavior at the cheapest reliable layer,
+- separate unit/contract tests from platform integration tests,
+- convert important bugs into permanent regression coverage,
+- use fakes/emulators for fast feedback without treating them as platform truth,
+- run selected live GAS parity tests for service/trigger/auth behavior,
+- isolate and clean up test resources,
+- verify idempotency, migration parity, security, and performance behavior,
+- define practical release quality gates.
+
+**Key strengths:**
+
+- layered confidence model,
+- schema-drift regression tests,
+- test doubles and lightweight dependency injection,
+- deterministic clock/ID seams,
+- `clasp` and Apps Script API execution guidance,
+- fake/emulator parity strategy,
+- integration cleanup/isolation,
+- sync/transaction/idempotency tests,
+- trigger/web-app/security tests,
+- flaky-test controls,
+- Definition of Done and release test reports.
+
 
 ## 09 — Monitoring & Observability
 

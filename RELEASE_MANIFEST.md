@@ -1,21 +1,23 @@
 # Release Manifest
 
-Repository Version: v1.8.0
+Repository Version: v1.9.0
 
 ## Primary Milestone
 
-- Skill 07 — Security Engineering foundation
+- Skill 08 — Testing & Quality Engineering foundation
 
 ## Added
 
-- `references/security-engineering-patterns.md`
-- `SECURITY.md`
+- `references/testing-quality-patterns.md`
+- `docs/testing-strategy-template.md`
 
 ## Updated
 
-- README Skill 07
-- CHANGELOG v1.8.0
-- GitHub Release Notes
+- `skills/08-testing-quality/SKILL.md`
+- `README.md`
+- `CONTRIBUTING.md`
+- `CHANGELOG.md`
+- `GITHUB_RELEASE_NOTES.md`
 
 ## Files
 - `CHANGELOG.md`
@@ -26,6 +28,7 @@ Repository Version: v1.8.0
 - `README.md`
 - `SECURITY.md`
 - `docs/module-development-guide.md`
+- `docs/testing-strategy-template.md`
 - `examples/.gitkeep`
 - `references/appsheet-migration-patterns.md`
 - `references/database-patterns.md`
@@ -37,6 +40,7 @@ Repository Version: v1.8.0
 - `references/postgresql-integration-patterns.md`
 - `references/security-engineering-patterns.md`
 - `references/software-architecture-patterns.md`
+- `references/testing-quality-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`
 - `skills/02-appsheet-migration/SKILL.md`
 - `skills/03-software-architecture/SKILL.md`
