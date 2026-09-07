@@ -1,23 +1,30 @@
 # Release Manifest
 
-Repository Version: v1.11.0
+Repository Version: v1.12.0
 
 ## Primary Milestone
 
-- Skill 10 — Deployment Engineering foundation
+- Skill 11 — Documentation Engineering foundation
 
 ## Added
 
-- `references/deployment-engineering-patterns.md`
-- `docs/deployment-runbook-template.md`
+- `references/documentation-engineering-patterns.md`
+- `docs/handoff-template.md`
+- `docs/adr-template.md`
 
 ## Updated
 
-- `skills/10-deployment-engineering/SKILL.md`
+- `skills/11-documentation-engineering/SKILL.md`
 - `README.md`
 - `CONTRIBUTING.md`
+- `docs/module-development-guide.md`
 - `CHANGELOG.md`
 - `GITHUB_RELEASE_NOTES.md`
+
+## Foundation Status
+
+- Skills 01–11 now have individual foundation implementations.
+- Next milestone: `v1.13.0 — Full Foundation Consolidation`.
 
 ## Files
 - `CHANGELOG.md`
@@ -27,7 +34,9 @@ Repository Version: v1.11.0
 - `LICENSE`
 - `README.md`
 - `SECURITY.md`
+- `docs/adr-template.md`
 - `docs/deployment-runbook-template.md`
+- `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
 - `docs/testing-strategy-template.md`
@@ -35,6 +44,7 @@ Repository Version: v1.11.0
 - `references/appsheet-migration-patterns.md`
 - `references/database-patterns.md`
 - `references/deployment-engineering-patterns.md`
+- `references/documentation-engineering-patterns.md`
 - `references/evidence-model.md`
 - `references/gas-patterns.md`
 - `references/gas-quotas.md`

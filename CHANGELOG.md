@@ -3,6 +3,82 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.12.0] - 2026-09-07
+
+### Foundation Milestone — Skill 11
+
+Matured `11-documentation-engineering` as the eleventh and final individual foundation skill.
+
+### Added — Documentation Engineering
+
+- audience-based documentation design,
+- README progressive-disclosure guidance,
+- documentation-freshness rules,
+- Apps Script JSDoc/public-contract guidance,
+- comment-the-why guidance,
+- script-level JSDoc annotation awareness,
+- library documentation guidance,
+- data-contract, configuration, and ownership documentation,
+- handoff/safety-net design,
+- fact vs hypothesis separation,
+- ADR decision-record guidance,
+- runbook structure and troubleshooting trees,
+- CHANGELOG vs Git history distinction,
+- release notes vs CHANGELOG distinction,
+- full release snapshot/self-description guidance,
+- assumptions, guarantees, invariants, and known-limitations guidance,
+- incident-to-durable-knowledge workflow,
+- public vs internal documentation boundary,
+- cross-skill documentation ownership/cross-reference rules,
+- documentation status/verification-date guidance,
+- docs-as-code and optional documentation testing,
+- anti-documentation-theater guidance,
+- documentation Definition of Done and pre-release checklist.
+
+### Added — References / Templates
+
+- `references/documentation-engineering-patterns.md`
+- `docs/handoff-template.md`
+- `docs/adr-template.md`
+
+### Improved — Contribution Model
+
+Documentation-changing contributions should identify audience, evidence, source of truth, duplication risk, and security/privacy impact.
+
+### Improved — Module Development Guide
+
+Added a documentation ownership rule so reusable guidance has one authoritative owning module and other skills cross-reference rather than drift through duplication.
+
+### Experience Synthesis
+
+This release generalizes lessons from the repository development process:
+
+- long-session handoffs as a safety net,
+- full release snapshots,
+- CHANGELOG + GitHub Release Notes,
+- release manifests,
+- documented versioning decisions,
+- evidence-separated best practices,
+- operational runbooks,
+- preserving project lessons without exposing internal project details.
+
+### Evidence Model
+
+Documentation guidance was synthesized from:
+
+- current Apps Script JSDoc/library documentation,
+- official GitHub README/release/contribution documentation,
+- reusable project handoff/release experience,
+- MADR/ADR conventions,
+- Keep a Changelog as a community convention.
+
+### Compatibility
+
+No intentional breaking top-level repository structure change.
+
+---
+
+
 ## [v1.11.0] - 2026-09-07
 
 ### Foundation Milestone — Skill 10

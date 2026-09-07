@@ -159,3 +159,19 @@ ownership impact
 ```
 
 Do not include private deployment IDs, credentials, or production endpoints in public contribution examples.
+
+
+## Documentation Quality for Contributions
+
+When a contribution changes a public contract, schema, deployment procedure, security assumption, or operational workflow, update the owning documentation in the same change when practical.
+
+Documentation contributions should identify:
+
+- intended audience,
+- source of truth,
+- evidence,
+- whether the statement is current behavior, proposal, or historical context,
+- duplication risk,
+- security/privacy impact.
+
+Prefer linking to an authoritative existing skill over copying the same rule into several documents.

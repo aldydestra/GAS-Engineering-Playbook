@@ -366,9 +366,34 @@ This prevents a repository release number from being mistaken for the version of
 
 ## 11 — Documentation Engineering
 
-**Status:** foundation.
+**Purpose:** preserve the intent, contracts, operational knowledge, decisions, release history, and handoff context that code alone cannot explain.
 
-Will focus on handoff, architecture decisions, change history, runbooks, maintenance notes, and durable knowledge transfer.
+**Goals:**
+
+- keep README focused as the repository entry point,
+- use JSDoc selectively for public/library/custom-function contracts,
+- document data/configuration/ownership boundaries without exposing secrets,
+- preserve major technical decisions through ADRs,
+- create actionable runbooks for deployment, recovery, and troubleshooting,
+- maintain compact handoffs for cross-session/maintainer continuity,
+- distinguish CHANGELOG, release notes, Git history, and release manifests,
+- keep assumptions, limitations, and current platform facts explicit,
+- convert incidents and project experience into durable learning.
+
+**Key strengths:**
+
+- audience-based documentation model,
+- JSDoc/comment guidance,
+- data-contract and ownership documentation,
+- handoff safety-net pattern,
+- ADR decision history,
+- operational runbook structure,
+- CHANGELOG vs release-note distinction,
+- documentation freshness/evidence rules,
+- public vs internal documentation boundary,
+- cross-skill documentation consistency,
+- documentation Definition of Done and pre-release checklist.
+
 
 ---
 

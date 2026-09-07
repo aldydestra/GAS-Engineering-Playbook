@@ -84,3 +84,23 @@ Do not release every small edit.
 Release when a meaningful repository milestone is ready.
 
 Small corrections can be grouped until a release is useful, unless the correction is important enough to require an immediate patch release.
+
+
+## Documentation Ownership Rule
+
+Each reusable rule should have one primary owning skill/document.
+
+Other modules should cross-reference rather than duplicate large blocks of guidance.
+
+When behavior changes, review:
+
+```text
+SKILL.md
+README summary
+references/examples
+CHANGELOG
+release notes
+runbook/handoff/ADR if affected
+```
+
+Time-sensitive platform facts should cite current official documentation and be re-verified when materially used.
