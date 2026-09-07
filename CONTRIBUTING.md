@@ -125,3 +125,19 @@ reproduce → failing test → fix → passing test
 ```
 
 If automation is impractical, document the manual verification and known gap.
+
+
+## Observability Evidence for Operational Workflows
+
+For new background jobs, syncs, imports, or external integrations, consider whether the contribution should add operational telemetry.
+
+Useful evidence includes:
+
+- start/completion/failure events,
+- job/batch correlation,
+- input/output/reject counts,
+- phase duration,
+- error category/retryability,
+- reconciliation result.
+
+Do not add logging that exposes credentials, personal data, or full production payloads merely to satisfy this guideline.

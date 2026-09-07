@@ -306,9 +306,33 @@ This prevents a repository release number from being mistaken for the version of
 
 ## 09 — Monitoring & Observability
 
-**Status:** foundation.
+**Purpose:** make production Apps Script workflows diagnosable across executions, retries, continuations, APIs, databases, and releases.
 
-Will focus on structured logging, execution telemetry, phase timing, failure classification, and operational signals.
+**Goals:**
+
+- distinguish execution log, Cloud Logging, and Error Reporting,
+- use stable structured event names and operational fields,
+- correlate multi-execution jobs with job/batch/request IDs,
+- preserve phase timing and record-count signals,
+- classify failures and retryability,
+- monitor freshness, reconciliation, and stalled jobs,
+- create useful alerts without notification storms,
+- minimize sensitive data in logs,
+- connect incidents back to regression tests and runbook improvements.
+
+**Key strengths:**
+
+- Apps Script logging-surface decision model,
+- `Logger` vs `console` guidance,
+- job/batch correlation,
+- phase/batch summaries,
+- structured error categories,
+- idempotency/reconciliation telemetry,
+- privacy-aware user correlation,
+- health/freshness signals,
+- alert deduplication,
+- incident triage and observability runbook template.
+
 
 ## 10 — Deployment Engineering
 

@@ -1,19 +1,19 @@
 # Release Manifest
 
-Repository Version: v1.9.0
+Repository Version: v1.10.0
 
 ## Primary Milestone
 
-- Skill 08 — Testing & Quality Engineering foundation
+- Skill 09 — Monitoring & Observability foundation
 
 ## Added
 
-- `references/testing-quality-patterns.md`
-- `docs/testing-strategy-template.md`
+- `references/monitoring-observability-patterns.md`
+- `docs/observability-runbook-template.md`
 
 ## Updated
 
-- `skills/08-testing-quality/SKILL.md`
+- `skills/09-monitoring-observability/SKILL.md`
 - `README.md`
 - `CONTRIBUTING.md`
 - `CHANGELOG.md`
@@ -28,6 +28,7 @@ Repository Version: v1.9.0
 - `README.md`
 - `SECURITY.md`
 - `docs/module-development-guide.md`
+- `docs/observability-runbook-template.md`
 - `docs/testing-strategy-template.md`
 - `examples/.gitkeep`
 - `references/appsheet-migration-patterns.md`
@@ -36,6 +37,7 @@ Repository Version: v1.9.0
 - `references/gas-patterns.md`
 - `references/gas-quotas.md`
 - `references/gas-recipes.md`
+- `references/monitoring-observability-patterns.md`
 - `references/performance-engineering-patterns.md`
 - `references/postgresql-integration-patterns.md`
 - `references/security-engineering-patterns.md`

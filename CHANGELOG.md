@@ -3,6 +3,74 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.10.0] - 2026-09-07
+
+### Foundation Milestone — Skill 09
+
+Matured `09-monitoring-observability` as the ninth foundation skill.
+
+### Added — Monitoring & Observability
+
+- execution log vs Cloud Logging vs Error Reporting decision model,
+- Apps Script Executions/dashboard guidance,
+- `Logger` vs `console` guidance,
+- stable operational event vocabulary,
+- standard observability fields,
+- job/batch/request correlation,
+- repository/environment version telemetry,
+- phase-level timing,
+- input/output/reject count signals,
+- zero-record anomaly handling,
+- error category and retryability classification,
+- retry/continuation events,
+- idempotency/reconciliation telemetry,
+- PostgreSQL/API/trigger/web-app observability boundaries,
+- privacy-aware temporary user-key correlation,
+- sensitive-data classification/redaction,
+- log-level semantics,
+- log spam/sampling guidance,
+- custom `SYSTEM_LOG` Sheet trade-offs,
+- health/freshness/heartbeat signals,
+- alert deduplication/escalation,
+- dependency-status diagnosis,
+- incident triage and incident-learning loop,
+- pre-release observability checklist.
+
+### Added — References
+
+- `references/monitoring-observability-patterns.md`
+- `docs/observability-runbook-template.md`
+
+### Improved — Contribution Model
+
+Operational workflows are encouraged to include high-value telemetry evidence without logging sensitive payloads.
+
+### Experience Synthesis
+
+This release generalizes recurring operational lessons from project execution logs:
+
+- phase timing reveals dominant bottlenecks,
+- record counts expose silent data-loss/empty-input conditions,
+- stable job IDs connect continuation/retry executions,
+- version metadata accelerates post-release diagnosis,
+- compact lifecycle events are more useful than row-level log noise.
+
+### Evidence Model
+
+Guidance was synthesized from:
+
+- prior project execution-log analysis,
+- current Google Apps Script logging/dashboard documentation,
+- Cloud Logging/Error Reporting behavior,
+- community reports about logging and trigger-failure diagnosis.
+
+### Compatibility
+
+No intentional breaking top-level repository structure change.
+
+---
+
+
 ## [v1.9.0] - 2026-09-07
 
 ### Foundation Milestone — Skill 08

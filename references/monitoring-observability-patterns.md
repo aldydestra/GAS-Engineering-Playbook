@@ -1,0 +1,137 @@
+# Monitoring & Observability Patterns
+
+Supporting examples for `skills/09-monitoring-observability/SKILL.md`.
+
+## 1. Structured Lifecycle Event
+
+```javascript
+Logger.log({
+  message: 'Job completed',
+  event: 'JOB_COMPLETED',
+  jobId,
+  repositoryVersion: APP_META.repositoryVersion,
+  inputCount,
+  outputCount,
+  durationMs,
+  status: 'SUCCESS'
+});
+```
+
+## 2. Phase Timer
+
+```javascript
+function timedPhase_(ctx, phase, fn) {
+  const startedAt = Date.now();
+
+  try {
+    return fn();
+  } finally {
+    Logger.log({
+      message: 'Phase finished',
+      event: 'PHASE_COMPLETED',
+      jobId: ctx.jobId,
+      phase,
+      durationMs: Date.now() - startedAt
+    });
+  }
+}
+```
+
+## 3. Job + Batch Correlation
+
+```text
+job_id = IMPORT-20260907-001
+  batch 001
+  batch 002
+  batch 003
+```
+
+## 4. Error Classification
+
+```javascript
+function classifyError_(error) {
+  const message = String(error && error.message || '').toLowerCase();
+
+  if (message.includes('timeout')) return 'TIMEOUT';
+  if (message.includes('permission')) return 'AUTHORIZATION';
+  if (message.includes('duplicate')) return 'CONFLICT';
+
+  return 'UNKNOWN';
+}
+```
+
+Prefer explicit typed/domain errors over message parsing when architecture supports it.
+
+## 5. Batch Summary
+
+```javascript
+Logger.log({
+  message: 'Batch completed',
+  event: 'BATCH_COMPLETED',
+  jobId,
+  batchId,
+  inputCount,
+  outputCount,
+  rejectCount,
+  durationMs
+});
+```
+
+## 6. Pseudonymous User Correlation
+
+```javascript
+const actorKey = Session.getTemporaryActiveUserKey();
+```
+
+Use for diagnostics, not permanent authentication identity.
+
+## 7. Health Record
+
+```javascript
+function saveHealth_(health) {
+  PropertiesService
+    .getScriptProperties()
+    .setProperty('HEALTH:DAILY_SYNC', JSON.stringify(health));
+}
+```
+
+Keep health state compact; raw logs belong elsewhere.
+
+## 8. Alert Deduplication
+
+```text
+incident_key
+first_seen
+last_seen
+count
+last_notified
+status
+```
+
+## 9. Safe API Event
+
+```javascript
+Logger.log({
+  message: 'API call completed',
+  event: 'API_CALL_COMPLETED',
+  integration: 'REFERENCE_API',
+  statusCode,
+  durationMs
+});
+```
+
+Never include tokens/authorization headers.
+
+## 10. Incident Learning Loop
+
+```text
+incident
+↓
+triage from logs
+↓
+fix
+↓
+regression test
+↓
+new signal/runbook improvement
+```
