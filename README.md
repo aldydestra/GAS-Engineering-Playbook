@@ -442,8 +442,6 @@ CHANGELOG + Release Notes
 Full repository snapshot
 ```
 
-Do not add new modules just to increase the version number.
-
 See `docs/technology-watch.md`.
 
 ---
@@ -482,10 +480,6 @@ Currently watched public sources include:
 
 - Historical/deprecated: https://github.com/openai/skills
 - Current examples: https://github.com/openai/plugins
-
-Public repositories that can be accessed directly do not need to be re-uploaded.
-
-If a future branch, private repository, skill file, or artifact cannot be retrieved reliably, upload the relevant repository ZIP or `SKILL.md` so it can be reviewed as evidence.
 
 ---
 
