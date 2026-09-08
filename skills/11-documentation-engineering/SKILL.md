@@ -1,10 +1,10 @@
 ---
 name: documentation-engineering
 description: "Experience-driven documentation engineering for Google Apps Script projects, covering README, JSDoc, changelog, release notes, handoff, ADRs, runbooks, ownership, troubleshooting, contribution evidence, documentation lifecycle, and durable knowledge transfer."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.12.0"
 status: "evolving"
-last_repository_update: "v1.13.0"
+last_repository_update: "v1.14.0"
 tags:
   - google-apps-script
   - documentation
@@ -1582,6 +1582,71 @@ Documentation Engineering connects all skills but should not duplicate their tec
 - evidence,
 - history,
 - operating context.
+
+## Capability Expansion Notes — v1.14.0
+
+### Skill Authoring Is Repository Documentation
+
+The playbook now maintains:
+
+```text
+docs/skill-authoring-guide.md
+```
+
+This guide owns:
+
+- when to create a new skill;
+- critical-path vs reference content;
+- external skill adoption;
+- evidence classification;
+- authoring/versioning quality gates.
+
+Documentation Engineering should link to that guide rather than duplicate its full content.
+
+### External Source Status
+
+When documenting an external repository, record whether it is:
+
+```text
+current
+deprecated
+archived
+beta
+historical
+```
+
+A technically useful old document can remain evidence while no longer representing current upstream guidance.
+
+Example from the v1.14.0 audit:
+
+```text
+openai/skills
+→ deprecated historical skill-authoring evidence
+
+openai/plugins
+→ current OpenAI plugin example repository
+```
+
+### Adoption Audit
+
+When multiple external skills are compared, preserve:
+
+```text
+ADOPT
+ADAPT
+REJECT
+WATCH
+```
+
+decisions in a repository audit.
+
+This makes future contributors aware of rejected patterns and reduces the risk of reintroducing them later.
+
+See:
+
+```text
+docs/reference-adoption-audit-v1.14.0.md
+```
 
 # References
 

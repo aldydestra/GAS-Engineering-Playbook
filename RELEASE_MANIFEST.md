@@ -1,27 +1,47 @@
 # Release Manifest
 
-Repository Version: v1.13.0
+Repository Version: v1.14.0
 
 ## Release Type
 
-- Full Foundation Consolidation
+- Post-foundation capability expansion
 - Full repository snapshot
 
-## Primary Changes
+## Foundation / Extension Model
 
-- Rebuilt Skills 01–04 to restore foundation depth.
-- Updated all Skills 01–11 to skill version 1.1.0.
-- Added `docs/technology-watch.md`.
-- Added `docs/foundation-audit-v1.13.0.md`.
-- Expanded `references/evidence-model.md`.
-- Added cross-skill consolidation/freshness guidance.
-- Updated README, CHANGELOG, release notes, and module development guide.
+- Foundation Skills: 01–11
+- Extension Skills: 12–13
 
-## Foundation Status
+## New Skills
 
-- Individual foundation skills: 11 / 11 complete.
-- Individual skill status: evolving.
-- Post-v1.13 development mode: continuous evidence-driven evolution.
+- `12-web-app-frontend-engineering` — skill version 1.0.0
+- `13-ai-agent-integration` — skill version 1.0.0
+
+## Updated Existing Skills
+
+- `06-performance-engineering`: 1.1.0 → 1.1.1
+- `10-deployment-engineering`: 1.1.0 → 1.2.0
+- `11-documentation-engineering`: 1.1.0 → 1.2.0
+
+## New Repository Guidance
+
+- `docs/skill-authoring-guide.md`
+- `docs/reference-adoption-audit-v1.14.0.md`
+
+## New References
+
+- `references/web-app-frontend-patterns.md`
+- `references/ai-agent-integration-patterns.md`
+
+## Sources Audited
+
+- user-provided `mz-google-script-hosting-skill-main.zip`
+- user-provided `gas-best-practices-1.1.0.zip`
+- user-provided `adk-gas-master.zip`
+- `jezweb/claude-skills`
+- deprecated historical `openai/skills`
+- current `openai/plugins`
+- current official Apps Script / Gemini / MCP / A2A documentation
 
 ## Files
 - `CHANGELOG.md`
@@ -37,9 +57,12 @@ Repository Version: v1.13.0
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
+- `docs/reference-adoption-audit-v1.14.0.md`
+- `docs/skill-authoring-guide.md`
 - `docs/technology-watch.md`
 - `docs/testing-strategy-template.md`
 - `examples/.gitkeep`
+- `references/ai-agent-integration-patterns.md`
 - `references/appsheet-migration-patterns.md`
 - `references/database-patterns.md`
 - `references/deployment-engineering-patterns.md`
@@ -54,6 +77,7 @@ Repository Version: v1.13.0
 - `references/security-engineering-patterns.md`
 - `references/software-architecture-patterns.md`
 - `references/testing-quality-patterns.md`
+- `references/web-app-frontend-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`
 - `skills/02-appsheet-migration/SKILL.md`
 - `skills/03-software-architecture/SKILL.md`
@@ -65,3 +89,5 @@ Repository Version: v1.13.0
 - `skills/09-monitoring-observability/SKILL.md`
 - `skills/10-deployment-engineering/SKILL.md`
 - `skills/11-documentation-engineering/SKILL.md`
+- `skills/12-web-app-frontend-engineering/SKILL.md`
+- `skills/13-ai-agent-integration/SKILL.md`

@@ -1,10 +1,10 @@
 ---
 name: performance-engineering
 description: "Experience-driven performance engineering for Google Apps Script, focusing on measurement, service-call reduction, batching, in-memory algorithms, caching, concurrency, long-running job continuation, external I/O, and regression prevention."
-skill_version: "1.1.0"
+skill_version: "1.1.1"
 repository_introduced: "v1.7.0"
 status: "evolving"
-last_repository_update: "v1.13.0"
+last_repository_update: "v1.14.0"
 tags:
   - google-apps-script
   - performance
@@ -949,23 +949,45 @@ Do not send a huge uncontrolled request set merely because `fetchAll()` exists.
 
 ---
 
-# 35. Keep HTTP Timeouts Below Workflow Budget
+# 35. Keep HTTP Timeouts Within the Workflow Budget
 
-Current UrlFetchApp documentation supports `timeoutSeconds`.
-
-A single request should not be allowed to consume the whole Apps Script execution budget.
-
-If the workflow has:
+Current official `UrlFetchApp.fetch()` and `fetchAll()` documentation supports:
 
 ```text
-load
-API
-transform
-Sheet write
-cleanup
+timeoutSeconds
 ```
 
-then API timeout must leave room for the rest.
+as an advanced request parameter.
+
+At the v1.14.0 audit, the documented default is **360 seconds (6 minutes)**.
+
+Do not rely on that default for a multi-phase Apps Script workflow.
+
+Choose a smaller request timeout when the application must retain runtime for:
+
+- response validation,
+- persistence,
+- logging,
+- cleanup,
+- retry/continuation decisions.
+
+Example:
+
+```javascript
+const response = UrlFetchApp.fetch(url, {
+  muteHttpExceptions: true,
+  timeoutSeconds: 20
+});
+```
+
+The correct timeout is workload-specific.
+
+A timeout does not replace:
+
+- fewer/batched requests,
+- upstream service reliability,
+- retry classification,
+- total Apps Script soft time budget.
 
 ---
 
@@ -1654,7 +1676,7 @@ Avoid:
 ## External systems
 
 - [ ] independent HTTP requests considered for `fetchAll`,
-- [ ] API timeout fits workflow budget,
+- [ ] HTTP timeout/remote latency fits the workflow budget,
 - [ ] JDBC N+1 patterns removed,
 - [ ] database filtering/aggregation pushed to SQL where appropriate.
 

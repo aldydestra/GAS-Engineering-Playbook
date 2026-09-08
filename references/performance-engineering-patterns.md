@@ -114,6 +114,10 @@ const responses = UrlFetchApp.fetchAll(
 
 Respect remote API quotas and failure policy.
 
+Current Apps Script reference documentation supports `timeoutSeconds`.
+Choose a value that leaves enough workflow time for processing, persistence,
+logging, and cleanup rather than relying blindly on the documented 360-second default.
+
 ## 8. Soft Time Budget
 
 ```javascript

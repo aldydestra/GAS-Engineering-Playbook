@@ -8,9 +8,15 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 **Foundation complete as of repository v1.13.0.**
 
-The repository now contains 11 individually matured foundation skills plus a full cross-skill consolidation audit.
+Repository v1.14.0 begins the **Capability Expansion** phase.
 
-Individual skills remain `status: evolving` because Apps Script, AppSheet, PostgreSQL, tooling, and real project experience continue to change.
+The repository now contains:
+
+- 11 foundation skills,
+- 2 extension skills,
+- cross-skill evidence, technology-watch, and authoring guidance.
+
+Individual skills remain `status: evolving` because Apps Script, AppSheet, databases, AI protocols, tooling, and real project experience continue to change.
 
 ---
 
@@ -154,7 +160,7 @@ A future `v2.0.0` should represent genuine breaking structure/compatibility chan
 
 ---
 
-# The 11 Skills
+# Foundation Skills 01–11
 
 ## 01 — GAS Core Engineering
 
@@ -333,6 +339,47 @@ Durable engineering knowledge:
 
 ---
 
+
+## Extension Skills
+
+### 12 — Web App & Frontend Engineering
+
+User-facing Apps Script engineering covering:
+
+- HtmlService suitability,
+- iframe sandbox restrictions,
+- `e.pathInfo` routing,
+- templates,
+- asynchronous `google.script.run`,
+- RPC serialization,
+- loading/error UI state,
+- React/Vue/Svelte build artifacts,
+- external frontend decisions,
+- local-preview vs live-GAS verification.
+
+### 13 — AI & Agent Integration
+
+Agentic/LLM application engineering covering:
+
+- provider/model gateways,
+- structured output,
+- function/tool calling,
+- deterministic tool authorization,
+- bounded agent loops,
+- Human-in-the-Loop,
+- prompt-injection boundaries,
+- context/tool-result budgets,
+- MCP,
+- A2A,
+- observability,
+- agent/tool testing.
+
+Extension skills do not change the historical meaning of the v1.13.0 foundation milestone.
+
+They exist because post-foundation evidence demonstrated genuinely new capability domains that could not be cleanly owned by one existing skill.
+
+---
+
 # Cross-Skill Flow
 
 A typical mature workflow may use:
@@ -361,6 +408,10 @@ A typical mature workflow may use:
 
 AppSheet migration enters through Skill 02 and connects to the appropriate target layers.
 
+Web/frontend work enters through Skill 12 when HtmlService or an external frontend boundary is relevant.
+
+AI/agent work enters through Skill 13 when model/tool orchestration is genuinely part of the application.
+
 The skills are complementary, not sequential requirements for every project.
 
 ---
@@ -379,8 +430,10 @@ OR
 Validated open-source/tooling improvement
 OR
 Cross-skill refinement
+OR
+A genuinely missing capability domain
         ↓
-Update owning skill(s)
+Update owning skill(s) or add a justified extension skill
         ↓
 Regression / verification
         ↓
@@ -416,6 +469,19 @@ Currently watched public sources include:
 ### Third-party/open source
 
 - https://github.com/brucemcpherson/gas-fakes
+- https://github.com/tanaikech/adk-gas
+- https://github.com/jezweb/claude-skills
+
+### Agent / protocol sources
+
+- https://ai.google.dev/gemini-api/docs/function-calling
+- https://modelcontextprotocol.io/
+- https://a2a-protocol.org/latest/
+
+### Skill/plugin source watch
+
+- Historical/deprecated: https://github.com/openai/skills
+- Current examples: https://github.com/openai/plugins
 
 Public repositories that can be accessed directly do not need to be re-uploaded.
 
@@ -446,13 +512,17 @@ gas-engineering-playbook/
 │   ├── 08-testing-quality/
 │   ├── 09-monitoring-observability/
 │   ├── 10-deployment-engineering/
-│   └── 11-documentation-engineering/
+│   ├── 11-documentation-engineering/
+│   ├── 12-web-app-frontend-engineering/
+│   └── 13-ai-agent-integration/
 ├── references/
 ├── examples/
 └── docs/
     ├── module-development-guide.md
     ├── technology-watch.md
     ├── foundation-audit-v1.13.0.md
+    ├── reference-adoption-audit-v1.14.0.md
+    ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
     ├── deployment-runbook-template.md
@@ -525,6 +595,17 @@ https://www.postgresql.org/docs/current/
 ## gas-fakes
 
 https://github.com/brucemcpherson/gas-fakes
+
+## Gemini / Agent Protocols
+
+- https://ai.google.dev/gemini-api/docs/function-calling
+- https://modelcontextprotocol.io/
+- https://a2a-protocol.org/latest/
+
+## Skill Authoring Sources
+
+- https://github.com/jezweb/claude-skills
+- https://github.com/openai/plugins
 
 ---
 

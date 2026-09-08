@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-07**
+Last audit: **2026-09-08**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -401,3 +401,292 @@ Review this watchlist when:
 - a watched tool releases a materially relevant version;
 - an existing skill recommendation becomes questionable;
 - before a major foundation/playbook release.
+---
+
+# v1.14.0 Reference Expansion Watch — 2026-09-08
+
+## OpenAI Skills / Plugins
+
+Historical repository:
+
+https://github.com/openai/skills
+
+Current repository:
+
+https://github.com/openai/plugins
+
+Evidence class:
+
+**OpenAI-maintained open source**
+
+Finding:
+
+The `openai/skills` repository now explicitly states it is deprecated and directs users to `openai/plugins` for current Codex skill/plugin examples.
+
+Status: **ADOPTED as source-status rule**
+
+Affected documentation:
+
+- `docs/skill-authoring-guide.md`
+- `docs/reference-adoption-audit-v1.14.0.md`
+
+Synthesis:
+
+- deprecated sources can still provide useful historical design evidence;
+- current upstream structure/requirements must be checked against the replacement source;
+- the playbook does not adopt OpenAI-specific plugin UI metadata as a GAS requirement.
+
+---
+
+## jezweb/claude-skills
+
+Repository:
+
+https://github.com/jezweb/claude-skills
+
+Evidence class:
+
+**Third-party open source**
+
+Last checked: **2026-09-08**
+
+Finding:
+
+Current repository authoring guidance emphasizes:
+
+- tangible skill outcomes;
+- explicit trigger descriptions;
+- critical-path instructions inline in SKILL.md;
+- executable helpers in scripts;
+- optional/variant material in references;
+- no arbitrary small line-count limit when it causes critical instructions to be skipped.
+
+Status: **ADOPTED / ADAPTED**
+
+Synthesis:
+
+```text
+progressive disclosure
++
+critical-path inline
+```
+
+The playbook rejects both extremes:
+
+- one giant undifferentiated skill;
+- tiny skill that hides must-not-miss instructions in optional references.
+
+---
+
+## HtmlService Web-App Capability
+
+Official sources:
+
+- https://developers.google.com/apps-script/guides/html/communication
+- https://developers.google.com/apps-script/guides/html/restrictions
+- https://developers.google.com/apps-script/guides/html/best-practices
+- https://developers.google.com/apps-script/guides/web
+- https://developers.google.com/apps-script/guides/support/troubleshooting
+
+Evidence class:
+
+**Official platform documentation**
+
+Last checked: **2026-09-08**
+
+Findings:
+
+- `google.script.run` is asynchronous;
+- up to 10 concurrent server calls are documented before additional calls are delayed;
+- RPC values exclude `Date`, functions, most DOM elements, and circular structures;
+- `e.pathInfo` supports application-managed web-app path routing;
+- HtmlService uses an iframe sandbox;
+- sensitive permission APIs such as `getUserMedia()` may be blocked;
+- Google recommends moving restricted media-capture behavior to an external domain when needed.
+
+Status: **ADOPTED**
+
+Affected skill:
+
+- Skill 12 — Web App & Frontend Engineering.
+
+---
+
+## `UrlFetchApp` Request Timeout Option
+
+Official source:
+
+https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app
+
+Evidence class:
+
+**Official platform documentation**
+
+Last checked: **2026-09-08**
+
+Finding:
+
+Current official documentation lists `timeoutSeconds` as an advanced parameter for
+`UrlFetchApp.fetch()` and request objects used by `fetchAll()`.
+
+Audit snapshot:
+
+```text
+default timeoutSeconds = 360
+```
+
+Status: **VERIFIED / ADOPTED**
+
+Affected:
+
+- Skill 06 Performance Engineering `1.1.1`
+- `references/performance-engineering-patterns.md`
+
+Synthesis:
+
+- use the documented timeout control when useful;
+- reject stale fixed "~60 second" assumptions;
+- choose a timeout that leaves enough Apps Script runtime for the rest of the workflow;
+- re-verify future documentation because runtime/network behavior can evolve.
+
+---
+
+## ADK-GAS
+
+User-provided archive:
+
+`adk-gas-master.zip`
+
+Public repository:
+
+https://github.com/tanaikech/adk-gas
+
+Evidence class:
+
+**Third-party open source + user-provided implementation evidence**
+
+Last checked: **2026-09-08**
+
+Finding:
+
+Current project demonstrates agent orchestration inside GAS including:
+
+- Gemini;
+- tool/function calling;
+- MCP;
+- A2A;
+- sub-agents;
+- Agent Skills;
+- Human-in-the-Loop;
+- hooks;
+- runtime/token safeguards.
+
+Status: **ADOPTED as new capability domain**
+
+Affected:
+
+- Skill 13 — AI & Agent Integration.
+
+Framework-specific APIs remain implementation evidence, not generic playbook contracts.
+
+---
+
+## Gemini Function Calling
+
+Source:
+
+https://ai.google.dev/gemini-api/docs/function-calling
+
+Evidence class:
+
+**Official provider documentation**
+
+Last checked: **2026-09-08**
+
+Finding:
+
+Current Gemini documentation defines function calling as:
+
+```text
+application declares tools
+↓
+model proposes function + arguments
+↓
+application executes tool
+↓
+result returns to model
+```
+
+Status: **ADOPTED**
+
+Key playbook rule:
+
+> The model proposes; the application validates, authorizes, and executes.
+
+---
+
+## MCP
+
+Current source:
+
+https://modelcontextprotocol.io/
+
+Release source:
+
+https://blog.modelcontextprotocol.io/posts/2026-07-28/
+
+Evidence class:
+
+**Official protocol documentation**
+
+Snapshot:
+
+```text
+specification: 2026-07-28
+```
+
+Current release highlights include:
+
+- stateless protocol core;
+- routable/cacheable capability results;
+- authorization hardening;
+- formal extension/deprecation model.
+
+Status: **WATCH + architecture ADOPTED**
+
+Permanent playbook rule:
+
+```text
+MCP = agent-to-tool/resource interoperability
+```
+
+Version-specific wire/auth requirements remain in technology watch and must be re-verified during implementation.
+
+---
+
+## A2A
+
+Source:
+
+https://a2a-protocol.org/latest/
+
+Evidence class:
+
+**Official protocol documentation**
+
+Last checked: **2026-09-08**
+
+Current site exposes A2A v1.0 documentation and explicitly distinguishes:
+
+```text
+MCP → agent-to-tool
+A2A → agent-to-agent
+```
+
+Status: **WATCH + architecture ADOPTED**
+
+Affected:
+
+- Skill 13.
+
+Do not use A2A for ordinary local sub-agent/function calls when a network interoperability boundary is unnecessary.

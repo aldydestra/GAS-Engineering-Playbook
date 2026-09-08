@@ -3,6 +3,226 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.14.0] - 2026-09-08
+
+### Capability Expansion
+
+This release is the first post-foundation capability expansion after v1.13.0.
+
+The original Foundation remains Skills 01–11.
+
+Two genuinely missing domains are added as extension skills:
+
+- Skill 12 — Web App & Frontend Engineering
+- Skill 13 — AI & Agent Integration
+
+### Added — Skill 12 Web App & Frontend Engineering
+
+Added practical HtmlService/frontend guidance covering:
+
+- HtmlService suitability triage,
+- frontend vs backend suitability as separate decisions,
+- iframe sandbox restrictions,
+- restricted camera/microphone capability handling,
+- `e.pathInfo` application routing,
+- templates and safe contextual output,
+- asynchronous `google.script.run`,
+- current 10-concurrent-call behavior,
+- RPC serialization restrictions,
+- Promise RPC wrapper,
+- initial view-model bundling,
+- query vs command RPC,
+- loading/error UI state,
+- form/file upload boundaries,
+- React/Vue/Svelte build → deployable HtmlService artifact,
+- client-secret prohibition,
+- external frontend decision model,
+- server-side proxy/gateway pattern,
+- dynamic UI options,
+- debouncing/pagination,
+- local preview vs live GAS verification,
+- visible application version,
+- frontend-specific release checklist.
+
+### Added — Skill 13 AI & Agent Integration
+
+Added provider-neutral agent engineering guidance covering:
+
+- LLM provider/model gateway boundary,
+- structured output vs tool calling,
+- deterministic tool registry,
+- read/write/destructive tool classification,
+- application-owned authorization,
+- prompt-injection boundary,
+- least-privilege Workspace tools,
+- Human-in-the-Loop approval,
+- suspend/resume state,
+- bounded turns/tool calls/time/context,
+- tool-result projection,
+- context/result size budgets,
+- idempotent side effects,
+- model/tool error categories,
+- MCP architecture,
+- A2A architecture,
+- remote agent/tool trust boundaries,
+- skill trust levels,
+- deterministic guardrail hooks,
+- privacy/data minimization,
+- agent-run observability,
+- cost/quota safeguards,
+- retrieval provenance,
+- testing/evaluation,
+- rollback/feature flags.
+
+### Added — Supporting References
+
+- `references/web-app-frontend-patterns.md`
+- `references/ai-agent-integration-patterns.md`
+
+### Added — Skill Authoring Standard
+
+Added:
+
+- `docs/skill-authoring-guide.md`
+
+The guide synthesizes lessons from:
+
+- the playbook's own development,
+- user-provided skill repositories,
+- `jezweb/claude-skills`,
+- historical OpenAI skill-creator guidance,
+- current `openai/plugins` source direction.
+
+Key authoring rule:
+
+```text
+progressive disclosure
++
+critical-path instructions inline
+```
+
+No arbitrary skill line-count dogma is imposed.
+
+### Added — Reference Adoption Audit
+
+Added:
+
+- `docs/reference-adoption-audit-v1.14.0.md`
+
+The audit records:
+
+```text
+ADOPT
+ADAPT
+REJECT
+WATCH
+```
+
+decisions for the supplied repositories and public skill sources.
+
+### Improved — Performance Engineering
+
+Skill 06:
+
+```text
+1.1.0 → 1.1.1
+```
+
+Re-verified `UrlFetchApp.timeoutSeconds` against the current official reference.
+
+Current documentation supports the parameter for `fetch()` and `fetchAll()` request objects and currently documents a 360-second default.
+
+The release rejects stale fixed-timeout assumptions and strengthens guidance to choose timeouts within the total workflow budget.
+
+### Improved — Deployment Engineering
+
+Skill 10:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added:
+
+- `.claspignore` deployment hygiene,
+- visible non-secret application version,
+- frontend build-artifact/reproducibility guidance.
+
+### Improved — Documentation Engineering
+
+Skill 11:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added:
+
+- skill-authoring-guide ownership,
+- external-source status/deprecation awareness,
+- adoption-audit lifecycle.
+
+### Updated — Technology Watch
+
+Added current watch/evidence for:
+
+- `openai/skills` deprecation → `openai/plugins`,
+- `jezweb/claude-skills`,
+- HtmlService RPC/routing/sandbox behavior,
+- UrlFetch timeout correction,
+- ADK-GAS,
+- Gemini function calling,
+- MCP current specification line,
+- A2A current protocol line.
+
+### Source Audit Decisions
+
+#### Adopted / Adapted
+
+- frontend suitability triage,
+- framework-to-HtmlService build flow,
+- Promise RPC pattern,
+- loading/error UI patterns,
+- `.claspignore`,
+- visible app version,
+- critical-path-inline skill authoring,
+- progressive disclosure,
+- degrees of freedom,
+- agent tool calling,
+- HITL,
+- MCP/A2A boundaries,
+- time/context/tool-call budgets.
+
+#### Rejected
+
+- "Apps Script serves exactly one page / has no routes",
+- "PostgreSQL automatically means GAS is the wrong backend",
+- client-supplied identity/role as authentication,
+- custom password/session authentication as the default,
+- universal mandatory `Result<T>` envelope for every RPC function,
+- stale fixed `UrlFetchApp` timeout assumptions,
+- third-party agent framework classes as universal GAS standards.
+
+### Repository Model
+
+v1.14.0 establishes:
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–13
+```
+
+Future extension skills require the new-skill threshold in `docs/skill-authoring-guide.md`.
+
+### Compatibility
+
+No intentional breaking change to Skills 01–11.
+
+New capabilities are additive.
+
+---
+
+
 ## [v1.13.0] - 2026-09-07
 
 ### Full Foundation Consolidation

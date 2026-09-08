@@ -175,3 +175,39 @@ Documentation contributions should identify:
 - security/privacy impact.
 
 Prefer linking to an authoritative existing skill over copying the same rule into several documents.
+## Proposing a New Skill
+
+Do not create a new numbered skill only because an external repository has a similarly named skill.
+
+A new skill proposal should explain:
+
+- what capability is missing from the current playbook,
+- why an existing skill cannot own it cleanly,
+- evidence sources,
+- representative tasks,
+- important failure modes,
+- cross-skill dependencies,
+- expected future evolution.
+
+Post-foundation additions are **extension skills**, not new foundation milestones.
+
+## Adopting External Skills / Repositories
+
+When contributing knowledge from another repository, classify each meaningful pattern as:
+
+- `ADOPT`
+- `ADAPT`
+- `REJECT`
+- `WATCH`
+
+Do not copy an external skill wholesale.
+
+Verify current platform claims against authoritative documentation, especially for:
+
+- Apps Script runtime/API behavior,
+- OAuth/security,
+- quotas,
+- AppSheet semantics,
+- AI protocols/tool versions.
+
+Provider/framework-specific class names should normally be generalized unless the contribution is explicitly provider-specific.

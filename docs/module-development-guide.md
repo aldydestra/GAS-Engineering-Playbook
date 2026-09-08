@@ -131,3 +131,45 @@ release meaningful milestone
 A release may update one skill or several skills.
 
 Tool versions and beta features should normally be recorded first in `technology-watch.md` and promoted into normative guidance only after evaluation.
+## Extension Skill Rule
+
+The v1.13.0 foundation consists of Skills 01–11.
+
+After foundation completion, a genuinely new domain can be added as an **extension skill** when it passes the new-skill threshold:
+
+- capability is genuinely missing,
+- several reusable sub-problems exist,
+- the domain has a clear boundary,
+- one existing skill cannot own it cleanly,
+- evidence and failure modes are substantial,
+- the capability is likely to evolve independently.
+
+A new external repository or new terminology is not enough by itself.
+
+See:
+
+`docs/skill-authoring-guide.md`
+
+## External Reference Adoption
+
+Use:
+
+```text
+read
+↓
+compare against current playbook
+↓
+verify platform claims
+↓
+ADOPT / ADAPT / REJECT / WATCH
+↓
+update owning skill or add justified extension
+↓
+document the decision
+```
+
+For multi-source audits, create a concise adoption record so rejected/outdated patterns are not reintroduced later.
+
+Current example:
+
+`docs/reference-adoption-audit-v1.14.0.md`
