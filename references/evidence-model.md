@@ -278,3 +278,31 @@ A reproducible contradiction between official docs and real behavior should be d
 Not every contribution needs every evidence class.
 
 Use only sources that materially support the recommendation.
+## Official Machine-Readable Documentation Retrieval
+
+For Google developer documentation, the Developer Knowledge API/MCP server can be used as a structured retrieval layer.
+
+It can strengthen evidence collection by exposing:
+
+- official document/chunk search;
+- source URI;
+- data source;
+- update time;
+- relevance score;
+- grounded answer references.
+
+This improves discovery and freshness checks.
+
+It does **not** change evidence authority:
+
+```text
+grounded synthesis
+↓
+underlying official document
+↓
+repository interpretation
+```
+
+For normative claims, preserve or inspect the underlying official document.
+
+See `references/developer-knowledge-grounding-patterns.md`.

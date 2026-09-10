@@ -942,7 +942,77 @@ This loop is the core maintenance model for the playbook.
 
 ---
 
-# 37. Source References
+
+# 38. Official Google Documentation Grounding
+
+For Google-platform claims, the playbook can now use the Developer Knowledge API/MCP server as a structured discovery source.
+
+Recommended flow:
+
+```text
+claim to verify
+↓
+search_documents / SearchDocumentChunks
+↓
+inspect dataSource + updateTime + URI
+↓
+retrieve underlying document
+↓
+compare with current skill
+```
+
+Use `answer_query` for grounded synthesis, but prefer the underlying official document for normative wording.
+
+This is especially useful for:
+
+- scheduled technology-watch audits;
+- deprecation checks;
+- runtime/API capability checks;
+- current release-note discovery.
+
+Do not automatically rewrite a skill from search results.
+
+Every candidate finding still needs:
+
+```text
+source classification
+↓
+materiality
+↓
+ADOPT / ADAPT / CORRECT / WATCH / NO ACTION
+```
+
+See `references/developer-knowledge-grounding-patterns.md`.
+
+---
+
+# 39. Current-Source vs Historical-Source Separation
+
+If a tool/repository has conflicting current surfaces, record the conflict instead of inventing certainty.
+
+Example from the v1.15.0 audit:
+
+```text
+clasp package metadata
+→ one Node engine floor
+
+clasp published README
+→ different Node recommendation
+```
+
+The correct playbook response is:
+
+```text
+tool snapshot + inconsistency note
+↓
+project pins verified working toolchain
+```
+
+not a fabricated universal requirement.
+
+---
+
+# 40. Source References
 
 ## OpenAI
 

@@ -8,13 +8,13 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 **Foundation complete as of repository v1.13.0.**
 
-Repository v1.14.0 begins the **Capability Expansion** phase.
+Repository v1.14.0 began the **Capability Expansion** phase, and v1.15.0 continues it with a new Workspace-native extension domain.
 
 The repository now contains:
 
 - 11 foundation skills,
-- 2 extension skills,
-- cross-skill evidence, technology-watch, and authoring guidance.
+- 3 extension skills,
+- cross-skill evidence, technology-watch, source-refresh, and authoring guidance.
 
 Individual skills remain `status: evolving` because Apps Script, AppSheet, databases, AI protocols, tooling, and real project experience continue to change.
 
@@ -153,6 +153,13 @@ last_repository_update: "v1.13.0"
 | v1.11.0 | Skill 10 — Deployment Engineering |
 | v1.12.0 | Skill 11 — Documentation Engineering |
 | **v1.13.0** | **Full Foundation Consolidation** |
+
+### Post-Foundation Capability Releases
+
+| Repository Release | Milestone |
+|---|---|
+| v1.14.0 | Web App/Frontend + AI/Agent extension skills; skill-authoring standard |
+| **v1.15.0** | **Workspace Add-ons/Chat extension + official Developer Knowledge grounding refresh** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -371,8 +378,25 @@ Agentic/LLM application engineering covering:
 - context/tool-result budgets,
 - MCP,
 - A2A,
+- managed external agent runtimes,
+- official developer-documentation grounding,
 - observability,
 - agent/tool testing.
+
+### 14 — Workspace Add-ons & Chat App Engineering
+
+Workspace-native application engineering covering:
+
+- CardService UI,
+- host manifests,
+- contextual/non-contextual cards,
+- manifest triggers,
+- card navigation/actions,
+- Google Chat responses,
+- add-on OAuth and URL allowlists,
+- host-specific testing,
+- internal/public distribution,
+- AI-agent integration through Apps Script as the Workspace shell.
 
 Extension skills do not change the historical meaning of the v1.13.0 foundation milestone.
 
@@ -412,6 +436,8 @@ Web/frontend work enters through Skill 12 when HtmlService or an external fronte
 
 AI/agent work enters through Skill 13 when model/tool orchestration is genuinely part of the application.
 
+Workspace add-on and Google Chat card-based work enters through Skill 14.
+
 The skills are complementary, not sequential requirements for every project.
 
 ---
@@ -442,6 +468,8 @@ CHANGELOG + Release Notes
 Full repository snapshot
 ```
 
+Do not add new modules just to increase the version number.
+
 See `docs/technology-watch.md`.
 
 ---
@@ -456,6 +484,8 @@ Currently watched public sources include:
 - Apps Script V8/runtime
 - Apps Script quotas
 - Apps Script API/deployment/logging
+- Google Workspace add-ons and Chat
+- Google Developer Knowledge API/MCP
 - AppSheet security/performance/data processing
 - PostgreSQL current documentation
 
@@ -480,6 +510,10 @@ Currently watched public sources include:
 
 - Historical/deprecated: https://github.com/openai/skills
 - Current examples: https://github.com/openai/plugins
+
+Public repositories that can be accessed directly do not need to be re-uploaded.
+
+If a future branch, private repository, skill file, or artifact cannot be retrieved reliably, upload the relevant repository ZIP or `SKILL.md` so it can be reviewed as evidence.
 
 ---
 
@@ -508,7 +542,8 @@ gas-engineering-playbook/
 │   ├── 10-deployment-engineering/
 │   ├── 11-documentation-engineering/
 │   ├── 12-web-app-frontend-engineering/
-│   └── 13-ai-agent-integration/
+│   ├── 13-ai-agent-integration/
+│   └── 14-workspace-addons-chat-engineering/
 ├── references/
 ├── examples/
 └── docs/
@@ -516,6 +551,7 @@ gas-engineering-playbook/
     ├── technology-watch.md
     ├── foundation-audit-v1.13.0.md
     ├── reference-adoption-audit-v1.14.0.md
+    ├── daily-source-refresh-audit-v1.15.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
@@ -595,6 +631,14 @@ https://github.com/brucemcpherson/gas-fakes
 - https://ai.google.dev/gemini-api/docs/function-calling
 - https://modelcontextprotocol.io/
 - https://a2a-protocol.org/latest/
+
+## Developer Knowledge
+
+https://developers.google.com/knowledge
+
+## Google Workspace Add-ons
+
+https://developers.google.com/workspace/add-ons
 
 ## Skill Authoring Sources
 

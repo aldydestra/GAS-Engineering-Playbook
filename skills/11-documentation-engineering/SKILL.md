@@ -1,10 +1,10 @@
 ---
 name: documentation-engineering
 description: "Experience-driven documentation engineering for Google Apps Script projects, covering README, JSDoc, changelog, release notes, handoff, ADRs, runbooks, ownership, troubleshooting, contribution evidence, documentation lifecycle, and durable knowledge transfer."
-skill_version: "1.2.0"
+skill_version: "1.3.0"
 repository_introduced: "v1.12.0"
 status: "evolving"
-last_repository_update: "v1.14.0"
+last_repository_update: "v1.15.0"
 tags:
   - google-apps-script
   - documentation
@@ -1648,6 +1648,77 @@ See:
 docs/reference-adoption-audit-v1.14.0.md
 ```
 
+## Documentation Grounding Update — v1.15.0
+
+### Official Documentation Can Be Queried as Data
+
+Google's Developer Knowledge API/MCP server provides an official machine-readable corpus for public Google developer documentation.
+
+For documentation maintenance, this enables:
+
+```text
+known claim
+↓
+query/search official corpus
+↓
+filter by source/update time
+↓
+retrieve current document
+↓
+compare with repository claim
+↓
+update / retain / deprecate
+```
+
+This is useful for technology watch and skill refresh workflows.
+
+### Prefer Underlying Sources for Normative Claims
+
+A grounded synthesized answer is useful for discovery.
+
+For normative repository statements such as:
+
+```text
+API supports X
+quota is Y
+feature is GA
+method is deprecated
+```
+
+retrieve and preserve the underlying official document/release note whenever practical.
+
+The synthesis layer is not the final authority.
+
+### Freshness Metadata
+
+When available, use:
+
+- document URI;
+- data source;
+- update time;
+- relevance score.
+
+This makes future audits more reproducible.
+
+### Documentation Retrieval Boundary
+
+Developer Knowledge only covers supported public Google developer-documentation domains.
+
+It does not replace:
+
+- project-uploaded files;
+- private repository review;
+- third-party library docs;
+- community evidence;
+- live runtime verification.
+
+Use the evidence model to combine sources.
+
+See:
+
+- `references/developer-knowledge-grounding-patterns.md`
+- `docs/technology-watch.md`
+
 # References
 
 ## Official Google Apps Script
@@ -1684,3 +1755,14 @@ docs/reference-adoption-audit-v1.14.0.md
   https://github.com/adr/madr
 
 These are documentation conventions and examples, not Apps Script platform specifications.
+
+## Official Grounding References — v1.15.0
+
+- Developer Knowledge release notes  
+  https://developers.google.com/knowledge/release-notes
+
+- Developer Knowledge MCP  
+  https://developers.google.com/knowledge/mcp
+
+- Developer Knowledge corpus  
+  https://developers.google.com/knowledge/reference/corpus-reference

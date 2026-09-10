@@ -1,47 +1,48 @@
 # Release Manifest
 
-Repository Version: v1.14.0
+Repository Version: v1.15.0
 
 ## Release Type
 
 - Post-foundation capability expansion
+- Daily/current-source technology refresh
 - Full repository snapshot
 
-## Foundation / Extension Model
+## Repository Model
 
 - Foundation Skills: 01–11
-- Extension Skills: 12–13
+- Extension Skills: 12–14
 
-## New Skills
+## New Skill
 
-- `12-web-app-frontend-engineering` — skill version 1.0.0
-- `13-ai-agent-integration` — skill version 1.0.0
+- `14-workspace-addons-chat-engineering` — 1.0.0
 
-## Updated Existing Skills
+## Updated Skills
 
-- `06-performance-engineering`: 1.1.0 → 1.1.1
-- `10-deployment-engineering`: 1.1.0 → 1.2.0
-- `11-documentation-engineering`: 1.1.0 → 1.2.0
+- `10-deployment-engineering`: 1.2.0 → 1.2.1
+- `11-documentation-engineering`: 1.2.0 → 1.3.0
+- `13-ai-agent-integration`: 1.0.0 → 1.1.0
 
-## New Repository Guidance
+## Metadata Fix
 
-- `docs/skill-authoring-guide.md`
-- `docs/reference-adoption-audit-v1.14.0.md`
+- Skill 10 `repository_introduced`: `vX.Y.Z` → `v1.11.0`
 
-## New References
+## New References / Audit
 
-- `references/web-app-frontend-patterns.md`
-- `references/ai-agent-integration-patterns.md`
+- `references/workspace-addons-chat-patterns.md`
+- `references/developer-knowledge-grounding-patterns.md`
+- `docs/daily-source-refresh-audit-v1.15.0.md`
 
-## Sources Audited
+## Primary Current Sources
 
-- user-provided `mz-google-script-hosting-skill-main.zip`
-- user-provided `gas-best-practices-1.1.0.zip`
-- user-provided `adk-gas-master.zip`
-- `jezweb/claude-skills`
-- deprecated historical `openai/skills`
-- current `openai/plugins`
-- current official Apps Script / Gemini / MCP / A2A documentation
+- Apps Script release notes
+- Google Workspace developer release notes
+- Google Developer Knowledge API/MCP
+- Google Workspace add-ons / Chat docs
+- `google/clasp`
+- `googleworkspace/apps-script-samples`
+- `brucemcpherson/gas-fakes`
+- `tanaikech/adk-gas`
 
 ## Files
 - `CHANGELOG.md`
@@ -52,6 +53,7 @@ Repository Version: v1.14.0
 - `README.md`
 - `SECURITY.md`
 - `docs/adr-template.md`
+- `docs/daily-source-refresh-audit-v1.15.0.md`
 - `docs/deployment-runbook-template.md`
 - `docs/foundation-audit-v1.13.0.md`
 - `docs/handoff-template.md`
@@ -66,6 +68,7 @@ Repository Version: v1.14.0
 - `references/appsheet-migration-patterns.md`
 - `references/database-patterns.md`
 - `references/deployment-engineering-patterns.md`
+- `references/developer-knowledge-grounding-patterns.md`
 - `references/documentation-engineering-patterns.md`
 - `references/evidence-model.md`
 - `references/gas-patterns.md`
@@ -78,6 +81,7 @@ Repository Version: v1.14.0
 - `references/software-architecture-patterns.md`
 - `references/testing-quality-patterns.md`
 - `references/web-app-frontend-patterns.md`
+- `references/workspace-addons-chat-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`
 - `skills/02-appsheet-migration/SKILL.md`
 - `skills/03-software-architecture/SKILL.md`
@@ -91,3 +95,4 @@ Repository Version: v1.14.0
 - `skills/11-documentation-engineering/SKILL.md`
 - `skills/12-web-app-frontend-engineering/SKILL.md`
 - `skills/13-ai-agent-integration/SKILL.md`
+- `skills/14-workspace-addons-chat-engineering/SKILL.md`

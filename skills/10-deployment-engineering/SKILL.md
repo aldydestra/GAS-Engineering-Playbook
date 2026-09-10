@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Experience-driven deployment engineering for Google Apps Script, covering environments, immutable versions, versioned deployments, manifests, ownership, release gates, rollback, hotfixes, clasp/API automation, GitHub releases, and post-deploy verification."
-skill_version: "1.2.0"
-repository_introduced: "vX.Y.Z"
+skill_version: "1.2.1"
+repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.14.0"
+last_repository_update: "v1.15.0"
 tags:
   - google-apps-script
   - deployment
@@ -1631,6 +1631,83 @@ Do not manually edit the compiled production bundle as the authoritative source.
 
 See Skill 12 — Web App & Frontend Engineering.
 
+## Tooling Refresh — v1.15.0
+
+### `clasp` Current Snapshot
+
+At the September 10, 2026 audit:
+
+```text
+@google/clasp package version = 3.4.1
+```
+
+This supersedes the v1.14.0 technology-watch snapshot of 3.3.0.
+
+Current public `clasp` documentation also exposes integration as:
+
+- a Gemini CLI extension;
+- a Claude Code plugin/MCP server;
+- the ordinary command-line tool.
+
+Treat these integrations as developer-tool conveniences, not Apps Script platform requirements.
+
+### TypeScript Build Boundary
+
+Current `clasp` 3.x documentation states that `clasp` no longer transpiles TypeScript.
+
+For TypeScript/ESM/NPM projects:
+
+```text
+TypeScript / modules / packages
+↓
+bundler/transpiler
+↓
+Apps Script-compatible JavaScript
+↓
+clasp push
+```
+
+This is especially relevant to Skill 12 frontend/build workflows.
+
+Do not expect `clasp push` to perform a production TypeScript build.
+
+### Upstream Node Requirement Inconsistency
+
+During this audit, current upstream surfaces are inconsistent:
+
+```text
+package.json engines
+→ Node >=20
+
+npm README troubleshooting
+→ Node >=22
+```
+
+Do not encode one of these as a permanent playbook rule.
+
+For CI/developer setup:
+
+1. check the current published package metadata;
+2. check current release/readme guidance;
+3. run the actual supported-version test;
+4. pin the chosen toolchain in the project.
+
+The inconsistency itself belongs in technology watch until upstream converges.
+
+### Security-Relevant Tooling Changes
+
+Recent `clasp` repository activity includes fixes around:
+
+- local path traversal/symlink safety;
+- credential-file path handling;
+- push/config validation.
+
+General rule:
+
+> Keep deployment tooling updated when releases include security or target-integrity fixes, but validate the upgrade in TEST before changing production CI.
+
+Do not treat a CLI security fix as evidence that Apps Script itself had the same vulnerability.
+
 # References
 
 ## Official Google Apps Script
@@ -1675,3 +1752,11 @@ See Skill 12 — Web App & Frontend Engineering.
   https://github.com/google/clasp/issues/1115
 
 Use community/tooling issues to discover workflow gaps; verify platform capabilities in official Apps Script documentation.
+
+## Current Tooling Reference — v1.15.0
+
+- `clasp` npm package  
+  https://www.npmjs.com/package/@google/clasp
+
+- `clasp` repository  
+  https://github.com/google/clasp

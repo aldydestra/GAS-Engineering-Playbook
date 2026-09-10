@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-08**
+Last audit: **2026-09-10**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -690,3 +690,377 @@ Affected:
 - Skill 13.
 
 Do not use A2A for ordinary local sub-agent/function calls when a network interoperability boundary is unnecessary.
+---
+
+# v1.15.0 Daily Refresh — 2026-09-10
+
+## Apps Script Release Notes
+
+Source:
+
+https://developers.google.com/apps-script/release-notes
+
+Evidence class: **Official platform documentation**
+
+Last checked: **2026-09-10**
+
+Latest Apps Script-specific entry found:
+
+```text
+2026-08-03 — Gemini side panel Beta
+```
+
+No newer Apps Script-specific release-note entry was found during this audit.
+
+Status: **NO NEW CORE RUNTIME CHANGE**
+
+Decision:
+
+- retain current V8/quota/runtime guidance;
+- keep Gemini IDE panel as WATCH/Beta.
+
+---
+
+## Google Developer Knowledge API / MCP
+
+Sources:
+
+- https://developers.google.com/knowledge/release-notes
+- https://developers.google.com/knowledge/mcp
+- https://developers.google.com/knowledge/howto
+- https://developers.google.com/knowledge/reference/corpus-reference
+
+Evidence class: **Official Google developer platform documentation**
+
+Last checked: **2026-09-10**
+
+### September 9, 2026 update
+
+New beta gcloud commands are available:
+
+```text
+gcloud beta developer-knowledge answer-query
+gcloud beta developer-knowledge documents describe
+gcloud beta developer-knowledge documents search-chunks
+```
+
+The underlying Developer Knowledge API and MCP server have been GA since April 16, 2026.
+
+Current documented MCP tools:
+
+```text
+search_documents
+get_documents
+answer_query
+```
+
+Current corpus metadata includes:
+
+- `dataSource`;
+- `updateTime`;
+- document URI;
+- chunk relevance scores.
+
+Corpus freshness goal:
+
+```text
+new/updated docs re-indexed within ~2 business days
+```
+
+Known boundary:
+
+- public docs only;
+- English corpus;
+- network dependency.
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 11 Documentation Engineering;
+- Skill 13 AI & Agent Integration;
+- `docs/skill-authoring-guide.md`;
+- `references/developer-knowledge-grounding-patterns.md`.
+
+Key rule:
+
+> Use grounded synthesis for discovery, but retrieve the underlying official document for normative platform claims.
+
+---
+
+## Google Workspace Developer Release Notes
+
+Source:
+
+https://developers.google.com/workspace/release-notes
+
+Evidence class: **Official platform documentation**
+
+Last checked: **2026-09-10**
+
+Latest relevant entry found:
+
+```text
+2026-09-02 — Drive API v3 files.copy copyComments parameter GA
+```
+
+Status: **WATCH / NO SKILL CHANGE YET**
+
+Reason:
+
+This is a useful Drive API feature, but it does not currently justify a new domain or broad GAS best-practice change.
+
+Potential future recipe:
+
+```text
+copy Google Workspace file
++
+optionally preserve open comments/suggestions
+```
+
+Revisit if Drive document-copy automation becomes a repeated project requirement.
+
+---
+
+## Google Sheets Product Update
+
+Source:
+
+https://workspaceupdates.googleblog.com/2026/09/create-and-edit-calculated-fields-in-Google-Sheets-pivot-tables-with-an-improved-editor.html
+
+Evidence class: **Official Google Workspace product update**
+
+Published: **2026-09-09**
+
+Finding:
+
+Google Sheets now has an improved calculated-field editor for pivot tables with:
+
+- dedicated formula editor;
+- field-selection menus;
+- real-time formula validation.
+
+Status: **WATCH / NO GAS API RULE**
+
+Reason:
+
+This is currently a Sheets end-user UI capability, not evidence of a new Apps Script API.
+
+Do not infer API support from a UI announcement.
+
+---
+
+## `google/clasp`
+
+Sources:
+
+- https://www.npmjs.com/package/@google/clasp
+- https://github.com/google/clasp
+- https://github.com/google/clasp/blob/master/package.json
+
+Evidence class: **Google-maintained open source**
+
+Last checked: **2026-09-10**
+
+Current package snapshot:
+
+```text
+@google/clasp = 3.4.1
+```
+
+Current public docs also describe:
+
+- Gemini CLI extension installation;
+- Claude Code plugin/MCP integration;
+- `clasp` 3.x no longer transpiling TypeScript;
+- bundler/transpiler requirement for TS/ESM/NPM projects.
+
+### Upstream Node-version inconsistency
+
+Observed current surfaces:
+
+```text
+package.json engines → >=20
+published README troubleshooting → >=22
+```
+
+Status: **TOOL SNAPSHOT + UPSTREAM INCONSISTENCY**
+
+Decision:
+
+- do not hardcode one Node requirement as a permanent playbook fact;
+- pin and test the project toolchain;
+- check current package metadata/release docs during CI upgrades.
+
+Affected:
+
+- Skill 10 Deployment Engineering `1.2.1`.
+
+---
+
+## Google Workspace Add-ons / Chat Apps
+
+Sources:
+
+- https://developers.google.com/workspace/add-ons
+- https://developers.google.com/workspace/add-ons/how-tos/building-workspace-addons
+- https://developers.google.com/workspace/add-ons/concepts/workspace-triggers
+- https://developers.google.com/apps-script/reference/card-service
+- https://developers.google.com/apps-script/reference/add-ons-response-service
+
+Evidence class: **Official platform documentation**
+
+Last checked: **2026-09-10**
+
+Findings:
+
+- Workspace add-ons use card-based interfaces;
+- Apps Script uses `CardService`;
+- manifest triggers are distinct from simple/installable triggers;
+- Workspace add-ons cannot use simple triggers for their add-on trigger model;
+- manifest triggers cannot be created/modified through Apps Script Script service;
+- `AddOnsResponseService` is GA for interactive Chat-extension responses;
+- current docs include AI-agent Chat add-on quickstarts.
+
+Status: **ADOPTED AS NEW EXTENSION DOMAIN**
+
+Affected:
+
+- Skill 14 — Workspace Add-ons & Chat App Engineering `1.0.0`.
+
+---
+
+## Workspace AI Agent Integration
+
+Current official Apps Script/Workspace developer pages include quickstarts for:
+
+```text
+Vertex AI advanced service
+ADK agent
+A2A agent
+A2UI agent
+Gemini Enterprise agent
+```
+
+Status: **ADOPTED / WATCH BY MATURITY**
+
+Architecture adopted:
+
+```text
+Workspace UI
+↓
+Apps Script integration shell
+↓
+managed external agent runtime
+```
+
+This complements in-process GAS agent orchestration.
+
+Affected:
+
+- Skill 13 `1.1.0`;
+- Skill 14 `1.0.0`.
+
+---
+
+## A2UI
+
+Source:
+
+https://developers.google.com/workspace/add-ons/chat/quickstart-a2ui-agent
+
+Evidence class: **Official Google preview documentation**
+
+Current maturity:
+
+```text
+Early Stage Public Preview
+```
+
+Status: **WATCH**
+
+Decision:
+
+- document the architecture;
+- do not use A2UI as the default production card UI;
+- re-evaluate when maturity/stability changes.
+
+---
+
+## `googleworkspace/apps-script-samples`
+
+Repository:
+
+https://github.com/googleworkspace/apps-script-samples
+
+Evidence class: **Google-maintained open source**
+
+Last checked: **2026-09-10**
+
+Current repository still documents:
+
+- `pnpm lint`;
+- TypeScript-based `.gs` checks using JSDoc;
+- CI workflows.
+
+Repository also now visibly contains AI-related areas and agent-oriented repository guidance.
+
+Status: **NO NEW NORMATIVE CHANGE**
+
+Current static-analysis lesson remains valid.
+
+---
+
+## `gas-fakes`
+
+Repository:
+
+https://github.com/brucemcpherson/gas-fakes
+
+Evidence class: **Third-party open source**
+
+Last checked: **2026-09-10**
+
+No material new release-level change discovered after the v1.14.0 adoption audit.
+
+Current optional-tooling guidance remains:
+
+```text
+local fake/emulator
+→ fast confidence
+
+real Apps Script
+→ platform truth
+```
+
+Status: **NO CHANGE**
+
+---
+
+## `adk-gas`
+
+Repository:
+
+https://github.com/tanaikech/adk-gas
+
+Evidence class: **Third-party open source / implementation evidence**
+
+Last checked: **2026-09-10**
+
+Latest documented major update in the reviewed source remains:
+
+```text
+v2.0.0 — 2026-06-24
+```
+
+Key patterns already adopted:
+
+- HITL;
+- hooks;
+- token budgets;
+- MCP/A2A;
+- dynamic Workspace tool exposure.
+
+Status: **NO NEW RELEASE FOUND / GUIDANCE RETAINED**
+
+New official Google agent quickstarts strengthen the legitimacy of Skill 13, but do not make the ADK-GAS framework itself normative.

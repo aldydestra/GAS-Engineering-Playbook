@@ -173,3 +173,25 @@ For multi-source audits, create a concise adoption record so rejected/outdated p
 Current example:
 
 `docs/reference-adoption-audit-v1.14.0.md`
+## Periodic Source Refresh Rule
+
+A technology/source audit does not automatically require a repository release.
+
+Use:
+
+```text
+source refresh
+↓
+findings
+├─ NO CHANGE / low-value WATCH only
+│    → retain notes for next meaningful milestone
+└─ capability / correction / meaningful improvement
+     → update owning skill(s)
+     → release
+```
+
+Release when the repository artifact materially changes.
+
+This avoids version noise while keeping the playbook continuously informed.
+
+For Google developer sources, `references/developer-knowledge-grounding-patterns.md` can support structured freshness checks.

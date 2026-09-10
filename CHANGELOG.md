@@ -3,6 +3,235 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.15.0] - 2026-09-10
+
+### Capability Expansion & Daily Source Refresh
+
+This release continues the post-foundation evolution of the playbook using the v1.14.0 full repository snapshot as its baseline.
+
+### Added — Skill 14 Workspace Add-ons & Chat App Engineering
+
+Added a new extension skill for Workspace-native application surfaces that are not owned by HtmlService/Web App Engineering.
+
+Coverage includes:
+
+- Google Workspace add-on vs Editor add-on vs Chat app boundaries,
+- CardService UI architecture,
+- card builder/copy semantics,
+- view-model vs card rendering separation,
+- contextual vs non-contextual cards,
+- add-on manifest ownership,
+- host declarations,
+- manifest triggers,
+- host-specific event contracts,
+- homepage triggers,
+- card navigation,
+- action callbacks and server-side validation,
+- universal actions,
+- outbound URL allowlists,
+- locale/timezone context,
+- OAuth and third-party authorization,
+- Google Chat add-on response categories,
+- AddOnsResponseService,
+- asynchronous Chat workflows,
+- conversation/add-on state,
+- multi-host capability matrices,
+- host-specific tests,
+- internal/public distribution,
+- AI-agent integration,
+- managed-agent vs in-process agent decision,
+- A2UI preview/watch boundary.
+
+### Added — Workspace Add-on Patterns
+
+Added:
+
+- `references/workspace-addons-chat-patterns.md`
+
+### Improved — AI & Agent Integration
+
+Skill 13:
+
+```text
+1.0.0 → 1.1.0
+```
+
+Added:
+
+- in-process GAS agent vs managed external-agent architecture,
+- official Workspace/Chat ADK integration pattern,
+- A2A/A2UI/Gemini Enterprise quickstart awareness,
+- A2UI maturity watch,
+- Google Developer Knowledge API/MCP grounding,
+- official-document source filtering,
+- source freshness metadata,
+- search vs grounded-answer decision,
+- Developer Knowledge corpus boundaries.
+
+### Improved — Documentation Engineering
+
+Skill 11:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added official machine-readable documentation grounding guidance using Google Developer Knowledge.
+
+### Added — Developer Knowledge Grounding Reference
+
+Added:
+
+- `references/developer-knowledge-grounding-patterns.md`
+
+The reference covers:
+
+- `search_documents`,
+- `get_documents`,
+- `answer_query`,
+- source/update metadata,
+- freshness filters,
+- quota fallback,
+- technology-watch use,
+- source-vs-synthesis distinction.
+
+### Updated — Skill Authoring Guide
+
+Added a structured official-Google-documentation verification workflow.
+
+Core rule:
+
+```text
+grounded synthesis
+↓
+underlying official document
+↓
+repository decision
+```
+
+### Updated — Technology Watch
+
+Audit date advanced to:
+
+```text
+2026-09-10
+```
+
+Added/updated:
+
+- Google Developer Knowledge September 9 update,
+- current Apps Script release-note status,
+- Google Workspace developer release notes,
+- Drive API `copyComments`,
+- September 9 Sheets pivot calculated-field UI change,
+- current `clasp` 3.4.1 snapshot,
+- Workspace add-on/Chat documentation,
+- A2UI preview status,
+- official Workspace AI agent quickstarts,
+- gas-fakes/adk-gas no-change checks.
+
+### Updated — Deployment Engineering
+
+Skill 10:
+
+```text
+1.2.0 → 1.2.1
+```
+
+Updates:
+
+- current `clasp` package snapshot `3.4.1`,
+- TypeScript transpilation boundary in clasp 3.x,
+- bundler-before-push guidance for TypeScript/ESM/NPM,
+- Gemini CLI / Claude Code MCP/plugin tooling awareness,
+- upstream Node-requirement inconsistency handling,
+- security-relevant CLI update policy.
+
+### Fixed — Skill 10 Metadata
+
+Corrected:
+
+```yaml
+repository_introduced: "vX.Y.Z"
+```
+
+to:
+
+```yaml
+repository_introduced: "v1.11.0"
+```
+
+### Added — Daily Source Refresh Audit
+
+Added:
+
+- `docs/daily-source-refresh-audit-v1.15.0.md`
+
+The audit separates:
+
+```text
+ADOPT
+WATCH
+CORRECT
+NO CHANGE
+```
+
+and records why each current source did or did not change the playbook.
+
+### Improved — Evidence Model
+
+Added Google Developer Knowledge as an official machine-readable retrieval layer while preserving the underlying official document as the normative evidence source.
+
+### Improved — Release Discipline
+
+Added a periodic source-refresh rule:
+
+> An audit does not automatically require a release. Version only when the repository receives a meaningful capability, correction, or material engineering improvement.
+
+### Current Tool Snapshot — `clasp`
+
+At the audit:
+
+```text
+@google/clasp = 3.4.1
+```
+
+Current upstream surfaces disagree on the minimum Node version (`package.json` vs published README).
+
+The playbook intentionally does not convert this inconsistency into a universal Node-version rule.
+
+### Current Official Developer Knowledge Update
+
+On September 9, 2026 Google added beta `gcloud developer-knowledge` commands.
+
+The Developer Knowledge v1 API and MCP server remain GA.
+
+### Watch — No Normative Change
+
+Recorded without broad skill changes:
+
+- Drive API v3 `copyComments` GA,
+- Google Sheets calculated-field editor update,
+- Apps Script runtime release notes still latest at August 3, 2026,
+- no material new gas-fakes release discovered,
+- no newer documented adk-gas major release discovered.
+
+### Repository Model
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–14
+```
+
+### Compatibility
+
+No intentional breaking change to existing skill contracts.
+
+Skill 14 is additive.
+
+---
+
+
 ## [v1.14.0] - 2026-09-08
 
 ### Capability Expansion
