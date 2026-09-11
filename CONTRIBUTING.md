@@ -211,3 +211,36 @@ Verify current platform claims against authoritative documentation, especially f
 - AI protocols/tool versions.
 
 Provider/framework-specific class names should normally be generalized unless the contribution is explicitly provider-specific.
+## Design Contributions
+
+Changes to Product Design Engineering or design-system guidance should include evidence appropriate to the claim.
+
+Useful evidence can include:
+
+- source design/screenshot/Figma frame;
+- rendered implementation;
+- design-system tokens/components/version;
+- WCAG/accessibility verification;
+- user research or support evidence;
+- current design-tool/plugin source.
+
+For design-to-code parity claims, provide both:
+
+```text
+source visual
++
+rendered implementation
+```
+
+Do not call an implementation "pixel perfect" or visually equivalent when no comparison artifact exists.
+
+When adopting design guidance from an external skill/plugin, classify it as:
+
+```text
+ADOPT
+ADAPT
+REJECT
+WATCH
+```
+
+and separate durable product-design principles from tool-specific API behavior.

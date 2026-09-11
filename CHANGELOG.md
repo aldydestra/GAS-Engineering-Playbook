@@ -3,6 +3,197 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.16.0] - 2026-09-11
+
+### Capability Expansion — Product Design Engineering
+
+This release adds product, visual, accessibility, design-system, and design-QA capability while preserving the v1.15.0 repository as the baseline.
+
+### Added — Skill 15 Product Design Engineering
+
+Created:
+
+- `skills/15-product-design-engineering/SKILL.md`
+
+Coverage includes:
+
+- user-task and screen-purpose framing,
+- research vs direct design audit,
+- product/design context,
+- existing design system vs blank canvas,
+- source-of-truth decisions,
+- component search/reuse/wrap/rebuild,
+- visual foundations,
+- typography,
+- color and hierarchy,
+- spacing/layout,
+- action hierarchy and progressive disclosure,
+- forms/navigation/states,
+- responsive design,
+- keyboard/focus/accessibility,
+- motion,
+- real-content/edge-state design,
+- concept exploration,
+- prototype fidelity,
+- evidence-based design audit,
+- severity and observed-vs-inferred findings,
+- source-vs-rendered design QA,
+- design-system compliance and drift,
+- component states/themes,
+- design-system agent knowledge,
+- Figma/Canva/tool-agnostic mutation patterns,
+- design handoff and release gates.
+
+### Added — Product Design Patterns
+
+Added:
+
+- `references/product-design-engineering-patterns.md`
+
+### Added — DTCG Design Token Guidance
+
+Adopted the stable:
+
+```text
+Design Tokens Format Module 2025.10
+```
+
+as an interoperability reference.
+
+Status is documented accurately as a W3C Community Group Final Report, not a W3C Recommendation.
+
+Added:
+
+- primitive vs semantic token model,
+- aliases,
+- token versioning,
+- design-system drift,
+- cross-platform token transformation.
+
+### Added — WCAG 2.2 Accessibility Baseline
+
+Skill 15 uses WCAG 2.2 as the normative accessibility reference for applicable web design.
+
+Added guidance for:
+
+- text/non-text contrast,
+- resize/zoom,
+- keyboard behavior,
+- focus visibility/not-obscured,
+- target sizing,
+- color-independent meaning,
+- limits of screenshot-only accessibility review.
+
+### Improved — Web App & Frontend Engineering
+
+Skill 12:
+
+```text
+1.0.0 → 1.1.0
+```
+
+Added an explicit design/runtime boundary:
+
+```text
+Skill 15 — Product/UX/design-system intent
+↓
+Skill 12 — frontend/browser implementation
+↓
+Skill 15 — design QA
+```
+
+Also added:
+
+- existing-design-system consumption,
+- token/component reuse,
+- source-vs-rendered QA expectation,
+- accessibility implementation/design responsibility split.
+
+### Improved — Skill Authoring Guide
+
+Added guidance that design-system skills should be grounded in:
+
+- actual token source,
+- component source/API,
+- runtime setup,
+- design-system version,
+- accessibility expectations.
+
+Added visual-skill evidence rule:
+
+> A design-fidelity claim requires a source visual and a rendered result.
+
+### Added — Design Source Refresh Audit
+
+Added:
+
+- `docs/design-source-refresh-audit-v1.16.0.md`
+
+The audit evaluates current patterns from:
+
+- OpenAI Product Design,
+- OpenAI Figma plugin skills,
+- Anthropic frontend-design,
+- Microsoft frontend-design-review,
+- Vercel design-system skill tooling,
+- Canva design review/editing patterns,
+- WCAG 2.2,
+- DTCG.
+
+### Updated — Technology Watch
+
+Audit date advanced to:
+
+```text
+2026-09-11
+```
+
+Added:
+
+- Product Design plugin ecosystem,
+- Figma/design-system patterns,
+- WCAG 2.2,
+- DTCG stable format,
+- Design System Documentation Community Group WATCH.
+
+### Today’s Existing-Source Refresh
+
+No new material change was found requiring updates to:
+
+- Apps Script Core,
+- Developer Knowledge grounding,
+- `clasp`,
+- gas-fakes,
+- adk-gas.
+
+The latest relevant source entries remain those already tracked in v1.15.0.
+
+### Watch — Design System Documentation Community Group
+
+The emerging W3C Community Group work around interoperable design-system documentation and agent workflows is relevant but not yet a stable normative format.
+
+Status:
+
+```text
+WATCH
+```
+
+### Repository Model
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–15
+```
+
+### Compatibility
+
+No intentional breaking change to existing skills.
+
+Skill 15 is additive; Skill 12 changes are clarifying/non-breaking.
+
+---
+
+
 ## [v1.15.0] - 2026-09-10
 
 ### Capability Expansion & Daily Source Refresh

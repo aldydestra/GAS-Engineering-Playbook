@@ -1,48 +1,42 @@
 # Release Manifest
 
-Repository Version: v1.15.0
+Repository Version: v1.16.0
 
 ## Release Type
 
 - Post-foundation capability expansion
-- Daily/current-source technology refresh
+- Product design / design-system capability
+- Daily/current-source refresh
 - Full repository snapshot
 
 ## Repository Model
 
 - Foundation Skills: 01–11
-- Extension Skills: 12–14
+- Extension Skills: 12–15
 
 ## New Skill
 
-- `14-workspace-addons-chat-engineering` — 1.0.0
+- `15-product-design-engineering` — 1.0.0
 
-## Updated Skills
+## Updated Skill
 
-- `10-deployment-engineering`: 1.2.0 → 1.2.1
-- `11-documentation-engineering`: 1.2.0 → 1.3.0
-- `13-ai-agent-integration`: 1.0.0 → 1.1.0
+- `12-web-app-frontend-engineering`: 1.0.0 → 1.1.0
 
-## Metadata Fix
+## New Reference / Audit
 
-- Skill 10 `repository_introduced`: `vX.Y.Z` → `v1.11.0`
+- `references/product-design-engineering-patterns.md`
+- `docs/design-source-refresh-audit-v1.16.0.md`
 
-## New References / Audit
+## Primary New Evidence Sources
 
-- `references/workspace-addons-chat-patterns.md`
-- `references/developer-knowledge-grounding-patterns.md`
-- `docs/daily-source-refresh-audit-v1.15.0.md`
-
-## Primary Current Sources
-
-- Apps Script release notes
-- Google Workspace developer release notes
-- Google Developer Knowledge API/MCP
-- Google Workspace add-ons / Chat docs
-- `google/clasp`
-- `googleworkspace/apps-script-samples`
-- `brucemcpherson/gas-fakes`
-- `tanaikech/adk-gas`
+- OpenAI Product Design role-specific plugin
+- OpenAI Figma plugin skills
+- Anthropic frontend-design
+- Microsoft frontend-design-review
+- Vercel design-system skill tooling
+- installed Canva design-feedback/editing skill patterns
+- WCAG 2.2
+- DTCG Design Tokens Format Module 2025.10
 
 ## Files
 - `CHANGELOG.md`
@@ -55,6 +49,7 @@ Repository Version: v1.15.0
 - `docs/adr-template.md`
 - `docs/daily-source-refresh-audit-v1.15.0.md`
 - `docs/deployment-runbook-template.md`
+- `docs/design-source-refresh-audit-v1.16.0.md`
 - `docs/foundation-audit-v1.13.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
@@ -77,6 +72,7 @@ Repository Version: v1.15.0
 - `references/monitoring-observability-patterns.md`
 - `references/performance-engineering-patterns.md`
 - `references/postgresql-integration-patterns.md`
+- `references/product-design-engineering-patterns.md`
 - `references/security-engineering-patterns.md`
 - `references/software-architecture-patterns.md`
 - `references/testing-quality-patterns.md`
@@ -96,3 +92,4 @@ Repository Version: v1.15.0
 - `skills/12-web-app-frontend-engineering/SKILL.md`
 - `skills/13-ai-agent-integration/SKILL.md`
 - `skills/14-workspace-addons-chat-engineering/SKILL.md`
+- `skills/15-product-design-engineering/SKILL.md`

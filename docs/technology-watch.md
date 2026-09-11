@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-10**
+Last audit: **2026-09-11**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -1064,3 +1064,244 @@ Key patterns already adopted:
 Status: **NO NEW RELEASE FOUND / GUIDANCE RETAINED**
 
 New official Google agent quickstarts strengthen the legitimacy of Skill 13, but do not make the ADK-GAS framework itself normative.
+---
+
+# v1.16.0 Design Capability Refresh — 2026-09-11
+
+## Product Design Skill Ecosystem
+
+### OpenAI Product Design
+
+Source:
+
+https://github.com/openai/role-specific-plugins/tree/main/plugins/product-design
+
+Evidence class:
+
+**OpenAI-maintained open source**
+
+Current useful patterns:
+
+- product-design ideation from product context;
+- evidence-grounded UX research;
+- screenshot/flow-based audit;
+- source-vs-rendered design QA;
+- saved design/product context.
+
+Status: **ADOPTED GENERICALLY**
+
+Affected:
+
+- Skill 15 Product Design Engineering.
+
+---
+
+## OpenAI Figma Plugin
+
+Source:
+
+https://github.com/openai/plugins/tree/main/plugins/figma
+
+Evidence class:
+
+**OpenAI-maintained open source**
+
+Current useful patterns:
+
+- inspect existing design before mutation;
+- search/reuse design-system assets;
+- phased design-system generation;
+- token/variable foundations before components;
+- track affected design entities;
+- verify rendered output.
+
+Status: **ADOPTED / ADAPTED**
+
+Figma command/API names remain tool-specific.
+
+---
+
+## Anthropic Frontend Design
+
+Source:
+
+https://github.com/anthropics/skills/tree/main/skills/frontend-design
+
+Evidence class:
+
+**Third-party/vendor-maintained open source**
+
+Current useful principle:
+
+```text
+subject/audience-specific design intent
+>
+generic AI visual defaults
+```
+
+Status: **ADAPTED**
+
+The playbook does not adopt rigid font/style preferences.
+
+---
+
+## Microsoft Frontend Design Review
+
+Source:
+
+https://github.com/microsoft/skills/tree/main/.github/skills/frontend-design-review
+
+Evidence class:
+
+**Microsoft-maintained open source**
+
+Current useful patterns:
+
+- design-system compliance;
+- accessibility;
+- action hierarchy;
+- task completion;
+- component-state coverage;
+- severity-based findings.
+
+Status: **ADOPTED GENERICALLY**
+
+---
+
+## Vercel Design-System Skill Tooling
+
+Source:
+
+https://github.com/vercel-labs/design-systems-to-agent-skills
+
+Evidence class:
+
+**Third-party/open-source implementation evidence**
+
+Current useful pattern:
+
+```text
+design-system source/version
+↓
+agent knowledge snapshot
+```
+
+with source-verified component/token/runtime contracts.
+
+Status: **ADOPTED GENERICALLY**
+
+---
+
+## WCAG 2.2
+
+Source:
+
+https://www.w3.org/TR/WCAG22/
+
+Evidence class:
+
+**W3C Recommendation**
+
+Status: **ADOPTED**
+
+Used by Skill 15 as the normative accessibility reference for applicable web design.
+
+---
+
+## DTCG Design Tokens
+
+Stable source:
+
+https://www.w3.org/community/reports/design-tokens/CG-FINAL-format-20251028/
+
+Current information:
+
+```text
+Design Tokens Format Module 2025.10
+```
+
+Evidence class:
+
+**W3C Community Group Final Report**
+
+Status: **ADOPTED**
+
+Important wording:
+
+- stable community-group specification;
+- production/interoperability reference;
+- not a W3C Recommendation.
+
+---
+
+## Design System Documentation Community Group
+
+Source:
+
+https://www.w3.org/community/design-system-documentation/
+
+Evidence class:
+
+**W3C Community Group / emerging work**
+
+Current focus includes:
+
+- open design-system documentation formats;
+- interoperability;
+- agent/LLM-friendly design-system knowledge.
+
+Status: **WATCH**
+
+Do not make repository structure depend on this emerging work until a stable format exists.
+
+---
+
+# Existing Technology Watch — Daily Check
+
+## Apps Script
+
+Latest Apps Script-specific release found remains:
+
+```text
+2026-08-03 — Gemini side panel Beta
+```
+
+Status: **NO CHANGE**
+
+## Developer Knowledge
+
+Latest relevant update remains:
+
+```text
+2026-09-09 — beta gcloud developer-knowledge commands
+```
+
+Status: **NO CHANGE**
+
+## Google Workspace Developer Release Notes
+
+Latest relevant broad update remains around:
+
+```text
+2026-09-02 — Drive API copyComments GA
+```
+
+Status: **NO NEW PLAYBOOK-WIDE CHANGE**
+
+## clasp
+
+Current v1.15 snapshot remains:
+
+```text
+@google/clasp 3.4.1
+```
+
+Status: **NO CHANGE**
+
+## gas-fakes
+
+Status: **NO MATERIAL CHANGE FOUND**
+
+## adk-gas
+
+Status: **NO MATERIAL CHANGE FOUND**

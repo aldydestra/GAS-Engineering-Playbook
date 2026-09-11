@@ -1039,3 +1039,54 @@ See:
 - `references/evidence-model.md`
 - `docs/technology-watch.md`
 - `docs/reference-adoption-audit-v1.14.0.md`
+
+# 41. Design-System Skills Need Source and Runtime Truth
+
+A design-system skill should not be generated from visual screenshots or model memory alone.
+
+Capture:
+
+```text
+design-system version
+token source
+component source/API
+runtime setup
+examples
+accessibility expectations
+```
+
+If the same component exists in Figma and code, record which source owns:
+
+- visual intent;
+- component API;
+- token values;
+- runtime behavior.
+
+A generated design-system skill should be refreshable when the source system changes.
+
+Prefer versioned knowledge snapshots rather than silently mixing old and new component contracts.
+
+---
+
+# 42. Visual Skills Need Rendered Evidence
+
+For design review or design-to-code parity:
+
+```text
+source visual
++
+rendered result
+```
+
+are stronger evidence than code inspection alone.
+
+A skill that claims visual fidelity should define:
+
+- how the source is captured;
+- how the implementation is rendered;
+- what dimensions are compared;
+- how deviations are prioritized.
+
+Do not call an implementation pixel-perfect without a visual comparison artifact.
+
+See Skill 15 — Product Design Engineering.

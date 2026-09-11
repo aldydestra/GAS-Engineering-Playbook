@@ -8,13 +8,13 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 **Foundation complete as of repository v1.13.0.**
 
-Repository v1.14.0 began the **Capability Expansion** phase, and v1.15.0 continues it with a new Workspace-native extension domain.
+Repository v1.14.0 began the **Capability Expansion** phase. v1.16.0 extends the playbook into product design and design-system engineering.
 
 The repository now contains:
 
 - 11 foundation skills,
-- 3 extension skills,
-- cross-skill evidence, technology-watch, source-refresh, and authoring guidance.
+- 4 extension skills,
+- cross-skill evidence, technology-watch, source-refresh, design QA, and authoring guidance.
 
 Individual skills remain `status: evolving` because Apps Script, AppSheet, databases, AI protocols, tooling, and real project experience continue to change.
 
@@ -159,7 +159,8 @@ last_repository_update: "v1.13.0"
 | Repository Release | Milestone |
 |---|---|
 | v1.14.0 | Web App/Frontend + AI/Agent extension skills; skill-authoring standard |
-| **v1.15.0** | **Workspace Add-ons/Chat extension + official Developer Knowledge grounding refresh** |
+| v1.15.0 | Workspace Add-ons/Chat extension + official Developer Knowledge grounding refresh |
+| **v1.16.0** | **Product Design Engineering + design-system/accessibility/design-QA capability** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -398,6 +399,22 @@ Workspace-native application engineering covering:
 - internal/public distribution,
 - AI-agent integration through Apps Script as the Workspace shell.
 
+### 15 — Product Design Engineering
+
+Product/visual/design-system engineering covering:
+
+- user-task and UX-flow framing,
+- design research vs artifact audit,
+- visual hierarchy, typography, color, spacing, and layout,
+- WCAG 2.2 accessibility design,
+- DTCG design tokens,
+- design-system reuse and source-of-truth decisions,
+- component states and responsive behavior,
+- evidence-based design critique,
+- source-vs-rendered design QA,
+- Figma/Canva/tool-agnostic design workflows,
+- design-system knowledge for agents.
+
 Extension skills do not change the historical meaning of the v1.13.0 foundation milestone.
 
 They exist because post-foundation evidence demonstrated genuinely new capability domains that could not be cleanly owned by one existing skill.
@@ -437,6 +454,8 @@ Web/frontend work enters through Skill 12 when HtmlService or an external fronte
 AI/agent work enters through Skill 13 when model/tool orchestration is genuinely part of the application.
 
 Workspace add-on and Google Chat card-based work enters through Skill 14.
+
+Product design, visual systems, accessibility design, and design QA enter through Skill 15. Skill 12 remains the frontend-runtime implementation owner.
 
 The skills are complementary, not sequential requirements for every project.
 
@@ -543,7 +562,8 @@ gas-engineering-playbook/
 │   ├── 11-documentation-engineering/
 │   ├── 12-web-app-frontend-engineering/
 │   ├── 13-ai-agent-integration/
-│   └── 14-workspace-addons-chat-engineering/
+│   ├── 14-workspace-addons-chat-engineering/
+│   └── 15-product-design-engineering/
 ├── references/
 ├── examples/
 └── docs/
@@ -552,6 +572,7 @@ gas-engineering-playbook/
     ├── foundation-audit-v1.13.0.md
     ├── reference-adoption-audit-v1.14.0.md
     ├── daily-source-refresh-audit-v1.15.0.md
+    ├── design-source-refresh-audit-v1.16.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
@@ -639,6 +660,16 @@ https://developers.google.com/knowledge
 ## Google Workspace Add-ons
 
 https://developers.google.com/workspace/add-ons
+
+## Product Design / Design Systems
+
+- https://github.com/openai/role-specific-plugins/tree/main/plugins/product-design
+- https://github.com/openai/plugins/tree/main/plugins/figma
+- https://github.com/anthropics/skills/tree/main/skills/frontend-design
+- https://github.com/microsoft/skills/tree/main/.github/skills/frontend-design-review
+- https://github.com/vercel-labs/design-systems-to-agent-skills
+- https://www.w3.org/TR/WCAG22/
+- https://www.designtokens.org/
 
 ## Skill Authoring Sources
 
