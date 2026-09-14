@@ -244,3 +244,32 @@ WATCH
 ```
 
 and separate durable product-design principles from tool-specific API behavior.
+## External Skill Provenance
+
+When a contribution is derived from an external skill repository, include when relevant:
+
+- repository URL,
+- skill path,
+- tag/commit/source revision,
+- license,
+- whether the contribution is `ADOPT`, `ADAPT`, `REJECT`, or `WATCH`.
+
+Do not submit a copied skill without identifying its source and adaptation.
+
+If executable scripts/hooks/tool configs are part of the source package, review them separately from the prose guidance.
+
+## Skill Evaluation Evidence
+
+For substantial changes to skill behavior, contributors are encouraged to provide representative evaluation tasks.
+
+Strong evidence can compare:
+
+```text
+baseline without skill
+vs
+result with skill
+```
+
+under the same criteria.
+
+Do not optimize a skill against an evaluation harness whose trigger/result capture has not itself been validated.

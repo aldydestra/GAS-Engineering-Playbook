@@ -13,8 +13,8 @@ Repository v1.14.0 began the **Capability Expansion** phase. v1.16.0 extends the
 The repository now contains:
 
 - 11 foundation skills,
-- 4 extension skills,
-- cross-skill evidence, technology-watch, source-refresh, design QA, and authoring guidance.
+- 5 extension skills,
+- cross-skill evidence, technology-watch, source-refresh, design QA, API/event integration, and authoring guidance.
 
 Individual skills remain `status: evolving` because Apps Script, AppSheet, databases, AI protocols, tooling, and real project experience continue to change.
 
@@ -160,7 +160,8 @@ last_repository_update: "v1.13.0"
 |---|---|
 | v1.14.0 | Web App/Frontend + AI/Agent extension skills; skill-authoring standard |
 | v1.15.0 | Workspace Add-ons/Chat extension + official Developer Knowledge grounding refresh |
-| **v1.16.0** | **Product Design Engineering + design-system/accessibility/design-QA capability** |
+| v1.16.0 | Product Design Engineering + design-system/accessibility/design-QA capability |
+| **v1.17.0** | **Workspace API/Event Engineering + Sheets 20M capacity + skill provenance/evaluation refresh** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -415,6 +416,23 @@ Product/visual/design-system engineering covering:
 - Figma/Canva/tool-agnostic design workflows,
 - design-system knowledge for agents.
 
+### 16 — Workspace API & Event Engineering
+
+Google Workspace integration engineering covering:
+
+- built-in service vs Advanced Service vs direct REST,
+- Google Cloud/API enablement,
+- user OAuth vs service-account authority,
+- pagination and field projection,
+- Google Workspace Events API,
+- Pub/Sub and CloudEvents,
+- subscription expiry/renewal/reactivation,
+- Drive/Meet/Chat events,
+- Gmail/Calendar product-specific change mechanisms,
+- Meet `spaces.members`,
+- Apps Script API `scripts.run`,
+- idempotency/reconciliation/operational health.
+
 Extension skills do not change the historical meaning of the v1.13.0 foundation milestone.
 
 They exist because post-foundation evidence demonstrated genuinely new capability domains that could not be cleanly owned by one existing skill.
@@ -456,6 +474,8 @@ AI/agent work enters through Skill 13 when model/tool orchestration is genuinely
 Workspace add-on and Google Chat card-based work enters through Skill 14.
 
 Product design, visual systems, accessibility design, and design QA enter through Skill 15. Skill 12 remains the frontend-runtime implementation owner.
+
+Workspace REST APIs, Advanced Services, change feeds, and event subscriptions enter through Skill 16.
 
 The skills are complementary, not sequential requirements for every project.
 
@@ -563,7 +583,8 @@ gas-engineering-playbook/
 │   ├── 12-web-app-frontend-engineering/
 │   ├── 13-ai-agent-integration/
 │   ├── 14-workspace-addons-chat-engineering/
-│   └── 15-product-design-engineering/
+│   ├── 15-product-design-engineering/
+│   └── 16-workspace-api-event-engineering/
 ├── references/
 ├── examples/
 └── docs/
@@ -573,6 +594,7 @@ gas-engineering-playbook/
     ├── reference-adoption-audit-v1.14.0.md
     ├── daily-source-refresh-audit-v1.15.0.md
     ├── design-source-refresh-audit-v1.16.0.md
+    ├── full-skill-refresh-audit-v1.17.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
@@ -660,6 +682,12 @@ https://developers.google.com/knowledge
 ## Google Workspace Add-ons
 
 https://developers.google.com/workspace/add-ons
+
+## Workspace APIs & Events
+
+- https://developers.google.com/workspace/guides/get-started
+- https://developers.google.com/workspace/events
+- https://developers.google.com/workspace/meet/api/guides/overview
 
 ## Product Design / Design Systems
 

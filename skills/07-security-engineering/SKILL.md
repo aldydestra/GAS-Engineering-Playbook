@@ -1,10 +1,10 @@
 ---
 name: security-engineering
 description: "Experience-driven security engineering for Google Apps Script covering execution identity, OAuth scopes, authorization, secrets, web apps, triggers, input validation, external integrations, PostgreSQL access, auditability, and secure operational boundaries."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.8.0"
 status: "evolving"
-last_repository_update: "v1.13.0"
+last_repository_update: "v1.17.0"
 tags:
   - google-apps-script
   - security
@@ -1451,6 +1451,94 @@ It does not own:
 - 08 Testing — security regression tests.
 - 09 Observability — safe audit events.
 - 10 Deployment — OAuth/owner changes.
+
+## Workspace API Identity Update — v1.17.0
+
+### Credential Type Is an Authorization Decision
+
+Current Google Workspace guidance distinguishes:
+
+```text
+API key
+OAuth client
+service account
+```
+
+and, for service accounts:
+
+```text
+direct resource sharing
+admin role assignment
+domain-wide delegation
+```
+
+These are not interchangeable convenience options.
+
+### Prefer the Narrowest Authority
+
+Examples:
+
+```text
+one shared Sheet
+→ share resource with service account
+
+directory administration
+→ assign limited Workspace admin role if supported
+
+act as many domain users
+→ domain-wide delegation only when truly required
+```
+
+Do not grant DWD when direct resource sharing solves the requirement.
+
+### Service Account ≠ User
+
+Record both:
+
+```text
+credential identity
+effective user/authority
+```
+
+when impersonation is used.
+
+Do not log private key material or access tokens.
+
+### Domain-Wide Delegation
+
+DWD is a high-trust integration boundary.
+
+Require:
+
+- explicit admin approval;
+- documented client ID;
+- exact OAuth scope list;
+- impersonated-user policy;
+- audit/rotation/revocation plan.
+
+Treat scope expansion as a security release.
+
+### Workspace Events Authority
+
+A Workspace Events subscription also has an authority context.
+
+Current subscription resources can distinguish user authority and service-account authority for supported modes.
+
+Persist safe authority metadata with the subscription registry.
+
+### `scripts.run` Exception
+
+Current Apps Script API documentation explicitly states:
+
+```text
+scripts.run does not work with service accounts
+```
+
+Do not attempt to solve this with broader scopes or DWD.
+
+Choose another integration boundary.
+
+See Skill 16 — Workspace API & Event Engineering.
 
 # References
 

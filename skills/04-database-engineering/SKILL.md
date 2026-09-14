@@ -1,10 +1,10 @@
 ---
 name: database-engineering
 description: "Experience-driven database engineering for Google Apps Script ecosystems, covering source of truth, identity, relational modeling, constraints, transactions, data types, staging, imports, schema drift, synchronization, reconciliation, lifecycle, and Sheet/database boundaries."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.5.0"
 status: "evolving"
-last_repository_update: "v1.13.0"
+last_repository_update: "v1.17.0"
 tags:
   - database-engineering
   - relational-data
@@ -1253,6 +1253,84 @@ Keep PostgreSQL-specific syntax/connection behavior in Skill 05.
 - **11 Documentation** — data contracts/ADRs.
 
 ---
+
+## Spreadsheet Capacity Decision Update — v1.17.0
+
+### 20M Cells Changes Capacity, Not Data-Engineering Guarantees
+
+As of September 10, 2026, Google Sheets supports up to 20 million cells per spreadsheet.
+
+This materially increases spreadsheet storage capacity.
+
+It does **not** add:
+
+- relational constraints;
+- transactions;
+- foreign keys;
+- row-level database concurrency;
+- SQL query planning;
+- durable event streams.
+
+Therefore database migration decisions should not be based only on:
+
+```text
+"we hit the old 10M-cell limit"
+```
+
+Use a workload model.
+
+### Storage-Capacity vs System-Capability Matrix
+
+Ask separately:
+
+```text
+Volume
+Integrity
+Concurrency
+Relationships
+Query complexity
+History
+Multi-app access
+Operational ownership
+```
+
+A 15M-cell operational workbook can still be a poor database even though Sheets can store it.
+
+A 200k-row Sheet can still be the right tool when collaboration/manual editing dominates.
+
+### Large Sheet as Read Model
+
+The higher limit can make this architecture more useful:
+
+```text
+PostgreSQL / canonical source
+↓
+GAS sync/projection
+↓
+large Google Sheet read model
+```
+
+But the Sheet should remain rebuildable if it is a cache/read model.
+
+Do not use the larger capacity to blur source-of-truth ownership.
+
+### Workspace Event Sources
+
+Database synchronization can now increasingly use Workspace event mechanisms rather than broad polling.
+
+For supported Drive/Meet/Chat workflows:
+
+```text
+Workspace event
+↓
+durable event consumer
+↓
+idempotent database mutation
+↓
+reconciliation
+```
+
+Use Skill 16 for event subscription and delivery semantics.
 
 ## References
 

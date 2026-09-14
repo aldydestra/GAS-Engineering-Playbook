@@ -3,6 +3,289 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.17.0] - 2026-09-14
+
+### Full Skill & Extension Refresh
+
+This release performs a full audit of Skills 01–15 and adds a new Workspace API/event integration extension.
+
+### Added — Skill 16 Workspace API & Event Engineering
+
+Created:
+
+- `skills/16-workspace-api-event-engineering/SKILL.md`
+- `references/workspace-api-event-patterns.md`
+
+Coverage includes:
+
+- built-in Apps Script service vs Advanced Service vs direct REST,
+- Cloud project/API enablement,
+- user OAuth/service-account/DWD authority models,
+- API versioning,
+- pagination and partial responses,
+- retry/error normalization,
+- Workspace Events API,
+- Pub/Sub and CloudEvents,
+- subscription authority/state/expiry/renewal/reactivation,
+- Drive/Meet/Chat event integration,
+- Drive changes vs Events vs Activity,
+- Gmail watch/history,
+- Calendar push channels,
+- Meet `spaces.members`,
+- Apps Script API `scripts.run`,
+- event idempotency/reconciliation,
+- API/event telemetry and release monitoring.
+
+### Updated — GAS Core Engineering
+
+Skill 01:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added Google Sheets 20-million-cell capacity awareness and clarified:
+
+```text
+Sheet storage capacity
+≠
+Apps Script processing capacity
+```
+
+Also linked the built-in → Advanced Service → direct REST escalation path to Skill 16.
+
+### Updated — Database Engineering
+
+Skill 04:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added:
+
+- 20M-cell Sheet capacity decision guidance,
+- capacity vs relational guarantees,
+- large Sheet read-model pattern,
+- Workspace event-driven sync boundary.
+
+### Updated — Performance Engineering
+
+Skill 06:
+
+```text
+1.1.1 → 1.2.0
+```
+
+Added:
+
+- 20M cells as capacity ceiling, not processing target,
+- narrow-range over full-sheet read guidance,
+- cell/column/bytes measurement,
+- event-driven update + reconciliation pattern.
+
+### Updated — Security Engineering
+
+Skill 07:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added Workspace credential/authority matrix:
+
+- API key,
+- OAuth client,
+- service account,
+- direct resource sharing,
+- limited Workspace admin role,
+- domain-wide delegation.
+
+Also documented Workspace Events authority and current `scripts.run` service-account incompatibility.
+
+### Updated — Testing & Quality
+
+Skill 08:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Current official Apps Script samples still document ESLint + TypeScript/JSDoc checks while also containing `biome.json`.
+
+The playbook therefore adopts a tool-agnostic rule:
+
+```text
+lint/format
++
+static/type checking
+```
+
+rather than declaring an unverified lint-stack migration.
+
+Added Workspace API and event contract/integration test patterns.
+
+### Updated — Monitoring & Observability
+
+Skill 09:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added:
+
+- API duration/status/retry telemetry,
+- subscription health,
+- expiry and suspension signals,
+- event lag,
+- duplicate suppression,
+- event throughput,
+- reconciliation mismatch metrics.
+
+### Updated — Documentation Engineering
+
+Skill 11:
+
+```text
+1.3.0 → 1.3.1
+```
+
+Added:
+
+- external skill provenance,
+- exact revision/commit pinning when reproducibility matters,
+- lock/inventory concept,
+- with-skill vs baseline evaluation,
+- skill-evaluation artifacts.
+
+### Updated — Workspace Add-ons & Chat
+
+Skill 14:
+
+```text
+1.0.0 → 1.0.1
+```
+
+Clarified boundary:
+
+```text
+Skill 14
+→ host/card/add-on UI
+
+Skill 16
+→ Workspace APIs/events
+```
+
+### Added — Skill Evaluation & Provenance Reference
+
+Added:
+
+- `references/skill-evaluation-provenance-patterns.md`
+
+Synthesized from current skill-creator and skill-distribution ecosystems.
+
+### Improved — Skill Authoring Guide
+
+Added:
+
+- with-skill vs baseline evaluation,
+- source/commit provenance,
+- executable skill-package review,
+- moving-branch dependency avoidance.
+
+### Added — Full Audit
+
+Added:
+
+- `docs/full-skill-refresh-audit-v1.17.0.md`
+
+The audit records status for every existing skill:
+
+```text
+UPDATE
+WATCH
+NO CHANGE
+NEW EXTENSION
+```
+
+### Current Official Platform Updates
+
+#### Google Sheets
+
+September 10, 2026:
+
+```text
+10M → 20M cells per spreadsheet
+```
+
+#### Google Meet API
+
+September 11, 2026:
+
+```text
+spaces.members
+GA
+```
+
+Supported methods:
+
+```text
+create
+delete
+get
+list
+```
+
+#### Google Workspace Events
+
+Current event domains include:
+
+```text
+Chat
+Drive
+Meet
+```
+
+with Pub/Sub + CloudEvents delivery.
+
+### Current Watch / No Change
+
+No baseline-changing update was found for:
+
+- AppSheet Migration,
+- Software Architecture,
+- PostgreSQL Integration,
+- Deployment/clasp,
+- Web App & Frontend,
+- AI & Agent Integration,
+- Product Design Engineering,
+- gas-fakes,
+- adk-gas.
+
+PostgreSQL remains:
+
+```text
+18 = current supported
+19 Beta 3 = development/pre-release
+```
+
+### Repository Model
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–16
+```
+
+### Compatibility
+
+No intentional breaking change to existing skill contracts.
+
+Skill 16 is additive; existing skill updates refine current engineering boundaries.
+
+---
+
+
 ## [v1.16.0] - 2026-09-11
 
 ### Capability Expansion — Product Design Engineering

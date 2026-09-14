@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
 description: "Experience-driven engineering for Google Workspace add-ons and Google Chat apps built with Apps Script, covering CardService UI, manifest hosts and triggers, contextual cards, navigation, actions, Chat responses, OAuth and URL allowlists, testing, AI-agent integration, publication, and operational safety."
-skill_version: "1.0.0"
+skill_version: "1.0.1"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.15.0"
+last_repository_update: "v1.17.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1199,6 +1199,46 @@ Re-review this skill when:
 - **13 AI & Agent Integration** — model/tool/agent architecture.
 
 ---
+
+## Workspace API Boundary Update — v1.17.0
+
+Skill 14 owns the Workspace **host/UI extension** layer:
+
+```text
+manifest
+CardService
+contextual events
+navigation/actions
+Chat add-on responses
+```
+
+Skill 16 owns the broader Workspace **public API/event integration** layer:
+
+```text
+Advanced Services
+REST APIs
+Meet/Drive/Chat APIs
+Workspace Events
+Pub/Sub/CloudEvents
+change feeds
+subscription lifecycle
+```
+
+A Chat or Workspace add-on can use both skills.
+
+Example:
+
+```text
+Card action
+↓
+Skill 14 host/UI handler
+↓
+application service
+↓
+Skill 16 Meet/Drive/Chat API gateway
+```
+
+Do not put Pub/Sub subscription lifecycle logic into card-rendering code merely because the product surface is Chat.
 
 # References
 

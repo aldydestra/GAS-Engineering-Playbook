@@ -1,10 +1,10 @@
 ---
 name: performance-engineering
 description: "Experience-driven performance engineering for Google Apps Script, focusing on measurement, service-call reduction, batching, in-memory algorithms, caching, concurrency, long-running job continuation, external I/O, and regression prevention."
-skill_version: "1.1.1"
+skill_version: "1.2.0"
 repository_introduced: "v1.7.0"
 status: "evolving"
-last_repository_update: "v1.14.0"
+last_repository_update: "v1.17.0"
 tags:
   - google-apps-script
   - performance
@@ -1780,6 +1780,89 @@ The v1.13.0 audit reconfirmed current official V8 behavior:
 - 04/05 Database/PostgreSQL — query push-down.
 - 08 Testing — performance regression.
 - 09 Observability — phase metrics.
+
+## Large-Sheet Performance Update — v1.17.0
+
+### 20M Cells Is a Capacity Ceiling, Not a Performance Target
+
+Google Sheets now supports up to 20 million cells per spreadsheet.
+
+Do not use that figure as an Apps Script performance target.
+
+The dominant GAS performance rules remain:
+
+```text
+minimize service calls
+read narrowly
+batch work
+process in memory only when bounded
+write in batches
+```
+
+### Avoid Full-Sheet Reads by Habit
+
+On very large workbooks, patterns such as:
+
+```javascript
+sheet.getDataRange().getValues();
+```
+
+can become disproportionate when only a subset is required.
+
+Prefer:
+
+- bounded row/column ranges;
+- header-driven column projection;
+- incremental windows;
+- API/database filtering;
+- pre-aggregated read models.
+
+### Processing Envelope
+
+For large Sheet workflows, measure:
+
+```text
+rows read
+cells read
+bytes/objects created
+transform duration
+write duration
+total runtime
+```
+
+Do not optimize only by row count.
+
+A narrow 500k-row two-column read can be very different from a 100k-row 100-column read.
+
+### Capacity Does Not Remove the Need for Chunking
+
+If the optimized bounded operation still exceeds the safe runtime envelope:
+
+```text
+checkpoint
+↓
+process bounded batch
+↓
+persist
+↓
+continue
+```
+
+The larger Sheet limit makes continuation/bounded processing more important, not less.
+
+### Events Can Replace Some Polling
+
+For Workspace resources that now support event subscriptions, consider:
+
+```text
+event-driven update
++
+periodic reconciliation
+```
+
+instead of frequent full scans.
+
+Use Skill 16 for Workspace Events architecture.
 
 # References
 

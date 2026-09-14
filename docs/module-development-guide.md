@@ -195,3 +195,51 @@ Release when the repository artifact materially changes.
 This avoids version noise while keeping the playbook continuously informed.
 
 For Google developer sources, `references/developer-knowledge-grounding-patterns.md` can support structured freshness checks.
+## External Skill Provenance
+
+When an external skill/tooling ecosystem materially contributes knowledge, preserve enough provenance to reconstruct the source.
+
+Recommended metadata:
+
+```text
+repository
+skill path
+tag/commit when relevant
+license
+adoption decision
+local adaptation
+```
+
+If a project directly installs skills, use a lock/inventory mechanism where available.
+
+Do not depend on an invisible moving `main` branch for a release-critical workflow.
+
+## Skill Evaluation Baseline
+
+For high-value skills, test real tasks both:
+
+```text
+without skill
+```
+
+and:
+
+```text
+with skill
+```
+
+using the same evaluation criteria.
+
+This helps distinguish:
+
+```text
+well-written documentation
+```
+
+from:
+
+```text
+measurably useful skill
+```
+
+See `references/skill-evaluation-provenance-patterns.md`.

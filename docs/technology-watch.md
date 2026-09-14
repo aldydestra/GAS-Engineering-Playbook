@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-11**
+Last audit: **2026-09-14**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -1305,3 +1305,446 @@ Status: **NO MATERIAL CHANGE FOUND**
 ## adk-gas
 
 Status: **NO MATERIAL CHANGE FOUND**
+---
+
+# v1.17.0 Full Skill Refresh — 2026-09-14
+
+## Google Sheets Capacity
+
+Source:
+
+https://workspaceupdates.googleblog.com/2026/09/doubled-cell-limits-in-google-sheets-now-generally-available.html
+
+Evidence class:
+
+**Official Google Workspace product update**
+
+Published:
+
+```text
+2026-09-10
+```
+
+Finding:
+
+```text
+maximum Google Sheets cells per spreadsheet
+10M → 20M
+```
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 01 GAS Core;
+- Skill 04 Database Engineering;
+- Skill 06 Performance Engineering.
+
+Important rule:
+
+```text
+capacity ceiling
+≠
+Apps Script practical processing ceiling
+```
+
+---
+
+## Google Meet API `spaces.members`
+
+Sources:
+
+- https://developers.google.com/workspace/meet/release-notes
+- https://developers.google.com/workspace/meet/api/guides/meeting-space-members
+
+Evidence class:
+
+**Official Google Workspace API documentation**
+
+Release:
+
+```text
+2026-09-11
+```
+
+Status:
+
+```text
+GA
+```
+
+Current methods:
+
+```text
+create
+delete
+get
+list
+```
+
+Capability:
+
+- manage meeting-space members;
+- assign roles such as co-host.
+
+Status: **ADOPTED**
+
+Affected:
+
+- new Skill 16 Workspace API & Event Engineering.
+
+---
+
+## Google Workspace Events API
+
+Sources:
+
+- https://developers.google.com/workspace/events
+- https://developers.google.com/workspace/events/guides/auth
+- https://developers.google.com/workspace/events/guides/events-drive
+- https://developers.google.com/workspace/events/guides/events-meet
+- https://developers.google.com/workspace/events/guides/events-chat
+
+Evidence class:
+
+**Official Google Workspace API documentation**
+
+Current event target areas:
+
+```text
+Chat
+Drive
+Meet
+```
+
+Delivery:
+
+```text
+Google Cloud Pub/Sub
++
+CloudEvents
+```
+
+Status: **ADOPTED AS EXTENSION DOMAIN**
+
+Current subscription lifecycle includes:
+
+```text
+create
+get/list
+update/renew
+reactivate
+delete
+ACTIVE/SUSPENDED
+expiration
+```
+
+Current documented maximum expiration snapshot:
+
+```text
+no resource data → 7 days
+resource data → 4 hours
+eligible DWD + resource data → 24 hours
+```
+
+These values are time-sensitive and must be re-verified during implementation.
+
+Affected:
+
+- Skill 16;
+- Skill 07;
+- Skill 08;
+- Skill 09.
+
+---
+
+## Google Workspace Credentials
+
+Source:
+
+https://developers.google.com/workspace/guides/create-credentials
+
+Evidence class:
+
+**Official platform documentation**
+
+Current useful authority distinctions:
+
+```text
+API key
+OAuth client
+service account
+direct resource sharing
+Workspace admin role
+domain-wide delegation
+```
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 07 Security Engineering;
+- Skill 16.
+
+---
+
+## Google Apps Script Advanced Services
+
+Source:
+
+https://developers.google.com/apps-script/guides/services/advanced
+
+Evidence class:
+
+**Official Apps Script documentation**
+
+Current guidance:
+
+```text
+Advanced Service
+→ preferred when available/sufficient
+
+UrlFetch direct API
+→ use when wrapper is unavailable/insufficient
+```
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 01;
+- Skill 16.
+
+---
+
+## Apps Script API `scripts.run`
+
+Source:
+
+https://developers.google.com/apps-script/api/how-tos/execute
+
+Evidence class:
+
+**Official Apps Script API documentation**
+
+Current important limitation:
+
+```text
+scripts.run
+does not work with service accounts
+```
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 07;
+- Skill 16.
+
+---
+
+## Official Apps Script Samples — Static Analysis
+
+Repository:
+
+https://github.com/googleworkspace/apps-script-samples
+
+Evidence class:
+
+**Google-maintained open source**
+
+Current documented README workflow:
+
+```text
+pnpm lint
+→ ESLint
+
+pnpm check
+→ tsc/JSDoc validation
+```
+
+Current root repository also contains:
+
+```text
+biome.json
+```
+
+Status: **ADOPTED AS EVIDENCE-MODEL NUANCE**
+
+Decision:
+
+Do not infer a canonical tool migration merely from config-file presence.
+
+Use tool-agnostic:
+
+```text
+lint/format
++
+static/type checking
+```
+
+Affected:
+
+- Skill 08.
+
+---
+
+## Anthropic Skill Creator
+
+Source:
+
+https://github.com/anthropics/skills/tree/main/skills/skill-creator
+
+Evidence class:
+
+**Vendor-maintained open source**
+
+Current useful evaluation pattern includes:
+
+```text
+realistic eval prompts
+baseline
+with-skill
+assertions/evaluation
+iteration
+```
+
+Status: **ADOPTED GENERICALLY**
+
+Affected:
+
+- Skill 11;
+- skill-authoring guide;
+- skill evaluation/provenance reference.
+
+Open issues around evaluator correctness remain a reminder that eval harnesses themselves must be tested.
+
+---
+
+## Vercel Skills CLI
+
+Sources:
+
+- https://github.com/vercel-labs/skills
+- https://github.com/vercel-labs/skills/releases
+
+Evidence class:
+
+**Third-party/open-source skill ecosystem**
+
+Current release surface observed:
+
+```text
+v1.5.25
+```
+
+Useful current capabilities include:
+
+- skill origin display;
+- update;
+- lock-style restore/sync;
+- commit-SHA pinning;
+- cleanup of removed/malformed skills.
+
+Status: **ADOPTED GENERICALLY FOR PROVENANCE**
+
+The playbook does not require the Vercel CLI.
+
+Affected:
+
+- Skill 11;
+- skill-authoring guide.
+
+---
+
+## PostgreSQL
+
+Official source:
+
+https://www.postgresql.org/developer/beta/
+
+Current state:
+
+```text
+PostgreSQL 18 = current supported
+PostgreSQL 19 Beta 3 = current beta
+```
+
+Status: **WATCH / NO PRODUCTION BASELINE CHANGE**
+
+PostgreSQL explicitly advises against beta use in production.
+
+---
+
+## Apps Script Core Release Notes
+
+Source:
+
+https://developers.google.com/apps-script/release-notes
+
+Latest Apps Script-specific entry found:
+
+```text
+2026-08-03 — Gemini side panel Beta
+```
+
+Status: **NO NEW RUNTIME CHANGE**
+
+---
+
+## Developer Knowledge
+
+Latest tracked update remains:
+
+```text
+2026-09-09
+gcloud beta developer-knowledge commands
+```
+
+Status: **NO CHANGE**
+
+---
+
+## clasp
+
+Current published snapshot remains:
+
+```text
+@google/clasp 3.4.1
+```
+
+Status: **NO CHANGE**
+
+---
+
+## AppSheet
+
+No authoritative update found in this scan that materially changes existing Skill 02 guidance.
+
+Status: **NO CHANGE**
+
+---
+
+## gas-fakes
+
+No material new release/capability found.
+
+Status: **NO CHANGE**
+
+---
+
+## adk-gas
+
+No material new release/capability found beyond the already adopted agent patterns.
+
+Status: **NO CHANGE**
+
+---
+
+## Product Design / Design Systems
+
+Current v1.16 sources remain applicable.
+
+No WCAG or DTCG stable-spec replacement was found.
+
+Status: **NO CHANGE**

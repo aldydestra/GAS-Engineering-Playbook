@@ -1,42 +1,47 @@
 # Release Manifest
 
-Repository Version: v1.16.0
+Repository Version: v1.17.0
 
 ## Release Type
 
-- Post-foundation capability expansion
-- Product design / design-system capability
-- Daily/current-source refresh
+- Full skill and extension refresh
+- New Workspace API/event extension
 - Full repository snapshot
 
 ## Repository Model
 
 - Foundation Skills: 01–11
-- Extension Skills: 12–15
+- Extension Skills: 12–16
 
 ## New Skill
 
-- `15-product-design-engineering` — 1.0.0
+- `16-workspace-api-event-engineering` — 1.0.0
 
-## Updated Skill
+## Updated Skills
 
-- `12-web-app-frontend-engineering`: 1.0.0 → 1.1.0
+- `01-gas-core-engineering`: 1.1.0 → 1.2.0
+- `04-database-engineering`: 1.1.0 → 1.2.0
+- `06-performance-engineering`: 1.1.1 → 1.2.0
+- `07-security-engineering`: 1.1.0 → 1.2.0
+- `08-testing-quality`: 1.1.0 → 1.2.0
+- `09-monitoring-observability`: 1.1.0 → 1.2.0
+- `11-documentation-engineering`: 1.3.0 → 1.3.1
+- `14-workspace-addons-chat-engineering`: 1.0.0 → 1.0.1
 
-## New Reference / Audit
+## New References / Audit
 
-- `references/product-design-engineering-patterns.md`
-- `docs/design-source-refresh-audit-v1.16.0.md`
+- `references/workspace-api-event-patterns.md`
+- `references/skill-evaluation-provenance-patterns.md`
+- `docs/full-skill-refresh-audit-v1.17.0.md`
 
-## Primary New Evidence Sources
+## Primary New Evidence
 
-- OpenAI Product Design role-specific plugin
-- OpenAI Figma plugin skills
-- Anthropic frontend-design
-- Microsoft frontend-design-review
-- Vercel design-system skill tooling
-- installed Canva design-feedback/editing skill patterns
-- WCAG 2.2
-- DTCG Design Tokens Format Module 2025.10
+- Google Sheets 20M-cell capacity update
+- Google Meet API `spaces.members` GA
+- Google Workspace Events API Drive/Meet/Chat support
+- current Google Workspace credential guidance
+- current Anthropic skill evaluation patterns
+- current Vercel skill provenance/update patterns
 
 ## Files
 - `CHANGELOG.md`
@@ -51,6 +56,7 @@ Repository Version: v1.16.0
 - `docs/deployment-runbook-template.md`
 - `docs/design-source-refresh-audit-v1.16.0.md`
 - `docs/foundation-audit-v1.13.0.md`
+- `docs/full-skill-refresh-audit-v1.17.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
@@ -74,10 +80,12 @@ Repository Version: v1.16.0
 - `references/postgresql-integration-patterns.md`
 - `references/product-design-engineering-patterns.md`
 - `references/security-engineering-patterns.md`
+- `references/skill-evaluation-provenance-patterns.md`
 - `references/software-architecture-patterns.md`
 - `references/testing-quality-patterns.md`
 - `references/web-app-frontend-patterns.md`
 - `references/workspace-addons-chat-patterns.md`
+- `references/workspace-api-event-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`
 - `skills/02-appsheet-migration/SKILL.md`
 - `skills/03-software-architecture/SKILL.md`
@@ -93,3 +101,4 @@ Repository Version: v1.16.0
 - `skills/13-ai-agent-integration/SKILL.md`
 - `skills/14-workspace-addons-chat-engineering/SKILL.md`
 - `skills/15-product-design-engineering/SKILL.md`
+- `skills/16-workspace-api-event-engineering/SKILL.md`

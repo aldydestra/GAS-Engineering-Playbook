@@ -1090,3 +1090,76 @@ A skill that claims visual fidelity should define:
 Do not call an implementation pixel-perfect without a visual comparison artifact.
 
 See Skill 15 — Product Design Engineering.
+
+# 43. Skill Evaluation Needs a Baseline
+
+For an important skill, validate whether it improves results compared with the same task **without** the skill.
+
+Use:
+
+```text
+representative prompt
+├─ baseline
+└─ with skill
+↓
+same criteria
+↓
+compare
+```
+
+This is stronger than validating Markdown syntax alone.
+
+Current Anthropic skill-creator material uses this general pattern with test prompts and iterative evaluation.
+
+See:
+
+`references/skill-evaluation-provenance-patterns.md`
+
+---
+
+# 44. Skill Distribution Needs Provenance
+
+Open skill tooling such as `vercel-labs/skills` now supports source tracking, updates, and commit-SHA pinning.
+
+The generic lesson is:
+
+```text
+external skill
+↓
+record source
+↓
+pin revision when reproducibility matters
+↓
+review update diff
+↓
+re-evaluate
+```
+
+Do not make `main`/`latest` an invisible dependency in a production/release workflow.
+
+---
+
+# 45. External Skill Executables Need Stronger Review
+
+A skill package can contain more than prose.
+
+It may include:
+
+```text
+scripts
+hooks
+MCP config
+commands
+assets
+```
+
+Executable/tool-bearing content should receive:
+
+- source review;
+- permission/capability review;
+- secret handling review;
+- sandbox/test execution where appropriate.
+
+Do not execute an untrusted skill's helper scripts solely because its SKILL.md looks reasonable.
+
+---

@@ -1,10 +1,10 @@
 ---
 name: gas-core-engineering
 description: "Experience-driven core engineering for Google Apps Script covering runtime constraints, project structure, Spreadsheet I/O, triggers, HTML callbacks, configuration, long-running jobs, concurrency, external services, quotas, debugging, and safe incremental change."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.2.0"
 status: "evolving"
-last_repository_update: "v1.13.0"
+last_repository_update: "v1.17.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1003,6 +1003,91 @@ Reusable rule
 - **11 Documentation Engineering** — JSDoc/runbook/handoff.
 
 ---
+
+## Platform Capacity Update — v1.17.0
+
+### Google Sheets Cell Capacity Is Now 20 Million
+
+Google announced on September 10, 2026 that Google Sheets now supports up to:
+
+```text
+20,000,000 cells per spreadsheet
+```
+
+for new, existing, and imported spreadsheets.
+
+This doubles the previous product-level capacity.
+
+Important:
+
+> Storage capacity is not Apps Script processing capacity.
+
+The update does **not** change Apps Script's documented execution time, service quotas, memory characteristics, or the cost of Spreadsheet service calls.
+
+Therefore do not infer:
+
+```text
+20M cells supported by Sheets
+→
+20M cells safe to read/process in one Apps Script execution
+```
+
+### Capacity vs Processing Boundary
+
+Evaluate separately:
+
+```text
+Can Sheets store it?
+```
+
+and:
+
+```text
+Can the application process it reliably?
+```
+
+For large workbooks:
+
+- read only required ranges;
+- avoid `getDataRange()` when the full used area is not needed;
+- project required columns;
+- batch bounded row windows;
+- push aggregation/query work to a database when appropriate;
+- measure actual runtime/memory behavior.
+
+Cross-reference Skill 06 Performance Engineering.
+
+### Spreadsheet Size as an Architecture Signal
+
+The new 20M ceiling delays some storage-limit pressure, but it does not remove reasons to use a relational/database backend.
+
+A database may still be the better source of truth for:
+
+- concurrency;
+- relationships;
+- constraints;
+- high write volume;
+- long history;
+- server-side query/aggregation;
+- multi-application access.
+
+Cross-reference Skill 04 Database Engineering.
+
+### Workspace API Surface
+
+When a Google Workspace capability is not available through a built-in Apps Script service, do not force a workaround into the built-in service.
+
+Use the decision path defined in Skill 16:
+
+```text
+built-in service
+↓ if insufficient
+Advanced Service
+↓ if insufficient/unavailable
+direct Workspace REST API
+```
+
+This keeps GAS Core focused on runtime fundamentals while Skill 16 owns API/event integration.
 
 ## References
 

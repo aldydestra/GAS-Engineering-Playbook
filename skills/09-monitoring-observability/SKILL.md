@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
 description: "Experience-driven monitoring and observability for Google Apps Script, covering execution logs, Cloud Logging, Error Reporting, structured events, correlation IDs, phase timing, job telemetry, alerts, health signals, privacy, incident triage, and operational runbooks."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.13.0"
+last_repository_update: "v1.17.0"
 tags:
   - google-apps-script
   - monitoring
@@ -1385,6 +1385,101 @@ Testing owns pre-release correctness evidence.
 - 08 Testing — regression from incidents.
 - 10 Deployment — release health.
 - 11 Documentation — operational runbooks.
+
+## Workspace API & Event Observability — v1.17.0
+
+### API Telemetry
+
+For important Workspace API calls, capture safe structured fields such as:
+
+```text
+api
+resource/method
+operation
+duration_ms
+status_code
+retry_count
+page_count
+result_count
+error_category
+```
+
+Do not log:
+
+- OAuth bearer tokens;
+- service-account private keys;
+- entire sensitive payloads.
+
+### Subscription Health
+
+For Google Workspace Events subscriptions, monitor:
+
+```text
+subscription_name
+target_resource
+state
+expire_time
+last_renewal
+last_event_at
+suspension_reason
+```
+
+A subscription existing in configuration does not prove it is healthy.
+
+### Event Lag
+
+Where event timestamps are available:
+
+```text
+event_lag_ms
+=
+consumer_received_at - event_time
+```
+
+can identify:
+
+- Pub/Sub backlog;
+- consumer saturation;
+- downstream latency.
+
+Track distributions, not only one sample.
+
+### Event Throughput
+
+Useful metrics:
+
+```text
+events_received
+events_processed
+duplicates_suppressed
+unsupported_events
+handler_failures
+reconciliation_mismatches
+```
+
+This separates delivery health from business correctness.
+
+### Renewal Failure Alert
+
+A subscription approaching expiration after failed renewal is actionable.
+
+Alert before the final deadline.
+
+Do not rely solely on provider expiration reminder events.
+
+### Reconciliation Is an Observability Signal
+
+For critical event-driven systems, monitor mismatch counts from periodic authoritative reconciliation.
+
+Example:
+
+```text
+event-derived state
+vs
+Meet/Drive/Chat canonical state
+```
+
+A low event error rate can still hide missed state changes.
 
 # References
 
