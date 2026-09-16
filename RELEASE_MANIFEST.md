@@ -1,47 +1,58 @@
 # Release Manifest
 
-Repository Version: v1.17.0
+Repository Version: v1.18.0
 
 ## Release Type
 
 - Full skill and extension refresh
-- New Workspace API/event extension
+- Apps Script Data Regions capability update
+- New Workspace Governance & Compliance extension
 - Full repository snapshot
 
 ## Repository Model
 
 - Foundation Skills: 01–11
-- Extension Skills: 12–16
+- Extension Skills: 12–17
 
 ## New Skill
 
-- `16-workspace-api-event-engineering` — 1.0.0
+- `17-workspace-governance-compliance-engineering` — 1.0.0
 
 ## Updated Skills
 
-- `01-gas-core-engineering`: 1.1.0 → 1.2.0
-- `04-database-engineering`: 1.1.0 → 1.2.0
-- `06-performance-engineering`: 1.1.1 → 1.2.0
-- `07-security-engineering`: 1.1.0 → 1.2.0
-- `08-testing-quality`: 1.1.0 → 1.2.0
-- `09-monitoring-observability`: 1.1.0 → 1.2.0
-- `11-documentation-engineering`: 1.3.0 → 1.3.1
-- `14-workspace-addons-chat-engineering`: 1.0.0 → 1.0.1
+- `01-gas-core-engineering`: 1.2.0 → 1.3.0
+- `02-appsheet-migration`: 1.1.0 → 1.2.0
+- `03-software-architecture`: 1.1.0 → 1.2.0
+- `05-postgresql-integration`: 1.1.0 → 1.2.0
+- `07-security-engineering`: 1.2.0 → 1.3.0
+- `08-testing-quality`: 1.2.0 → 1.2.1
+- `09-monitoring-observability`: 1.2.0 → 1.2.1
+- `10-deployment-engineering`: 1.2.1 → 1.3.0
+- `11-documentation-engineering`: 1.3.1 → 1.4.0
+- `13-ai-agent-integration`: 1.1.0 → 1.1.1
+- `16-workspace-api-event-engineering`: 1.0.0 → 1.1.0
 
-## New References / Audit
+## Intentionally Unchanged
 
-- `references/workspace-api-event-patterns.md`
-- `references/skill-evaluation-provenance-patterns.md`
-- `docs/full-skill-refresh-audit-v1.17.0.md`
+- `04-database-engineering` — 1.2.0
+- `06-performance-engineering` — 1.2.0
+- `12-web-app-frontend-engineering` — 1.1.0
+- `14-workspace-addons-chat-engineering` — 1.0.1
+- `15-product-design-engineering` — 1.0.0
 
-## Primary New Evidence
+## New Reference / Audit
 
-- Google Sheets 20M-cell capacity update
-- Google Meet API `spaces.members` GA
-- Google Workspace Events API Drive/Meet/Chat support
-- current Google Workspace credential guidance
-- current Anthropic skill evaluation patterns
-- current Vercel skill provenance/update patterns
+- `references/workspace-governance-compliance-patterns.md`
+- `docs/full-skill-refresh-audit-v1.18.0.md`
+
+## Primary Current Evidence
+
+- Apps Script Data Regions and strict-region service compatibility
+- Workspace Policy API / DLP mutation
+- Admin SDK Reports audit evidence
+- Google Vault API
+- Workspace Client-side Encryption
+- Android Developer Verification September 30, 2026 milestone
 
 ## Files
 - `CHANGELOG.md`
@@ -57,6 +68,7 @@ Repository Version: v1.17.0
 - `docs/design-source-refresh-audit-v1.16.0.md`
 - `docs/foundation-audit-v1.13.0.md`
 - `docs/full-skill-refresh-audit-v1.17.0.md`
+- `docs/full-skill-refresh-audit-v1.18.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
@@ -86,6 +98,7 @@ Repository Version: v1.17.0
 - `references/web-app-frontend-patterns.md`
 - `references/workspace-addons-chat-patterns.md`
 - `references/workspace-api-event-patterns.md`
+- `references/workspace-governance-compliance-patterns.md`
 - `skills/01-gas-core-engineering/SKILL.md`
 - `skills/02-appsheet-migration/SKILL.md`
 - `skills/03-software-architecture/SKILL.md`
@@ -102,3 +115,4 @@ Repository Version: v1.17.0
 - `skills/14-workspace-addons-chat-engineering/SKILL.md`
 - `skills/15-product-design-engineering/SKILL.md`
 - `skills/16-workspace-api-event-engineering/SKILL.md`
+- `skills/17-workspace-governance-compliance-engineering/SKILL.md`

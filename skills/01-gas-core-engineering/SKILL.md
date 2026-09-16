@@ -1,10 +1,10 @@
 ---
 name: gas-core-engineering
 description: "Experience-driven core engineering for Google Apps Script covering runtime constraints, project structure, Spreadsheet I/O, triggers, HTML callbacks, configuration, long-running jobs, concurrency, external services, quotas, debugging, and safe incremental change."
-skill_version: "1.2.0"
+skill_version: "1.3.0"
 repository_introduced: "v1.2.0"
 status: "evolving"
-last_repository_update: "v1.17.0"
+last_repository_update: "v1.18.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1088,6 +1088,101 @@ direct Workspace REST API
 ```
 
 This keeps GAS Core focused on runtime fundamentals while Skill 16 owns API/event integration.
+
+## Data Regions & Runtime Governance Update — v1.18.0
+
+### Apps Script Data Regions Are GA
+
+Google Workspace developer release notes announced on September 14, 2026 that Apps Script supports Workspace data-region policies.
+
+Current documented covered Apps Script data includes examples such as:
+
+```text
+script project files
+code definitions
+manifest configuration
+trigger metadata
+Properties Service
+Cache Service
+```
+
+Current documented processing coverage includes:
+
+```text
+script executions
+container-bound automation
+associated runtime operations
+```
+
+The selected region is an organizational/admin policy, not a script-level configuration.
+
+### Regionalized Platform Does Not Mean Every Service Is Regionalized
+
+Current Workspace Admin documentation identifies some Apps Script classes and Advanced Services as nonregionalized under strict data-region settings.
+
+A script can therefore:
+
+```text
+run in the selected region
+↓
+call a disallowed nonregionalized service
+↓
+fail
+```
+
+Do not infer service compatibility from successful script startup.
+
+Use Skill 17 for the current compatibility inventory and governance workflow.
+
+### V8 Is the Operational Baseline
+
+Data-region troubleshooting explicitly says legacy Rhino is unsupported under strict region policy.
+
+This reinforces the existing playbook baseline:
+
+```text
+V8 only
+```
+
+### Official Documentation Conflict
+
+During the v1.18.0 audit, the generic manifest reference still described `STABLE` as "currently Rhino", while Apps Script sunset/migration documentation states Rhino stopped executing after January 31, 2026.
+
+Use:
+
+```text
+runtime-specific sunset/migration documentation
++
+current platform behavior
+```
+
+over stale generic field descriptions.
+
+This contradiction is recorded in technology watch.
+
+### Service Availability Is an Environment Contract
+
+Add to environment inventory:
+
+```text
+Workspace edition
+data-region policy
+OU/group scope
+nonregionalized-feature setting
+```
+
+A script that works in a permissive developer account might fail in the governed production OU.
+
+### Region-Aware Error Handling
+
+If a class/Advanced Service is disabled by policy:
+
+- classify the failure as environment/policy incompatibility;
+- avoid partial writes;
+- provide a clear operator-facing diagnostic;
+- do not silently route around the policy using an external API without governance review.
+
+Cross-reference Skill 17.
 
 ## References
 

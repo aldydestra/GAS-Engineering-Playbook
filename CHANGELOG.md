@@ -3,6 +3,340 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.18.0] - 2026-09-16
+
+### Apps Script Data Regions & Workspace Governance Engineering
+
+This release performs a full refresh from v1.17.0 and adds a new governance/compliance extension after Google made Apps Script Data Regions generally available on September 14, 2026.
+
+### Added — Skill 17 Workspace Governance & Compliance Engineering
+
+Created:
+
+- `skills/17-workspace-governance-compliance-engineering/SKILL.md`
+- `references/workspace-governance-compliance-patterns.md`
+
+Coverage includes:
+
+- Apps Script Data Regions,
+- regionalized vs nonregionalized capability inventory,
+- strict-region compatibility,
+- data classification and processing inventory,
+- external processor governance,
+- Workspace Policy API / DLP,
+- policy-as-code and drift detection,
+- Admin SDK Reports audit evidence,
+- Google Vault/eDiscovery boundaries,
+- Client-side Encryption / KACLS,
+- separation of duties,
+- compliance evidence packages,
+- governance testing,
+- policy exceptions and incidents.
+
+The skill explicitly distinguishes technical controls from legal/regulatory compliance determinations.
+
+### Updated — GAS Core Engineering
+
+Skill 01:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added:
+
+- Apps Script Data Regions GA,
+- region policy as environment contract,
+- nonregionalized class/Advanced Service awareness,
+- V8 baseline reinforcement,
+- policy-aware failures,
+- current official documentation contradiction around Rhino.
+
+### Updated — AppSheet Migration
+
+Skill 02:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added branded Android distribution inventory and the September 30, 2026 Android Developer Verification milestone for participating stores in Brazil, Indonesia, Singapore, and Thailand.
+
+Added:
+
+- package/signing ownership,
+- package registration,
+- branded native binary refresh,
+- browser fallback limitations,
+- store-update cutover checklist.
+
+### Updated — Software Architecture
+
+Skill 03:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added:
+
+- data location as an architecture dimension,
+- regionalized/nonregionalized/external processor ports,
+- policy-constrained fallback,
+- governance-sensitive adapter transparency.
+
+### Updated — PostgreSQL Integration
+
+Skill 05:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Current Workspace Admin documentation lists Apps Script `Jdbc` as nonregionalized under strict data-region controls.
+
+Added:
+
+- region-aware PostgreSQL integration decision,
+- strict-policy smoke test,
+- approved regional-backend alternative,
+- explicit warning against using HTTP as an unreviewed governance bypass.
+
+### Updated — Security Engineering
+
+Skill 07:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added clear ownership boundary:
+
+```text
+Security
+→ authentication / authorization / secrets / trust
+
+Governance
+→ data regions / DLP / Vault / CSE / audit evidence
+```
+
+Added external-processor security and privileged control-plane identity guidance.
+
+### Updated — Testing & Quality
+
+Skill 08:
+
+```text
+1.2.0 → 1.2.1
+```
+
+Added:
+
+- strict-policy TEST environment guidance,
+- policy-driven failure regression,
+- live GAS parity requirement for governance-sensitive behavior,
+- current gas-fakes v2.5.3 development-line evidence.
+
+### Updated — Monitoring & Observability
+
+Skill 09:
+
+```text
+1.2.0 → 1.2.1
+```
+
+Added:
+
+- data-region-sensitive log visibility,
+- approved telemetry path,
+- runtime observability vs governance/audit evidence distinction.
+
+### Updated — Deployment Engineering
+
+Skill 10:
+
+```text
+1.2.1 → 1.3.0
+```
+
+Added:
+
+- Workspace edition/OU/data-region policy as environment metadata,
+- strict-region deployment preflight,
+- policy changes as deployment-relevant changes,
+- Android branded-app distribution dependency,
+- governance release evidence.
+
+### Updated — Documentation Engineering
+
+Skill 11:
+
+```text
+1.3.1 → 1.4.0
+```
+
+Added:
+
+- data-handling contract,
+- region compatibility matrix,
+- governance evidence package,
+- technical-control vs legal-compliance wording discipline,
+- official-document contradiction handling.
+
+### Updated — AI & Agent Integration
+
+Skill 13:
+
+```text
+1.1.0 → 1.1.1
+```
+
+Added explicit rule:
+
+```text
+Apps Script executes in-region
+≠
+external model / MCP / A2A processes in-region
+```
+
+Added data minimization and external-processor governance before model transfer.
+
+### Updated — Workspace API & Event Engineering
+
+Skill 16:
+
+```text
+1.0.0 → 1.1.0
+```
+
+Added:
+
+- data-region governance gate for Advanced Services,
+- direct REST not being an automatic compliance workaround,
+- API/event regionality inventory,
+- admin API regionalization awareness.
+
+### No Version Change
+
+Scanned and intentionally retained:
+
+```text
+04 Database Engineering       1.2.0
+06 Performance Engineering    1.2.0
+12 Web App & Frontend         1.1.0
+14 Workspace Add-ons & Chat   1.0.1
+15 Product Design             1.0.0
+```
+
+No material domain-specific rule change was found for these skills.
+
+### Current Apps Script Data-Region Snapshot
+
+Current Workspace Admin documentation identifies nonregionalized Apps Script classes including:
+
+```text
+Charts
+FormApp
+GroupsApp
+Jdbc
+Maps
+```
+
+and several Advanced Services.
+
+These are stored as a dated compatibility snapshot, not permanent architecture truth.
+
+### Workspace Policy API / DLP
+
+Consolidated current platform capability:
+
+```text
+Get / List
++
+Create / Update / Delete
+```
+
+for supported DLP rules/detectors.
+
+Administrative mutation is treated as a high-blast-radius governance operation.
+
+### Reports / Audit
+
+Added current audit-evidence constraints, including the documented maximum 180-day query period for audit activity reports.
+
+### Google Vault
+
+Added current API boundary:
+
+```text
+Vault API
+→ matters / holds / saved queries / exports
+
+retention rules
+→ Vault application, not Vault API
+```
+
+Current export availability snapshot:
+
+```text
+15 days
+```
+
+### Client-side Encryption
+
+Added CSE as a distinct control family from:
+
+- Data Regions,
+- DLP,
+- Vault.
+
+KACLS is treated as high-availability security infrastructure.
+
+### Full Audit
+
+Added:
+
+- `docs/full-skill-refresh-audit-v1.18.0.md`
+
+### Technology Watch
+
+Audit date advanced to:
+
+```text
+2026-09-16
+```
+
+Added/updated:
+
+- Apps Script Data Regions,
+- current nonregionalized service matrix,
+- Rhino documentation contradiction,
+- DLP Policy API,
+- Reports API,
+- Vault,
+- CSE,
+- Android Developer Verification,
+- gas-fakes v2.5.3 snapshot,
+- Vercel Skills v1.5.26,
+- PostgreSQL 19 Beta 3 WATCH,
+- clasp/Developer Knowledge/design standards NO CHANGE.
+
+### Repository Model
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–17
+```
+
+### Compatibility
+
+No intentional breaking repository-structure change.
+
+Skill 17 is additive; existing skill updates reflect current platform/governance behavior.
+
+---
+
+
 ## [v1.17.0] - 2026-09-14
 
 ### Full Skill & Extension Refresh

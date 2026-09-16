@@ -1,10 +1,10 @@
 ---
 name: workspace-api-event-engineering
 description: "Experience-driven integration engineering for Google Workspace APIs from Apps Script and adjacent runtimes, covering built-in vs advanced services vs direct REST, Cloud project/API enablement, OAuth and service-account boundaries, pagination, partial responses, change feeds, Workspace Events API subscriptions, Pub/Sub/CloudEvents delivery, subscription lifecycle, Meet/Drive/Chat event integration, Apps Script API execution, retries, idempotency, and operational safety."
-skill_version: "1.0.0"
+skill_version: "1.1.0"
 repository_introduced: "v1.17.0"
 status: "evolving"
-last_repository_update: "v1.17.0"
+last_repository_update: "v1.18.0"
 tags:
   - google-workspace
   - google-apis
@@ -2054,6 +2054,75 @@ Re-review when:
 - **15 Product Design Engineering** — UI/UX quality, not API integration.
 
 ---
+
+## Data-Region Governance Gate — v1.18.0
+
+### Advanced Service Availability Can Be Policy-Constrained
+
+Current Workspace Admin documentation lists several Advanced Services as nonregionalized under strict data-region controls.
+
+Therefore the normal integration decision:
+
+```text
+Advanced Service
+vs
+direct REST
+```
+
+must include:
+
+```text
+organizational data-region policy
+```
+
+### Direct REST Is Not an Automatic Compliance Workaround
+
+If an Advanced Service is disabled because it uses global processing, do not automatically replace it with `UrlFetchApp` to the same or another endpoint.
+
+First determine:
+
+- where the REST service processes/stores data;
+- whether the transfer is approved;
+- whether external processing is permitted;
+- whether the required scope/identity remains valid.
+
+Technical reachability is not governance approval.
+
+### API/Event Regionality Inventory
+
+For event/API integrations record:
+
+```text
+API/service
+authentication authority
+target resource
+delivery service
+Pub/Sub project/region policy
+consumer runtime
+downstream database/API
+```
+
+Evaluate each control plane separately.
+
+### Audit/Admin APIs Can Themselves Be Nonregionalized
+
+Current strict-region documentation identifies some administrative Advanced Services such as AdminDirectory/AdminReports as nonregionalized.
+
+If governance evidence collection depends on these APIs, test compatibility under the actual production policy.
+
+Use direct REST/external collection only after governance review.
+
+### Cross-Reference
+
+Skill 16 owns API/event mechanics.
+
+Skill 17 owns:
+
+- regionalization policy;
+- DLP;
+- audit/eDiscovery governance;
+- CSE;
+- compliance evidence.
 
 # References
 

@@ -13,8 +13,8 @@ Repository v1.14.0 began the **Capability Expansion** phase. v1.16.0 extends the
 The repository now contains:
 
 - 11 foundation skills,
-- 5 extension skills,
-- cross-skill evidence, technology-watch, source-refresh, design QA, API/event integration, and authoring guidance.
+- 6 extension skills,
+- cross-skill evidence, technology-watch, source-refresh, design QA, API/event integration, governance/compliance engineering, and authoring guidance.
 
 Individual skills remain `status: evolving` because Apps Script, AppSheet, databases, AI protocols, tooling, and real project experience continue to change.
 
@@ -161,7 +161,8 @@ last_repository_update: "v1.13.0"
 | v1.14.0 | Web App/Frontend + AI/Agent extension skills; skill-authoring standard |
 | v1.15.0 | Workspace Add-ons/Chat extension + official Developer Knowledge grounding refresh |
 | v1.16.0 | Product Design Engineering + design-system/accessibility/design-QA capability |
-| **v1.17.0** | **Workspace API/Event Engineering + Sheets 20M capacity + skill provenance/evaluation refresh** |
+| v1.17.0 | Workspace API/Event Engineering + Sheets 20M capacity + skill provenance/evaluation refresh |
+| **v1.18.0** | **Apps Script Data Regions + Workspace Governance & Compliance Engineering** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -433,6 +434,23 @@ Google Workspace integration engineering covering:
 - Apps Script API `scripts.run`,
 - idempotency/reconciliation/operational health.
 
+### 17 — Workspace Governance & Compliance Engineering
+
+Organization-level governance engineering covering:
+
+- Apps Script Data Regions,
+- regionalized/nonregionalized service compatibility,
+- data classification and processing inventory,
+- Workspace Policy API / DLP,
+- Reports API audit evidence,
+- Vault/eDiscovery boundaries,
+- Client-side Encryption and KACLS,
+- policy-as-code and drift detection,
+- governance deployment preflight,
+- compliance evidence and exception lifecycle.
+
+Skill 17 supports technical governance controls; it does not provide legal advice or certify regulatory compliance.
+
 Extension skills do not change the historical meaning of the v1.13.0 foundation milestone.
 
 They exist because post-foundation evidence demonstrated genuinely new capability domains that could not be cleanly owned by one existing skill.
@@ -476,6 +494,8 @@ Workspace add-on and Google Chat card-based work enters through Skill 14.
 Product design, visual systems, accessibility design, and design QA enter through Skill 15. Skill 12 remains the frontend-runtime implementation owner.
 
 Workspace REST APIs, Advanced Services, change feeds, and event subscriptions enter through Skill 16.
+
+Organization-level data residency, DLP, audit/eDiscovery, CSE, and governance controls enter through Skill 17.
 
 The skills are complementary, not sequential requirements for every project.
 
@@ -584,7 +604,8 @@ gas-engineering-playbook/
 │   ├── 13-ai-agent-integration/
 │   ├── 14-workspace-addons-chat-engineering/
 │   ├── 15-product-design-engineering/
-│   └── 16-workspace-api-event-engineering/
+│   ├── 16-workspace-api-event-engineering/
+│   └── 17-workspace-governance-compliance-engineering/
 ├── references/
 ├── examples/
 └── docs/
@@ -595,6 +616,7 @@ gas-engineering-playbook/
     ├── daily-source-refresh-audit-v1.15.0.md
     ├── design-source-refresh-audit-v1.16.0.md
     ├── full-skill-refresh-audit-v1.17.0.md
+    ├── full-skill-refresh-audit-v1.18.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
@@ -688,6 +710,14 @@ https://developers.google.com/workspace/add-ons
 - https://developers.google.com/workspace/guides/get-started
 - https://developers.google.com/workspace/events
 - https://developers.google.com/workspace/meet/api/guides/overview
+
+## Workspace Governance & Compliance
+
+- https://developers.google.com/workspace/release-notes
+- https://knowledge.workspace.google.com/admin/compliance/set-up-advanced-settings-for-data-regions
+- https://developers.google.com/workspace/admin/reports/v1/overview
+- https://developers.google.com/workspace/vault/guides
+- https://developers.google.com/workspace/cse/guides/overview
 
 ## Product Design / Design Systems
 

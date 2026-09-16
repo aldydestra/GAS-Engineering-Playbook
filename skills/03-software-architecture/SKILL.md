@@ -1,10 +1,10 @@
 ---
 name: software-architecture
 description: "Experience-driven architecture for Google Apps Script applications using pragmatic boundaries, stable global entry points, services, repositories, adapters, DTOs, dependency seams, deterministic workflows, and platform-aware modularity."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.4.0"
 status: "evolving"
-last_repository_update: "v1.13.0"
+last_repository_update: "v1.18.0"
 tags:
   - google-apps-script
   - software-architecture
@@ -1113,6 +1113,74 @@ Do not elevate a framework pattern without evidence it reduces real GAS change r
 - **11 Documentation** — ADRs and ownership.
 
 ---
+
+## Governance-Aware Architecture — v1.18.0
+
+### Data Location Is an Architecture Dimension
+
+For governed Workspace applications, add this question to architecture review:
+
+```text
+Where is each data category stored and processed?
+```
+
+A valid logical architecture can still be invalid under organizational residency policy.
+
+### Capability Boundary
+
+Model platform dependencies explicitly:
+
+```text
+Application Service
+↓
+Port / Gateway
+├─ regionalized Workspace capability
+├─ nonregionalized Workspace capability
+└─ external processor
+```
+
+This makes policy-driven replacement possible without rewriting domain logic.
+
+### Do Not Hide Governance Behind Infrastructure
+
+An adapter can hide implementation details.
+
+It should not hide:
+
+- processor/vendor identity;
+- data-region implications;
+- privileged authority;
+- compliance-relevant side effects.
+
+Architecture documentation should retain those attributes.
+
+### Policy-Constrained Fallback
+
+If a dependency is disabled under strict data-region policy, valid alternatives may include:
+
+```text
+remove capability
+use approved regional backend
+request governed exception
+change workflow
+```
+
+Do not automatically bypass the restriction with direct HTTP.
+
+### Compliance Boundary
+
+Skill 03 owns architectural separation.
+
+Skill 17 owns:
+
+- data-region controls;
+- DLP;
+- Vault;
+- CSE;
+- audit evidence;
+- policy governance.
+
+Use both when organizational controls shape the architecture.
 
 ## References
 

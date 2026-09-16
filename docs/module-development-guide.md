@@ -243,3 +243,25 @@ measurably useful skill
 ```
 
 See `references/skill-evaluation-provenance-patterns.md`.
+## Governance-Domain Extension Rule
+
+A compliance/governance topic should become its own extension only when it has independent:
+
+- platform controls/APIs;
+- administrative owners;
+- failure modes;
+- testing/preflight;
+- audit/evidence lifecycle;
+- operational maintenance.
+
+v1.18.0 establishes this boundary:
+
+```text
+Skill 07 Security
+→ application trust / authorization / secrets
+
+Skill 17 Governance & Compliance
+→ organization policy / residency / DLP / audit / Vault / CSE
+```
+
+Governance skills must avoid presenting technical controls as legal certification.

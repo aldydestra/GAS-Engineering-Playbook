@@ -1,10 +1,10 @@
 ---
 name: ai-agent-integration
 description: "Experience-driven AI and agent integration for Google Apps Script, covering LLM provider boundaries, structured output, function/tool calling, tool authorization, agent loops, MCP, A2A, context/time budgets, human approval, idempotency, observability, testing, and safe Workspace automation."
-skill_version: "1.1.0"
+skill_version: "1.1.1"
 repository_introduced: "v1.14.0"
 status: "evolving"
-last_repository_update: "v1.15.0"
+last_repository_update: "v1.18.0"
 tags:
   - google-apps-script
   - ai
@@ -1987,6 +1987,67 @@ This is strong evidence that AI integration is now a first-class Apps Script/Wor
 It does **not** mean every application should become agentic.
 
 Continue to apply the "LLM is needed?" gate defined earlier in this skill.
+
+## Data Governance Boundary — v1.18.0
+
+### Workspace Data Regions Stop at the External Processor Boundary
+
+If Apps Script sends data to:
+
+- Gemini/LLM API;
+- external model provider;
+- remote MCP server;
+- remote A2A agent;
+- external vector/file-search service;
+
+the external service's data-location and retention guarantees must be evaluated separately.
+
+Do not claim:
+
+```text
+Apps Script executed in-region
+→ agent/model processing stayed in-region
+```
+
+### Minimize Before Model Transfer
+
+For governed data:
+
+```text
+classify
+↓
+select necessary fields
+↓
+redact/minimize
+↓
+verify approved provider/region
+↓
+send
+```
+
+This governance gate is in addition to the existing authorization/tool-safety gate.
+
+### Grounding Data Is Still Data
+
+Official documentation grounding (for example Developer Knowledge) is generally public technical content.
+
+Business/user records retrieved by an agent are not equivalent.
+
+Keep:
+
+```text
+documentation context
+```
+
+separate from:
+
+```text
+protected business context
+```
+
+in data-handling policy.
+
+Cross-reference Skill 17.
 
 # References
 

@@ -1,10 +1,10 @@
 ---
 name: appsheet-migration
 description: "Experience-driven skill for analyzing and migrating AppSheet applications into Google Apps Script, hybrid architectures, APIs, or relational backends while preserving data, automation, security, and workflow semantics."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.3.0"
 status: "evolving"
-last_repository_update: "v1.13.0"
+last_repository_update: "v1.18.0"
 tags:
   - appsheet
   - google-apps-script
@@ -981,6 +981,108 @@ New community migration patterns should be verified against current AppSheet beh
 - **11 Documentation** — migration records/handoff.
 
 ---
+
+## Branded Android Distribution Update — v1.18.0
+
+### Migration Includes Native Distribution Dependencies
+
+If the AppSheet solution uses a branded Android app, migration/cutover inventory must include:
+
+```text
+package name
+signing ownership
+store account
+developer verification status
+minimum supported OS
+last branded-app rebuild
+distribution channel
+```
+
+These concerns exist outside AppSheet expressions/tables but can determine whether users can install or update the application.
+
+### Android Developer Verification — September 30, 2026
+
+Current Android developer documentation states that starting **September 30, 2026**, developer-verification protections take effect for users in:
+
+```text
+Brazil
+Indonesia
+Singapore
+Thailand
+```
+
+for participating app stores on certified Android devices.
+
+Current participating stores include:
+
+```text
+Google Play
+HONOR App Market
+OPPO App Market
+Galaxy Store
+Palm Store
+V-Appstore
+GetApps
+```
+
+The program is planned to expand globally in 2027.
+
+Treat these dates/regions as time-sensitive.
+
+### Google Play Package Registration
+
+Current Play/Android guidance states most existing Play apps are automatically registered, but developers should verify package registration status before the deadline.
+
+For AppSheet branded apps:
+
+- preserve package-name ownership;
+- preserve signing-key ownership/history;
+- verify the current Play Console developer/account state;
+- confirm that the generated AppSheet branded bundle can update the existing published package.
+
+Do not generate a replacement package name casually during migration.
+
+### Branded-App Refresh Cadence
+
+Current AppSheet help continues to require branded apps to be refreshed periodically; AppSheet recommends rebuilding/distributing current branded binaries so users receive platform-level fixes/features, with support warnings for old branded builds.
+
+This differs from AppSheet app-definition changes, which normally sync without republishing the native shell.
+
+Migration documentation should separate:
+
+```text
+AppSheet app-definition version
+```
+
+from:
+
+```text
+native branded app binary/store release
+```
+
+### Web Fallback Is Not Feature Parity
+
+AppSheet documentation notes users on unsupported native environments may still use the browser, but mobile-only capabilities can differ.
+
+Do not call browser fallback full parity when the application depends on:
+
+- barcode scanning;
+- native integrations;
+- other mobile-only behavior.
+
+### Deployment Cutover Checklist
+
+For branded Android applications:
+
+- [ ] developer identity verified where required;
+- [ ] package registered;
+- [ ] signing-key path understood;
+- [ ] current branded bundle generated;
+- [ ] store update path tested;
+- [ ] old-device impact assessed;
+- [ ] browser fallback limitations documented.
+
+Cross-reference Skill 10 for release governance.
 
 ## References
 

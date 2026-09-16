@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-14**
+Last audit: **2026-09-16**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -1746,5 +1746,399 @@ Status: **NO CHANGE**
 Current v1.16 sources remain applicable.
 
 No WCAG or DTCG stable-spec replacement was found.
+
+Status: **NO CHANGE**
+---
+
+# v1.18.0 Governance & Data Regions Refresh — 2026-09-16
+
+## Apps Script Data Regions
+
+Source:
+
+https://developers.google.com/workspace/release-notes
+
+Release date:
+
+```text
+2026-09-14
+```
+
+Evidence class:
+
+**Official Google Workspace developer documentation**
+
+Status:
+
+```text
+GA
+```
+
+Current documented Apps Script coverage includes:
+
+### Data at rest
+
+- project files/code definitions;
+- manifest configuration;
+- trigger metadata;
+- Property Service;
+- Cache Service.
+
+### Data processing
+
+- script execution;
+- container-bound automation;
+- associated runtime operations.
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 01;
+- Skill 03;
+- Skill 05;
+- Skill 07;
+- Skill 08;
+- Skill 09;
+- Skill 10;
+- Skill 11;
+- Skill 13;
+- Skill 16;
+- new Skill 17.
+
+---
+
+## Nonregionalized Apps Script Services
+
+Current Admin source:
+
+https://knowledge.workspace.google.com/admin/compliance/set-up-advanced-settings-for-data-regions
+
+Last checked:
+
+```text
+2026-09-16
+```
+
+Current nonregionalized class snapshot:
+
+```text
+Charts
+FormApp
+GroupsApp
+Jdbc
+Maps
+```
+
+Current nonregionalized Advanced Service snapshot includes:
+
+```text
+AdminDirectory
+AdminReports
+AdSense
+Analytics
+AnalyticsAdmin
+AnalyticsData
+BigQuery
+Chat
+Classroom
+ShoppingContent
+MerchantApi
+DoubleClickCampaigns
+TagManager
+Tasks
+YouTube
+YouTubeAnalytics
+YouTubeContentId
+```
+
+Status: **ADOPTED AS TIME-SENSITIVE COMPATIBILITY MATRIX**
+
+If strict policy disables globally processed features, these capabilities can fail.
+
+Re-check before implementation.
+
+---
+
+## Apps Script Runtime Documentation Contradiction
+
+Current official sources conflict:
+
+### Apps Script manifest reference
+
+still states:
+
+```text
+STABLE = currently Rhino
+```
+
+### Sunset / migration references
+
+state:
+
+```text
+Rhino stopped executing after January 31, 2026
+```
+
+### Data-region troubleshooting
+
+states Rhino is unsupported under strict region policies.
+
+Status: **DOCUMENTATION INCONSISTENCY**
+
+Decision:
+
+Use current runtime sunset/migration behavior as operational truth.
+
+Do not revive Rhino based on stale generic manifest wording.
+
+---
+
+## Workspace Policy API / DLP
+
+Sources:
+
+- https://workspaceupdates.googleblog.com/2025/02/policy-api-general-availability.html
+- https://workspaceupdates.googleblog.com/2026/06/introducing-workspace-policy-api-mutate-endpoints-for-DLP.html
+
+Status: **ADOPTED INTO SKILL 17**
+
+Current relevant capability:
+
+```text
+read/audit policy
++
+Create/Update/Delete supported DLP rules/detectors
+```
+
+Requires high-privilege administrative governance.
+
+---
+
+## Reports API
+
+Source:
+
+https://developers.google.com/workspace/admin/reports/v1/overview
+
+Status: **ADOPTED INTO SKILL 17**
+
+Current audit availability snapshot:
+
+```text
+maximum audit activity report period = 180 days
+```
+
+Rich current activity fields can include:
+
+- OAuth client/application info;
+- impersonation;
+- agent attribution;
+- device information;
+- status;
+- selected sensitive-data inclusion.
+
+---
+
+## Google Vault API
+
+Sources:
+
+- https://developers.google.com/workspace/vault/guides
+- https://developers.google.com/workspace/vault/guides/exports
+
+Status: **ADOPTED INTO SKILL 17**
+
+Current API supports eDiscovery resources including:
+
+```text
+matters
+holds
+saved queries
+exports
+```
+
+Important boundary:
+
+```text
+retention rules
+→ Vault application, not Vault API
+```
+
+Current export availability snapshot:
+
+```text
+15 days
+```
+
+---
+
+## Workspace Client-Side Encryption
+
+Source:
+
+https://developers.google.com/workspace/cse/guides/overview
+
+Status: **ADOPTED INTO SKILL 17**
+
+CSE allows organizations to own/control encryption keys via an external KACLS.
+
+Key distinction:
+
+```text
+CSE
+≠
+Data Regions
+≠
+DLP
+≠
+Vault
+```
+
+Current KACLS guidance includes:
+
+- HTTPS/TLS 1.2+;
+- token validation;
+- logging;
+- operational health;
+- low-latency expectation.
+
+---
+
+## AppSheet Branded Android / Android Developer Verification
+
+Sources:
+
+- https://support.google.com/appsheet/answer/10105385
+- https://developer.android.com/developer-verification
+- https://developer.android.com/developer-verification/guides/google-play-console
+
+Current enforcement milestone:
+
+```text
+2026-09-30
+```
+
+Initial enforcement countries:
+
+```text
+Brazil
+Indonesia
+Singapore
+Thailand
+```
+
+Status: **ADOPTED AS EXTERNAL DEPLOYMENT CONSTRAINT**
+
+Affected:
+
+- Skill 02;
+- Skill 10.
+
+This is an Android distribution rule, not an AppSheet expression/runtime rule.
+
+---
+
+## gas-fakes
+
+Source:
+
+https://github.com/brucemcpherson/gas-fakes
+
+Current project documentation identifies:
+
+```text
+v2.5.3
+~10,500 active tests
+```
+
+Status: **TOOL SNAPSHOT / TESTING EVIDENCE**
+
+The project continues to document cases where:
+
+- live Apps Script;
+- public REST API;
+- official documentation;
+- emulator behavior
+
+can differ.
+
+Playbook rule remains:
+
+```text
+live Apps Script
+= final platform parity evidence
+```
+
+---
+
+## Vercel Skills CLI
+
+Source:
+
+https://github.com/vercel-labs/skills/releases
+
+Current observed latest:
+
+```text
+v1.5.26
+released 2026-09-11
+```
+
+Notable changes are distribution/tooling oriented.
+
+Status: **NO NEW GENERIC SKILL RULE**
+
+v1.17.0 provenance/pinning guidance remains current.
+
+---
+
+## PostgreSQL
+
+Current official beta state:
+
+```text
+PostgreSQL 19 Beta 3
+```
+
+Status: **WATCH**
+
+No production-major baseline change.
+
+---
+
+## clasp
+
+Current published snapshot remains:
+
+```text
+@google/clasp 3.4.1
+```
+
+Status: **NO CHANGE**
+
+---
+
+## Developer Knowledge
+
+Latest tracked release remains:
+
+```text
+2026-09-09
+gcloud beta developer-knowledge commands
+```
+
+Status: **NO CHANGE**
+
+---
+
+## Product Design / DTCG / WCAG
+
+No newer stable standards source was found superseding:
+
+```text
+WCAG 2.2
+DTCG 2025.10
+```
 
 Status: **NO CHANGE**

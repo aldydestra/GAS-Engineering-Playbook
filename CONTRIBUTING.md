@@ -273,3 +273,28 @@ result with skill
 under the same criteria.
 
 Do not optimize a skill against an evaluation harness whose trigger/result capture has not itself been validated.
+## Governance / Compliance Contributions
+
+For contributions involving data residency, DLP, audit, Vault, CSE, or administrative policy:
+
+- distinguish technical controls from legal/regulatory conclusions;
+- cite current official Workspace/Admin documentation;
+- record the evidence date for time-sensitive region/service compatibility;
+- identify affected Workspace editions/OU/group scope where relevant;
+- separate application security from organization-level governance;
+- identify external processors and cross-region boundaries;
+- do not include real sensitive audit content, legal matter data, credentials, or private policy details.
+
+A strong governance contribution should explain:
+
+```text
+control objective
+platform capability
+scope/edition
+implementation boundary
+failure mode
+evidence/audit source
+operational owner
+```
+
+Do not submit broad claims such as "this makes the application compliant" without an appropriately scoped organizational/legal determination.

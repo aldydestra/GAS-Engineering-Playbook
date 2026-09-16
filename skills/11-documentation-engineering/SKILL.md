@@ -1,10 +1,10 @@
 ---
 name: documentation-engineering
 description: "Experience-driven documentation engineering for Google Apps Script projects, covering README, JSDoc, changelog, release notes, handoff, ADRs, runbooks, ownership, troubleshooting, contribution evidence, documentation lifecycle, and durable knowledge transfer."
-skill_version: "1.3.1"
+skill_version: "1.4.0"
 repository_introduced: "v1.12.0"
 status: "evolving"
-last_repository_update: "v1.17.0"
+last_repository_update: "v1.18.0"
 tags:
   - google-apps-script
   - documentation
@@ -1830,6 +1830,84 @@ Keep sensitive project data out of public eval fixtures.
 See:
 
 `references/skill-evaluation-provenance-patterns.md`
+
+## Governance Documentation Update — v1.18.0
+
+### Add a Data-Handling Contract
+
+For governed applications document:
+
+```text
+data categories
+source
+storage
+processors
+region requirements
+external transfer
+retention
+audit source
+owner
+```
+
+Do not leave compliance-relevant data flow only inside code.
+
+### Region Compatibility Matrix
+
+Maintain a current matrix for important dependencies:
+
+```markdown
+| Dependency | Purpose | Region status | Evidence date | Fallback |
+|---|---|---|---|---|
+```
+
+The matrix must be dated because Google can regionalize additional services over time.
+
+### Compliance Evidence vs Legal Claim
+
+Documentation may state:
+
+```text
+"This workflow is configured to use EU data processing for covered Apps Script operations."
+```
+
+when supported by evidence.
+
+Avoid broad statements such as:
+
+```text
+"This application is GDPR compliant."
+```
+
+unless the organization has made that determination.
+
+### Official Documentation Contradictions
+
+The v1.18.0 audit found an example where generic Apps Script manifest documentation still described Rhino as the current `STABLE` runtime while runtime sunset/migration pages state Rhino no longer executes.
+
+When official sources conflict:
+
+- record both sources;
+- prefer the more specific/current lifecycle source;
+- note the contradiction;
+- do not silently rewrite history.
+
+### Governance Evidence Package
+
+A release/handoff can include:
+
+```text
+data-flow diagram
+region/service matrix
+scope/identity inventory
+policy references
+test evidence
+known exceptions
+audit query/source
+```
+
+Use only what is proportionate to project risk.
+
+See Skill 17.
 
 # References
 
