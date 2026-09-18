@@ -298,3 +298,32 @@ operational owner
 ```
 
 Do not submit broad claims such as "this makes the application compliant" without an appropriately scoped organizational/legal determination.
+## Agent Skill / Plugin Security Contributions
+
+When contributing an external agent skill/plugin or security pattern, include when relevant:
+
+```text
+source repository
+path
+revision/commit
+license
+effective package contents
+scripts/hooks/MCP/dependencies
+security scan completeness
+critical/high findings
+permission review
+evaluation evidence
+integrity hash/signature
+```
+
+Do not submit a skill as "safe" solely because:
+
+- its main Markdown looks benign,
+- a scanner reports zero findings while analysis is incomplete,
+- the upstream repository is popular,
+- it has a valid signature but has not been reviewed,
+- it improves agent output but requires excessive permissions.
+
+Security, effectiveness, and integrity are separate evidence dimensions.
+
+See Skill 18 and `references/agent-skill-supply-chain-security-patterns.md`.

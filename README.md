@@ -13,8 +13,8 @@ Repository v1.14.0 began the **Capability Expansion** phase. v1.16.0 extends the
 The repository now contains:
 
 - 11 foundation skills,
-- 6 extension skills,
-- cross-skill evidence, technology-watch, source-refresh, design QA, API/event integration, governance/compliance engineering, and authoring guidance.
+- 7 extension skills,
+- cross-skill evidence, technology-watch, source-refresh, design QA, API/event integration, governance/compliance engineering, agent-skill supply-chain security, and authoring guidance.
 
 Individual skills remain `status: evolving` because Apps Script, AppSheet, databases, AI protocols, tooling, and real project experience continue to change.
 
@@ -162,7 +162,8 @@ last_repository_update: "v1.13.0"
 | v1.15.0 | Workspace Add-ons/Chat extension + official Developer Knowledge grounding refresh |
 | v1.16.0 | Product Design Engineering + design-system/accessibility/design-QA capability |
 | v1.17.0 | Workspace API/Event Engineering + Sheets 20M capacity + skill provenance/evaluation refresh |
-| **v1.18.0** | **Apps Script Data Regions + Workspace Governance & Compliance Engineering** |
+| v1.18.0 | Apps Script Data Regions + Workspace Governance & Compliance Engineering |
+| **v1.19.0** | **Agent Skill Supply-Chain Security + skill routing/docs/design/Marketplace refresh** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -451,6 +452,24 @@ Organization-level governance engineering covering:
 
 Skill 17 supports technical governance controls; it does not provide legal advice or certify regulatory compliance.
 
+### 18 — Agent Skill Supply-Chain Security
+
+Agent-skill and plugin security engineering covering:
+
+- pre-install scanning,
+- prompt injection and hidden instructions,
+- data exfiltration,
+- dangerous code and dependency review,
+- MCP least privilege and tool poisoning,
+- transitive/nested artifact analysis,
+- fail-closed incomplete scans,
+- CI/SARIF gates,
+- sandboxed live evaluation,
+- provenance and revision pinning,
+- permission drift,
+- signatures/hashes,
+- catalog admission and incident response.
+
 Extension skills do not change the historical meaning of the v1.13.0 foundation milestone.
 
 They exist because post-foundation evidence demonstrated genuinely new capability domains that could not be cleanly owned by one existing skill.
@@ -496,6 +515,8 @@ Product design, visual systems, accessibility design, and design QA enter throug
 Workspace REST APIs, Advanced Services, change feeds, and event subscriptions enter through Skill 16.
 
 Organization-level data residency, DLP, audit/eDiscovery, CSE, and governance controls enter through Skill 17.
+
+Agent-skill/plugin admission, pre-install scanning, package integrity, and skill supply-chain risk enter through Skill 18.
 
 The skills are complementary, not sequential requirements for every project.
 
@@ -605,7 +626,8 @@ gas-engineering-playbook/
 │   ├── 14-workspace-addons-chat-engineering/
 │   ├── 15-product-design-engineering/
 │   ├── 16-workspace-api-event-engineering/
-│   └── 17-workspace-governance-compliance-engineering/
+│   ├── 17-workspace-governance-compliance-engineering/
+│   └── 18-agent-skill-supply-chain-security/
 ├── references/
 ├── examples/
 └── docs/
@@ -617,6 +639,7 @@ gas-engineering-playbook/
     ├── design-source-refresh-audit-v1.16.0.md
     ├── full-skill-refresh-audit-v1.17.0.md
     ├── full-skill-refresh-audit-v1.18.0.md
+    ├── full-skill-refresh-audit-v1.19.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
@@ -718,6 +741,13 @@ https://developers.google.com/workspace/add-ons
 - https://developers.google.com/workspace/admin/reports/v1/overview
 - https://developers.google.com/workspace/vault/guides
 - https://developers.google.com/workspace/cse/guides/overview
+
+## Agent Skill Security
+
+- https://github.com/NVIDIA/SkillSpector
+- https://docs.nvidia.com/skills/scanning-agent-skills
+- https://docs.nvidia.com/skills/skillevaluator
+- https://docs.nvidia.com/skills/agent-skill-trust-pipeline
 
 ## Product Design / Design Systems
 

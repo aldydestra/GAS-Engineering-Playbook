@@ -1,58 +1,48 @@
 # Release Manifest
 
-Repository Version: v1.18.0
+Repository Version: v1.19.0
 
 ## Release Type
 
 - Full skill and extension refresh
-- Apps Script Data Regions capability update
-- New Workspace Governance & Compliance extension
+- New agent-skill supply-chain security extension
+- Workspace Marketplace / Meet correction
+- Documentation/design/orchestration ecosystem refresh
 - Full repository snapshot
 
 ## Repository Model
 
 - Foundation Skills: 01–11
-- Extension Skills: 12–17
+- Extension Skills: 12–18
 
 ## New Skill
 
-- `17-workspace-governance-compliance-engineering` — 1.0.0
+- `18-agent-skill-supply-chain-security` — 1.0.0
 
 ## Updated Skills
 
-- `01-gas-core-engineering`: 1.2.0 → 1.3.0
-- `02-appsheet-migration`: 1.1.0 → 1.2.0
-- `03-software-architecture`: 1.1.0 → 1.2.0
-- `05-postgresql-integration`: 1.1.0 → 1.2.0
-- `07-security-engineering`: 1.2.0 → 1.3.0
-- `08-testing-quality`: 1.2.0 → 1.2.1
-- `09-monitoring-observability`: 1.2.0 → 1.2.1
-- `10-deployment-engineering`: 1.2.1 → 1.3.0
-- `11-documentation-engineering`: 1.3.1 → 1.4.0
-- `13-ai-agent-integration`: 1.1.0 → 1.1.1
-- `16-workspace-api-event-engineering`: 1.0.0 → 1.1.0
-
-## Intentionally Unchanged
-
-- `04-database-engineering` — 1.2.0
-- `06-performance-engineering` — 1.2.0
-- `12-web-app-frontend-engineering` — 1.1.0
-- `14-workspace-addons-chat-engineering` — 1.0.1
-- `15-product-design-engineering` — 1.0.0
+- `07-security-engineering`: 1.3.0 → 1.4.0
+- `08-testing-quality`: 1.2.1 → 1.3.0
+- `10-deployment-engineering`: 1.3.0 → 1.3.1
+- `11-documentation-engineering`: 1.4.0 → 1.5.0
+- `13-ai-agent-integration`: 1.1.1 → 1.2.0
+- `14-workspace-addons-chat-engineering`: 1.0.1 → 1.1.0
+- `15-product-design-engineering`: 1.0.0 → 1.1.0
+- `16-workspace-api-event-engineering`: 1.1.0 → 1.1.1
 
 ## New Reference / Audit
 
-- `references/workspace-governance-compliance-patterns.md`
-- `docs/full-skill-refresh-audit-v1.18.0.md`
+- `references/agent-skill-supply-chain-security-patterns.md`
+- `docs/full-skill-refresh-audit-v1.19.0.md`
 
-## Primary Current Evidence
+## Audited External Repositories
 
-- Apps Script Data Regions and strict-region service compatibility
-- Workspace Policy API / DLP mutation
-- Admin SDK Reports audit evidence
-- Google Vault API
-- Workspace Client-side Encryption
-- Android Developer Verification September 30, 2026 milestone
+- NVIDIA/SkillSpector
+- docmd-io/docmd
+- nextlevelbuilder/ui-ux-pro-max-skill
+- ruvnet/ruflo
+- foryourhealth111-pixel/Vibe-Skills
+- vercel-labs/skills
 
 ## Files
 - `CHANGELOG.md`
@@ -69,6 +59,7 @@ Repository Version: v1.18.0
 - `docs/foundation-audit-v1.13.0.md`
 - `docs/full-skill-refresh-audit-v1.17.0.md`
 - `docs/full-skill-refresh-audit-v1.18.0.md`
+- `docs/full-skill-refresh-audit-v1.19.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
@@ -77,6 +68,7 @@ Repository Version: v1.18.0
 - `docs/technology-watch.md`
 - `docs/testing-strategy-template.md`
 - `examples/.gitkeep`
+- `references/agent-skill-supply-chain-security-patterns.md`
 - `references/ai-agent-integration-patterns.md`
 - `references/appsheet-migration-patterns.md`
 - `references/database-patterns.md`
@@ -116,3 +108,4 @@ Repository Version: v1.18.0
 - `skills/15-product-design-engineering/SKILL.md`
 - `skills/16-workspace-api-event-engineering/SKILL.md`
 - `skills/17-workspace-governance-compliance-engineering/SKILL.md`
+- `skills/18-agent-skill-supply-chain-security/SKILL.md`

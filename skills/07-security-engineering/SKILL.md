@@ -1,10 +1,10 @@
 ---
 name: security-engineering
 description: "Experience-driven security engineering for Google Apps Script covering execution identity, OAuth scopes, authorization, secrets, web apps, triggers, input validation, external integrations, PostgreSQL access, auditability, and secure operational boundaries."
-skill_version: "1.3.0"
+skill_version: "1.4.0"
 repository_introduced: "v1.8.0"
 status: "evolving"
-last_repository_update: "v1.18.0"
+last_repository_update: "v1.19.0"
 tags:
   - google-apps-script
   - security
@@ -1619,6 +1619,94 @@ A script executing in an approved region still needs:
 - least privilege.
 
 Residency does not grant trust.
+
+## Agent Skill Supply-Chain Boundary — v1.19.0
+
+### Skills and Plugins Are Security-Critical Inputs
+
+Application security must now explicitly include the possibility that an AI coding/agent environment loads:
+
+```text
+skills
+plugins
+hooks
+MCP config
+tool descriptions
+helper scripts
+```
+
+These artifacts can alter agent behavior before ordinary application code is executed.
+
+Skill 07 owns the general trust-boundary principle.
+
+Skill 18 owns the full pre-install / update / publication security lifecycle.
+
+### Do Not Trust Prose-Only Review
+
+A skill may appear harmless in `SKILL.md` while executable or referenced content performs:
+
+- network exfiltration;
+- shell execution;
+- secret access;
+- path traversal;
+- persistence;
+- MCP permission expansion.
+
+Security review must follow the **effective package**, not only the primary instructions.
+
+### Declared Capability vs Observed Capability
+
+Where a skill/plugin ecosystem supports permission declarations, compare:
+
+```text
+declared
+vs
+observed
+```
+
+Security concerns include:
+
+- missing declaration;
+- wildcard declaration;
+- underdeclared behavior;
+- unnecessary overdeclared authority.
+
+### MCP Metadata Is Part of the Attack Surface
+
+Tool descriptions and parameter metadata can manipulate model behavior.
+
+Review:
+
+- hidden instructions;
+- Unicode deception;
+- malicious defaults;
+- description-behavior mismatch.
+
+### Fail Closed on Incomplete Review
+
+If relevant skill files cannot be inspected:
+
+```text
+unknown
+≠
+safe
+```
+
+Do not convert an incomplete scan into an approval.
+
+### Skill Security Is Not Application Security
+
+A production application can be secure while the agent environment used to maintain it is compromised by a malicious skill.
+
+Protect both:
+
+```text
+software supply chain
++
+agent skill supply chain
+```
+
+See Skill 18.
 
 # References
 

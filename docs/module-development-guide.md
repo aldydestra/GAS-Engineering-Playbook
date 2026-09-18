@@ -265,3 +265,34 @@ Skill 17 Governance & Compliance
 ```
 
 Governance skills must avoid presenting technical controls as legal certification.
+## Agent Skill Supply-Chain Extension Rule
+
+Skill/plugin security deserves a separate owner when the repository itself consumes or distributes agent skills with executable or tool-bearing content.
+
+v1.19.0 establishes:
+
+```text
+Skill 07 Security
+→ application/runtime trust
+
+Skill 18 Agent Skill Supply-Chain Security
+→ skill/plugin package admission, scanning, integrity, update, revocation
+```
+
+For external skill adoption:
+
+```text
+discover
+↓
+pin
+↓
+scan complete package
+↓
+evaluate
+↓
+approve
+↓
+record provenance
+```
+
+Do not conflate a skill's usefulness with its safety.

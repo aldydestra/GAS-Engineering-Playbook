@@ -1,10 +1,10 @@
 ---
 name: workspace-api-event-engineering
 description: "Experience-driven integration engineering for Google Workspace APIs from Apps Script and adjacent runtimes, covering built-in vs advanced services vs direct REST, Cloud project/API enablement, OAuth and service-account boundaries, pagination, partial responses, change feeds, Workspace Events API subscriptions, Pub/Sub/CloudEvents delivery, subscription lifecycle, Meet/Drive/Chat event integration, Apps Script API execution, retries, idempotency, and operational safety."
-skill_version: "1.1.0"
+skill_version: "1.1.1"
 repository_introduced: "v1.17.0"
 status: "evolving"
-last_repository_update: "v1.18.0"
+last_repository_update: "v1.19.0"
 tags:
   - google-workspace
   - google-apis
@@ -2123,6 +2123,48 @@ Skill 17 owns:
 - audit/eDiscovery governance;
 - CSE;
 - compliance evidence.
+
+## Meet `spaces.members` Method Correction — v1.19.0
+
+The v1.17.0 skill introduced the September 11, 2026 GA `spaces.members` capability but summarized only:
+
+```text
+create
+delete
+get
+list
+```
+
+Current official Meet release notes document **six** GA methods:
+
+```text
+create
+delete
+get
+list
+patch
+batchUpdate
+```
+
+The latter two are important because they support role updates, including co-host role management.
+
+### Field Masks
+
+Current Meet documentation also states:
+
+- `create`, `get`, and `list` support response field projection;
+- `patch` and `batchUpdate` use `updateMask`;
+- `batchUpdate` can update multiple members in one request.
+
+This reinforces the generic API rule:
+
+```text
+use field masks / batch methods when supported
+```
+
+instead of issuing unnecessary individual full-resource operations.
+
+Treat this as a correction to the earlier method inventory, not a new API release.
 
 # References
 

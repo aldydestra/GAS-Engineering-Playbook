@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-16**
+Last audit: **2026-09-18**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -2135,6 +2135,395 @@ Status: **NO CHANGE**
 ## Product Design / DTCG / WCAG
 
 No newer stable standards source was found superseding:
+
+```text
+WCAG 2.2
+DTCG 2025.10
+```
+
+Status: **NO CHANGE**
+---
+
+# v1.19.0 Agent Skill Supply-Chain Refresh — 2026-09-18
+
+## NVIDIA SkillSpector
+
+Repository:
+
+https://github.com/NVIDIA/SkillSpector
+
+Docs:
+
+https://docs.nvidia.com/skills/scanning-agent-skills
+
+Evidence class:
+
+**NVIDIA-maintained open source + official NVIDIA docs**
+
+Current tool snapshot:
+
+```text
+68 vulnerability patterns
+17 categories
+```
+
+Current categories include:
+
+- prompt injection;
+- data exfiltration;
+- privilege escalation;
+- supply chain;
+- excessive agency;
+- output handling;
+- system-prompt leakage;
+- memory poisoning;
+- tool misuse;
+- rogue agent;
+- anti-refusal;
+- trigger abuse;
+- dangerous code;
+- taint tracking;
+- YARA;
+- MCP least privilege;
+- MCP tool poisoning.
+
+Status: **ADOPTED AS NEW EXTENSION DOMAIN**
+
+Affected:
+
+- Skill 07;
+- Skill 08;
+- Skill 13;
+- Skill 18.
+
+Important current behavior:
+
+```text
+incomplete analysis
+→ not safe to install
+```
+
+and bounded resource analysis of untrusted bundles.
+
+---
+
+## NVIDIA SkillEvaluator
+
+Docs:
+
+https://docs.nvidia.com/skills/skillevaluator
+
+Current status:
+
+```text
+Experimental
+```
+
+Current three-tier model:
+
+```text
+Tier 1 — validation/security
+Tier 2 — semantic dedup
+Tier 3 — live agent evaluation
+```
+
+Status: **ADOPTED GENERICALLY**
+
+The vendor implementation is not required.
+
+---
+
+## NVIDIA Skill Trust Pipeline
+
+Source:
+
+https://docs.nvidia.com/skills/agent-skill-trust-pipeline
+
+Useful distinction:
+
+```text
+scan
+→ safety
+
+evaluation
+→ effectiveness
+
+sign
+→ integrity/authenticity
+```
+
+Status: **ADOPTED**
+
+---
+
+## Google Workspace Marketplace SDK
+
+Source:
+
+https://developers.google.com/workspace/release-notes
+
+Release date:
+
+```text
+2026-09-15
+```
+
+Current host product states:
+
+```text
+Unsaved
+Draft
+Under review
+Published
+```
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 10;
+- Skill 14.
+
+---
+
+## Google Meet `spaces.members`
+
+Sources:
+
+- https://developers.google.com/workspace/meet/release-notes
+- https://developers.google.com/workspace/meet/api/guides/meeting-space-members
+
+Current GA methods:
+
+```text
+create
+delete
+get
+list
+patch
+batchUpdate
+```
+
+Status: **CORRECTION ADOPTED**
+
+Affected:
+
+- Skill 16 `1.1.1`.
+
+---
+
+## docmd
+
+Repository:
+
+https://github.com/docmd-io/docmd
+
+Current release surfaced:
+
+```text
+0.8.17
+```
+
+Useful current architecture:
+
+- canonical Markdown;
+- static HTML;
+- offline search;
+- semantic search;
+- `llms.txt` / `llms-full.txt`;
+- MCP server;
+- agent skills;
+- versioning/i18n;
+- offline build.
+
+Status: **ADOPTED / ADAPTED**
+
+Affected:
+
+- Skill 11.
+
+Security lessons from release history include:
+
+- XSS regression;
+- plugin hardening;
+- optional dependency/install hardening;
+- local bundled default preferable to mandatory network fetch.
+
+---
+
+## UI/UX Pro Max
+
+Repository:
+
+https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+
+Current release surface includes:
+
+```text
+v2.15.0
+```
+
+Current skill describes searchable local design intelligence across:
+
+- styles;
+- product palettes;
+- typography;
+- UX rules;
+- icons;
+- animation presets;
+- charts;
+- stacks.
+
+Status: **ADAPTED**
+
+Affected:
+
+- Skill 15.
+
+Catalog content is decision support, not a standard.
+
+Tool's installer/search scripts are a Skill 18 supply-chain surface.
+
+---
+
+## Ruflo
+
+Repository:
+
+https://github.com/ruvnet/ruflo
+
+Status: **ADAPTED**
+
+Useful patterns:
+
+- proportional multi-agent orchestration;
+- memory boundaries;
+- sandbox/isolation;
+- explicit task lifecycle;
+- task-scoped authorization;
+- deny-by-default tool authority;
+- signed decision receipts.
+
+Framework-specific tool counts, schemas, and performance claims are not generic rules.
+
+---
+
+## Vibe-Skills
+
+Repository:
+
+https://github.com/foryourhealth111-pixel/Vibe-Skills
+
+Current release:
+
+```text
+v4.0.0
+```
+
+Useful patterns:
+
+```text
+requirement
+↓
+decomposition
+↓
+local skill metadata index
+↓
+candidate shortlist
+↓
+on-demand full skill load
+↓
+module assignment
+↓
+execution record
+↓
+completion gate
+```
+
+Status: **ADOPTED / ADAPTED**
+
+Affected:
+
+- Skill 13;
+- Skill 18.
+
+---
+
+## Vercel Skills
+
+Repository:
+
+https://github.com/vercel-labs/skills
+
+Current release surfaced:
+
+```text
+v1.6.0
+2026-09-16
+```
+
+Recent work continues to reinforce:
+
+- skill origin/provenance;
+- commit pinning;
+- update locks;
+- symlink safety;
+- installer security.
+
+Status: **NO NEW META-SKILL DOMAIN**
+
+Skill 18 now owns the security lifecycle.
+
+---
+
+## clasp
+
+Current stable changelog remains:
+
+```text
+3.4.1
+```
+
+Status: **NO CHANGE**
+
+---
+
+## Apps Script
+
+Latest material platform release remains:
+
+```text
+2026-09-14
+Data Regions GA
+```
+
+Status: **NO CHANGE**
+
+---
+
+## Developer Knowledge
+
+Latest tracked release remains:
+
+```text
+2026-09-09
+```
+
+Status: **NO CHANGE**
+
+---
+
+## PostgreSQL
+
+No new production-major baseline found.
+
+Status: **NO CHANGE / WATCH PRE-RELEASE 19**
+
+---
+
+## Product Design Standards
+
+No newer stable standards supersede:
 
 ```text
 WCAG 2.2

@@ -1163,3 +1163,103 @@ Executable/tool-bearing content should receive:
 Do not execute an untrusted skill's helper scripts solely because its SKILL.md looks reasonable.
 
 ---
+
+# 46. External Skills Need a Security Admission Gate
+
+Before adding an external skill/plugin to a trusted catalog:
+
+```text
+source
+↓
+pin revision
+↓
+materialize full package
+↓
+security scan
+↓
+completeness check
+↓
+permission / script / dependency review
+↓
+sandbox evaluation when needed
+↓
+approve
+```
+
+Do not review only `SKILL.md` when the package also contains scripts, hooks, MCP config, binaries, archives, or transitive references.
+
+See Skill 18.
+
+---
+
+# 47. Incomplete Scan Is Not a Pass
+
+A skill security scan must distinguish:
+
+```text
+no findings
+```
+
+from:
+
+```text
+complete coverage
+```
+
+Unreadable, encrypted, over-budget, unsupported, or partially inspected artifacts should prevent a clean approval until resolved.
+
+---
+
+# 48. Skill Security, Evaluation, and Signing Are Separate
+
+Use separate evidence:
+
+```text
+security scan
+→ appears safe?
+
+live evaluation
+→ improves outcomes?
+
+integrity/signature
+→ same artifact as reviewed?
+```
+
+One does not replace the others.
+
+---
+
+# 49. Large Skill Libraries Need Sparse Discovery
+
+For large catalogs:
+
+```text
+compact metadata index
+↓
+candidate shortlist
+↓
+trust/policy filter
+↓
+load selected full skills only
+```
+
+This improves both context efficiency and security.
+
+Do not place the entire skill library into model context by default.
+
+---
+
+# 50. AI-Readable Documentation Should Be Generated
+
+When documentation serves both humans and agents, keep one canonical source and generate:
+
+```text
+HTML/search
+llms.txt
+semantic indexes
+MCP document views
+```
+
+as build outputs.
+
+Record source/version freshness when these outputs are used in release-critical workflows.

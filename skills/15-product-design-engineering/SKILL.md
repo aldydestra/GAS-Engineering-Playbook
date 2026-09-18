@@ -1,10 +1,10 @@
 ---
 name: product-design-engineering
 description: "Experience-driven product, visual, and design-system engineering for digital interfaces: design intent, UX research/audit, visual hierarchy, typography, color, spacing, accessibility, design tokens, component systems, design-to-code parity, design QA, and tool-agnostic workflows across Figma, Canva, code, screenshots, and prototypes."
-skill_version: "1.0.0"
+skill_version: "1.1.0"
 repository_introduced: "v1.16.0"
 status: "evolving"
-last_repository_update: "v1.16.0"
+last_repository_update: "v1.19.0"
 tags:
   - product-design
   - ui
@@ -2098,6 +2098,81 @@ Re-review this skill when:
 - **14 Workspace Add-ons & Chat** — CardService native UI.
 
 ---
+
+## Searchable Design-Intelligence Update — v1.19.0
+
+### Curated Design Knowledge Can Be Indexed, Not Memorized
+
+The current `ui-ux-pro-max-skill` demonstrates a useful pattern:
+
+```text
+large curated design knowledge
+↓
+searchable local data
+↓
+task-specific retrieval
+↓
+design decision
+```
+
+Its current skill advertises structured catalogs for styles, product palettes, font pairings, UX guidance, icons, animation presets, charts, and technology stacks.
+
+The playbook adopts the generic architecture, not the catalog values themselves.
+
+### Catalogs Are Inspiration / Decision Support, Not Standards
+
+A style/palette/font recommendation database can accelerate exploration.
+
+It does not override:
+
+- brand system;
+- user research;
+- accessibility;
+- product constraints;
+- existing design tokens;
+- source-of-truth design system.
+
+### Product-Specific Retrieval
+
+Prefer:
+
+```text
+product type
+audience
+platform
+brand
+task
+constraints
+↓
+retrieve relevant options
+```
+
+over:
+
+```text
+pick random popular style
+```
+
+This reinforces the existing principle against generic AI aesthetics.
+
+### Design Knowledge Versioning
+
+When using a third-party design-intelligence catalog:
+
+- record source/version where relevant;
+- treat counts/content as tool snapshots;
+- do not hard-code catalog statistics as universal design knowledge;
+- re-evaluate recommendations against current standards.
+
+### Skill Packaging Security
+
+The current UI/UX Pro Max repository explicitly treats its installer/search scripts and package pipeline as security surfaces.
+
+This reinforces a cross-skill rule:
+
+> A design skill with executable installer/search code must pass the same supply-chain review as any other agent skill.
+
+Cross-reference Skill 18.
 
 # References
 

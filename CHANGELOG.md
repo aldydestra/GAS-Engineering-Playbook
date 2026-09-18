@@ -3,6 +3,346 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.19.0] - 2026-09-18
+
+### Agent Skill Supply-Chain Security & Ecosystem Refresh
+
+This release performs a full refresh from v1.18.0, reviews the user-supplied relevant repositories, and adds a dedicated agent-skill supply-chain security extension.
+
+### Added — Skill 18 Agent Skill Supply-Chain Security
+
+Created:
+
+- `skills/18-agent-skill-supply-chain-security/SKILL.md`
+- `references/agent-skill-supply-chain-security-patterns.md`
+
+Coverage includes:
+
+- pre-install security gates,
+- source/revision pinning,
+- full effective-package review,
+- prompt injection,
+- hidden instructions and Unicode deception,
+- data exfiltration,
+- secret/network/shell/filesystem access,
+- persistence and privilege escalation,
+- excessive agency and trigger abuse,
+- system-prompt leakage,
+- memory poisoning,
+- MCP least privilege and tool poisoning,
+- description-behavior mismatch,
+- dangerous code and dependency/CVE review,
+- symlink/path/archive safety,
+- resource-bounded scanning,
+- fail-closed incomplete analysis,
+- static + semantic analysis,
+- SARIF/CI gates,
+- baseline/suppression governance,
+- sandbox live evaluation,
+- Skill Lift,
+- signing/hash/integrity,
+- catalog admission,
+- update/permission/dependency drift,
+- emergency revoke and incident cleanup.
+
+### NVIDIA SkillSpector / SkillEvaluator
+
+Adopted strong current implementation evidence from NVIDIA.
+
+Current SkillSpector documentation reports:
+
+```text
+68 vulnerability patterns
+17 categories
+```
+
+The release adopts the durable principles rather than requiring the NVIDIA tooling.
+
+Important rules added:
+
+```text
+zero findings + incomplete analysis
+≠
+safe
+```
+
+and:
+
+```text
+scan
+≠
+evaluation
+≠
+signature
+```
+
+### Updated — Security Engineering
+
+Skill 07:
+
+```text
+1.3.0 → 1.4.0
+```
+
+Added explicit distinction between application security and agent-skill/plugin supply-chain security.
+
+### Updated — Testing & Quality
+
+Skill 08:
+
+```text
+1.2.1 → 1.3.0
+```
+
+Added:
+
+- Tier 1/2/3 skill evaluation architecture,
+- Skill Lift,
+- sandbox live evaluation,
+- deduplication as a quality/security signal,
+- incomplete-evaluation handling.
+
+### Updated — Deployment Engineering
+
+Skill 10:
+
+```text
+1.3.0 → 1.3.1
+```
+
+Added Google Workspace Marketplace host-product draft synchronization and publication-state verification.
+
+### Updated — Documentation Engineering
+
+Skill 11:
+
+```text
+1.4.0 → 1.5.0
+```
+
+Added AI-readable documentation architecture based on current docmd evidence:
+
+```text
+canonical docs
+↓
+human static docs
+search
+llms.txt
+MCP retrieval
+agent skills
+offline/versioned builds
+```
+
+Added documentation plugin supply-chain security guidance.
+
+### Updated — AI & Agent Integration
+
+Skill 13:
+
+```text
+1.1.1 → 1.2.0
+```
+
+Added:
+
+- sparse skill discovery,
+- compact metadata indexes,
+- on-demand full-skill loading,
+- explicit availability/selection/execution/completion states,
+- proportional multi-agent orchestration,
+- task-scoped authority,
+- shared-memory trust boundaries,
+- decision receipts.
+
+Evidence includes Vibe-Skills and Ruflo, generalized rather than copied.
+
+### Updated — Workspace Add-ons & Chat
+
+Skill 14:
+
+```text
+1.0.1 → 1.1.0
+```
+
+Added Marketplace listing state distinction:
+
+```text
+manifest host configuration
+≠
+published listing state
+```
+
+Current states include:
+
+```text
+Unsaved
+Draft
+Under review
+Published
+```
+
+### Updated — Product Design Engineering
+
+Skill 15:
+
+```text
+1.0.0 → 1.1.0
+```
+
+Adopted searchable local design-intelligence as a generic pattern from UI/UX Pro Max.
+
+Catalog values/styles remain decision-support data, not design standards.
+
+### Updated — Workspace API & Event Engineering
+
+Skill 16:
+
+```text
+1.1.0 → 1.1.1
+```
+
+Corrected the Meet `spaces.members` GA inventory.
+
+Current methods:
+
+```text
+create
+delete
+get
+list
+patch
+batchUpdate
+```
+
+Added field-mask/update-mask and batch-operation guidance.
+
+### Reviewed — docmd
+
+Current public release found:
+
+```text
+0.8.17
+```
+
+Adopted:
+
+- human + AI documentation from one canonical source,
+- `llms.txt`,
+- MCP documentation retrieval,
+- offline/versioned builds,
+- plugin security lessons.
+
+No separate documentation extension was needed.
+
+### Reviewed — UI/UX Pro Max
+
+Latest release surface found:
+
+```text
+v2.15.0
+```
+
+Adopted:
+
+- searchable design knowledge,
+- task-specific retrieval,
+- versioned catalog mindset.
+
+Not adopted:
+
+- raw catalog values as standards,
+- tool-specific installer behavior as design theory.
+
+### Reviewed — Ruflo
+
+Adopted generically:
+
+- proportional orchestration,
+- shared-memory boundaries,
+- task-scoped authority,
+- deterministic authorization,
+- signed decision receipts.
+
+Framework-specific counts/performance claims remain implementation evidence only.
+
+### Reviewed — Vibe-Skills
+
+Current release found:
+
+```text
+v4.0.0
+```
+
+Adopted:
+
+- local skill index,
+- candidate shortlisting,
+- on-demand full skill reads,
+- module assignments,
+- task-completion gate,
+- release integrity evidence.
+
+### Updated — Vercel Skills Watch
+
+Current release found:
+
+```text
+v1.6.0
+2026-09-16
+```
+
+Existing provenance/pinning guidance remains valid.
+
+Recent symlink/install-security work reinforces Skill 18.
+
+### Full Audit
+
+Added:
+
+- `docs/full-skill-refresh-audit-v1.19.0.md`
+
+### Technology Watch
+
+Audit date advanced to:
+
+```text
+2026-09-18
+```
+
+### Intentionally Unchanged
+
+No version bump for:
+
+```text
+01 GAS Core
+02 AppSheet Migration
+03 Software Architecture
+04 Database Engineering
+05 PostgreSQL Integration
+06 Performance Engineering
+09 Monitoring & Observability
+12 Web App & Frontend
+17 Workspace Governance & Compliance
+```
+
+No meaningful domain-specific change was found since v1.18.0.
+
+### Repository Model
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–18
+```
+
+### Compatibility
+
+No intentional breaking repository-structure change.
+
+Skill 18 is additive; existing updates refine boundaries and current platform behavior.
+
+---
+
+
 ## [v1.18.0] - 2026-09-16
 
 ### Apps Script Data Regions & Workspace Governance Engineering

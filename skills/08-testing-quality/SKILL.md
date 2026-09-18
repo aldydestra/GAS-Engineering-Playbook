@@ -1,10 +1,10 @@
 ---
 name: testing-quality
 description: "Experience-driven testing and quality engineering for Google Apps Script, covering unit tests, contracts, fakes/emulators, integration tests, live GAS parity, regression, test isolation, release gates, and quality evidence."
-skill_version: "1.2.1"
+skill_version: "1.3.0"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.18.0"
+last_repository_update: "v1.19.0"
 tags:
   - google-apps-script
   - testing
@@ -1388,6 +1388,93 @@ Therefore include selected live parity tests for behavior that is:
 - dependent on service synchronization.
 
 Do not automatically copy emulator-specific workarounds into production code without live verification.
+
+## Agent Skill Evaluation Update — v1.19.0
+
+### Security Pass Does Not Prove Skill Quality
+
+A skill can be:
+
+```text
+secure but useless
+useful but unsafe
+```
+
+Therefore skill quality evaluation should remain separate from skill security scanning.
+
+### Three-Layer Skill Evaluation
+
+Current NVIDIA SkillEvaluator provides strong implementation evidence for this generic model:
+
+```text
+Tier 1
+static/schema/security/PII/license/code checks
+
+Tier 2
+semantic overlap / deduplication
+
+Tier 3
+real agent evaluation
+with skill vs without skill
+```
+
+The playbook adopts the architecture, not the vendor CLI as a requirement.
+
+### Skill Lift
+
+For an important reusable skill, measure:
+
+```text
+same realistic task
+├─ baseline without skill
+└─ with skill
+↓
+same criteria
+↓
+difference
+```
+
+A skill that does not improve outcome quality should not be promoted merely because its Markdown is well-written.
+
+### Sandbox Live Evaluation
+
+Live agent evaluation should use:
+
+- disposable workspace;
+- minimal credentials;
+- bounded network;
+- execution limits;
+- preserved artifacts.
+
+Do not evaluate an untrusted skill against a real developer home directory.
+
+### Deduplication Is Also Quality Engineering
+
+Overlapping skills can:
+
+- conflict;
+- increase context;
+- increase update surface;
+- reduce trigger precision.
+
+Evaluate intra-skill and cross-skill duplication for large catalogs.
+
+### Evaluation Completeness
+
+Distinguish:
+
+```text
+PASS
+FAIL
+NEUTRAL
+INCOMPLETE
+```
+
+when the evaluation pipeline can represent them.
+
+Missing security scanner evidence or missing required live-evaluation evidence should not be silently treated as a pass.
+
+Cross-reference Skill 18.
 
 # References
 

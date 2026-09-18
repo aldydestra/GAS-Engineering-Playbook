@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Experience-driven deployment engineering for Google Apps Script, covering environments, immutable versions, versioned deployments, manifests, ownership, release gates, rollback, hotfixes, clasp/API automation, GitHub releases, and post-deploy verification."
-skill_version: "1.3.0"
+skill_version: "1.3.1"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.18.0"
+last_repository_update: "v1.19.0"
 tags:
   - google-apps-script
   - deployment
@@ -1773,6 +1773,50 @@ smoke-test result
 ```
 
 Cross-reference Skill 17.
+
+## Workspace Marketplace Draft Synchronization — v1.19.0
+
+Google Workspace developer release notes on September 15, 2026 added a clearer Marketplace listing workflow when host products are added or removed from an add-on deployment manifest.
+
+Current Marketplace SDK behavior surfaces host-product states such as:
+
+```text
+Unsaved
+Draft
+Under review
+Published
+```
+
+### Manifest Host Change Is Not Fully Published Until Listing State Catches Up
+
+For Workspace add-ons:
+
+```text
+code/manifest deployment
+↓
+Marketplace App Configuration sync
+↓
+save draft
+↓
+review/submission where required
+↓
+published listing
+```
+
+Do not assume adding a host in `appsscript.json` alone makes the Marketplace listing current.
+
+### Release Checklist
+
+When host products change:
+
+- [ ] deployment manifest updated;
+- [ ] App Configuration host integration state reviewed;
+- [ ] draft saved/synchronized;
+- [ ] review submitted if required;
+- [ ] published status verified;
+- [ ] rollback/removal behavior documented.
+
+Cross-reference Skill 14.
 
 # References
 

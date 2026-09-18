@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
 description: "Experience-driven engineering for Google Workspace add-ons and Google Chat apps built with Apps Script, covering CardService UI, manifest hosts and triggers, contextual cards, navigation, actions, Chat responses, OAuth and URL allowlists, testing, AI-agent integration, publication, and operational safety."
-skill_version: "1.0.1"
+skill_version: "1.1.0"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.17.0"
+last_repository_update: "v1.19.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1239,6 +1239,51 @@ Skill 16 Meet/Drive/Chat API gateway
 ```
 
 Do not put Pub/Sub subscription lifecycle logic into card-rendering code merely because the product surface is Chat.
+
+## Marketplace Host Publication Update — v1.19.0
+
+Google Workspace developer release notes on September 15, 2026 added explicit Marketplace SDK handling when host products are added or removed in a deployment manifest.
+
+Current listing workflow can surface host-product publication state as:
+
+```text
+Unsaved
+Draft
+Under review
+Published
+```
+
+### Host Manifest and Marketplace Listing Are Two Related States
+
+For Marketplace-distributed add-ons:
+
+```text
+manifest host configuration
+≠
+published Marketplace listing state
+```
+
+After host changes:
+
+- review App Integrations;
+- save/sync the draft;
+- submit for review where required;
+- verify the published state.
+
+Do not tell users a newly added host is publicly available based only on the manifest deployment.
+
+### Removal Is Also a Release Event
+
+Removing a host from the manifest can require listing synchronization as well.
+
+Include host removal in:
+
+- release notes;
+- compatibility communication;
+- Marketplace draft review;
+- rollback planning.
+
+Cross-reference Skill 10.
 
 # References
 
