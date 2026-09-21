@@ -145,3 +145,21 @@ hash
 scanner version
 scan date
 ```
+
+# Coverage Matrix — v1.20.0
+
+```text
+primary instructions     ANALYZED
+source scripts           ANALYZED
+compiled artifacts       ANALYZED/BLOCKED
+nested scripts           ANALYZED
+archives                 ANALYZED/BLOCKED
+symlinks                 ANALYZED/BLOCKED
+dependencies             ANALYZED
+remote references        ANALYZED/BLOCKED
+MCP metadata             ANALYZED
+```
+
+Any relevant `INCOMPLETE` category prevents a clean approval.
+
+Separate changed-skill admission gates from inherited catalog debt, but keep inherited findings visible in periodic full audits.

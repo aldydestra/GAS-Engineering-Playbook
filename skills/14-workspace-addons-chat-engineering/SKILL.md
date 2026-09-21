@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
 description: "Experience-driven engineering for Google Workspace add-ons and Google Chat apps built with Apps Script, covering CardService UI, manifest hosts and triggers, contextual cards, navigation, actions, Chat responses, OAuth and URL allowlists, testing, AI-agent integration, publication, and operational safety."
-skill_version: "1.1.0"
+skill_version: "1.1.1"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.19.0"
+last_repository_update: "v1.20.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1284,6 +1284,63 @@ Include host removal in:
 - rollback planning.
 
 Cross-reference Skill 10.
+
+## Google Chat Message Pins — v1.20.0
+
+Google Workspace developer release notes on September 18, 2026 made Chat API message pins generally available.
+
+Current methods:
+
+```text
+spaces.messagePins.create
+spaces.messagePins.delete
+spaces.messagePins.list
+```
+
+This is primarily a Skill 16 API capability, but it can surface through Chat/add-on UI.
+
+### UI Boundary
+
+Recommended flow:
+
+```text
+card / Chat interaction
+↓
+application service
+↓
+Chat API pin command
+```
+
+Do not place raw Chat REST construction inside card-rendering code.
+
+### User Authentication Requirement
+
+Current Chat pin documentation requires **user authentication** for these operations.
+
+Do not assume app authentication can pin/unpin messages.
+
+### Current Constraints
+
+At the v1.20.0 audit:
+
+- only an existing message can be pinned;
+- creating and pinning cannot be combined in one request;
+- user-private messages cannot be pinned as ordinary shared-space pins;
+- a Chat space supports up to 100 pinned messages.
+
+These are time-sensitive platform facts.
+
+### UX Guidance
+
+If a UI exposes pin/unpin:
+
+- show authorization/permission failure clearly;
+- refresh current pin state after mutation;
+- avoid optimistic permanent state when the API call fails;
+- handle the space pin limit;
+- do not imply app-wide pin authority when the operation executes as the user.
+
+Cross-reference Skill 16.
 
 # References
 

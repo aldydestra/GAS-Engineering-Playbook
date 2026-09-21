@@ -163,7 +163,8 @@ last_repository_update: "v1.13.0"
 | v1.16.0 | Product Design Engineering + design-system/accessibility/design-QA capability |
 | v1.17.0 | Workspace API/Event Engineering + Sheets 20M capacity + skill provenance/evaluation refresh |
 | v1.18.0 | Apps Script Data Regions + Workspace Governance & Compliance Engineering |
-| **v1.19.0** | **Agent Skill Supply-Chain Security + skill routing/docs/design/Marketplace refresh** |
+| v1.19.0 | Agent Skill Supply-Chain Security + skill routing/docs/design/Marketplace refresh |
+| **v1.20.0** | **Existing-skill deep refresh: Chat pins/MCP security, AppSheet outcome resilience, scanner coverage, orchestrator correctness** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -640,6 +641,7 @@ gas-engineering-playbook/
     ├── full-skill-refresh-audit-v1.17.0.md
     ├── full-skill-refresh-audit-v1.18.0.md
     ├── full-skill-refresh-audit-v1.19.0.md
+    ├── full-skill-refresh-audit-v1.20.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md

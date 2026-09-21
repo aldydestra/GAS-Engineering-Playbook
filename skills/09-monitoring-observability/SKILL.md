@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
 description: "Experience-driven monitoring and observability for Google Apps Script, covering execution logs, Cloud Logging, Error Reporting, structured events, correlation IDs, phase timing, job telemetry, alerts, health signals, privacy, incident triage, and operational runbooks."
-skill_version: "1.2.1"
+skill_version: "1.3.0"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.18.0"
+last_repository_update: "v1.20.0"
 tags:
   - google-apps-script
   - monitoring
@@ -1530,6 +1530,126 @@ retention/eDiscovery
 ```
 
 Correlate the two with safe operation IDs where useful.
+
+## Control-Plane Success vs Business Outcome — v1.20.0
+
+### `SUCCESS` Is Not Necessarily Delivery
+
+Operational incidents in AppSheet/email/PDF workflows reinforce a generic observability rule:
+
+```text
+execution succeeded
+≠
+business outcome succeeded
+```
+
+Examples:
+
+```text
+job SUCCESS
+but email absent
+
+automation SUCCESS
+but PDF missing
+
+HTTP 200
+but expected database mutation absent
+```
+
+### Outcome Observability
+
+For critical workflows, monitor the result that users/business logic actually depend on.
+
+Examples:
+
+```text
+email
+→ delivery/receipt probe where feasible
+
+PDF generation
+→ artifact exists + expected metadata
+
+webhook
+→ downstream acknowledgment / durable processing
+
+database write
+→ canonical row/state verification
+```
+
+Do not require expensive synthetic checks for every low-risk action.
+
+Use them where failure impact justifies the cost.
+
+### Synthetic Probes
+
+A synthetic probe should:
+
+- use safe test data;
+- be distinguishable from real business activity;
+- run at a proportionate cadence;
+- verify the full critical path;
+- clean up or use isolated test resources.
+
+A provider's internal execution log and your synthetic probe answer different questions.
+
+### Provider Status Dashboard Is a Signal
+
+Provider status pages can lag, aggregate, or omit an incident.
+
+Use:
+
+```text
+provider status
++
+local error/latency
++
+synthetic outcome
++
+support/community signal
+```
+
+before attributing a broad failure.
+
+Do not automatically rollback a healthy deployment solely because users report an outage pattern that also appears across unrelated tenants.
+
+### Incident Correlation
+
+Useful incident fields:
+
+```text
+provider
+operation
+started_at
+local_deploy_version
+local_error_rate
+synthetic_status
+provider_status
+community/support evidence
+resolution
+```
+
+This helps distinguish:
+
+```text
+local regression
+provider incident
+dependency incident
+unknown
+```
+
+### Reconciliation Is Business Observability
+
+Where a critical asynchronous workflow exists:
+
+```text
+control-plane success
+↓
+later reconciliation
+↓
+business-state confirmation
+```
+
+can provide stronger confidence than execution logs alone.
 
 # References
 

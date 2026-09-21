@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-18**
+Last audit: **2026-09-21**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -2529,5 +2529,280 @@ No newer stable standards supersede:
 WCAG 2.2
 DTCG 2025.10
 ```
+
+Status: **NO CHANGE**
+---
+
+# v1.20.0 Existing-Skill Deep Refresh — 2026-09-21
+
+This cycle intentionally creates **no new extension**.
+
+## Google Chat Message Pins
+
+Official source:
+
+https://developers.google.com/workspace/release-notes
+
+GA:
+
+```text
+2026-09-18
+```
+
+Methods:
+
+```text
+spaces.messagePins.create
+spaces.messagePins.delete
+spaces.messagePins.list
+```
+
+Current guide:
+
+https://developers.google.com/workspace/chat/pin-messages
+
+Current constraints include user authentication, existing-message requirement, no atomic create+pin operation, private-message limits, and a 100-pin-per-space limit.
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 14;
+- Skill 16.
+
+---
+
+## Google Chat MCP
+
+Official source:
+
+https://developers.google.com/workspace/chat/api/reference/mcp
+
+Current maturity:
+
+```text
+Developer Preview
+```
+
+Current toolset includes:
+
+```text
+list_messages
+search_conversations
+search_messages
+send_message
+list_memberships
+mark_as_read
+mark_as_unread
+```
+
+Google's MCP setup guidance explicitly warns about indirect prompt injection when untrusted data is exposed to a language model.
+
+Status: **ADOPTED AS PREVIEW / SECURITY EVIDENCE**
+
+Affected:
+
+- Skill 13.
+
+---
+
+## AppSheet Operational Incidents
+
+September 2026 community/forum reports described:
+
+- editor saves reverting after reload;
+- email/PDF automation delivery failures;
+- audit/control-plane status not always matching expected user-visible outcome.
+
+Evidence class:
+
+```text
+community / operational signal
+```
+
+not normative platform specification.
+
+Status: **ADAPTED**
+
+Affected:
+
+- Skill 02;
+- Skill 09.
+
+---
+
+## AppSheet MCP
+
+Current status observed:
+
+```text
+private preview
+new enrollment paused during 2026 feedback cycle
+```
+
+Status: **WATCH**
+
+Do not make production migration depend on it.
+
+---
+
+## NVIDIA / Agent Skill Scanner Security
+
+### CVE-2026-84809
+
+A current high-severity advisory demonstrates a false-clean scanner bypass when compiled Python bytecode is excluded from scanning.
+
+Status: **ADOPTED GENERICALLY**
+
+Rule:
+
+```text
+execution potential
+>
+extension convenience
+```
+
+### Nested scripts
+
+Current Sentry scanner issue reports nested scripts not being scanned.
+
+Status: **COMMUNITY IMPLEMENTATION SIGNAL**
+
+Adopt recursive effective-package tests.
+
+Affected:
+
+- Skill 08;
+- Skill 18.
+
+---
+
+## JetBrains Skill Catalog
+
+Current public catalog patterns include:
+
+- exact upstream source metadata;
+- changed-skill security gate;
+- periodic full-repository audit;
+- best-effort SARIF.
+
+Status: **ADAPTED**
+
+Affected:
+
+- Skill 18.
+
+---
+
+## googleworkspace/cli
+
+Repository:
+
+https://github.com/googleworkspace/cli
+
+Current snapshot observed:
+
+```text
+0.22.5
+```
+
+Important source-status note:
+
+```text
+Google-maintained
+but explicitly not an officially supported Google product
+```
+
+Useful implementation patterns:
+
+- Discovery-driven schema inspection;
+- dry-run validation;
+- auto-pagination;
+- generated agent skills;
+- artifact attestations;
+- advisory/license CI.
+
+Status: **ADAPTED**
+
+Affected:
+
+- Skill 08;
+- Skill 11;
+- Skill 16;
+- Skill 18.
+
+Official Workspace API docs remain normative.
+
+---
+
+## Ruflo
+
+Recent release fixes provide operational evidence for:
+
+```text
+configured policy != enforced policy
+computed trust != consumed trust
+verified identity must override payload identity
+degraded mode should be structured
+ranking score != semantic similarity
+```
+
+Status: **ADAPTED**
+
+Affected:
+
+- Skill 13.
+
+---
+
+## docmd
+
+Current release snapshot corrected to:
+
+```text
+0.9.5
+```
+
+Status: **TOOL SNAPSHOT CORRECTION**
+
+No new domain required.
+
+---
+
+## OpenAI role-specific plugins
+
+Current state:
+
+```text
+archived/read-only
+2026-09-16
+```
+
+Status: **SOURCE LIFECYCLE UPDATE**
+
+Product Design material remains historical evidence.
+
+Active freshness checks should use current design/plugin sources.
+
+---
+
+## Vercel Skills
+
+Current release surfaced:
+
+```text
+v1.7.0
+2026-09-17
+```
+
+Status: **NO NEW GENERIC RULE**
+
+Existing source-pinning, lock, symlink, and installer-security guidance remains current.
+
+---
+
+## Apps Script / clasp / Developer Knowledge / PostgreSQL
+
+No newer baseline-changing source found beyond current tracked states.
 
 Status: **NO CHANGE**

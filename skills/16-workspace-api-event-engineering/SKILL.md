@@ -1,10 +1,10 @@
 ---
 name: workspace-api-event-engineering
 description: "Experience-driven integration engineering for Google Workspace APIs from Apps Script and adjacent runtimes, covering built-in vs advanced services vs direct REST, Cloud project/API enablement, OAuth and service-account boundaries, pagination, partial responses, change feeds, Workspace Events API subscriptions, Pub/Sub/CloudEvents delivery, subscription lifecycle, Meet/Drive/Chat event integration, Apps Script API execution, retries, idempotency, and operational safety."
-skill_version: "1.1.1"
+skill_version: "1.2.0"
 repository_introduced: "v1.17.0"
 status: "evolving"
-last_repository_update: "v1.19.0"
+last_repository_update: "v1.20.0"
 tags:
   - google-workspace
   - google-apis
@@ -2165,6 +2165,170 @@ use field masks / batch methods when supported
 instead of issuing unnecessary individual full-resource operations.
 
 Treat this as a correction to the earlier method inventory, not a new API release.
+
+## Chat Message Pins & Schema-Driven API Tooling — v1.20.0
+
+### Chat Message Pins GA
+
+Google Workspace developer release notes on September 18, 2026 made Chat API message pin operations generally available.
+
+Current methods:
+
+```text
+spaces.messagePins.create
+spaces.messagePins.delete
+spaces.messagePins.list
+```
+
+Use cases:
+
+- pin an existing message;
+- unpin a message;
+- list pinned messages in a space.
+
+### Current Authentication / Scope Boundary
+
+Current official Chat documentation requires **user authentication**.
+
+Relevant current scope families include:
+
+```text
+chat.spaces.pins
+chat.spaces
+```
+
+and read-only variants for list operations.
+
+Do not design pin automation around app authentication unless future documentation explicitly adds support.
+
+### Current Pin Constraints
+
+At this audit:
+
+```text
+max pinned messages per Chat space = 100
+```
+
+and:
+
+- create-message + pin is not one atomic API request;
+- the target message must already exist;
+- user-private messages are not eligible as normal shared-space pins.
+
+Treat these as time-sensitive platform facts.
+
+### Two-Step Create + Pin Idempotency
+
+Because:
+
+```text
+create message
+↓
+pin message
+```
+
+is two operations, failure can occur between them.
+
+For workflows that create then pin:
+
+- persist message resource name;
+- make pin retry idempotent;
+- do not create a duplicate message merely because pinning failed.
+
+### Google Workspace CLI as Implementation Evidence
+
+Current `googleworkspace/cli` provides useful, Google-maintained implementation evidence for Workspace API automation.
+
+Important status:
+
+> It is maintained under the Google Workspace GitHub organization but explicitly says it is not an officially supported Google product.
+
+Use it as strong tooling/reference evidence, not as normative API specification.
+
+### Schema Inspection Before API Calls
+
+The CLI can inspect API method schemas dynamically from Google Discovery data.
+
+Generic pattern:
+
+```text
+operation to implement
+↓
+inspect current official schema/reference
+↓
+construct request
+↓
+validate
+↓
+execute
+```
+
+This is especially valuable for rapidly evolving Workspace APIs.
+
+The official API documentation remains normative.
+
+### Dry-Run for Mutating/Event Operations
+
+Current CLI patterns include dry-run behavior for operations such as event subscription/renewal workflows.
+
+Adopt the generic rule:
+
+```text
+build request
+↓
+validate / dry-run when supported
+↓
+show intended mutation
+↓
+execute
+```
+
+for high-impact automation.
+
+A dry-run should not be advertised unless it actually avoids the external mutation.
+
+### Discovery-Generated API Skills
+
+Current Workspace CLI also generates agent skill content from current Discovery Service schemas.
+
+Useful generic architecture:
+
+```text
+Google Discovery/API schema
+↓
+generated capability docs/skill
+↓
+target validator
+↓
+agent/API use
+```
+
+Generated API skills are freshness aids, not replacements for application-specific authorization rules.
+
+### Generated Artifact Freshness
+
+Record:
+
+```text
+API/discovery source
+generation date/revision
+target validator
+```
+
+for generated API guidance when reproducibility matters.
+
+### Auto-Pagination Is a Tool Convenience
+
+Tooling can automate page traversal.
+
+The application still owns:
+
+- total bounds;
+- checkpointing;
+- partial-failure behavior;
+- quota/runtime budget.
+
+Do not hide an unbounded API scan behind a convenience flag.
 
 # References
 

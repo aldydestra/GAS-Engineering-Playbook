@@ -3,6 +3,218 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.20.0] - 2026-09-21
+
+### Existing-Skill Deep Refresh
+
+This release intentionally adds **no new extension**.
+
+The full audit focuses on strengthening Skills 01–18 with current official, open-source, issue/advisory, forum, and community evidence.
+
+### Updated — AppSheet Migration
+
+Skill 02:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added:
+
+- durable baseline verification after editor save/reload;
+- freeze/verification discipline during broad provider incidents;
+- downstream outcome validation for critical automations;
+- provider status + local telemetry + community/support triage;
+- AppSheet MCP private-preview WATCH;
+- New Mobile Framework preview boundary.
+
+### Updated — Testing & Quality
+
+Skill 08:
+
+```text
+1.3.0 → 1.3.1
+```
+
+Added adversarial scanner regression coverage for:
+
+- compiled bytecode;
+- nested executables;
+- archives;
+- symlinks;
+- hidden/unsupported artifacts;
+- resource-budget exhaustion.
+
+Added target-parser validation for generated skills/config.
+
+### Updated — Monitoring & Observability
+
+Skill 09:
+
+```text
+1.2.1 → 1.3.0
+```
+
+Added:
+
+```text
+control-plane SUCCESS
+≠
+business outcome SUCCESS
+```
+
+with synthetic/outcome verification and multi-signal provider-incident correlation.
+
+### Updated — Documentation Engineering
+
+Skill 11:
+
+```text
+1.5.0 → 1.5.1
+```
+
+Added:
+
+- archived-upstream source lifecycle handling;
+- actual target parser/reference validation;
+- Discovery/schema-generated skill provenance;
+- docmd snapshot correction to 0.9.5.
+
+### Updated — AI & Agent Integration
+
+Skill 13:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added:
+
+- official Google Chat MCP Developer Preview toolset;
+- first-party indirect prompt-injection warning;
+- untrusted tool-result boundary;
+- minimum toolset exposure;
+- orchestrator enforcement-path testing;
+- trust-signal consumption checks;
+- verified identity precedence;
+- structured degraded mode;
+- ranking-score semantic separation.
+
+### Updated — Workspace Add-ons & Chat
+
+Skill 14:
+
+```text
+1.1.0 → 1.1.1
+```
+
+Added Google Chat message pins GA integration boundary and current user-auth/space constraints.
+
+### Updated — Workspace API & Event Engineering
+
+Skill 16:
+
+```text
+1.1.1 → 1.2.0
+```
+
+Added:
+
+- Chat `messagePins` GA;
+- two-step create+pin idempotency;
+- Google Workspace CLI as Google-maintained but unsupported implementation evidence;
+- Discovery-driven schema inspection;
+- dry-run mutation pattern;
+- generated API-skill freshness;
+- auto-pagination boundary.
+
+### Updated — Agent Skill Supply-Chain Security
+
+Skill 18:
+
+```text
+1.0.0 → 1.1.0
+```
+
+Added:
+
+- CVE-2026-84809 compiled-bytecode false-clean lesson;
+- nested executable traversal;
+- explicit scanner coverage matrix;
+- ignore-list security review;
+- changed-skill gate vs inherited catalog debt;
+- scanner privacy;
+- signed/attested scanner/update provenance;
+- target-parser boundary;
+- adversarial coverage regression suite.
+
+### Corrected — Source Lifecycle
+
+`openai/role-specific-plugins` is now archived/read-only.
+
+It remains historical Product Design evidence but is no longer treated as an active freshness source.
+
+### Current Google Workspace Update
+
+September 18, 2026:
+
+```text
+Chat API message pins GA
+```
+
+Methods:
+
+```text
+spaces.messagePins.create
+spaces.messagePins.delete
+spaces.messagePins.list
+```
+
+### Current Agent Integration Update
+
+Google Chat MCP remains:
+
+```text
+Developer Preview
+```
+
+Current toolset and Google's indirect-prompt-injection warning are incorporated into Skill 13.
+
+### Community / Incident Evidence
+
+AppSheet September incidents are explicitly classified as operational/community signals rather than platform specification.
+
+They are used to improve resilience patterns, not to invent API guarantees.
+
+### Intentionally Unchanged
+
+No version bump for:
+
+```text
+01 GAS Core
+03 Software Architecture
+04 Database Engineering
+05 PostgreSQL Integration
+06 Performance Engineering
+07 Security Engineering
+10 Deployment Engineering
+12 Web App & Frontend
+15 Product Design Engineering
+17 Workspace Governance & Compliance
+```
+
+### Repository Model
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–18
+```
+
+No Skill 19 is introduced.
+
+---
+
+
 ## [v1.19.0] - 2026-09-18
 
 ### Agent Skill Supply-Chain Security & Ecosystem Refresh

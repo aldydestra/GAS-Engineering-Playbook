@@ -175,3 +175,17 @@ plain DTO
 ```
 
 Do not use service accounts for `scripts.run`; current official docs explicitly state they are unsupported.
+
+# Chat Message Pin Pattern — v1.20.0
+
+```text
+create message
+↓ persist message name
+pin existing message
+↓
+retry pin idempotently
+```
+
+Current pin operations are user-authenticated and have space/message constraints; re-check official docs before implementation.
+
+Schema-driven tooling can help inspect current API shapes, but official API documentation remains normative.

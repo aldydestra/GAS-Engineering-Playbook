@@ -1,10 +1,10 @@
 ---
 name: appsheet-migration
 description: "Experience-driven skill for analyzing and migrating AppSheet applications into Google Apps Script, hybrid architectures, APIs, or relational backends while preserving data, automation, security, and workflow semantics."
-skill_version: "1.2.0"
+skill_version: "1.3.0"
 repository_introduced: "v1.3.0"
 status: "evolving"
-last_repository_update: "v1.18.0"
+last_repository_update: "v1.20.0"
 tags:
   - appsheet
   - google-apps-script
@@ -1083,6 +1083,155 @@ For branded Android applications:
 - [ ] browser fallback limitations documented.
 
 Cross-reference Skill 10 for release governance.
+
+## Operational Resilience & Migration Baseline Update — v1.20.0
+
+### Editor Save Is Not the Same as Durable Baseline Evidence
+
+September 2026 AppSheet community incidents provide an important operational signal: makers reported changes that appeared saved in the editor but reverted after reload.
+
+This is community/incident evidence, not a new AppSheet specification.
+
+Migration implication:
+
+> Before using an AppSheet definition as the migration baseline, verify that the state is durably retrievable.
+
+For important migration checkpoints:
+
+```text
+edit
+↓
+save
+↓
+reload / reopen
+↓
+verify expected state
+↓
+capture version/history evidence
+↓
+continue migration
+```
+
+Do not take a screenshot of a pre-reload editor state and treat it as durable source-of-truth evidence.
+
+### Freeze Risky Structural Changes During Provider Incidents
+
+If there is evidence of a broad AppSheet editor/platform incident:
+
+- pause non-essential structural edits;
+- preserve known-good app/version evidence;
+- avoid simultaneous migration changes that make rollback ambiguous;
+- resume after the platform is stable and the saved state is verified.
+
+This is operational discipline, not a claim that every editor anomaly is a provider outage.
+
+### Automation `Success` Must Be Verified Against Business Outcome
+
+September 2026 community reports also described email/PDF automation failures where audit/control-plane status could appear successful while the expected delivery/artifact was absent.
+
+For critical migration parity, validate:
+
+```text
+AppSheet automation execution
++
+actual downstream outcome
+```
+
+Examples:
+
+- email actually received;
+- PDF attachment actually created/delivered;
+- webhook acknowledged;
+- destination row/file actually exists.
+
+Do not define migration parity as:
+
+```text
+automation log = Success
+```
+
+alone.
+
+Cross-reference Skill 09.
+
+### Provider Status Is a Signal, Not an Oracle
+
+During troubleshooting use:
+
+```text
+Workspace Status Dashboard
++
+AppSheet audit/history
++
+local telemetry
++
+support/community signals
+```
+
+A status dashboard can lag or omit an incident.
+
+Likewise, community reports can be noisy.
+
+Correlate multiple sources before concluding:
+
+```text
+our deployment broke it
+```
+
+or:
+
+```text
+provider outage
+```
+
+### AppSheet MCP Server — WATCH Only
+
+Google/AppSheet announced a private preview of an AppSheet MCP server that can expose AppSheet tables/actions as agent tools.
+
+Current preview status observed during the v1.20.0 audit:
+
+- private preview;
+- new preview enrollment was paused in March 2026 while feedback was addressed.
+
+Therefore:
+
+```text
+AppSheet MCP
+→ WATCH / experiment
+```
+
+Do not make a production migration depend on it.
+
+The useful architecture lesson is:
+
+```text
+existing AppSheet business actions
+↓
+future agent-tool boundary
+```
+
+without changing current migration strategy.
+
+### New Mobile Framework — Preview Boundary
+
+AppSheet's newer mobile framework is still a preview/testing concern, not the production migration baseline.
+
+For migration/UI parity:
+
+- test against the currently deployed production framework;
+- evaluate the preview only in copied/non-production apps;
+- record UI/navigation/action differences;
+- do not assume preview behavior is permanent.
+
+### Migration Cutover Checklist Additions
+
+- [ ] baseline app state survives reload/reopen.
+- [ ] version/history evidence captured.
+- [ ] critical automations verified by downstream outcome.
+- [ ] provider incident status checked when anomalies are broad.
+- [ ] risky edits paused during unresolved platform incidents.
+- [ ] AppSheet MCP remains optional/watch.
+- [ ] preview mobile UI is not treated as stable parity target.
 
 ## References
 

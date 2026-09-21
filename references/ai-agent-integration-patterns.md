@@ -157,3 +157,17 @@ duplicate event
 approval-required action
 context limit
 ```
+
+# Untrusted Tool Results — v1.20.0
+
+```text
+trusted instructions/policy
++
+untrusted retrieved content/tool result
+↓
+policy-enforced agent
+```
+
+Do not let retrieved Chat/messages/documents become privileged instructions.
+
+For orchestrators, test that configured policy is actually on the tool execution path.

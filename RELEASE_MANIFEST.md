@@ -1,13 +1,11 @@
 # Release Manifest
 
-Repository Version: v1.19.0
+Repository Version: v1.20.0
 
 ## Release Type
 
-- Full skill and extension refresh
-- New agent-skill supply-chain security extension
-- Workspace Marketplace / Meet correction
-- Documentation/design/orchestration ecosystem refresh
+- Existing-skill deep refresh
+- No new extension
 - Full repository snapshot
 
 ## Repository Model
@@ -15,34 +13,32 @@ Repository Version: v1.19.0
 - Foundation Skills: 01–11
 - Extension Skills: 12–18
 
-## New Skill
-
-- `18-agent-skill-supply-chain-security` — 1.0.0
-
 ## Updated Skills
 
-- `07-security-engineering`: 1.3.0 → 1.4.0
-- `08-testing-quality`: 1.2.1 → 1.3.0
-- `10-deployment-engineering`: 1.3.0 → 1.3.1
-- `11-documentation-engineering`: 1.4.0 → 1.5.0
-- `13-ai-agent-integration`: 1.1.1 → 1.2.0
-- `14-workspace-addons-chat-engineering`: 1.0.1 → 1.1.0
-- `15-product-design-engineering`: 1.0.0 → 1.1.0
-- `16-workspace-api-event-engineering`: 1.1.0 → 1.1.1
+- `02-appsheet-migration`: 1.2.0 → 1.3.0
+- `08-testing-quality`: 1.3.0 → 1.3.1
+- `09-monitoring-observability`: 1.2.1 → 1.3.0
+- `11-documentation-engineering`: 1.5.0 → 1.5.1
+- `13-ai-agent-integration`: 1.2.0 → 1.3.0
+- `14-workspace-addons-chat-engineering`: 1.1.0 → 1.1.1
+- `16-workspace-api-event-engineering`: 1.1.1 → 1.2.0
+- `18-agent-skill-supply-chain-security`: 1.0.0 → 1.1.0
 
-## New Reference / Audit
+## Full Audit
 
-- `references/agent-skill-supply-chain-security-patterns.md`
-- `docs/full-skill-refresh-audit-v1.19.0.md`
+- `docs/full-skill-refresh-audit-v1.20.0.md`
 
-## Audited External Repositories
+## Key Evidence
 
-- NVIDIA/SkillSpector
-- docmd-io/docmd
-- nextlevelbuilder/ui-ux-pro-max-skill
-- ruvnet/ruflo
-- foryourhealth111-pixel/Vibe-Skills
-- vercel-labs/skills
+- Google Chat message pins GA — 2026-09-18
+- Google Chat MCP Developer Preview + indirect prompt-injection guidance
+- AppSheet September operational/community incident signals
+- CVE-2026-84809 agent-skill scanner false-clean lesson
+- nested-script scanner coverage signal
+- JetBrains skill-catalog changed-skill/full-audit pattern
+- googleworkspace/cli schema/dry-run/generated-skill patterns
+- Ruflo orchestrator correctness fixes
+- docmd 0.9.5 source snapshot
 
 ## Files
 - `CHANGELOG.md`
@@ -60,6 +56,7 @@ Repository Version: v1.19.0
 - `docs/full-skill-refresh-audit-v1.17.0.md`
 - `docs/full-skill-refresh-audit-v1.18.0.md`
 - `docs/full-skill-refresh-audit-v1.19.0.md`
+- `docs/full-skill-refresh-audit-v1.20.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`

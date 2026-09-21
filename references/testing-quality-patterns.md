@@ -110,3 +110,27 @@ reproduce
 | trigger identity | | | | ✓ |
 | JDBC transaction | | | ✓ | optional |
 | emulator compatibility | | ✓ | | ✓ |
+
+# Scanner Coverage Regression — v1.20.0
+
+Adversarial fixtures should cover:
+
+```text
+compiled bytecode
+nested executables
+archives
+symlinks
+hidden files
+unsupported extensions
+budget exhaustion
+```
+
+Assert both:
+
+```text
+finding behavior
++
+analysis completeness
+```
+
+Validate generated skills/config with the actual target parser when available.

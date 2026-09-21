@@ -135,3 +135,15 @@ regression test
 ↓
 new signal/runbook improvement
 ```
+
+# Outcome Observability — v1.20.0
+
+```text
+control-plane execution
+↓
+expected business side effect
+↓
+synthetic/reconciliation check
+```
+
+Provider-status pages are useful signals but should be correlated with local telemetry and outcome probes.
