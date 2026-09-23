@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
 description: "Experience-driven monitoring and observability for Google Apps Script, covering execution logs, Cloud Logging, Error Reporting, structured events, correlation IDs, phase timing, job telemetry, alerts, health signals, privacy, incident triage, and operational runbooks."
-skill_version: "1.3.0"
+skill_version: "1.4.0"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.20.0"
+last_repository_update: "v1.21.0"
 tags:
   - google-apps-script
   - monitoring
@@ -1650,6 +1650,114 @@ business-state confirmation
 ```
 
 can provide stronger confidence than execution logs alone.
+
+## Workspace Studio Starter Observability — v1.21.0
+
+### Starter Lifecycle Is Operational State
+
+Workspace Studio custom starters have a lifecycle:
+
+```text
+triggerCreation
+↓
+ACTIVE delivery
+↓
+triggerDeletion
+```
+
+A re-enabled flow receives a **new** trigger registration rather than reviving the previous trigger ID.
+
+Monitor starter registrations as durable operational state.
+
+### Recommended Starter Metrics
+
+Track safe fields such as:
+
+```text
+trigger_id
+starter_id
+flow/integration
+created_at
+last_event_at
+last_success_at
+last_404_at
+last_429_at
+retry_count
+events_fired
+events_failed
+```
+
+Avoid logging sensitive event payloads unnecessarily.
+
+### `404` Is a Lifecycle Signal
+
+Current Workspace Studio guidance states that firing a disabled/deleted trigger can return:
+
+```text
+404 Not Found
+```
+
+Treat this as:
+
+```text
+registration invalid/decommissioned
+```
+
+not as a generic transient network failure.
+
+Stop future delivery for that registration and clean up local state.
+
+### `429` Is a Capacity Signal
+
+Workspace Studio API currently documents rate limits for starter firing.
+
+Monitor:
+
+```text
+429 / Resource Exhausted
+```
+
+separately from:
+
+```text
+5xx dependency failure
+```
+
+so pacing can be tuned without misclassifying quota pressure as service outage.
+
+### Idempotency Should Be Observable
+
+Starter notifications support a `requestId` for deduplication.
+
+Log the safe request/event correlation ID so duplicate suppression and retries can be diagnosed.
+
+Do not log OAuth access/refresh tokens.
+
+### Flow Auto-Disable Risk
+
+Google notes that excessive event volume or high-frequency loops can trigger internal safety limits and automatic flow disablement.
+
+Operationally monitor:
+
+- event rate;
+- repeated retry bursts;
+- downstream failure loops;
+- unexplained cessation of flow executions.
+
+### Studio Activity Log vs Application Telemetry
+
+Workspace Studio execution activity logs are useful control-plane evidence.
+
+Your application should still keep enough telemetry to answer:
+
+```text
+did we attempt event delivery?
+was it accepted?
+was the registration still valid?
+did retries occur?
+```
+
+Cross-reference Skills 14 and 16.
 
 # References
 

@@ -172,3 +172,21 @@ review
 ├─ remove
 └─ renew explicitly
 ```
+
+# MCP Governance Pattern — v1.21.0
+
+```text
+approved client
++
+approved MCP product
++
+minimum OAuth scopes
++
+prompt/content screening
++
+logging policy
++
+egress/cost threshold
+```
+
+Universal cross-product search expands the data boundary and should be governed explicitly.

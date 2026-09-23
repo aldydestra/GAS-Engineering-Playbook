@@ -195,3 +195,21 @@ logging
 ↓
 tests
 ```
+
+# Workspace MCP Security Pattern — v1.21.0
+
+```text
+trusted MCP endpoint
+↓
+untrusted Workspace content
+↓
+prompt/response screening
+↓
+least-privilege scopes/tools
+↓
+policy / human review
+↓
+action
+```
+
+Security-filter logging is itself a sensitive-data boundary.

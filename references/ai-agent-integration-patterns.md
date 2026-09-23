@@ -171,3 +171,21 @@ policy-enforced agent
 Do not let retrieved Chat/messages/documents become privileged instructions.
 
 For orchestrators, test that configured policy is actually on the tool execution path.
+
+# Universal Workspace MCP Pattern — v1.21.0
+
+```text
+cross-product retrieval need
+↓
+minimum scopes/products
+↓
+Universal Search MCP
+↓
+untrusted results
+↓
+security screening
+↓
+agent synthesis
+```
+
+Use product-specific tools when mutation or richer product semantics are required.

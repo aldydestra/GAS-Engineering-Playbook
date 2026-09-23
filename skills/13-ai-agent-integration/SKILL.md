@@ -1,10 +1,10 @@
 ---
 name: ai-agent-integration
 description: "Experience-driven AI and agent integration for Google Apps Script, covering LLM provider boundaries, structured output, function/tool calling, tool authorization, agent loops, MCP, A2A, context/time budgets, human approval, idempotency, observability, testing, and safe Workspace automation."
-skill_version: "1.3.0"
+skill_version: "1.4.0"
 repository_introduced: "v1.14.0"
 status: "evolving"
-last_repository_update: "v1.20.0"
+last_repository_update: "v1.21.0"
 tags:
   - google-apps-script
   - ai
@@ -2356,6 +2356,165 @@ For important agent harnesses, test:
 - untrusted retrieved content cannot issue privileged instructions.
 
 Cross-reference Skills 08 and 18.
+
+## Workspace-Wide MCP & Safety Update — v1.21.0
+
+### Google Workspace MCP Is Now a Multi-Product Surface
+
+Current Google Workspace documentation provides Developer Preview MCP servers for products including:
+
+```text
+Gmail
+Drive
+Docs
+Sheets
+Slides
+Calendar
+Chat
+```
+
+and a cross-product:
+
+```text
+Universal Search MCP Server
+```
+
+This is broader than a Chat-only integration.
+
+### Product Tool vs Universal Search
+
+Use product-specific MCP tools when the task requires:
+
+- product-specific mutation;
+- richer product semantics;
+- narrow tool authority.
+
+Use Universal Search when the task requires:
+
+```text
+cross-product read/search
+```
+
+Current Universal Search MCP tool:
+
+```text
+search_corpus
+```
+
+across multiple Workspace sources.
+
+Do not use a broad cross-product search scope when one product is sufficient.
+
+### Universal Search Scope Subsetting
+
+Universal Search allows authorization of only selected product scopes.
+
+Example:
+
+```text
+Drive + Calendar + Chat
+without Gmail
+```
+
+should result in search over the authorized products only.
+
+Treat this as a useful least-privilege control.
+
+### Search Results Are Still Untrusted
+
+Cross-product retrieval increases the prompt-injection surface because one query can retrieve content from:
+
+- email;
+- files;
+- calendar descriptions;
+- chat messages.
+
+Keep:
+
+```text
+search result
+=
+untrusted evidence/data
+```
+
+not:
+
+```text
+agent policy
+```
+
+### Workspace MCP Security Baseline
+
+Google currently states that developers must screen prompts and responses for malicious content or prompt injection attacks.
+
+Use:
+
+- trusted MCP clients/tools;
+- narrow toolsets;
+- prompt/response screening;
+- explicit action review;
+- deterministic policy for high-impact writes.
+
+### Model Armor Is an Option, Not a Universal Dependency
+
+Google documents Model Armor integration for Google MCP server traffic, including project-level floor settings.
+
+The playbook adopts the architecture:
+
+```text
+MCP traffic
+↓
+security inspection
+↓
+allow / block
+```
+
+not a requirement to use one vendor service.
+
+### Security Controls Can Run on Both Client and Resource Projects
+
+Current Google guidance notes that if the agent and MCP server resource are in different projects, security floor settings can exist in both, potentially invoking inspection twice.
+
+Document:
+
+```text
+where screening occurs
+```
+
+to avoid duplicate assumptions and unexpected latency/logging.
+
+### Human Review Is a Tool Policy
+
+For actions with meaningful side effects:
+
+```text
+send
+delete
+share
+modify
+```
+
+human confirmation can be one valid control.
+
+When autonomous execution is required, replace manual review with explicit deterministic authorization and bounded scope.
+
+### Agent Quota Budget
+
+Google's standardized Workspace API model applies to agent tools/APIs as well.
+
+Add agent-level budgets for:
+
+```text
+tool calls
+quota units
+page count
+bytes/egress
+runtime
+```
+
+Do not let reasoning loops become unbounded Workspace API usage.
+
+Cross-reference Skills 06, 07, 16, and 17.
 
 # References
 

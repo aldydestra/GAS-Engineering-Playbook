@@ -202,3 +202,26 @@ incident
 platform behavior change
 → review affected docs
 ```
+
+# Source Status Conflict Pattern — v1.21.0
+
+When official sources disagree:
+
+```text
+source A lifecycle/status
+vs
+source B stale guide wording
+```
+
+record:
+
+```text
+URL
+observed date
+source type
+publication/update chronology
+decision
+recheck date
+```
+
+Do not silently erase the contradiction.

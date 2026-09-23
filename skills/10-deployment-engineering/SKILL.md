@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Experience-driven deployment engineering for Google Apps Script, covering environments, immutable versions, versioned deployments, manifests, ownership, release gates, rollback, hotfixes, clasp/API automation, GitHub releases, and post-deploy verification."
-skill_version: "1.3.1"
+skill_version: "1.4.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.19.0"
+last_repository_update: "v1.21.0"
 tags:
   - google-apps-script
   - deployment
@@ -1817,6 +1817,89 @@ When host products change:
 - [ ] rollback/removal behavior documented.
 
 Cross-reference Skill 14.
+
+## Workspace Studio Add-on Deployment — v1.21.0
+
+### Workspace Studio Extension Is Now a Deployment Surface
+
+Google Workspace release notes on September 21, 2026 mark extending Workspace Studio with add-ons as generally available.
+
+Deployment inventory can now include:
+
+```text
+Workspace Studio
+workflow steps
+workflow starters
+workflowTriggers
+Studio API scopes
+```
+
+in addition to existing Gmail/Drive/Calendar/Chat add-on hosts.
+
+### Manifest and Backend Must Move Together
+
+A starter definition can span:
+
+```text
+appsscript.json
++
+Apps Script callbacks
++
+external backend subscription state
++
+OAuth refresh-token storage
++
+Workspace Studio API calls
+```
+
+A manifest-only deployment may therefore be incomplete.
+
+### External Runtime Starter Authorization
+
+For HTTP/alternate-runtime add-ons, long-lived asynchronous starter delivery requires an independent OAuth flow with offline access and secure refresh-token storage.
+
+Deployment must verify:
+
+- OAuth redirect configuration;
+- requested `workspace.studio.trigger` scope;
+- refresh-token storage;
+- token rotation/revocation behavior;
+- backend secret access.
+
+### Apps Script Runtime Variant
+
+Apps Script-based add-ons using time-driven polling can rely on Apps Script-managed OAuth refresh behavior for declared scopes.
+
+Do not copy external-backend refresh-token architecture into GAS when the built-in runtime already manages authorization.
+
+### Release Smoke Test
+
+After deploying a Studio starter:
+
+1. configure a test flow;
+2. verify `triggerCreation`;
+3. fire one test event;
+4. verify the expected flow run;
+5. disable/delete the flow;
+6. verify `triggerDeletion` or `404` handling;
+7. re-enable and confirm a new registration is created.
+
+### No Native Starter Test Run
+
+Current Workspace Studio starter guidance says starter test runs are not supported.
+
+Deployment validation therefore needs a real controlled event path.
+
+### Official Documentation Status Conflict
+
+At the v1.21.0 audit:
+
+- Workspace/add-ons release notes say Studio add-on extension is **GA** as of September 21, 2026;
+- some feature guide pages still display **Limited Preview** wording.
+
+Treat the release note as the newer lifecycle signal while preserving the documentation inconsistency in technology watch.
+
+Cross-reference Skill 11.
 
 # References
 

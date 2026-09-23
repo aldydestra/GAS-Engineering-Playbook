@@ -189,3 +189,17 @@ retry pin idempotently
 Current pin operations are user-authenticated and have space/message constraints; re-check official docs before implementation.
 
 Schema-driven tooling can help inspect current API shapes, but official API documentation remains normative.
+
+# Workspace Studio vs Workspace Events — v1.21.0
+
+```text
+Workspace Events API
+Workspace resource change → your consumer
+
+Workspace Studio starter
+your service event → Workspace Studio flow
+```
+
+Keep the event direction explicit in architecture diagrams.
+
+Workspace API scaling should track quota units, user/project limits, daily thresholds, and egress.

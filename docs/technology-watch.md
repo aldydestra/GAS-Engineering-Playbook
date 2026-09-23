@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-21**
+Last audit: **2026-09-23**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -2806,3 +2806,273 @@ Existing source-pinning, lock, symlink, and installer-security guidance remains 
 No newer baseline-changing source found beyond current tracked states.
 
 Status: **NO CHANGE**
+---
+
+# v1.21.0 Workspace Studio / MCP / Skill-Eval Refresh — 2026-09-23
+
+## Workspace Studio Add-ons
+
+Official source:
+
+https://developers.google.com/workspace/add-ons/release-notes
+
+Release:
+
+```text
+2026-09-21
+GA
+```
+
+New/GA capability:
+
+- custom starters (`workflowTriggers`);
+- Google Workspace Studio API;
+- TextInput format validation;
+- required-input submission validation.
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 09;
+- Skill 10;
+- Skill 14;
+- Skill 16.
+
+---
+
+## Workspace Studio Documentation Status Conflict
+
+Release notes:
+
+```text
+GA
+2026-09-21
+```
+
+Some Studio feature-guide pages still display:
+
+```text
+Limited Preview
+```
+
+Status: **DOCUMENTATION LAG / WATCH**
+
+Decision:
+
+Use the newer release note for lifecycle status while preserving the discrepancy.
+
+Affected:
+
+- Skill 10;
+- Skill 11;
+- Skill 14.
+
+---
+
+## Workspace Studio API
+
+Sources:
+
+- https://developers.google.com/workspace/add-ons/studio/build-a-starter
+- https://developers.google.com/workspace/add-ons/studio/reference/rest
+
+Current operation:
+
+```text
+triggers.fire
+```
+
+Current scope:
+
+```text
+https://www.googleapis.com/auth/workspace.studio.trigger
+```
+
+Current quota snapshot:
+
+```text
+1,000/min/project
+100/min/user
+```
+
+Status: **ADOPTED**
+
+---
+
+## Workspace MCP Product Family
+
+Source:
+
+https://developers.google.com/workspace/guides/configure-mcp-servers
+
+Current Developer Preview product surfaces include:
+
+```text
+Gmail
+Drive
+Docs
+Sheets
+Slides
+Calendar
+Chat
+```
+
+Status: **ADOPT / WATCH**
+
+---
+
+## Universal Search MCP
+
+Source:
+
+https://developers.google.com/workspace/guides/universal-search-mcp
+
+Current status:
+
+```text
+Developer Preview
+```
+
+Current tool:
+
+```text
+search_corpus
+```
+
+Searchable products depend on authorized scopes and currently include:
+
+```text
+Gmail
+Drive
+Calendar
+Chat
+```
+
+Status: **ADOPTED AS PREVIEW ARCHITECTURE**
+
+Affected:
+
+- Skill 13;
+- Skill 16;
+- Skill 17.
+
+---
+
+## Workspace MCP Security
+
+Source:
+
+https://developers.google.com/workspace/guides/configure-mcp-security
+
+Current Google guidance explicitly requires prompt/response screening against malicious content/prompt injection.
+
+Current Google option:
+
+```text
+Model Armor
+```
+
+Important logging warning:
+
+```text
+enabled logging can log the entire payload
+```
+
+Status: **ADOPTED GENERICALLY**
+
+Affected:
+
+- Skill 07;
+- Skill 13;
+- Skill 17;
+- Skill 18.
+
+---
+
+## Standardized Workspace API / Agent Tool Model
+
+Source:
+
+https://developers.google.com/workspace/tools-safety
+
+Current model includes:
+
+- updated standard quotas;
+- product-specific quota units/thresholds;
+- protection against large-scale data egress;
+- planned future billing for above-standard usage;
+- planned billing requirement for quota increases.
+
+Status: **ADOPTED AS TIME-SENSITIVE**
+
+Affected:
+
+- Skill 06;
+- Skill 13;
+- Skill 16;
+- Skill 17.
+
+---
+
+## Anthropic skill-creator
+
+Source:
+
+https://github.com/anthropics/skills/tree/main/skills/skill-creator
+
+Current useful evaluation methodology includes:
+
+- no-skill vs with-skill baseline for new skills;
+- old-skill snapshot baseline for improvements;
+- assertions;
+- time/token metrics;
+- mean/stddev;
+- blind comparison option;
+- positive/negative trigger queries;
+- repeated trigger runs;
+- 60/40 train/held-out test split;
+- selection by held-out test score.
+
+Status: **ADOPTED GENERICALLY**
+
+Affected:
+
+- Skill 08;
+- Skill 11.
+
+---
+
+## MCP Server Instruction Metadata
+
+Community/protocol issue:
+
+https://github.com/modelcontextprotocol/modelcontextprotocol/issues/3213
+
+Signal:
+
+```text
+server-controlled natural-language instructions
+can become prompt-injection surface
+```
+
+Status: **WATCH / DEFENSE-IN-DEPTH ADOPTED**
+
+Affected:
+
+- Skill 18.
+
+---
+
+## No Material Change
+
+No baseline-changing update found for:
+
+```text
+AppSheet core semantics
+PostgreSQL production major
+clasp
+SkillSpector release
+Vercel Skills generic guidance
+Product Design standards
+```

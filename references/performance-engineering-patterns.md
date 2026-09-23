@@ -202,3 +202,23 @@ parity test
 ↓
 before/after benchmark
 ```
+
+# Workspace API Quota-Cost Pattern — v1.21.0
+
+```text
+business operation
+↓
+API methods
+↓
+quota units / request cost
+↓
+per-minute project/user limits
+↓
+daily threshold
+↓
+bytes / egress
+↓
+future billing boundary
+```
+
+Optimize the business operation, not raw request count alone.

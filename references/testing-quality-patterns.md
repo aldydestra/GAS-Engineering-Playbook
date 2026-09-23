@@ -134,3 +134,33 @@ analysis completeness
 ```
 
 Validate generated skills/config with the actual target parser when available.
+
+# Skill Benchmark Method — v1.21.0
+
+For a new skill:
+
+```text
+with skill
+vs
+no skill
+```
+
+For an existing skill revision:
+
+```text
+new version
+vs
+old-version snapshot
+```
+
+Where practical, collect:
+
+```text
+assertion pass rate
+time
+tokens
+mean ± stddev
+qualitative review
+```
+
+Description optimization should use realistic positive/negative trigger cases and a held-out test set.

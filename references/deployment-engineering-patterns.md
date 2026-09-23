@@ -180,3 +180,21 @@ log/health check
 ↓
 mark deployment healthy
 ```
+
+# Workspace Studio Deployment Pattern — v1.21.0
+
+```text
+manifest workflowTrigger
++
+callback implementation
++
+OAuth scope
++
+backend subscription state
++
+refresh-token handling if external runtime
+↓
+controlled starter smoke test
+```
+
+Re-enable creates a new registration; do not reuse the old trigger ID.

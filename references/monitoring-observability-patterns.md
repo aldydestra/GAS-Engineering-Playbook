@@ -147,3 +147,20 @@ synthetic/reconciliation check
 ```
 
 Provider-status pages are useful signals but should be correlated with local telemetry and outcome probes.
+
+# Workspace Studio Starter Telemetry — v1.21.0
+
+```text
+triggerCreation
+↓
+event fire + requestId
+↓
+200 accepted
+├─ 404 → registration dead; stop
+├─ 429 → quota pressure; pace/backoff
+└─ 5xx → bounded retry
+↓
+triggerDeletion
+```
+
+Track registration lifecycle separately from business outcome.

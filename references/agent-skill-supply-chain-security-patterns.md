@@ -163,3 +163,19 @@ MCP metadata             ANALYZED
 Any relevant `INCOMPLETE` category prevents a clean approval.
 
 Separate changed-skill admission gates from inherited catalog debt, but keep inherited findings visible in periodic full audits.
+
+# MCP Metadata Trust Boundary — v1.21.0
+
+Treat remote:
+
+```text
+server instructions
+tool descriptions
+parameter descriptions
+resource descriptions
+examples/defaults
+```
+
+as untrusted metadata unless promoted through a trusted policy layer.
+
+Do not inject remote natural-language metadata verbatim into privileged system instructions.

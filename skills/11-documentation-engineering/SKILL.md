@@ -1,10 +1,10 @@
 ---
 name: documentation-engineering
 description: "Experience-driven documentation engineering for Google Apps Script projects, covering README, JSDoc, changelog, release notes, handoff, ADRs, runbooks, ownership, troubleshooting, contribution evidence, documentation lifecycle, and durable knowledge transfer."
-skill_version: "1.5.1"
+skill_version: "1.6.0"
 repository_introduced: "v1.12.0"
 status: "evolving"
-last_repository_update: "v1.20.0"
+last_repository_update: "v1.21.0"
 tags:
   - google-apps-script
   - documentation
@@ -2110,6 +2110,107 @@ bounded search/retrieval interfaces
 ```
 
 rather than dumping an entire corpus into every agent prompt.
+
+## Evaluation Evidence & Source-Status Conflict Update — v1.21.0
+
+### Skill Benchmarks Need Reproducible Context
+
+For substantial skill changes, document when relevant:
+
+```text
+skill revision
+baseline revision
+model/runtime
+test prompts
+assertions
+timing/token metrics
+evaluation date
+```
+
+A benchmark without its baseline/runtime context is difficult to reproduce.
+
+### Trigger Evaluation Should Preserve Train/Test Separation
+
+Current Anthropic `skill-creator` uses a train/held-out-test split for description optimization and chooses the best description using test performance.
+
+Generic documentation rule:
+
+> Record which evaluation cases were used for tuning and which were held out.
+
+Do not report only the final trigger score without explaining the evaluation split.
+
+### Source Lifecycle Status Must Be Explicit
+
+Official documentation can temporarily disagree during rollout.
+
+Current example:
+
+```text
+Workspace Add-ons release notes
+→ Workspace Studio extension GA on 2026-09-21
+
+some Studio guide pages
+→ still show Limited Preview
+```
+
+When this happens:
+
+1. record the exact sources;
+2. compare update/publication chronology;
+3. prefer the more specific/newer lifecycle source for operational status;
+4. preserve the discrepancy;
+5. re-check later.
+
+### GA Status Does Not Make Every Guide Text Current
+
+A release announcement can become current before all localized/feature pages are updated.
+
+Avoid:
+
+```text
+one stale page
+→ downgrade entire feature status
+```
+
+and also avoid:
+
+```text
+one release note
+→ assume every documented behavior changed
+```
+
+Status and behavior claims should be evaluated separately.
+
+### Time-Sensitive Commercial Terms
+
+Workspace API quota/pricing guidance now includes planned billing changes later in 2026.
+
+Document such claims with:
+
+```text
+observed date
+source
+current status
+planned/future wording
+```
+
+Do not rewrite a planned commercial change as already-effective billing.
+
+### Historical Evidence Retention
+
+Keep prior snapshots in technology watch/changelog when they explain why a skill changed.
+
+This helps distinguish:
+
+```text
+knowledge was wrong
+```
+
+from:
+
+```text
+platform changed later
+```
 
 # References
 

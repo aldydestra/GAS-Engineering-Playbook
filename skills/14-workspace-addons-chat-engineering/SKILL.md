@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
-description: "Experience-driven engineering for Google Workspace add-ons and Google Chat apps built with Apps Script, covering CardService UI, manifest hosts and triggers, contextual cards, navigation, actions, Chat responses, OAuth and URL allowlists, testing, AI-agent integration, publication, and operational safety."
-skill_version: "1.1.1"
+description: "Experience-driven engineering for Google Workspace Add-ons, Chat apps, and Workspace Studio extensions, covering CardService UI, host manifests, contextual cards, navigation/actions, Studio workflow steps and starters, lifecycle callbacks, Workspace Studio API integration boundaries, OAuth, testing, and distribution."
+skill_version: "1.2.0"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.20.0"
+last_repository_update: "v1.21.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1341,6 +1341,146 @@ If a UI exposes pin/unpin:
 - do not imply app-wide pin authority when the operation executes as the user.
 
 Cross-reference Skill 16.
+
+## Google Workspace Studio Add-ons GA — v1.21.0
+
+### Workspace Studio Is Now an Add-on Host / Extension Surface
+
+Google Workspace add-ons release notes on September 21, 2026 mark extending Google Workspace Studio with add-ons as generally available.
+
+This adds two important concepts:
+
+```text
+workflow step
+workflow starter
+```
+
+to the existing Workspace add-on model.
+
+### Step vs Starter
+
+A **step** is one action inside a Studio flow.
+
+A **starter** initiates a flow when an event occurs.
+
+In manifests, starters are represented as:
+
+```text
+workflowTriggers
+```
+
+Do not model an external event source as an ordinary workflow step.
+
+### Starter Manifest Contract
+
+A starter definition can include:
+
+```text
+inputs
+outputs
+onConfigFunction
+onManageFunction
+```
+
+The add-on UI configures the starter; the lifecycle callback manages the registration.
+
+### Lifecycle Callback
+
+The management callback receives lifecycle data for:
+
+```text
+triggerCreation
+triggerDeletion
+```
+
+Persist the registration identity required by the external system.
+
+Deletion handling must be idempotent because lifecycle callbacks can be retried.
+
+### Trigger Registration Is Ephemeral
+
+If a flow is disabled/deleted:
+
+```text
+old trigger registration
+→ decommissioned
+```
+
+When re-enabled:
+
+```text
+new triggerId
++
+new notifyUri
+```
+
+are created.
+
+Do not reactivate or reuse the old registration.
+
+### Apps Script and HTTP Runtime Differ
+
+For Apps Script-based add-ons:
+
+- callbacks run in Apps Script;
+- time-driven polling can use Apps Script-managed authorization.
+
+For alternate HTTP runtimes:
+
+- lifecycle callbacks arrive through HTTP;
+- asynchronous future delivery may require an independent OAuth flow and refresh-token storage.
+
+Keep the runtime choice explicit.
+
+### Workspace Studio API
+
+External services can notify Studio through:
+
+```text
+triggers.fire
+```
+
+using the dedicated Workspace Studio API.
+
+Use the API boundary described in Skill 16.
+
+### Idempotent Starter Events
+
+Use a unique `requestId` for retry-safe event firing.
+
+One business occurrence should not create multiple flow executions simply because the network retried.
+
+### Single-Event Design
+
+Current Studio guidance recommends emitting one event per distinct occurrence rather than bundling many changed records into one event.
+
+Benefits:
+
+- simpler downstream mapping;
+- behavior aligned with built-in starters;
+- clearer retries.
+
+When event volume is high, pace delivery instead of creating uncontrolled bursts.
+
+### Input Validation
+
+The September 21 GA release also includes stronger input validation for Studio/add-on configuration surfaces, including `TextInput` format validation and required-input submission validation for supported widgets.
+
+Treat UI validation as:
+
+```text
+user feedback
+```
+
+not a replacement for server-side validation.
+
+### Documentation Status Note
+
+Some Studio guide pages still displayed Limited Preview wording during the v1.21.0 audit while the newer release note says GA.
+
+Use the release note for lifecycle status and continue to re-check the feature guides.
+
+Cross-reference Skill 11.
 
 # References
 

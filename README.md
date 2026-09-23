@@ -164,7 +164,8 @@ last_repository_update: "v1.13.0"
 | v1.17.0 | Workspace API/Event Engineering + Sheets 20M capacity + skill provenance/evaluation refresh |
 | v1.18.0 | Apps Script Data Regions + Workspace Governance & Compliance Engineering |
 | v1.19.0 | Agent Skill Supply-Chain Security + skill routing/docs/design/Marketplace refresh |
-| **v1.20.0** | **Existing-skill deep refresh: Chat pins/MCP security, AppSheet outcome resilience, scanner coverage, orchestrator correctness** |
+| v1.20.0 | Existing-skill deep refresh: Chat pins/MCP security, AppSheet outcome resilience, scanner coverage, orchestrator correctness |
+| **v1.21.0** | **Workspace Studio GA + Workspace MCP/Universal Search + quota/security/evaluation deepening** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -388,7 +389,7 @@ Agentic/LLM application engineering covering:
 - observability,
 - agent/tool testing.
 
-### 14 — Workspace Add-ons & Chat App Engineering
+### 14 — Workspace Add-ons, Chat & Studio Engineering
 
 Workspace-native application engineering covering:
 
@@ -401,7 +402,9 @@ Workspace-native application engineering covering:
 - add-on OAuth and URL allowlists,
 - host-specific testing,
 - internal/public distribution,
-- AI-agent integration through Apps Script as the Workspace shell.
+- AI-agent integration through Apps Script as the Workspace shell,
+- Google Workspace Studio workflow steps and starters,
+- `workflowTriggers` lifecycle and Studio add-on configuration.
 
 ### 15 — Product Design Engineering
 
@@ -419,7 +422,7 @@ Product/visual/design-system engineering covering:
 - Figma/Canva/tool-agnostic design workflows,
 - design-system knowledge for agents.
 
-### 16 — Workspace API & Event Engineering
+### 16 — Workspace API, Event & MCP Engineering
 
 Google Workspace integration engineering covering:
 
@@ -434,6 +437,10 @@ Google Workspace integration engineering covering:
 - Gmail/Calendar product-specific change mechanisms,
 - Meet `spaces.members`,
 - Apps Script API `scripts.run`,
+- Workspace Studio API starters,
+- product-specific Workspace MCP servers,
+- Universal Search MCP,
+- standardized Workspace API quota/tiering,
 - idempotency/reconciliation/operational health.
 
 ### 17 — Workspace Governance & Compliance Engineering
@@ -642,6 +649,7 @@ gas-engineering-playbook/
     ├── full-skill-refresh-audit-v1.18.0.md
     ├── full-skill-refresh-audit-v1.19.0.md
     ├── full-skill-refresh-audit-v1.20.0.md
+    ├── full-skill-refresh-audit-v1.21.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
@@ -735,6 +743,15 @@ https://developers.google.com/workspace/add-ons
 - https://developers.google.com/workspace/guides/get-started
 - https://developers.google.com/workspace/events
 - https://developers.google.com/workspace/meet/api/guides/overview
+- https://developers.google.com/workspace/guides/configure-mcp-servers
+- https://developers.google.com/workspace/guides/universal-search-mcp
+- https://developers.google.com/workspace/tools-safety
+
+## Workspace Studio
+
+- https://developers.google.com/workspace/add-ons/studio
+- https://developers.google.com/workspace/add-ons/studio/build-a-starter
+- https://developers.google.com/workspace/add-ons/studio/reference/rest
 
 ## Workspace Governance & Compliance
 

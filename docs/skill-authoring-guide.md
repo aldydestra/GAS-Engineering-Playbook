@@ -1263,3 +1263,84 @@ MCP document views
 as build outputs.
 
 Record source/version freshness when these outputs are used in release-critical workflows.
+
+# 51. Skill Benchmarks Need the Right Baseline
+
+Use different baselines for different questions:
+
+```text
+new skill
+→ compare against no skill
+
+improved existing skill
+→ compare against the previous skill revision
+```
+
+This makes the evaluation answer:
+
+```text
+does this skill help?
+```
+
+or:
+
+```text
+is the new version actually better?
+```
+
+rather than conflating the two.
+
+---
+
+# 52. Separate Tuning Cases From Held-Out Evaluation
+
+For skill-trigger/description optimization:
+
+```text
+training/tuning prompts
+≠
+held-out test prompts
+```
+
+Select improvements using held-out performance where practical.
+
+Do not repeatedly tune against the same eval prompts and report that score as generalization evidence.
+
+---
+
+# 53. Track Skill Cost, Not Only Pass Rate
+
+A skill can improve correctness while making every task dramatically slower or more expensive.
+
+Where supported, record:
+
+```text
+pass rate
+duration
+tokens
+tool calls
+variance
+```
+
+Use cost changes as part of the trade-off.
+
+---
+
+# 54. Official Source Status Can Lag Across Pages
+
+When an official release note and a feature guide disagree:
+
+1. record both;
+2. compare chronology;
+3. use the newer/more specific lifecycle announcement for status;
+4. keep behavior claims tied to the relevant feature guide;
+5. re-check later.
+
+Do not silently collapse:
+
+```text
+GA
+Limited Preview
+```
+
+into one unsupported conclusion.

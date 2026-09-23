@@ -327,3 +327,27 @@ Do not submit a skill as "safe" solely because:
 Security, effectiveness, and integrity are separate evidence dimensions.
 
 See Skill 18 and `references/agent-skill-supply-chain-security-patterns.md`.
+## Skill Benchmark Evidence
+
+For substantial skill revisions, evaluation evidence should identify the baseline used.
+
+Use:
+
+```text
+new skill
+→ compare with no skill
+
+existing skill improvement
+→ compare with previous skill revision
+```
+
+Where practical, include:
+
+- realistic eval prompts,
+- deterministic assertions,
+- qualitative review,
+- duration/token cost,
+- variance/repeated runs,
+- tuning vs held-out trigger cases.
+
+Do not report a tuned-on-the-same-prompts trigger score as generalization evidence.

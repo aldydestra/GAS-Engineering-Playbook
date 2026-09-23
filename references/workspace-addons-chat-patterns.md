@@ -163,3 +163,25 @@ manifest
 + host rendering
 + test deployment
 ```
+
+# Workspace Studio Starter Pattern — v1.21.0
+
+```text
+external event
+↓
+starter registration
+↓
+triggerId + notifyUri
+↓
+triggers.fire(requestId)
+↓
+Workspace Studio flow
+```
+
+Lifecycle:
+
+```text
+enable → triggerCreation
+disable/delete → triggerDeletion
+re-enable → NEW registration
+```

@@ -3,6 +3,284 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.21.0] - 2026-09-23
+
+### Workspace Studio GA, Workspace MCP & Skill Evaluation Deepening
+
+This release performs a full refresh from v1.20.0.
+
+No new skill/extension is introduced. New platform capabilities fit existing ownership boundaries.
+
+### Updated — Performance Engineering
+
+Skill 06:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added standardized Workspace API/MCP quota engineering:
+
+- per-method quota cost;
+- per-minute project/user limits;
+- daily thresholds;
+- egress;
+- planned billable overage;
+- agent tool-call budgets.
+
+### Updated — Security Engineering
+
+Skill 07:
+
+```text
+1.4.0 → 1.5.0
+```
+
+Added first-party Google Workspace MCP security guidance:
+
+- prompt/response screening;
+- trusted-tool vs untrusted-content boundary;
+- least-privilege product/scope selection;
+- Model Armor/equivalent screening;
+- full-payload logging risk;
+- project-level security floor settings.
+
+### Updated — Testing & Quality
+
+Skill 08:
+
+```text
+1.3.1 → 1.4.0
+```
+
+Added stronger skill-evaluation methodology:
+
+- no-skill baseline for new skills;
+- old-skill snapshot baseline for revisions;
+- same-period comparison;
+- assertions + human review;
+- timing/token cost;
+- variance;
+- blind comparison;
+- positive/negative trigger evals;
+- held-out trigger testing.
+
+### Updated — Monitoring & Observability
+
+Skill 09:
+
+```text
+1.3.0 → 1.4.0
+```
+
+Added Workspace Studio starter lifecycle telemetry and explicit handling of:
+
+```text
+404 → dead registration
+429 → quota pressure
+5xx → bounded retry
+```
+
+### Updated — Deployment Engineering
+
+Skill 10:
+
+```text
+1.3.1 → 1.4.0
+```
+
+Added Workspace Studio deployment:
+
+- `workflowTriggers`;
+- Studio API scope;
+- external-runtime refresh-token handling;
+- real starter smoke testing;
+- lifecycle cleanup/re-registration.
+
+### Updated — Documentation Engineering
+
+Skill 11:
+
+```text
+1.5.1 → 1.6.0
+```
+
+Added:
+
+- evaluation reproducibility metadata;
+- held-out trigger-test documentation;
+- official source-status conflict handling;
+- time-sensitive commercial/platform wording rules.
+
+### Updated — AI & Agent Integration
+
+Skill 13:
+
+```text
+1.3.0 → 1.4.0
+```
+
+Added:
+
+- Workspace MCP product family;
+- Universal Search MCP;
+- product-specific vs cross-product tool selection;
+- cross-product prompt-injection boundary;
+- MCP security screening;
+- agent quota/egress budgets.
+
+### Updated — Workspace Add-ons, Chat & Studio
+
+Skill 14:
+
+```text
+1.1.1 → 1.2.0
+```
+
+Google Workspace release notes on September 21, 2026 mark extending Workspace Studio with add-ons as GA.
+
+Added:
+
+- workflow steps vs starters;
+- `workflowTriggers`;
+- starter lifecycle callbacks;
+- Apps Script vs HTTP runtime differences;
+- Studio API boundary;
+- request idempotency;
+- single-event design;
+- stronger input validation.
+
+### Updated — Workspace API, Event & MCP Engineering
+
+Skill 16:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added:
+
+- Workspace Studio API `triggers.fire`;
+- dedicated OAuth scope;
+- request-id idempotency;
+- current starter quota snapshot;
+- Workspace Studio vs Workspace Events direction;
+- Universal Search MCP;
+- Workspace MCP product family;
+- standardized API quota/tiering/billing model.
+
+### Updated — Workspace Governance & Compliance
+
+Skill 17:
+
+```text
+1.0.0 → 1.1.0
+```
+
+Added:
+
+- MCP product/client/scope governance;
+- cross-product Universal Search data boundary;
+- Model Armor full-payload logging risk;
+- project security floor settings;
+- scaled API billing/egress governance.
+
+### Updated — Agent Skill Supply-Chain Security
+
+Skill 18:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added:
+
+- remote MCP server instructions as untrusted metadata;
+- tool/parameter/resource description injection boundary;
+- shared metadata cache-poisoning risk;
+- trusted-server vs untrusted-content distinction;
+- evaluator/parser security;
+- evaluator-version and incomplete-run integrity evidence.
+
+### Google Workspace Studio GA
+
+Official release date:
+
+```text
+2026-09-21
+```
+
+Current new capability includes:
+
+```text
+custom starters
+workflowTriggers
+Workspace Studio API
+TextInput format validation
+required-input validation
+```
+
+### Universal Search MCP
+
+Current status:
+
+```text
+Developer Preview
+```
+
+Current tool:
+
+```text
+search_corpus
+```
+
+Current cross-product search can span authorized subsets of:
+
+```text
+Gmail
+Drive
+Calendar
+Chat
+```
+
+### Standardized Workspace API / Agent Tool Model
+
+Adopted Google guidance around:
+
+- quota units;
+- standard tiers;
+- daily thresholds;
+- egress;
+- planned future billing for scaled use.
+
+### Documentation Inconsistency
+
+Current official sources temporarily disagree:
+
+```text
+Workspace add-ons release notes
+→ Studio extension GA
+
+some Studio feature guides
+→ Limited Preview
+```
+
+The repository uses the newer release note for lifecycle status while preserving the discrepancy for later re-check.
+
+### No New Extension
+
+Workspace Studio, Workspace MCP, and Universal Search all fit existing skill boundaries.
+
+Repository remains:
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–18
+```
+
+---
+
+
 ## [v1.20.0] - 2026-09-21
 
 ### Existing-Skill Deep Refresh

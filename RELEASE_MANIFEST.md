@@ -1,11 +1,14 @@
 # Release Manifest
 
-Repository Version: v1.20.0
+Repository Version: v1.21.0
 
 ## Release Type
 
-- Existing-skill deep refresh
+- Full skill/extension refresh
 - No new extension
+- Workspace Studio GA integration
+- Workspace MCP / Universal Search deepening
+- Workspace API quota/security/evaluation refresh
 - Full repository snapshot
 
 ## Repository Model
@@ -15,30 +18,31 @@ Repository Version: v1.20.0
 
 ## Updated Skills
 
-- `02-appsheet-migration`: 1.2.0 → 1.3.0
-- `08-testing-quality`: 1.3.0 → 1.3.1
-- `09-monitoring-observability`: 1.2.1 → 1.3.0
-- `11-documentation-engineering`: 1.5.0 → 1.5.1
-- `13-ai-agent-integration`: 1.2.0 → 1.3.0
-- `14-workspace-addons-chat-engineering`: 1.1.0 → 1.1.1
-- `16-workspace-api-event-engineering`: 1.1.1 → 1.2.0
-- `18-agent-skill-supply-chain-security`: 1.0.0 → 1.1.0
+- `06-performance-engineering`: 1.2.0 → 1.3.0
+- `07-security-engineering`: 1.4.0 → 1.5.0
+- `08-testing-quality`: 1.3.1 → 1.4.0
+- `09-monitoring-observability`: 1.3.0 → 1.4.0
+- `10-deployment-engineering`: 1.3.1 → 1.4.0
+- `11-documentation-engineering`: 1.5.1 → 1.6.0
+- `13-ai-agent-integration`: 1.3.0 → 1.4.0
+- `14-workspace-addons-chat-engineering`: 1.1.1 → 1.2.0
+- `16-workspace-api-event-engineering`: 1.2.0 → 1.3.0
+- `17-workspace-governance-compliance-engineering`: 1.0.0 → 1.1.0
+- `18-agent-skill-supply-chain-security`: 1.1.0 → 1.2.0
+
+## Intentionally Unchanged
+
+- `01-gas-core-engineering` — 1.3.0
+- `02-appsheet-migration` — 1.3.0
+- `03-software-architecture` — 1.2.0
+- `04-database-engineering` — 1.2.0
+- `05-postgresql-integration` — 1.2.0
+- `12-web-app-frontend-engineering` — 1.1.0
+- `15-product-design-engineering` — 1.1.0
 
 ## Full Audit
 
-- `docs/full-skill-refresh-audit-v1.20.0.md`
-
-## Key Evidence
-
-- Google Chat message pins GA — 2026-09-18
-- Google Chat MCP Developer Preview + indirect prompt-injection guidance
-- AppSheet September operational/community incident signals
-- CVE-2026-84809 agent-skill scanner false-clean lesson
-- nested-script scanner coverage signal
-- JetBrains skill-catalog changed-skill/full-audit pattern
-- googleworkspace/cli schema/dry-run/generated-skill patterns
-- Ruflo orchestrator correctness fixes
-- docmd 0.9.5 source snapshot
+- `docs/full-skill-refresh-audit-v1.21.0.md`
 
 ## Files
 - `CHANGELOG.md`
@@ -57,6 +61,7 @@ Repository Version: v1.20.0
 - `docs/full-skill-refresh-audit-v1.18.0.md`
 - `docs/full-skill-refresh-audit-v1.19.0.md`
 - `docs/full-skill-refresh-audit-v1.20.0.md`
+- `docs/full-skill-refresh-audit-v1.21.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`

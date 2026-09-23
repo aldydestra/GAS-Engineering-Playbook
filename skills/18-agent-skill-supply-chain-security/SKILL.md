@@ -1,10 +1,10 @@
 ---
 name: agent-skill-supply-chain-security
 description: "Security engineering for AI agent skills, plugins, MCP-integrated skill packages, and skill catalogs: pre-install scanning, prompt-injection and exfiltration detection, executable/script review, declared-permission parity, MCP tool poisoning, dependency provenance, transitive references, fail-closed incomplete analysis, baselines, SARIF/CI gates, sandbox evaluation, signing, integrity verification, catalog admission, and safe update lifecycle."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.19.0"
 status: "evolving"
-last_repository_update: "v1.20.0"
+last_repository_update: "v1.21.0"
 tags:
   - agent-skills
   - supply-chain-security
@@ -2359,6 +2359,144 @@ Maintain malicious fixtures for:
 - oversized/budget-exhausting bundle.
 
 A scanner update should not silently reintroduce false-clean behavior.
+
+Cross-reference Skill 08.
+
+## MCP Metadata & Evaluation-Pipeline Security Update — v1.21.0
+
+### MCP Server Instructions Are Untrusted Metadata
+
+A current Model Context Protocol issue highlights a protocol-level risk where server-controlled natural-language `instructions` can become prompt injection if a client inserts them into privileged model context.
+
+This is community/protocol issue evidence, not a finalized normative MCP rule.
+
+The durable security principle is:
+
+```text
+remote server instructions
+=
+untrusted metadata
+```
+
+unless an explicitly trusted policy layer promotes them.
+
+Do not insert arbitrary server-provided instructions verbatim into the system prompt.
+
+### Tool Metadata Needs the Same Boundary
+
+Apply the same rule to:
+
+```text
+server instructions
+tool descriptions
+parameter descriptions
+resource descriptions
+examples/defaults
+```
+
+These fields help the model understand tools, but they are not equivalent to system policy.
+
+### Cache Poisoning Amplifies Metadata Risk
+
+If remote tool/server metadata is cached and reused across users/sessions, malicious instructions can gain broader reach.
+
+When caching MCP metadata:
+
+- bind it to trusted server identity;
+- define cache scope;
+- invalidate on trust/source changes;
+- do not merge untrusted metadata into shared privileged prompts.
+
+### First-Party Server Does Not Eliminate Content Injection
+
+Google's own Workspace MCP security guidance explicitly warns that retrieved Workspace content can contain hidden malicious instructions.
+
+Therefore Skill 18 distinguishes:
+
+```text
+server/package trust
+```
+
+from:
+
+```text
+content trust
+```
+
+A trusted MCP server can deliver untrusted user-authored data.
+
+### Security Screening Is a Separate Layer
+
+Current Google guidance requires prompt/response screening for Workspace MCP use.
+
+Generic architecture:
+
+```text
+trusted client
+↓
+MCP server
+↓
+untrusted content
+↓
+screen / classify
+↓
+agent
+↓
+authorized action
+```
+
+Do not rely only on the MCP connection's TLS/OAuth identity.
+
+### Security Tool Logging Must Be Reviewed
+
+Security scanners, prompt filters, and Model Armor-like controls can themselves log or transmit the content being inspected.
+
+Review:
+
+- full payload vs metadata;
+- external provider;
+- retention;
+- region;
+- credentials;
+- redaction.
+
+A security control must not become an unreviewed exfiltration path.
+
+### Evaluation Parser Security
+
+Skill-evaluation tooling consumes untrusted/generated artifacts such as:
+
+```text
+JSON
+XML
+HTML
+Markdown
+files
+```
+
+Treat benchmark/evaluator parsers as security-sensitive.
+
+Use safe parser configurations and avoid dangerous external-entity or code-execution behaviors.
+
+Recent public issue/PR activity in skill ecosystems reinforces this class of risk.
+
+### Evaluation Integrity
+
+A skill security decision can be corrupted if the evaluator:
+
+- misdetects skill triggering;
+- parses reports incorrectly;
+- silently drops failed runs;
+- leaks target data to an external evaluator.
+
+Therefore the trust pipeline should capture:
+
+```text
+scanner version
+evaluator version
+model/runtime
+failed/incomplete runs
+```
 
 Cross-reference Skill 08.
 

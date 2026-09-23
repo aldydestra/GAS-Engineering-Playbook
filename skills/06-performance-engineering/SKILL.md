@@ -1,10 +1,10 @@
 ---
 name: performance-engineering
 description: "Experience-driven performance engineering for Google Apps Script, focusing on measurement, service-call reduction, batching, in-memory algorithms, caching, concurrency, long-running job continuation, external I/O, and regression prevention."
-skill_version: "1.2.0"
+skill_version: "1.3.0"
 repository_introduced: "v1.7.0"
 status: "evolving"
-last_repository_update: "v1.17.0"
+last_repository_update: "v1.21.0"
 tags:
   - google-apps-script
   - performance
@@ -1863,6 +1863,142 @@ periodic reconciliation
 instead of frequent full scans.
 
 Use Skill 16 for Workspace Events architecture.
+
+## Workspace API Quota & Cost Engineering — v1.21.0
+
+### API Performance Now Includes Quota Units and Cost Boundaries
+
+Google Workspace introduced a standardized usage model for Workspace APIs and MCP surfaces.
+
+For affected APIs, capacity is no longer well-modeled as:
+
+```text
+requests per minute only
+```
+
+Instead consider:
+
+```text
+per-method quota cost
++
+per-minute project quota
++
+per-minute user quota
++
+daily project threshold
++
+egress limits
++
+future billable overage
+```
+
+Current affected examples include Gmail, Calendar, and Drive.
+
+### Method Cost Matters
+
+Two API calls can consume very different quota units.
+
+Therefore performance optimization should measure:
+
+```text
+business operation
+↓
+number of API calls
+↓
+quota units / method
+↓
+payload size / egress
+↓
+latency
+↓
+cost threshold
+```
+
+Do not optimize only raw request count.
+
+### Daily Threshold vs Burst Limit
+
+Separate:
+
+```text
+burst / per-minute safety
+```
+
+from:
+
+```text
+daily project usage
+```
+
+A design can stay below per-minute limits while still reaching daily thresholds.
+
+Likewise, a low daily average can still produce short bursts that are throttled.
+
+### User Fairness
+
+Workspace APIs may enforce:
+
+```text
+per-project
++
+per-user-per-project
+```
+
+limits.
+
+For multi-user applications, avoid letting one heavy user consume the project's usable burst capacity.
+
+### Egress Is a Performance Dimension
+
+Current Drive API guidance includes a daily user egress limit.
+
+For large file/data workflows, measure:
+
+```text
+bytes transferred
+```
+
+in addition to:
+
+```text
+requests
+```
+
+Prefer metadata/filtering/field projection before downloading content.
+
+### Billing-Aware Design
+
+Google's current standardized Workspace API model states that later in 2026:
+
+- increased quota requests are planned to require Cloud billing;
+- usage above standard daily thresholds is planned to generate charges;
+- Google will provide notice before billing changes take effect.
+
+Treat this as a **time-sensitive commercial/platform dependency**.
+
+Do not hard-code assumptions that all scaled Workspace API usage is permanently free.
+
+### MCP Is Not Free From Quotas
+
+Workspace MCP servers ultimately operate over Workspace APIs and expose product/tool-specific limits.
+
+Agent workflows should therefore avoid:
+
+```text
+LLM loop
+↓
+unbounded tool calls
+```
+
+Use:
+
+- explicit iteration/tool budgets;
+- field masks;
+- bounded search;
+- pagination limits;
+- result caching where safe.
+
+Cross-reference Skills 13 and 16.
 
 # References
 
