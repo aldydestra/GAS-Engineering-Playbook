@@ -164,3 +164,17 @@ triggerDeletion
 ```
 
 Track registration lifecycle separately from business outcome.
+
+# Completeness-Aware Read Telemetry — v1.22.0
+
+Track when useful:
+
+```text
+result_count
+auth_mode
+caller/effective identity
+result_completeness
+permission_denied
+```
+
+A zero count without completeness context can create a false data-quality alert.

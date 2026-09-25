@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
 description: "Experience-driven engineering for Google Workspace Add-ons, Chat apps, and Workspace Studio extensions, covering CardService UI, host manifests, contextual cards, navigation/actions, Studio workflow steps and starters, lifecycle callbacks, Workspace Studio API integration boundaries, OAuth, testing, and distribution."
-skill_version: "1.2.0"
+skill_version: "1.3.0"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.21.0"
+last_repository_update: "v1.22.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1481,6 +1481,98 @@ Some Studio guide pages still displayed Limited Preview wording during the v1.21
 Use the release note for lifecycle status and continue to re-check the feature guides.
 
 Cross-reference Skill 11.
+
+## Google Chat Membership-List Visibility GA — v1.22.0
+
+Google Workspace developer release notes on September 23, 2026 added GA controls for who can view the member list of a Chat space.
+
+Current `Space` resource uses:
+
+```text
+accessSettings.accessPermissionSettings.viewSpaceMembershipSetting
+```
+
+together with:
+
+```text
+permissionSettings.viewSpaceMembership
+```
+
+### Discovery, Join, and Membership Visibility Are Separate
+
+Chat space access now has clear independent dimensions:
+
+```text
+discover
+join
+view membership
+```
+
+Do not design UI that assumes one implies the others.
+
+### UI Should Reflect Effective Visibility
+
+If an add-on/Chat app displays a member-management surface:
+
+- distinguish "member list unavailable to you" from "no members";
+- avoid rendering an authoritative zero count from a filtered result;
+- explain permission-denied states;
+- avoid leaking restricted membership information through cached UI.
+
+### Paired Field Update
+
+When changing who can view the membership list, current API guidance requires both fields to be present in:
+
+```text
+request body
++
+updateMask
+```
+
+Keep the access-setting update inside the application service/API layer.
+
+Do not build two independent UI actions that update the paired fields separately.
+
+### Target Audiences
+
+Chat access can be defined using Workspace target audiences.
+
+UX should display human-readable organizational labels where possible rather than exposing raw audience resource IDs.
+
+### Role-Specific Visibility
+
+When restricting membership visibility by space role, model the available roles explicitly.
+
+Do not infer authorization from button visibility alone.
+
+### Read Behavior Affects UI
+
+Current Chat documentation notes:
+
+```text
+app-auth list
+→ can return empty / omit hidden memberships
+
+user-auth list
+→ can return PERMISSION_DENIED
+```
+
+Therefore the UI state model should include:
+
+```text
+LOADED_COMPLETE
+LOADED_RESTRICTED
+ACCESS_DENIED
+ERROR
+```
+
+rather than only:
+
+```text
+LOADING / LOADED / ERROR
+```
+
+Cross-reference Skills 07, 09, 16, and 17.
 
 # References
 

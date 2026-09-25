@@ -1,10 +1,10 @@
 ---
 name: postgresql-integration
 description: "Integrate Google Apps Script with PostgreSQL using direct JDBC or controlled API boundaries with secure connectivity, prepared statements, transactions, batching, idempotent synchronization, and Sheet read models."
-skill_version: "1.2.0"
+skill_version: "1.3.0"
 repository_introduced: "v1.6.0"
 status: "evolving"
-last_repository_update: "v1.18.0"
+last_repository_update: "v1.22.0"
 tags:
   - postgresql
   - google-apps-script
@@ -1436,6 +1436,119 @@ For organizations using Data Regions:
 - [ ] document approved fallback/exception.
 
 Cross-reference Skill 17.
+
+## PostgreSQL 19 Beta 4 & Pooler Security Update — v1.22.0
+
+### PostgreSQL 19 Beta 4 Is Still Pre-Release
+
+PostgreSQL 19 Beta 4 was released on September 24, 2026.
+
+Current PostgreSQL guidance remains explicit:
+
+```text
+beta / release candidate
+→ testing only
+→ not production
+```
+
+Do not make PostgreSQL 19 a production baseline until GA and workload validation.
+
+### Beta Features Can Be Removed
+
+An important change since Beta 3:
+
+```text
+SQL/PGQ property-graph support
+→ REVERTED from PostgreSQL 19 Beta 4
+```
+
+This is a concrete reason to keep preview features out of durable production architecture guidance.
+
+Generic rule:
+
+> Track pre-release features as WATCH items until GA. Do not design required production behavior around a beta feature simply because it appeared in earlier release notes.
+
+### Current PostgreSQL 19 WATCH Snapshot
+
+Still notable in current Beta 4 documentation:
+
+```text
+REPACK / REPACK CONCURRENTLY
+logical replication of sequence values
+parallel/autovacuum improvements
+WAIT for standby replay
+planner-advice extensions
+performance improvements
+```
+
+Treat all as pre-release until PostgreSQL 19 GA.
+
+### Pooler/Proxy Security Is Part of Database Integration
+
+If production architecture includes:
+
+```text
+application
+↓
+PgBouncer / proxy
+↓
+PostgreSQL
+```
+
+the pooler is part of the security boundary, not transparent infrastructure.
+
+On September 23, 2026 PgBouncer 1.26.0 fixed three security issues:
+
+- `CVE-2026-19888` — unauthenticated crash during malformed SCRAM client-final handling;
+- `CVE-2026-6668` — unauthenticated denial of service through packet-buffer growth overflow;
+- `CVE-2026-6669` — unbounded SCRAM iteration work accepted from a malicious PostgreSQL server.
+
+If PgBouncer is used, treat supported security releases as patch-priority infrastructure.
+
+### Current PgBouncer 1.26 Behavior Changes
+
+Current release also includes operational changes such as:
+
+- tracking `search_path` by default;
+- tracking `default_transaction_read_only` by default;
+- `pool_idle_timeout`;
+- per-user / per-database `query_wait_timeout`;
+- removal of deprecated online restart behavior.
+
+Review configuration compatibility before upgrading.
+
+### Pooler Security Checklist
+
+- [ ] pooler version supported/current;
+- [ ] security advisories reviewed;
+- [ ] SCRAM/auth configuration tested;
+- [ ] admin-console access restricted;
+- [ ] startup/session parameters reviewed;
+- [ ] timeout settings match workload;
+- [ ] upgrade performed in TEST/staging first;
+- [ ] application behavior tested under pooled connections.
+
+### Architecture Documentation
+
+Record:
+
+```text
+client
+pooler/proxy
+database
+TLS boundaries
+authentication boundary
+transaction-pooling mode
+prepared-statement assumptions
+```
+
+Do not document the architecture simply as:
+
+```text
+GAS → PostgreSQL
+```
+
+when a pooler/proxy materially affects connection and security semantics.
 
 # References
 

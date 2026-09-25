@@ -3,6 +3,307 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.22.0] - 2026-09-25
+
+### Chat Membership Privacy, Developer Knowledge GA & PostgreSQL/Skill Security Refresh
+
+This release performs a full refresh from v1.21.0.
+
+No new extension is introduced. All new capability has a clear owner in the existing 18-skill model.
+
+### Updated — PostgreSQL Integration
+
+Skill 05:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added:
+
+- PostgreSQL 19 Beta 4 WATCH;
+- explicit correction that SQL/PGQ was reverted before GA;
+- stronger pre-release feature discipline;
+- PgBouncer 1.26.0 security fixes;
+- pooler/proxy security and compatibility as part of database integration.
+
+### Updated — Security Engineering
+
+Skill 07:
+
+```text
+1.5.0 → 1.6.0
+```
+
+Added authorization-filtered read semantics:
+
+```text
+successful read
+≠
+complete read
+```
+
+Google Chat membership visibility provides the concrete current example.
+
+Added:
+
+- full/partial/denied result semantics;
+- discover/join/view-membership separation;
+- paired access-setting update;
+- target audience + role access modeling;
+- authorization matrix tests.
+
+### Updated — Monitoring & Observability
+
+Skill 09:
+
+```text
+1.4.0 → 1.5.0
+```
+
+Added completeness-aware telemetry so:
+
+```text
+result_count = 0
+```
+
+is not automatically interpreted as authoritative absence.
+
+### Updated — AI & Agent Integration
+
+Skill 13:
+
+```text
+1.4.0 → 1.5.0
+```
+
+Google Developer Knowledge gcloud commands became GA on September 22, 2026.
+
+Added:
+
+- `answer-query`;
+- `documents describe`;
+- `documents search-chunks`;
+- source/citation/update-time preservation;
+- freshness filtering;
+- document views/field masks;
+- retrieval-score semantics;
+- permission-filtered agent-result completeness.
+
+### Updated — Workspace Add-ons, Chat & Studio
+
+Skill 14:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Google Chat membership-list visibility controls became GA on September 23, 2026.
+
+Added:
+
+- discover/join/view-membership UX separation;
+- target audiences;
+- role-based visibility;
+- restricted/denied UI states;
+- paired API update boundary;
+- protection against leaking privileged membership data through cached UI.
+
+### Updated — Product Design Engineering
+
+Skill 15:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Current active OpenAI Figma skill sources reinforce:
+
+- design-system component/token/style reuse before manual primitives;
+- componentizing repeated elements;
+- dual-reference rendered/pixel + system-linked reconstruction;
+- incremental screen construction;
+- visual verification after meaningful changes;
+- effective typography checks;
+- separate pixel fidelity and design-system fidelity.
+
+The archived `openai/role-specific-plugins` repository remains historical evidence; active `openai/plugins` Figma sources are preferred for freshness.
+
+### Updated — Workspace API, Event & MCP Engineering
+
+Skill 16:
+
+```text
+1.3.0 → 1.4.0
+```
+
+Added:
+
+- Chat membership-list visibility fields;
+- paired field/update-mask contract;
+- permission-filtered `spaces.members.list` semantics;
+- completeness propagation;
+- target-audience/access-model compatibility;
+- Developer Knowledge gcloud GA operations;
+- bounded documentation retrieval.
+
+### Updated — Workspace Governance & Compliance
+
+Skill 17:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added:
+
+- membership-list metadata privacy;
+- independent discover/join/view-membership governance;
+- target-audience ownership;
+- role-based membership visibility;
+- re-export/caching restrictions;
+- audit/change evidence;
+- authorization-context requirement for membership reconciliation.
+
+### Updated — Agent Skill Supply-Chain Security
+
+Skill 18:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Current SkillSpector 2.12.0 public release state is explicitly recorded as:
+
+```text
+candidate
+publication pending
+```
+
+The playbook adopts generic security improvements without making the candidate build a stable dependency:
+
+- executable/actionable Markdown fences as execution surface;
+- dependency source/registry provenance;
+- private registry review vs blanket rejection;
+- scanner/LLM provenance;
+- strict active-finding gates;
+- occurrence-specific evidence;
+- missing vs ambiguous reference distinction;
+- fail-closed recursive reporting.
+
+### PostgreSQL 19 Beta 4
+
+Released:
+
+```text
+2026-09-24
+```
+
+Important change:
+
+```text
+SQL/PGQ
+→ reverted from PostgreSQL 19
+```
+
+This reinforces the repository's WATCH discipline for beta features.
+
+Production baseline remains PostgreSQL 18.
+
+### PgBouncer 1.26.0
+
+Released:
+
+```text
+2026-09-23
+```
+
+Includes security fixes for:
+
+```text
+CVE-2026-19888
+CVE-2026-6668
+CVE-2026-6669
+```
+
+### Google Chat Membership Visibility
+
+GA:
+
+```text
+2026-09-23
+```
+
+Current access dimensions:
+
+```text
+discover
+join
+view membership
+```
+
+are treated independently.
+
+### Developer Knowledge gcloud GA
+
+GA:
+
+```text
+2026-09-22
+```
+
+Commands:
+
+```text
+gcloud developer-knowledge answer-query
+gcloud developer-knowledge documents describe
+gcloud developer-knowledge documents search-chunks
+```
+
+### No New Skill
+
+Candidate domains were evaluated but fit existing ownership boundaries.
+
+Repository remains:
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–18
+```
+
+### Intentionally Unchanged
+
+No version bump for:
+
+```text
+01 GAS Core
+02 AppSheet Migration
+03 Software Architecture
+04 Database Engineering
+06 Performance Engineering
+08 Testing & Quality
+10 Deployment Engineering
+11 Documentation Engineering
+12 Web App & Frontend
+```
+
+### Full Audit
+
+Added:
+
+- `docs/full-skill-refresh-audit-v1.22.0.md`
+
+### Technology Watch
+
+Audit date advanced to:
+
+```text
+2026-09-25
+```
+
+---
+
+
 ## [v1.21.0] - 2026-09-23
 
 ### Workspace Studio GA, Workspace MCP & Skill Evaluation Deepening

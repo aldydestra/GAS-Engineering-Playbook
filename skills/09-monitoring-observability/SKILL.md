@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
 description: "Experience-driven monitoring and observability for Google Apps Script, covering execution logs, Cloud Logging, Error Reporting, structured events, correlation IDs, phase timing, job telemetry, alerts, health signals, privacy, incident triage, and operational runbooks."
-skill_version: "1.4.0"
+skill_version: "1.5.0"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.21.0"
+last_repository_update: "v1.22.0"
 tags:
   - google-apps-script
   - monitoring
@@ -1758,6 +1758,96 @@ did retries occur?
 ```
 
 Cross-reference Skills 14 and 16.
+
+## Absence vs Authorization Observability — v1.22.0
+
+### Zero Is Not Always Zero
+
+Google Chat membership visibility provides a concrete example:
+
+```text
+list members
+→ []
+```
+
+can mean:
+
+```text
+no visible members
+```
+
+rather than:
+
+```text
+space has no members
+```
+
+depending on caller authorization.
+
+### Track Result Semantics
+
+For APIs with permission-filtered reads, distinguish telemetry such as:
+
+```text
+RESULT_COMPLETE
+RESULT_PARTIAL_OR_FILTERED
+RESULT_EMPTY_AUTHORITATIVE
+RESULT_DENIED
+RESULT_UNKNOWN_COMPLETENESS
+```
+
+The exact enum is application-specific.
+
+Do not record all successful HTTP responses as equivalent.
+
+### Avoid False Data-Quality Alerts
+
+A reconciliation job can incorrectly report:
+
+```text
+source members = 0
+```
+
+when the source actually withheld membership visibility.
+
+Before declaring data loss/drift:
+
+1. verify caller identity;
+2. verify permissions;
+3. verify API filtering semantics;
+4. check whether the result is authoritative.
+
+### Permission Changes Are Operational Changes
+
+If administrators/space managers alter visibility policy, a previously complete monitoring query can become partial without application code changing.
+
+Record, where useful:
+
+```text
+effective caller
+auth mode
+visibility/completeness flag
+```
+
+with the run summary.
+
+### Error vs Filtered Success
+
+Keep separate:
+
+```text
+PERMISSION_DENIED
+```
+
+and:
+
+```text
+HTTP success with filtered/empty result
+```
+
+Both may indicate authorization boundaries, but require different diagnostics.
+
+Cross-reference Skill 07.
 
 # References
 

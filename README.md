@@ -165,7 +165,8 @@ last_repository_update: "v1.13.0"
 | v1.18.0 | Apps Script Data Regions + Workspace Governance & Compliance Engineering |
 | v1.19.0 | Agent Skill Supply-Chain Security + skill routing/docs/design/Marketplace refresh |
 | v1.20.0 | Existing-skill deep refresh: Chat pins/MCP security, AppSheet outcome resilience, scanner coverage, orchestrator correctness |
-| **v1.21.0** | **Workspace Studio GA + Workspace MCP/Universal Search + quota/security/evaluation deepening** |
+| v1.21.0 | Workspace Studio GA + Workspace MCP/Universal Search + quota/security/evaluation deepening |
+| **v1.22.0** | **Chat membership privacy + Developer Knowledge CLI GA + PostgreSQL/PgBouncer + design/supply-chain deepening** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -247,7 +248,9 @@ Concrete GAS/PostgreSQL integration:
 - query timeout,
 - resource lifecycle,
 - database → Sheet read model,
-- private/self-hosted networking considerations.
+- private/self-hosted networking considerations,
+- pre-release feature WATCH discipline,
+- connection-pooler/proxy security and compatibility.
 
 ## 06 — Performance Engineering
 
@@ -277,7 +280,9 @@ Trust-boundary engineering:
 - input validation,
 - webhooks/replay,
 - PostgreSQL roles,
-- MFA-aware automation.
+- MFA-aware automation,
+- authorization-filtered/partial read semantics,
+- completeness-aware access decisions.
 
 ## 08 — Testing & Quality
 
@@ -317,7 +322,9 @@ Production evidence:
 - Error Reporting,
 - health/freshness,
 - alert deduplication,
-- incident learning.
+- incident learning,
+- authoritative-empty vs permission-filtered results,
+- completeness-aware reconciliation telemetry.
 
 ## 10 — Deployment Engineering
 
@@ -386,6 +393,8 @@ Agentic/LLM application engineering covering:
 - A2A,
 - managed external agent runtimes,
 - official developer-documentation grounding,
+- Developer Knowledge CLI/API retrieval provenance,
+- permission-filtered tool-result semantics,
 - observability,
 - agent/tool testing.
 
@@ -404,7 +413,8 @@ Workspace-native application engineering covering:
 - internal/public distribution,
 - AI-agent integration through Apps Script as the Workspace shell,
 - Google Workspace Studio workflow steps and starters,
-- `workflowTriggers` lifecycle and Studio add-on configuration.
+- `workflowTriggers` lifecycle and Studio add-on configuration,
+- Chat membership-list privacy/access UX.
 
 ### 15 — Product Design Engineering
 
@@ -420,6 +430,8 @@ Product/visual/design-system engineering covering:
 - evidence-based design critique,
 - source-vs-rendered design QA,
 - Figma/Canva/tool-agnostic design workflows,
+- active design-system component/token reuse,
+- rendered-reference + system-linked reconstruction,
 - design-system knowledge for agents.
 
 ### 16 — Workspace API, Event & MCP Engineering
@@ -441,6 +453,8 @@ Google Workspace integration engineering covering:
 - product-specific Workspace MCP servers,
 - Universal Search MCP,
 - standardized Workspace API quota/tiering,
+- Chat membership visibility / filtered-read semantics,
+- Developer Knowledge GA CLI operations,
 - idempotency/reconciliation/operational health.
 
 ### 17 — Workspace Governance & Compliance Engineering
@@ -456,6 +470,8 @@ Organization-level governance engineering covering:
 - Client-side Encryption and KACLS,
 - policy-as-code and drift detection,
 - governance deployment preflight,
+- collaboration membership metadata privacy,
+- target-audience / role visibility governance,
 - compliance evidence and exception lifecycle.
 
 Skill 17 supports technical governance controls; it does not provide legal advice or certify regulatory compliance.
@@ -475,6 +491,8 @@ Agent-skill and plugin security engineering covering:
 - sandboxed live evaluation,
 - provenance and revision pinning,
 - permission drift,
+- executable Markdown and dependency-source provenance,
+- scanner release-status/evidence provenance,
 - signatures/hashes,
 - catalog admission and incident response.
 
@@ -650,6 +668,7 @@ gas-engineering-playbook/
     ├── full-skill-refresh-audit-v1.19.0.md
     ├── full-skill-refresh-audit-v1.20.0.md
     ├── full-skill-refresh-audit-v1.21.0.md
+    ├── full-skill-refresh-audit-v1.22.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md

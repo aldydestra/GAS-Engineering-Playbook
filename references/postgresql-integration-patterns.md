@@ -170,3 +170,33 @@ commit watermark
 ## 10. Evidence Note
 
 If a pattern originates from a forum or community post, verify current official behavior before turning it into a repository rule.
+
+# PostgreSQL Pre-Release & Pooler Security — v1.22.0
+
+```text
+beta feature appears
+↓
+WATCH
+↓
+beta changes/removes feature?
+↓
+update watch
+↓
+GA
+↓
+workload validation
+↓
+production consideration
+```
+
+Pooler/proxy architecture:
+
+```text
+client
+↓
+PgBouncer / proxy
+↓
+PostgreSQL
+```
+
+means pooler security advisories are part of the database integration patch process.

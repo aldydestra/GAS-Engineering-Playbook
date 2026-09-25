@@ -203,3 +203,24 @@ your service event → Workspace Studio flow
 Keep the event direction explicit in architecture diagrams.
 
 Workspace API scaling should track quota units, user/project limits, daily thresholds, and egress.
+
+# Chat Membership Visibility API Pattern — v1.22.0
+
+Paired update:
+
+```text
+viewSpaceMembershipSetting
++
+viewSpaceMembership
++
+explicit updateMask
+```
+
+Read behavior may be:
+
+```text
+app auth → filtered/empty
+user auth → PERMISSION_DENIED
+```
+
+Expose completeness semantics to downstream business logic when required.

@@ -1,10 +1,10 @@
 ---
 name: product-design-engineering
 description: "Experience-driven product, visual, and design-system engineering for digital interfaces: design intent, UX research/audit, visual hierarchy, typography, color, spacing, accessibility, design tokens, component systems, design-to-code parity, design QA, and tool-agnostic workflows across Figma, Canva, code, screenshots, and prototypes."
-skill_version: "1.1.0"
+skill_version: "1.2.0"
 repository_introduced: "v1.16.0"
 status: "evolving"
-last_repository_update: "v1.19.0"
+last_repository_update: "v1.22.0"
 tags:
   - product-design
   - ui
@@ -2173,6 +2173,152 @@ This reinforces a cross-skill rule:
 > A design skill with executable installer/search code must pass the same supply-chain review as any other agent skill.
 
 Cross-reference Skill 18.
+
+## Active Figma Design-System Workflow Update — v1.22.0
+
+The active `openai/plugins` Figma skill set provides current implementation evidence for design-system-aware screen generation and design-to-code workflows.
+
+The playbook adopts the durable design principles, not the tool-specific commands.
+
+### Design-System Components Before Manual Primitives
+
+For production design work:
+
+```text
+inspect existing components / tokens / styles
+↓
+reuse or import
+↓
+compose screen
+```
+
+before:
+
+```text
+draw new primitives with hard-coded values
+```
+
+This preserves maintainability and design-system linkage.
+
+### Componentize Repetition by Default
+
+If a visual element is repeated or intended for reuse:
+
+```text
+component once
+↓
+instances
+```
+
+is preferable to duplicated one-off frames.
+
+Do not wait for a second cleanup pass to introduce obvious reuse.
+
+### Dual-Reference Design Workflow
+
+Current Figma workflows demonstrate a useful pattern when translating an existing rendered application into design source:
+
+```text
+rendered/pixel reference
++
+design-system-linked construction
+↓
+reconcile
+```
+
+The screenshot/capture answers:
+
+```text
+what does it actually look like?
+```
+
+The component/token-based design answers:
+
+```text
+how should it remain maintainable?
+```
+
+Do not sacrifice one permanently for the other.
+
+### Incremental Visual Construction
+
+Build complex screens by meaningful section:
+
+```text
+header
+↓ verify
+hero
+↓ verify
+content
+↓ verify
+footer
+↓ verify
+```
+
+Benefits:
+
+- smaller failure scope;
+- easier visual comparison;
+- simpler rollback;
+- clearer node/component ownership.
+
+Avoid one giant design mutation for an entire complex page when the tool supports incremental edits.
+
+### Validate Visually After Each Major Section
+
+A successful design-tool API call proves:
+
+```text
+operation executed
+```
+
+not:
+
+```text
+design looks correct
+```
+
+Use rendered screenshots/visual inspection after meaningful changes.
+
+### Assert Effective Typography
+
+Loading a font or assigning a text style without error does not prove the rendered node uses the intended product font.
+
+Verify the effective rendered typography.
+
+This is particularly important when fallback fonts silently succeed.
+
+### Pixel Fidelity and System Fidelity Are Different
+
+Evaluate both:
+
+```text
+pixel/layout fidelity
+```
+
+and:
+
+```text
+component/token fidelity
+```
+
+A visually close one-off reconstruction can still be a poor design-system artifact.
+
+A perfectly componentized design can still visually miss the reference.
+
+### Active vs Archived OpenAI Design Sources
+
+The archived `openai/role-specific-plugins` repository remains historical evidence.
+
+For current Figma workflow freshness, prefer the active:
+
+```text
+openai/plugins
+```
+
+Figma skill sources.
+
+This is a source-lifecycle change, not a rejection of earlier Product Design lessons.
 
 # References
 

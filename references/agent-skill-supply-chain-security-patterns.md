@@ -179,3 +179,27 @@ examples/defaults
 as untrusted metadata unless promoted through a trusted policy layer.
 
 Do not inject remote natural-language metadata verbatim into privileged system instructions.
+
+# Executable Documentation & Dependency Source Pattern — v1.22.0
+
+If documentation instructs execution:
+
+```text
+Markdown shell fence
+package-manager command
+installer snippet
+```
+
+it is part of the effective execution surface.
+
+Dependency trust includes:
+
+```text
+package identity
++
+version
++
+source/registry/repository
+```
+
+Record scanner/tool release status separately from the generic principle adopted from it.

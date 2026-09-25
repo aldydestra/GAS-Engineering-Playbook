@@ -185,3 +185,24 @@ enable → triggerCreation
 disable/delete → triggerDeletion
 re-enable → NEW registration
 ```
+
+# Chat Membership Visibility Pattern — v1.22.0
+
+```text
+discover permission
+join permission
+membership-list visibility
+```
+
+are separate.
+
+When a UI displays membership data, model:
+
+```text
+complete
+restricted
+denied
+error
+```
+
+instead of treating every successful empty list as "no members".

@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-23**
+Last audit: **2026-09-25**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -3076,3 +3076,248 @@ SkillSpector release
 Vercel Skills generic guidance
 Product Design standards
 ```
+---
+
+# v1.22.0 Chat Privacy / Developer Knowledge / PostgreSQL Refresh — 2026-09-25
+
+## Google Chat Membership-List Visibility
+
+Official sources:
+
+- https://developers.google.com/workspace/chat/release-notes
+- https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces
+- https://developers.google.com/workspace/chat/api/guides/target-audience
+- https://developers.google.com/workspace/chat/list-members
+
+Release:
+
+```text
+2026-09-23
+GA
+```
+
+Current fields:
+
+```text
+accessSettings.accessPermissionSettings.viewSpaceMembershipSetting
+permissionSettings.viewSpaceMembership
+```
+
+Important behavior:
+
+```text
+app-authenticated list
+→ may omit hidden memberships / return empty
+
+user-authenticated list
+→ may return PERMISSION_DENIED
+```
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 07;
+- Skill 09;
+- Skill 13;
+- Skill 14;
+- Skill 16;
+- Skill 17.
+
+---
+
+## Developer Knowledge gcloud GA
+
+Official sources:
+
+- https://developers.google.com/knowledge/release-notes
+- https://developers.google.com/knowledge/quickstart
+- https://developers.google.com/knowledge/docs/search
+- https://developers.google.com/knowledge/docs/answer-query
+
+Release:
+
+```text
+2026-09-22
+GA
+```
+
+Commands:
+
+```text
+gcloud developer-knowledge answer-query
+gcloud developer-knowledge documents describe
+gcloud developer-knowledge documents search-chunks
+```
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 13;
+- Skill 16;
+- developer-knowledge grounding reference.
+
+---
+
+## PostgreSQL 19 Beta 4
+
+Official sources:
+
+- https://www.postgresql.org/about/news/postgresql-19-beta-4-released-3174/
+- https://www.postgresql.org/docs/19/release-19.html
+- https://www.postgresql.org/developer/beta/
+
+Release:
+
+```text
+2026-09-24
+```
+
+Important correction:
+
+```text
+SQL/PGQ property-graph support
+→ REVERTED from PostgreSQL 19
+```
+
+Current status:
+
+```text
+pre-release
+not for production
+```
+
+Status: **WATCH / CORRECTION**
+
+Affected:
+
+- Skill 05.
+
+---
+
+## PgBouncer 1.26.0
+
+Sources:
+
+- https://www.pgbouncer.org/changelog.html
+- https://www.postgresql.org/about/news/pgbouncer-1260-3173/
+
+Release:
+
+```text
+2026-09-23
+```
+
+Security fixes include:
+
+- CVE-2026-19888;
+- CVE-2026-6668;
+- CVE-2026-6669.
+
+Current operational changes also include new/default parameter tracking and timeout behavior.
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 05.
+
+---
+
+## NVIDIA SkillSpector 2.12.0
+
+Source:
+
+https://github.com/NVIDIA/SkillSpector/releases
+
+Current public release status at audit:
+
+```text
+2.12.0
+candidate
+publication pending
+```
+
+Current candidate capabilities include:
+
+- executable/actionable Markdown fence analysis;
+- broader compiled-bytecode and reflective-Python detection;
+- noncanonical/unresolved dependency-source analysis;
+- sanitized LLM provenance;
+- strict active-finding CI mode;
+- occurrence-specific SARIF/JSON evidence;
+- fail-closed recursive reporting;
+- missing vs unresolved reference distinction.
+
+Status: **WATCH / IMPLEMENTATION EVIDENCE**
+
+Durable principles adopted into Skill 18 without treating the candidate build as a stable dependency.
+
+---
+
+## OpenAI Figma Skill Sources
+
+Current active source:
+
+https://github.com/openai/plugins/tree/main/plugins/figma
+
+Historical archived source:
+
+https://github.com/openai/role-specific-plugins
+
+Current active Figma skill patterns reinforce:
+
+- inspect/reuse design-system components;
+- use instances/tokens/styles;
+- build incrementally;
+- validate visually;
+- verify effective typography;
+- reconcile pixel fidelity with system fidelity.
+
+Status: **ADOPTED AS ACTIVE WORKFLOW EVIDENCE**
+
+Affected:
+
+- Skill 15.
+
+---
+
+## MCP Security
+
+Official MCP security references remain current:
+
+- https://modelcontextprotocol.io/specification/draft/server/tools#security-considerations
+- https://modelcontextprotocol.io/specification/draft/basic/authorization#security-considerations
+
+Current community/protocol issues continue to reinforce prompt-injection risk in server-controlled tool/instruction metadata.
+
+Status: **NO NEW DOMAIN; CURRENT DEFENSE-IN-DEPTH EVIDENCE**
+
+Affected:
+
+- Skill 18.
+
+---
+
+## Apps Script
+
+No post-v1.21 core runtime/service change found.
+
+Status: **NO CHANGE**
+
+---
+
+## AppSheet
+
+No newer authoritative AppSheet migration/runtime rule found.
+
+Status: **NO CHANGE**
+
+---
+
+## clasp / Vercel Skills / Design Standards
+
+No material baseline-changing update found.
+
+Status: **NO CHANGE**

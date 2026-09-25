@@ -190,3 +190,17 @@ egress/cost threshold
 ```
 
 Universal cross-product search expands the data boundary and should be governed explicitly.
+
+# Membership Metadata Governance — v1.22.0
+
+Treat collaboration membership lists as organizational metadata.
+
+Govern independently:
+
+```text
+discoverability
+joinability
+membership visibility
+```
+
+Do not re-export privileged membership visibility into a less-restricted cache, dashboard, or AI context.

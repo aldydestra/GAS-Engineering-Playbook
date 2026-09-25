@@ -189,3 +189,29 @@ agent synthesis
 ```
 
 Use product-specific tools when mutation or richer product semantics are required.
+
+# Grounded Documentation & Partial Tool Results — v1.22.0
+
+Developer documentation retrieval:
+
+```text
+query
+↓
+search chunks / answer query
+↓
+preserve URI + update time + citations
+↓
+agent synthesis
+```
+
+Permission-filtered tool result:
+
+```text
+data
++
+completeness
++
+authorization context
+```
+
+is safer than returning data alone when downstream reasoning depends on completeness.

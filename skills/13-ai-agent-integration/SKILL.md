@@ -1,10 +1,10 @@
 ---
 name: ai-agent-integration
 description: "Experience-driven AI and agent integration for Google Apps Script, covering LLM provider boundaries, structured output, function/tool calling, tool authorization, agent loops, MCP, A2A, context/time budgets, human approval, idempotency, observability, testing, and safe Workspace automation."
-skill_version: "1.4.0"
+skill_version: "1.5.0"
 repository_introduced: "v1.14.0"
 status: "evolving"
-last_repository_update: "v1.21.0"
+last_repository_update: "v1.22.0"
 tags:
   - google-apps-script
   - ai
@@ -2515,6 +2515,150 @@ runtime
 Do not let reasoning loops become unbounded Workspace API usage.
 
 Cross-reference Skills 06, 07, 16, and 17.
+
+## Developer Knowledge CLI GA & Authorization-Filtered Tool Results — v1.22.0
+
+### Developer Knowledge gcloud Commands Are GA
+
+Google Developer Knowledge release notes on September 22, 2026 moved the following commands from beta to GA:
+
+```text
+gcloud developer-knowledge answer-query
+gcloud developer-knowledge documents describe
+gcloud developer-knowledge documents search-chunks
+```
+
+This gives agent/developer workflows a stable first-party CLI path for grounded Google developer documentation retrieval.
+
+### Grounded Answer vs Raw Retrieval
+
+Keep separate:
+
+```text
+answer-query
+→ generated answer + citations/references
+```
+
+from:
+
+```text
+search-chunks
+→ retrieved documentation chunks
+```
+
+and:
+
+```text
+documents describe
+→ source document metadata/content
+```
+
+Use raw retrieval when the application needs to inspect exact source text.
+
+Use generated answers when synthesized guidance is appropriate.
+
+### Preserve Citation and Source Metadata
+
+Developer Knowledge responses can expose:
+
+```text
+document URI
+data source
+update time
+relevance score
+citations / references
+```
+
+Preserve enough provenance to let users/agents trace important claims.
+
+Do not reduce grounded documentation to an uncited plain string if source evidence is available.
+
+### Freshness Filtering
+
+Current Developer Knowledge supports filtering by source metadata including:
+
+```text
+data_source
+update_time
+uri
+content_length_bytes
+```
+
+For fast-moving technologies, consider:
+
+```text
+update_time >= ...
+```
+
+or source-domain filters to reduce stale retrieval.
+
+Do not use freshness filters blindly for historical questions.
+
+### Payload Minimization
+
+Use:
+
+```text
+document views
+field masks
+page size / limit
+```
+
+to avoid retrieving full documentation bodies when metadata/chunks are enough.
+
+This supports latency, quota, and context efficiency.
+
+### Relevance Score Is Retrieval Evidence
+
+Current chunks expose a relevance score.
+
+Treat it as:
+
+```text
+retrieval-ranking signal
+```
+
+not:
+
+```text
+truth probability
+```
+
+High retrieval relevance does not prove the source claim is correct or current.
+
+### Chat Membership Tools Can Be Authorization-Filtered
+
+Current Chat API membership visibility controls affect the semantics of membership reads.
+
+If an agent uses:
+
+```text
+list_memberships
+```
+
+or equivalent Chat API tools, an empty or partial result might reflect caller visibility.
+
+Agent rule:
+
+> Do not make definitive claims such as "there are no members" unless the tool result is known to be authoritative for the caller.
+
+### Agent Result Schema
+
+Where business logic depends on completeness, normalize tool results to include:
+
+```text
+data
+completeness
+authorization_context
+source
+timestamp
+```
+
+when feasible.
+
+This reduces hallucinated certainty from permission-filtered tool responses.
+
+Cross-reference Skills 07, 09, and 16.
 
 # References
 

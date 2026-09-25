@@ -1,10 +1,10 @@
 ---
 name: agent-skill-supply-chain-security
 description: "Security engineering for AI agent skills, plugins, MCP-integrated skill packages, and skill catalogs: pre-install scanning, prompt-injection and exfiltration detection, executable/script review, declared-permission parity, MCP tool poisoning, dependency provenance, transitive references, fail-closed incomplete analysis, baselines, SARIF/CI gates, sandbox evaluation, signing, integrity verification, catalog admission, and safe update lifecycle."
-skill_version: "1.2.0"
+skill_version: "1.3.0"
 repository_introduced: "v1.19.0"
 status: "evolving"
-last_repository_update: "v1.21.0"
+last_repository_update: "v1.22.0"
 tags:
   - agent-skills
   - supply-chain-security
@@ -2499,6 +2499,177 @@ failed/incomplete runs
 ```
 
 Cross-reference Skill 08.
+
+## SkillSpector 2.12 Candidate & Executable Documentation Surface — v1.22.0
+
+### Current SkillSpector 2.12 Status
+
+At the v1.22.0 audit, NVIDIA's public release page shows:
+
+```text
+SkillSpector 2.12.0
+release status: candidate
+publication pending
+```
+
+Therefore:
+
+```text
+2.12.0
+→ WATCH / current implementation evidence
+```
+
+not:
+
+```text
+stable production dependency
+```
+
+The patterns below are adopted generically because they strengthen existing security principles.
+
+### Executable Markdown Fences Are Execution Surface
+
+SkillSpector 2.12 expands analysis of actionable/executable Markdown code fences.
+
+Generic rule:
+
+> Documentation code blocks are security-relevant when the skill/agent instructs users or automation to execute them.
+
+Review shell/package-manager fences for:
+
+- downloads;
+- installers;
+- remote registries;
+- credential access;
+- destructive commands;
+- network exfiltration.
+
+Do not dismiss code as harmless merely because it is inside Markdown.
+
+### Dependency Source Provenance
+
+Current 2.12 candidate introduces analysis for noncanonical/unresolved dependency sources across ecosystems such as:
+
+```text
+npm / Yarn
+pip / Poetry
+Maven
+Cargo
+shell install/config commands
+```
+
+Generic supply-chain rule:
+
+```text
+dependency name/version
++
+source/registry/repository
+```
+
+both matter.
+
+A familiar package name fetched from an unexpected registry or git URL is a separate risk.
+
+### Private Registry Is Not Automatically Malicious
+
+Custom/private registries can be legitimate.
+
+Flag:
+
+```text
+unexpected / unresolved / noncanonical source
+```
+
+for review rather than automatically calling all non-public registries malicious.
+
+Use reviewed baseline/suppression only after confirming ownership and purpose.
+
+### Scanner Provenance
+
+Current SkillSpector reporting adds sanitized LLM provenance describing concepts such as:
+
+```text
+configured provider
+resolved/effective provider
+model/package/source identity
+requested vs observed controls
+```
+
+without exposing credentials/endpoints.
+
+Generic pattern:
+
+> Security reports should identify the scanner/evaluator implementation that actually produced the verdict.
+
+Record enough provenance to reproduce/debug a finding without logging secrets.
+
+### Active-Finding CI Gate
+
+A current candidate option can fail CI on any active finding, not only findings above a default aggregate-risk threshold.
+
+Generic deployment choices can include:
+
+```text
+strict catalog
+→ fail on any active finding
+
+normal development
+→ fail by severity/policy
+```
+
+Make the chosen gate explicit.
+
+### Occurrence-Specific Findings
+
+Security tooling should preserve each finding occurrence's own:
+
+```text
+file
+line
+column
+evidence
+```
+
+Do not merge distinct occurrences so aggressively that location/evidence is lost.
+
+### Missing vs Ambiguous References
+
+There is a useful distinction between:
+
+```text
+reference_missing
+```
+
+and:
+
+```text
+reference_unresolved / ambiguous
+```
+
+A missing optional local reference can require a different install decision from an ambiguous reference that might resolve to the wrong artifact.
+
+Do not collapse both into a generic "dependency error."
+
+### Fail-Closed Recursive Reporting
+
+Recursive/multi-skill scans must propagate incomplete child-analysis state to the aggregate result.
+
+A parent catalog scan should not report clean when one child scan failed or was incomplete.
+
+### Tool Status Is Part of Evidence
+
+When adopting lessons from a scanner/tool:
+
+```text
+stable
+candidate
+preview
+archived
+```
+
+must be recorded separately from the engineering principle learned from it.
+
+Cross-reference Skill 11.
 
 # References
 

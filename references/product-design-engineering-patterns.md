@@ -183,3 +183,21 @@ transform/adapters
 ```
 
 Keep semantic intent stable across platforms.
+
+# Design-System Linked Reconstruction — v1.22.0
+
+For an existing rendered UI:
+
+```text
+pixel/render reference
++
+design-system components/tokens
+↓
+reconcile
+↓
+visually faithful + maintainable design source
+```
+
+Build major sections incrementally and verify visually after each meaningful step.
+
+Repeated elements should become components/instances rather than duplicated one-off frames.

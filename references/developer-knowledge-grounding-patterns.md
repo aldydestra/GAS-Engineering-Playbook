@@ -310,3 +310,30 @@ ADOPT / CORRECT / WATCH / NO ACTION
 
 - Error handling and quotas  
   https://developers.google.com/knowledge/error-handling-and-limits
+
+# Developer Knowledge CLI GA — v1.22.0
+
+Current GA gcloud commands include:
+
+```text
+gcloud developer-knowledge answer-query
+gcloud developer-knowledge documents describe
+gcloud developer-knowledge documents search-chunks
+```
+
+Use:
+
+```text
+answer-query
+→ grounded synthesized answer
+
+search-chunks
+→ raw relevant documentation chunks
+
+documents describe
+→ source metadata/content
+```
+
+Preserve source URI, update time, citations/references, and retrieval context where they materially support the final answer.
+
+A relevance score is a retrieval-ranking signal, not a truth score.

@@ -213,3 +213,22 @@ action
 ```
 
 Security-filter logging is itself a sensitive-data boundary.
+
+# Authorization-Filtered Read Pattern — v1.22.0
+
+```text
+read/list request
+↓
+authorization
+├─ full result
+├─ filtered/partial success
+└─ denied
+```
+
+Do not infer:
+
+```text
+empty list = resource empty
+```
+
+unless the caller's visibility is known to be complete.
