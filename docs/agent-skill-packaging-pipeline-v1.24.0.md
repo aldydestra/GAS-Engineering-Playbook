@@ -119,26 +119,6 @@ This is an internal compatibility gate, not a claim that every external host val
 
 Future releases add reference-validator and host-validator execution to the matrix.
 
-
-## Windows / Git Path Safety
-
-Generated reference filenames are deliberately short and deterministic:
-
-```text
-ref-<12-char-sha256>.md
-```
-
-Human-readable semantics remain in the Markdown link label; filenames do not need to repeat long section titles.
-
-The verifier enforces:
-
-```text
-repo-relative generated path <= 120 characters
-path component <= 80 characters
-```
-
-Current longest v1.24 generated path is 97 characters. This gate exists to avoid common Windows `MAX_PATH` / Git checkout failures without asking users to enable `core.longpaths`.
-
 ## Distribution Verification
 
 `tools/verify_agent_skill_dist.py` checks:

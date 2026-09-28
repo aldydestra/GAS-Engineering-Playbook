@@ -4,10 +4,10 @@ description: Author, package, validate, route, install, update, and maintain Age
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.1.0"
+  gas_playbook_skill_version: "1.2.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.24.0"
+  gas_playbook_last_repository_update: "v1.25.0"
 ---
 
 # Agent Skill Engineering
@@ -431,6 +431,34 @@ Current pilot packages:
 The pilot validates the source/distribution separation without breaking historical v1.x source paths.
 
 See `docs/agent-skill-packaging-pipeline-v1.24.0.md` and `docs/roadmap-to-v2.0.md`.
+
+## v1.25 Full-Coverage Packaging
+
+The packaging pipeline now covers every canonical skill:
+
+```text
+19 canonical skills
+→ 19 normalized packages
+→ 19 deterministic .skill archives
+```
+
+Full-coverage rules:
+
+- auto-detect legacy numbered-H1 vs topic/H2 source structure;
+- preserve every source fragment in generated references;
+- keep final activation `SKILL.md` below 500 lines;
+- normalize distribution identity independently from canonical source paths;
+- verify source-tree hashes, package hashes, relative links, and archive integrity;
+- rebuild twice with identical output hashes before release.
+
+Skill 19 itself demonstrates source/distribution separation:
+
+```text
+canonical: skills/19-agent-skill-engineering
+distribution: agent-skill-engineering
+```
+
+The canonical repository remains the editable source of truth. Generated distribution files remain read-only build outputs.
 
 ## References
 

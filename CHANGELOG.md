@@ -2,32 +2,132 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.25.0] - 2026-09-28
+
+### Full Agent Skill Packaging Coverage
+
+### Inherited Windows-Safe Path Fix
+
+v1.25.0 was regenerated **from the rebuilt/fixed v1.24.0 baseline** rather than patched manually.
+
+The full-coverage generator now uses the same deterministic short-reference strategy:
+
+```text
+ref-<12-char-sha256>.md
+```
+
+and the verifier rejects generated repository-relative paths above 120 characters.
+
+Current longest generated paths:
+
+```text
+v1.24 distribution: 97 characters
+v1.25 distribution: 107 characters
+```
+
+This prevents the previous Windows/Git `Filename too long` failure from reappearing as full coverage expands.
+
+
+This release expands the v1.24 four-skill packaging pilot to the entire repository.
+
+### Updated — Agent Skill Engineering
+
+Skill 19:
+
+```text
+1.1.0 → 1.2.0
+```
+
+Added full-coverage packaging ownership, structure-aware source parsing, knowledge-retention verification, and normalized source/distribution identity.
+
+### Added — Full Packaging Profile
+
+Created:
+
+- `packaging/agent-skills/full-v1.25.json`
+
+Coverage:
+
+```text
+19 canonical skills
+→ 19 normalized packages
+→ 19 deterministic .skill archives
+```
+
+### Improved — Packaging Generator
+
+`tools/agent_skill_packager.py` now:
+
+- packages all 19 skills;
+- auto-detects numbered-H1 vs topic/H2 source layouts;
+- preserves every canonical source fragment in generated references;
+- normalizes Skill 19 distribution identity to `agent-skill-engineering`;
+- records source-tree hashes and coverage metadata;
+- emits `PACKAGING_REPORT.md`;
+- preserves deterministic ZIP output.
+
+### Improved — Distribution Verification
+
+`tools/verify_agent_skill_dist.py` now verifies:
+
+- 19/19 canonical coverage;
+- source-tree hashes;
+- exact source-fragment retention;
+- normalized standard-skill body/resource parity;
+- package validation;
+- archive integrity and SHA-256.
+
+### Added — Packaging Regression Tests
+
+Created:
+
+- `tools/test_agent_skill_packaging.py`
+
+Tests cover:
+
+- profile completeness;
+- both historical source-layout parsers;
+- Skill 19 package-name normalization;
+- deterministic full rebuild.
+
+### Progressive Disclosure Result
+
+Legacy source `SKILL.md` files of roughly 1,200–2,800 lines now generate activation files of roughly 39–61 lines while preserving deep content in references.
+
+Current distribution:
+
+```text
+packages:            19
+reference files:     227
+main SKILL.md max:   476 lines
+knowledge coverage:  PASS 19/19
+reproducibility:     PASS 19/19
+```
+
+### Added — Full-Coverage Documentation
+
+Created:
+
+- `docs/agent-skill-packaging-full-coverage-v1.25.0.md`
+- `docs/full-skill-refresh-audit-v1.25.0.md`
+
+Updated:
+
+- `docs/roadmap-to-v2.0.md`
+
+The next planned gate is v1.26.0 — Evaluation & Trigger Parity.
+
+### No Breaking Source Migration
+
+The canonical v1.x source layout remains unchanged.
+
+Generated package files remain build artifacts and must not be edited directly.
+
+---
+
 ## [v1.24.0] - 2026-09-28
 
 ### Agent Skill Packaging Pipeline
-
-### Windows-Safe Generated Paths — Rebuilt Artifact
-
-The v1.24.0 artifact was rebuilt after a Windows/Git `Filename too long` failure was reported for generated reference paths.
-
-The fix is in the generator, not a manual rename:
-
-```text
-semantic reference title
-→ deterministic short filename
-→ ref-<12-char-sha256>.md
-```
-
-The distribution verifier now rejects generated repository-relative paths above 120 characters and path components above 80 characters.
-
-Current longest generated v1.24.0 repository-relative path:
-
-```text
-97 characters
-```
-
-This keeps canonical source unchanged while making generated distribution paths safer for ordinary Windows Git checkouts.
-
 
 This release implements the non-breaking distribution architecture proposed in v1.23.0.
 

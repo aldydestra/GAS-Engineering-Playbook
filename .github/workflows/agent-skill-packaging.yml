@@ -7,7 +7,8 @@ on:
       - 'packaging/agent-skills/**'
       - 'tools/agent_skill_packager.py'
       - 'tools/verify_agent_skill_dist.py'
-      - 'dist/agent-skills-v1.24.0/**'
+      - 'tools/test_agent_skill_packaging.py'
+      - 'dist/agent-skills-v1.25.0/**'
   push:
     branches: [main]
     paths:
@@ -15,7 +16,8 @@ on:
       - 'packaging/agent-skills/**'
       - 'tools/agent_skill_packager.py'
       - 'tools/verify_agent_skill_dist.py'
-      - 'dist/agent-skills-v1.24.0/**'
+      - 'tools/test_agent_skill_packaging.py'
+      - 'dist/agent-skills-v1.25.0/**'
 
 jobs:
   build-and-verify:
@@ -25,9 +27,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Rebuild deterministic pilot packages
+      - name: Run packaging tests
+        run: python -m unittest tools/test_agent_skill_packaging.py -v
+      - name: Rebuild all Agent Skill packages
         run: python tools/agent_skill_packager.py
-      - name: Verify package archives and hashes
+      - name: Verify package archives, coverage, and hashes
         run: python tools/verify_agent_skill_dist.py
       - name: Ensure generated distribution is committed and reproducible
-        run: git diff --exit-code -- dist/agent-skills-v1.24.0
+        run: git diff --exit-code -- dist/agent-skills-v1.25.0

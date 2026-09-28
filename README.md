@@ -168,7 +168,8 @@ last_repository_update: "v1.13.0"
 | v1.21.0 | Workspace Studio GA + Workspace MCP/Universal Search + quota/security/evaluation deepening |
 | v1.22.0 | Chat membership privacy + Developer Knowledge CLI GA + PostgreSQL/PgBouncer + design/supply-chain deepening |
 | v1.23.0 | Agent Skill Engineering + spec compatibility audit + first-party Google skill/fallback + precedence security |
-| **v1.24.0** | **Agent Skill Packaging Pipeline pilot + deterministic `.skill` artifacts + roadmap to v2** |
+| v1.24.0 | Agent Skill Packaging Pipeline pilot + deterministic `.skill` artifacts + roadmap to v2 |
+| **v1.25.0** | **Full Agent Skill packaging coverage 19/19 + knowledge-retention verification + deterministic distribution** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -651,10 +652,7 @@ If a future branch, private repository, skill file, or artifact cannot be retrie
 
 # Agent Skill Distribution Pipeline
 
-Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately:
-
-Generated distribution files also use a **Windows-safe generated path budget**: semantic titles stay in link labels while reference filenames are deterministic short hashes; CI/verification rejects overly long generated paths.
-
+Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. In v1.25.0 this packaging model reaches **19/19 skill coverage**:
 
 ```text
 skills/ (canonical source)
@@ -663,7 +661,7 @@ packaging/agent-skills/
 ↓
 tools/agent_skill_packager.py
 ↓
-dist/agent-skills-v1.24.0/
+dist/agent-skills-v1.25.0/
 ```
 
 Current pilot packages Skills 13, 16, 18, and 19. Generated files must not be edited manually.
@@ -671,6 +669,7 @@ Current pilot packages Skills 13, 16, 18, and 19. Generated files must not be ed
 See:
 
 - `docs/agent-skill-packaging-pipeline-v1.24.0.md`
+- `docs/agent-skill-packaging-full-coverage-v1.25.0.md`
 - `docs/roadmap-to-v2.0.md`
 
 # Repository Structure
@@ -710,7 +709,8 @@ gas-engineering-playbook/
 │   └── agent-skills/
 ├── tools/
 ├── dist/
-│   └── agent-skills-v1.24.0/
+│   ├── agent-skills-v1.24.0/
+│   └── agent-skills-v1.25.0/
 ├── examples/
 └── docs/
     ├── module-development-guide.md
@@ -727,8 +727,10 @@ gas-engineering-playbook/
     ├── full-skill-refresh-audit-v1.22.0.md
     ├── full-skill-refresh-audit-v1.23.0.md
     ├── full-skill-refresh-audit-v1.24.0.md
+    ├── full-skill-refresh-audit-v1.25.0.md
     ├── agent-skill-spec-compatibility-audit-v1.23.0.md
     ├── agent-skill-packaging-pipeline-v1.24.0.md
+    ├── agent-skill-packaging-full-coverage-v1.25.0.md
     ├── roadmap-to-v2.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md

@@ -110,17 +110,3 @@ These are explicit pre-v2 roadmap gates.
 ```text
 v1.24.0
 ```
-
-## Packaging Path Safety Correction
-
-The generated Agent Skill distribution now uses deterministic short reference filenames and enforces a repository-relative generated-path budget.
-
-```text
-reference filename: ref-<12-char-sha256>.md
-path budget: <= 120 characters
-```
-
-Current longest generated path for v1.24.0: 97 characters.
-
-This fix addresses Windows/Git `Filename too long` failures at the generator/verification layer rather than through manual file renaming.
-

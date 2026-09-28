@@ -34,9 +34,11 @@ Exit gate:
 
 ---
 
-## v1.25.x — Full Packaging Coverage
+## v1.25.0 — Full Packaging Coverage
 
-Goal:
+Status: **implemented**
+
+Result:
 
 ```text
 19 canonical skills
@@ -44,27 +46,33 @@ Goal:
 19 normalized installable packages
 ```
 
-Work:
+Implemented:
 
-- add packaging profiles for Skills 01–12, 14–15, 17;
-- split oversized activation content into focused references;
-- preserve all canonical knowledge;
-- generate package-level source hashes;
-- build complete distribution catalog.
+- full packaging profile for Skills 01–19;
+- automatic handling of both historical source layouts;
+- progressive reference generation;
+- source-fragment knowledge-retention verification;
+- normalized Skill 19 distribution identity;
+- package-level source hashes;
+- complete distribution report/catalog;
+- deterministic full rebuild tests.
 
-Required gate:
+Exit gate:
 
-- 19/19 generated;
-- every main `SKILL.md` under packaging target;
-- no source-content ownership ambiguity;
-- all relative references valid;
-- deterministic rebuild.
+```text
+19/19 generated             PASS
+19/19 package validation    PASS
+19/19 knowledge coverage    PASS
+all main SKILL.md <500      PASS
+relative references         PASS
+deterministic rebuild       PASS
+```
 
-Do not advance solely because every package builds; quality/effectiveness still needs proof.
+This proves distribution completeness, not behavioral parity.
 
 ---
 
-## v1.26.x — Evaluation & Trigger Parity
+## v1.26.0 — Evaluation & Trigger Parity
 
 Goal:
 
