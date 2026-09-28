@@ -2,6 +2,99 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.24.0] - 2026-09-28
+
+### Agent Skill Packaging Pipeline
+
+### Windows-Safe Generated Paths — Rebuilt Artifact
+
+The v1.24.0 artifact was rebuilt after a Windows/Git `Filename too long` failure was reported for generated reference paths.
+
+The fix is in the generator, not a manual rename:
+
+```text
+semantic reference title
+→ deterministic short filename
+→ ref-<12-char-sha256>.md
+```
+
+The distribution verifier now rejects generated repository-relative paths above 120 characters and path components above 80 characters.
+
+Current longest generated v1.24.0 repository-relative path:
+
+```text
+97 characters
+```
+
+This keeps canonical source unchanged while making generated distribution paths safer for ordinary Windows Git checkouts.
+
+
+This release implements the non-breaking distribution architecture proposed in v1.23.0.
+
+### Updated — Agent Skill Engineering
+
+Skill 19:
+
+```text
+1.0.0 → 1.1.0
+```
+
+Added deterministic packaging-pipeline ownership and source/distribution rules.
+
+### Added — Packaging Tooling
+
+- `packaging/agent-skills/pilot-v1.24.json`
+- `tools/agent_skill_packager.py`
+- `tools/verify_agent_skill_dist.py`
+- `.github/workflows/agent-skill-packaging.yml`
+
+Pipeline:
+
+```text
+canonical source
+→ normalized Agent Skill
+→ progressive references
+→ validation
+→ deterministic .skill archive
+→ manifest + SHA256SUMS
+→ CI drift gate
+```
+
+### Added — Pilot Distribution
+
+Generated packages:
+
+```text
+ai-agent-integration
+workspace-api-event-engineering
+agent-skill-supply-chain-security
+19-agent-skill-engineering
+```
+
+Generated main `SKILL.md` sizes:
+
+```text
+53 / 54 / 51 / 445 lines
+```
+
+### Added — Roadmap to v2
+
+Created:
+
+- `docs/agent-skill-packaging-pipeline-v1.24.0.md`
+- `docs/roadmap-to-v2.0.md`
+- `docs/full-skill-refresh-audit-v1.24.0.md`
+
+Roadmap gates cover full package coverage, trigger/effectiveness parity, host compatibility, security/provenance, dual distribution, and v2 go/no-go criteria.
+
+### No Breaking Source Migration
+
+Skills 01–19 remain in their current v1.x canonical source paths.
+
+Generated distribution files are not source-of-truth files and must not be edited manually.
+
+---
+
 
 ## [v1.23.0] - 2026-09-28
 

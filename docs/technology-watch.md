@@ -3526,3 +3526,55 @@ Vercel Skills
 ```
 
 Status: **NO CHANGE**
+
+---
+
+# v1.24.0 Agent Skill Packaging Pipeline — 2026-09-28
+
+## Agent Skills specification
+
+Current specification continues to define:
+
+- package directory with `SKILL.md`;
+- package name/directory alignment;
+- progressive disclosure;
+- focused references;
+- reference validation tooling.
+
+Status: **ADOPTED INTO DISTRIBUTION PIPELINE**
+
+## Gemini CLI packaging behavior
+
+Current first-party Gemini CLI documentation/tooling provides:
+
+```text
+init_skill.cjs
+validate_skill.cjs
+package_skill.cjs
+```
+
+and packages `.skill` as ZIP-compatible skill contents.
+
+Current install lifecycle includes:
+
+```text
+install
+link
+reload/refresh
+disable/enable
+uninstall
+```
+
+Status: **HOST-SPECIFIC IMPLEMENTATION EVIDENCE**
+
+v1.24 follows the archive-content convention while keeping the playbook pipeline host-neutral where possible.
+
+## Packaging hygiene
+
+Current Gemini CLI issue history also reinforces that packaging must avoid unintentionally shipping VCS/hidden development artifacts.
+
+v1.24 generated packages are constructed from explicit generated/copied skill resources and exclude VCS/cache artifacts.
+
+## No new platform baseline change
+
+No newer Apps Script/AppSheet/PostgreSQL/Workspace platform change discovered in this packaging-focused cycle requires another domain version bump.

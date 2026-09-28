@@ -1,44 +1,27 @@
 # Release Manifest
 
-Repository Version: v1.23.0
+Repository Version: v1.24.0
 
 ## Release Type
 
-- Full skill/extension refresh
-- New Skill 19 Agent Skill Engineering
-- Agent Skills specification compatibility audit
-- Developer Knowledge first-party skill integration
-- skill-precedence/plugin-hook security deepening
+- Agent Skill Packaging Pipeline pilot
+- Rebuilt with Windows-safe generated reference paths
+- Deterministic `.skill` packages
 - Full repository snapshot
+
+## Path Safety
+
+- Generated references: `ref-<12-char-sha256>.md`
+- Generated repository-relative path budget: 120 characters
+- Longest generated path: 97 characters
 
 ## Repository Model
 
 - Foundation Skills: 01–11
 - Extension Skills: 12–19
 
-## New Skill
-
-- `19-agent-skill-engineering` — 1.0.0
-
-## Updated Skills
-
-- `13-ai-agent-integration`: 1.5.0 → 1.6.0
-- `16-workspace-api-event-engineering`: 1.4.0 → 1.5.0
-- `18-agent-skill-supply-chain-security`: 1.3.0 → 1.4.0
-
-## New Audits
-
-- `docs/full-skill-refresh-audit-v1.23.0.md`
-- `docs/agent-skill-spec-compatibility-audit-v1.23.0.md`
-
-## New Monitored Sources
-
-- `agentskills/agentskills`
-- `google/skills`
-- `google-gemini/gemini-cli`
-- `google/skills_lint.dart`
-
 ## Files
+- `.github/workflows/agent-skill-packaging.yml`
 - `CHANGELOG.md`
 - `CODE_OF_CONDUCT.md`
 - `CONTRIBUTING.md`
@@ -46,7 +29,67 @@ Repository Version: v1.23.0
 - `LICENSE`
 - `README.md`
 - `SECURITY.md`
+- `dist/agent-skills-v1.24.0/SHA256SUMS`
+- `dist/agent-skills-v1.24.0/manifest.json`
+- `dist/agent-skills-v1.24.0/packages/19-agent-skill-engineering.skill`
+- `dist/agent-skills-v1.24.0/packages/agent-skill-supply-chain-security.skill`
+- `dist/agent-skills-v1.24.0/packages/ai-agent-integration.skill`
+- `dist/agent-skills-v1.24.0/packages/workspace-api-event-engineering.skill`
+- `dist/agent-skills-v1.24.0/skills/19-agent-skill-engineering/SKILL.md`
+- `dist/agent-skills-v1.24.0/skills/19-agent-skill-engineering/references/spec-and-host-patterns.md`
+- `dist/agent-skills-v1.24.0/skills/19-agent-skill-engineering/references/spec-compatibility.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/SKILL.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-3e0e6378a04b.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-45b0e89fbe2a.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-4642b636c00a.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-4e6d4754bfae.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-6a7c4922f8ba.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-809e16245f9a.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-855cc4068095.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-904caf71c45e.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-aa6c4b3cfa59.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-bdc4661590a0.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-d9f9ada972ad.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-dc052cadd77c.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-e360538053da.md`
+- `dist/agent-skills-v1.24.0/skills/agent-skill-supply-chain-security/references/ref-ec40130a717f.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/SKILL.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-06c6c793bcdf.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-096b78ec3d59.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-185cf538dde7.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-2b7b21f95e7d.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-45664f50bb71.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-509dc2e40496.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-62df67d0382a.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-679bc4d4a95d.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-8e8a6105ee81.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-98a6364c83f2.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-bec883821a2c.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-c9c91b829bef.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-ceee733bbd76.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-cf96f3ce1c47.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-eb9a79da0276.md`
+- `dist/agent-skills-v1.24.0/skills/ai-agent-integration/references/ref-f940df377432.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/SKILL.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-051e39b3b029.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-1a5d0f5313ab.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-1d28d1e7b1d2.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-2933ec773f1b.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-3194d33c3bce.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-3e297504a2de.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-424f018e44d4.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-7bf6c5d02112.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-89abe45e3822.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-95405f274ed1.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-c5c44379f644.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-c7610d059494.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-c92c940683f7.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-cdb6a3976203.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-d3f9df5bed5d.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-d9bf57e2e1a0.md`
+- `dist/agent-skills-v1.24.0/skills/workspace-api-event-engineering/references/ref-eb5c10c1946b.md`
 - `docs/adr-template.md`
+- `docs/agent-skill-packaging-pipeline-v1.24.0.md`
 - `docs/agent-skill-spec-compatibility-audit-v1.23.0.md`
 - `docs/daily-source-refresh-audit-v1.15.0.md`
 - `docs/deployment-runbook-template.md`
@@ -59,14 +102,17 @@ Repository Version: v1.23.0
 - `docs/full-skill-refresh-audit-v1.21.0.md`
 - `docs/full-skill-refresh-audit-v1.22.0.md`
 - `docs/full-skill-refresh-audit-v1.23.0.md`
+- `docs/full-skill-refresh-audit-v1.24.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
 - `docs/reference-adoption-audit-v1.14.0.md`
+- `docs/roadmap-to-v2.0.md`
 - `docs/skill-authoring-guide.md`
 - `docs/technology-watch.md`
 - `docs/testing-strategy-template.md`
 - `examples/.gitkeep`
+- `packaging/agent-skills/pilot-v1.24.json`
 - `references/agent-skill-engineering-patterns.md`
 - `references/agent-skill-supply-chain-security-patterns.md`
 - `references/ai-agent-integration-patterns.md`
@@ -112,3 +158,7 @@ Repository Version: v1.23.0
 - `skills/19-agent-skill-engineering/SKILL.md`
 - `skills/19-agent-skill-engineering/references/spec-and-host-patterns.md`
 - `skills/19-agent-skill-engineering/references/spec-compatibility.md`
+- `tools/__pycache__/agent_skill_packager.cpython-313.pyc`
+- `tools/__pycache__/verify_agent_skill_dist.cpython-313.pyc`
+- `tools/agent_skill_packager.py`
+- `tools/verify_agent_skill_dist.py`

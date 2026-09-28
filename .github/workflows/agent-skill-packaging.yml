@@ -1,0 +1,33 @@
+name: Agent Skill Packaging
+
+on:
+  pull_request:
+    paths:
+      - 'skills/**'
+      - 'packaging/agent-skills/**'
+      - 'tools/agent_skill_packager.py'
+      - 'tools/verify_agent_skill_dist.py'
+      - 'dist/agent-skills-v1.24.0/**'
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - 'packaging/agent-skills/**'
+      - 'tools/agent_skill_packager.py'
+      - 'tools/verify_agent_skill_dist.py'
+      - 'dist/agent-skills-v1.24.0/**'
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild deterministic pilot packages
+        run: python tools/agent_skill_packager.py
+      - name: Verify package archives and hashes
+        run: python tools/verify_agent_skill_dist.py
+      - name: Ensure generated distribution is committed and reproducible
+        run: git diff --exit-code -- dist/agent-skills-v1.24.0
