@@ -203,3 +203,31 @@ source/registry/repository
 ```
 
 Record scanner/tool release status separately from the generic principle adopted from it.
+
+# Skill Shadowing & Manifest Hooks — v1.23.0
+
+Host precedence can make a same-name package effective without removing the older one.
+
+Security review:
+
+```text
+discover installed names
+↓
+resolve effective source by scope/precedence
+↓
+detect unexpected collision
+```
+
+Plugin effective package:
+
+```text
+SKILL.md
+scripts
+manifest
+hooks
+commands
+MCP servers
+policies
+```
+
+Configuration that executes commands or changes tool authority is code-equivalent security surface.

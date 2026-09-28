@@ -296,3 +296,39 @@ record provenance
 ```
 
 Do not conflate a skill's usefulness with its safety.
+## Agent Skill Engineering Boundary — v1.23.0
+
+Skill 19 owns the lifecycle of Agent Skills as portable/installable packages:
+
+```text
+scope
+→ metadata
+→ trigger routing
+→ progressive disclosure
+→ resources
+→ validation
+→ package/install
+→ precedence
+→ update
+```
+
+Ownership remains separated:
+
+```text
+Skill 08
+→ evaluation/testing
+
+Skill 11
+→ documentation/evidence
+
+Skill 13
+→ agent/tool runtime integration
+
+Skill 18
+→ supply-chain security
+
+Skill 19
+→ skill authoring/package/runtime compatibility
+```
+
+A new Agent Skill domain should not be created merely because a new host/tool exists. Create a new skill only when the lifecycle and failure modes cannot be cleanly owned by these boundaries.

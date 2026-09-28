@@ -1344,3 +1344,79 @@ Limited Preview
 ```
 
 into one unsupported conclusion.
+
+# 55. Agent Skills Spec Alignment
+
+Current Agent Skills specification expects:
+
+```text
+name == parent package directory
+```
+
+and standard top-level frontmatter fields such as:
+
+```text
+name
+description
+license
+compatibility
+metadata
+allowed-tools
+```
+
+Repository-specific values should be carried under `metadata` in installable packages.
+
+---
+
+# 56. Progressive Disclosure Budget
+
+Current guidance recommends:
+
+```text
+SKILL.md < 500 lines
+activation instructions < ~5000 tokens
+```
+
+Move deeper material to focused references loaded only when needed.
+
+Treat these as engineering targets, not prose quality scores.
+
+---
+
+# 57. Source Layout Can Differ From Published Package
+
+A repository can keep stable historical/navigation paths while its release pipeline emits normalized installable Agent Skill packages.
+
+This is preferable to silently breaking repository paths during a minor release.
+
+---
+
+# 58. Skill Discovery Precedence Is Host-Specific
+
+Clients may define different discovery/override rules.
+
+Document host behavior separately from portable Agent Skills format.
+
+Before installing a skill into a scoped host:
+
+```text
+list existing names
+↓
+detect collision
+↓
+resolve effective precedence
+↓
+confirm intended override
+```
+
+---
+
+# 59. Validate What Users Install
+
+Run reference/host validation against:
+
+```text
+final installable package
+```
+
+not only the authoring source directory.

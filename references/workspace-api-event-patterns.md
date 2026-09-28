@@ -224,3 +224,23 @@ user auth → PERMISSION_DENIED
 ```
 
 Expose completeness semantics to downstream business logic when required.
+
+# Developer Knowledge Transport Interop — v1.23.0
+
+Normalize intent before binding to transport:
+
+```text
+answer
+search chunks
+get document
+↓
+MCP / REST / CLI
+```
+
+Preserve:
+
+```text
+400 / 401 / 404 / 429
+```
+
+semantics and source provenance across adapters.

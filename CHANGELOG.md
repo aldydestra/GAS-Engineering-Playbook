@@ -3,6 +3,197 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.23.0] - 2026-09-28
+
+### Agent Skill Engineering & Specification Compatibility
+
+This release performs a full refresh from v1.22.0 and adds one genuinely separate extension:
+
+```text
+Skill 19 — Agent Skill Engineering
+```
+
+### Added — Skill 19 Agent Skill Engineering
+
+Created:
+
+- `skills/19-agent-skill-engineering/SKILL.md`
+- `skills/19-agent-skill-engineering/references/spec-and-host-patterns.md`
+- `skills/19-agent-skill-engineering/references/spec-compatibility.md`
+- `references/agent-skill-engineering-patterns.md`
+
+Coverage includes:
+
+- Agent Skills format/specification;
+- naming/frontmatter;
+- trigger-description engineering;
+- progressive disclosure;
+- `scripts/`, `references/`, `assets/`;
+- discovery/activation;
+- host-specific precedence/trust/consent;
+- skill + MCP composition;
+- MCP → REST fallback;
+- source vs installable package;
+- validation;
+- installation scope;
+- update/version lifecycle;
+- cross-client compatibility.
+
+Skill 19 is authored using current standard-style frontmatter and keeps its main `SKILL.md` below 500 lines.
+
+### Added — Agent Skill Specification Compatibility Audit
+
+Created:
+
+- `docs/agent-skill-spec-compatibility-audit-v1.23.0.md`
+
+The audit found that the v1.22 source tree should be treated as an authoring/playbook layout rather than directly normalized Agent Skills packages.
+
+Key gaps:
+
+```text
+18/18 legacy skill names do not match numbered source folders
+18/18 legacy main SKILL.md files exceed the current 500-line recommendation
+repository-specific metadata is top-level rather than normalized under metadata
+```
+
+No breaking rename is performed in v1.23.0.
+
+A future path/name normalization remains a major-version compatibility decision.
+
+### Updated — AI & Agent Integration
+
+Skill 13:
+
+```text
+1.5.0 → 1.6.0
+```
+
+Google Developer Knowledge release notes on September 25, 2026 announced the first-party:
+
+```text
+retrieving-developer-knowledge
+```
+
+Agent Skill in `google/skills`.
+
+Added:
+
+- procedural-skill vs retrieval-tool separation;
+- current `answer_query` / `search_documents` / `get_documents` routing;
+- error-aware fallback;
+- MCP → REST fallback;
+- first-party skill + MCP composition;
+- context-efficient retrieval.
+
+### Updated — Workspace API, Event & MCP Engineering
+
+Skill 16:
+
+```text
+1.4.0 → 1.5.0
+```
+
+Added Developer Knowledge transport interoperability across:
+
+```text
+MCP
+REST
+gcloud
+```
+
+with preserved error semantics, bounded retrieval, and authentication-channel guidance.
+
+### Updated — Agent Skill Supply-Chain Security
+
+Skill 18:
+
+```text
+1.3.0 → 1.4.0
+```
+
+Added:
+
+- same-name skill shadowing/precedence as supply-chain risk;
+- workspace override review;
+- host-specific trust/activation controls;
+- plugin-manifest hook analysis;
+- executable configuration as code-equivalent surface;
+- policy-precedence boundaries;
+- new adversarial scanner fixtures.
+
+A September 24 SkillSpector issue is used as implementation/security evidence for manifest-hook scanner coverage.
+
+### New Monitored Sources
+
+Added current monitoring for:
+
+```text
+agentskills/agentskills
+google/skills
+google-gemini/gemini-cli
+google/skills_lint.dart
+```
+
+### Agent Skills Specification
+
+Current portable format guidance now informs Skill 19 and the compatibility audit.
+
+Important current rules/guidance include:
+
+```text
+name == parent package directory
+description describes what + when
+custom metadata under metadata
+SKILL.md <500 lines recommended
+activation instructions <~5000 tokens recommended
+focused shallow references
+```
+
+### Gemini CLI Host Evidence
+
+Current host-specific behavior includes:
+
+```text
+built-in < extension < user < workspace
+```
+
+for same-name skill precedence, plus workspace trust and activation consent.
+
+These are explicitly documented as Gemini CLI implementation behavior, not universal Agent Skills requirements.
+
+### No Other Skill Version Changes
+
+Intentionally unchanged:
+
+```text
+01 GAS Core
+02 AppSheet Migration
+03 Software Architecture
+04 Database Engineering
+05 PostgreSQL Integration
+06 Performance Engineering
+07 Security Engineering
+08 Testing & Quality
+09 Monitoring & Observability
+10 Deployment Engineering
+11 Documentation Engineering
+12 Web App & Frontend
+14 Workspace Add-ons, Chat & Studio
+15 Product Design Engineering
+17 Workspace Governance & Compliance
+```
+
+### Repository Model
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–19
+```
+
+---
+
+
 ## [v1.22.0] - 2026-09-25
 
 ### Chat Membership Privacy, Developer Knowledge GA & PostgreSQL/Skill Security Refresh

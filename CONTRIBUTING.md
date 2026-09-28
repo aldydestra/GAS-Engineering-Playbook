@@ -351,3 +351,34 @@ Where practical, include:
 - tuning vs held-out trigger cases.
 
 Do not report a tuned-on-the-same-prompts trigger score as generalization evidence.
+## Agent Skill Packaging Contributions
+
+For installable Agent Skills, distinguish:
+
+```text
+playbook/source layout
+```
+
+from:
+
+```text
+published package layout
+```
+
+Current package-quality checks should include:
+
+- package directory matches the skill `name`;
+- standard frontmatter fields;
+- repository-specific metadata under `metadata`;
+- concise main `SKILL.md`;
+- focused/shallow references;
+- standard validation;
+- target-host validation where compatibility is claimed;
+- trigger evaluation;
+- complete security scan;
+- collision/precedence review;
+- provenance/version evidence.
+
+Do not rename historical v1.x source paths as part of an unrelated minor contribution.
+
+Breaking path/name normalization belongs in an explicit compatibility release.

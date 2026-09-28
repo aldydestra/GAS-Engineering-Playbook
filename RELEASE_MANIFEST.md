@@ -1,58 +1,42 @@
 # Release Manifest
 
-Repository Version: v1.22.0
+Repository Version: v1.23.0
 
 ## Release Type
 
 - Full skill/extension refresh
-- No new extension
-- Chat membership privacy/access update
-- Developer Knowledge gcloud GA integration
-- PostgreSQL/PgBouncer refresh
-- Product Design / agent-skill security deepening
+- New Skill 19 Agent Skill Engineering
+- Agent Skills specification compatibility audit
+- Developer Knowledge first-party skill integration
+- skill-precedence/plugin-hook security deepening
 - Full repository snapshot
 
 ## Repository Model
 
 - Foundation Skills: 01–11
-- Extension Skills: 12–18
+- Extension Skills: 12–19
+
+## New Skill
+
+- `19-agent-skill-engineering` — 1.0.0
 
 ## Updated Skills
 
-- `05-postgresql-integration`: 1.2.0 → 1.3.0
-- `07-security-engineering`: 1.5.0 → 1.6.0
-- `09-monitoring-observability`: 1.4.0 → 1.5.0
-- `13-ai-agent-integration`: 1.4.0 → 1.5.0
-- `14-workspace-addons-chat-engineering`: 1.2.0 → 1.3.0
-- `15-product-design-engineering`: 1.1.0 → 1.2.0
-- `16-workspace-api-event-engineering`: 1.3.0 → 1.4.0
-- `17-workspace-governance-compliance-engineering`: 1.1.0 → 1.2.0
-- `18-agent-skill-supply-chain-security`: 1.2.0 → 1.3.0
+- `13-ai-agent-integration`: 1.5.0 → 1.6.0
+- `16-workspace-api-event-engineering`: 1.4.0 → 1.5.0
+- `18-agent-skill-supply-chain-security`: 1.3.0 → 1.4.0
 
-## Intentionally Unchanged
+## New Audits
 
-- `01-gas-core-engineering` — 1.3.0
-- `02-appsheet-migration` — 1.3.0
-- `03-software-architecture` — 1.2.0
-- `04-database-engineering` — 1.2.0
-- `06-performance-engineering` — 1.3.0
-- `08-testing-quality` — 1.4.0
-- `10-deployment-engineering` — 1.4.0
-- `11-documentation-engineering` — 1.6.0
-- `12-web-app-frontend-engineering` — 1.1.0
+- `docs/full-skill-refresh-audit-v1.23.0.md`
+- `docs/agent-skill-spec-compatibility-audit-v1.23.0.md`
 
-## Full Audit
+## New Monitored Sources
 
-- `docs/full-skill-refresh-audit-v1.22.0.md`
-
-## Primary Current Evidence
-
-- Google Chat membership-list visibility GA — 2026-09-23
-- Developer Knowledge gcloud commands GA — 2026-09-22
-- PostgreSQL 19 Beta 4 — 2026-09-24
-- PgBouncer 1.26.0 — 2026-09-23
-- NVIDIA SkillSpector 2.12.0 candidate status
-- active OpenAI Figma plugin/skill sources
+- `agentskills/agentskills`
+- `google/skills`
+- `google-gemini/gemini-cli`
+- `google/skills_lint.dart`
 
 ## Files
 - `CHANGELOG.md`
@@ -63,6 +47,7 @@ Repository Version: v1.22.0
 - `README.md`
 - `SECURITY.md`
 - `docs/adr-template.md`
+- `docs/agent-skill-spec-compatibility-audit-v1.23.0.md`
 - `docs/daily-source-refresh-audit-v1.15.0.md`
 - `docs/deployment-runbook-template.md`
 - `docs/design-source-refresh-audit-v1.16.0.md`
@@ -73,6 +58,7 @@ Repository Version: v1.22.0
 - `docs/full-skill-refresh-audit-v1.20.0.md`
 - `docs/full-skill-refresh-audit-v1.21.0.md`
 - `docs/full-skill-refresh-audit-v1.22.0.md`
+- `docs/full-skill-refresh-audit-v1.23.0.md`
 - `docs/handoff-template.md`
 - `docs/module-development-guide.md`
 - `docs/observability-runbook-template.md`
@@ -81,6 +67,7 @@ Repository Version: v1.22.0
 - `docs/technology-watch.md`
 - `docs/testing-strategy-template.md`
 - `examples/.gitkeep`
+- `references/agent-skill-engineering-patterns.md`
 - `references/agent-skill-supply-chain-security-patterns.md`
 - `references/ai-agent-integration-patterns.md`
 - `references/appsheet-migration-patterns.md`
@@ -122,3 +109,6 @@ Repository Version: v1.22.0
 - `skills/16-workspace-api-event-engineering/SKILL.md`
 - `skills/17-workspace-governance-compliance-engineering/SKILL.md`
 - `skills/18-agent-skill-supply-chain-security/SKILL.md`
+- `skills/19-agent-skill-engineering/SKILL.md`
+- `skills/19-agent-skill-engineering/references/spec-and-host-patterns.md`
+- `skills/19-agent-skill-engineering/references/spec-compatibility.md`

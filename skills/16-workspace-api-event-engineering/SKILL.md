@@ -1,10 +1,10 @@
 ---
 name: workspace-api-event-engineering
 description: "Experience-driven integration engineering for Google Workspace APIs, event systems, and MCP surfaces from Apps Script and adjacent runtimes, covering built-in vs advanced services vs REST, OAuth, pagination, quota/tiering, Workspace Events, Workspace Studio API, product MCP servers, Universal Search MCP, Pub/Sub, retries, idempotency, and reconciliation."
-skill_version: "1.4.0"
+skill_version: "1.5.0"
 repository_introduced: "v1.17.0"
 status: "evolving"
-last_repository_update: "v1.22.0"
+last_repository_update: "v1.23.0"
 tags:
   - google-workspace
   - google-apis
@@ -2642,6 +2642,87 @@ Developer Knowledge currently supports:
 Use these to bound documentation retrieval and context size.
 
 Do not fetch full documents when a basic view or relevant chunks are sufficient.
+
+## Developer Knowledge Skill / MCP / REST Interoperability — v1.23.0
+
+### Three Access Surfaces, One Knowledge Service
+
+Developer Knowledge can now be consumed through:
+
+```text
+MCP tools
+REST API
+gcloud CLI
+```
+
+and Google publishes a first-party Agent Skill that teaches agents how to select/fallback between these paths.
+
+Keep service semantics separate from transport semantics.
+
+### Normalize Operations Conceptually
+
+Current conceptual operations include:
+
+```text
+answer query
+search document chunks
+get/describe full documents
+```
+
+Transport-specific names can differ.
+
+Application code should normalize the business intent before binding to:
+
+- MCP;
+- REST;
+- CLI.
+
+### Fallback Must Preserve Error Semantics
+
+Current Developer Knowledge documentation distinguishes standard failures such as:
+
+```text
+400 invalid input
+401 unauthenticated
+404 not found/outside corpus
+429 quota exhausted
+```
+
+A fallback adapter should not flatten all of these into:
+
+```text
+"no results"
+```
+
+### Authentication Material Must Stay in the Right Channel
+
+Current Developer Knowledge MCP troubleshooting notes API-key header configuration.
+
+Generic rule:
+
+> Credentials belong in the supported authentication/header mechanism, not embedded into query text or agent prompts.
+
+### Search Before Full Fetch
+
+For documentation integration:
+
+```text
+search chunks
+↓
+inspect relevance
+↓
+fetch full document only if needed
+```
+
+This should be the default for bounded context and quota usage.
+
+### First-Party Skill Is Routing Evidence, Not API Specification
+
+Use Google's `retrieving-developer-knowledge` skill as strong first-party workflow evidence.
+
+Use Developer Knowledge API/MCP documentation as normative service behavior.
+
+Cross-reference Skill 19 for Agent Skill packaging/trigger rules.
 
 # References
 

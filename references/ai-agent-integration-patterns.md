@@ -215,3 +215,26 @@ authorization context
 ```
 
 is safer than returning data alone when downstream reasoning depends on completeness.
+
+# First-Party Skill + MCP/REST Fallback — v1.23.0
+
+```text
+agent skill
+↓
+select retrieval intent
+├─ answer_query
+├─ search_documents
+└─ get_documents
+↓
+MCP
+↓ if unavailable
+REST fallback
+```
+
+Before fallback:
+
+```text
+check whether failure = auth / quota / network / unsupported host
+```
+
+Do not reinterpret tool failure as “documentation absent”.

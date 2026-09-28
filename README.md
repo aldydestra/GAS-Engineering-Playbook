@@ -13,8 +13,8 @@ Repository v1.14.0 began the **Capability Expansion** phase. v1.16.0 extends the
 The repository now contains:
 
 - 11 foundation skills,
-- 7 extension skills,
-- cross-skill evidence, technology-watch, source-refresh, design QA, API/event integration, governance/compliance engineering, agent-skill supply-chain security, and authoring guidance.
+- 8 extension skills,
+- cross-skill evidence, technology-watch, source-refresh, design QA, API/event integration, governance/compliance engineering, agent-skill supply-chain security, Agent Skill engineering, and authoring guidance.
 
 Individual skills remain `status: evolving` because Apps Script, AppSheet, databases, AI protocols, tooling, and real project experience continue to change.
 
@@ -166,7 +166,8 @@ last_repository_update: "v1.13.0"
 | v1.19.0 | Agent Skill Supply-Chain Security + skill routing/docs/design/Marketplace refresh |
 | v1.20.0 | Existing-skill deep refresh: Chat pins/MCP security, AppSheet outcome resilience, scanner coverage, orchestrator correctness |
 | v1.21.0 | Workspace Studio GA + Workspace MCP/Universal Search + quota/security/evaluation deepening |
-| **v1.22.0** | **Chat membership privacy + Developer Knowledge CLI GA + PostgreSQL/PgBouncer + design/supply-chain deepening** |
+| v1.22.0 | Chat membership privacy + Developer Knowledge CLI GA + PostgreSQL/PgBouncer + design/supply-chain deepening |
+| **v1.23.0** | **Agent Skill Engineering + spec compatibility audit + first-party Google skill/fallback + precedence security** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -492,9 +493,31 @@ Agent-skill and plugin security engineering covering:
 - provenance and revision pinning,
 - permission drift,
 - executable Markdown and dependency-source provenance,
+- skill shadowing/precedence,
+- plugin-manifest/hook execution surface,
 - scanner release-status/evidence provenance,
 - signatures/hashes,
 - catalog admission and incident response.
+
+### 19 — Agent Skill Engineering
+
+Agent Skill authoring/distribution engineering covering:
+
+- Agent Skills format/specification,
+- trigger/description engineering,
+- progressive disclosure,
+- `scripts/`, `references/`, and `assets/` layout,
+- discovery/activation/precedence,
+- host-specific trust/consent behavior,
+- package validation,
+- installation scope,
+- skill + MCP composition,
+- transport fallback,
+- source vs installable package separation,
+- version/update lifecycle,
+- cross-client compatibility.
+
+Skill 19 owns the skill lifecycle itself. Skill 18 remains the security owner.
 
 Extension skills do not change the historical meaning of the v1.13.0 foundation milestone.
 
@@ -543,6 +566,8 @@ Workspace REST APIs, Advanced Services, change feeds, and event subscriptions en
 Organization-level data residency, DLP, audit/eDiscovery, CSE, and governance controls enter through Skill 17.
 
 Agent-skill/plugin admission, pre-install scanning, package integrity, and skill supply-chain risk enter through Skill 18.
+
+Agent Skill authoring, progressive disclosure, packaging, discovery/precedence, installation, and cross-host compatibility enter through Skill 19.
 
 The skills are complementary, not sequential requirements for every project.
 
@@ -653,7 +678,8 @@ gas-engineering-playbook/
 │   ├── 15-product-design-engineering/
 │   ├── 16-workspace-api-event-engineering/
 │   ├── 17-workspace-governance-compliance-engineering/
-│   └── 18-agent-skill-supply-chain-security/
+│   ├── 18-agent-skill-supply-chain-security/
+│   └── 19-agent-skill-engineering/
 ├── references/
 ├── examples/
 └── docs/
@@ -669,6 +695,8 @@ gas-engineering-playbook/
     ├── full-skill-refresh-audit-v1.20.0.md
     ├── full-skill-refresh-audit-v1.21.0.md
     ├── full-skill-refresh-audit-v1.22.0.md
+    ├── full-skill-refresh-audit-v1.23.0.md
+    ├── agent-skill-spec-compatibility-audit-v1.23.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
@@ -786,6 +814,13 @@ https://developers.google.com/workspace/add-ons
 - https://docs.nvidia.com/skills/scanning-agent-skills
 - https://docs.nvidia.com/skills/skillevaluator
 - https://docs.nvidia.com/skills/agent-skill-trust-pipeline
+
+## Agent Skills Standard / Runtime
+
+- https://github.com/agentskills/agentskills
+- https://github.com/google/skills
+- https://github.com/google-gemini/gemini-cli
+- https://github.com/google/skills_lint.dart
 
 ## Product Design / Design Systems
 

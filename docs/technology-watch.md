@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-25**
+Last audit: **2026-09-28**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -3319,5 +3319,210 @@ Status: **NO CHANGE**
 ## clasp / Vercel Skills / Design Standards
 
 No material baseline-changing update found.
+
+Status: **NO CHANGE**
+---
+
+# v1.23.0 Agent Skill Engineering Refresh — 2026-09-28
+
+## Google Developer Knowledge Agent Skill
+
+Official source:
+
+https://developers.google.com/knowledge/release-notes
+
+Release:
+
+```text
+2026-09-25
+```
+
+New:
+
+```text
+retrieving-developer-knowledge
+```
+
+first-party Agent Skill in:
+
+```text
+google/skills
+```
+
+Current documented behavior includes:
+
+- choose `answer_query` for broad how-to/comparison questions;
+- choose `search_documents` for exact flags, syntax, IAM permissions;
+- use focused keywords;
+- fetch full documents only when needed;
+- verify retrieval success before answering;
+- fall back from MCP to Developer Knowledge REST when MCP is unavailable.
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 13;
+- Skill 16;
+- Skill 19.
+
+---
+
+## Google Agent Skills Repository
+
+Source:
+
+https://github.com/google/skills
+
+Current repository provides:
+
+- Google product/technology Agent Skills;
+- plugin bundles;
+- MCP integration;
+- routing/discovery skills.
+
+Google contribution guidance states skills are internally verified/approved before inclusion.
+
+Evidence class:
+
+```text
+Google-maintained first-party open source
+```
+
+Status: **NEW MONITORED SOURCE**
+
+Affected:
+
+- Skill 19;
+- Skill 18.
+
+---
+
+## Agent Skills Specification
+
+Source:
+
+https://github.com/agentskills/agentskills
+
+Current format guidance includes:
+
+```text
+name == parent package directory
+description <= 1024 chars
+custom metadata under metadata map
+SKILL.md <500 lines recommended
+instructions <~5000 tokens recommended
+focused shallow references
+```
+
+Status: **ADOPTED AS PORTABLE FORMAT SOURCE**
+
+Major finding:
+
+```text
+GAS Engineering Playbook v1.x source layout
+≠
+directly normalized Agent Skills package layout
+```
+
+See compatibility audit.
+
+---
+
+## Gemini CLI Agent Skills
+
+Sources:
+
+- https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md
+- https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/using-agent-skills.md
+
+Current host behavior includes:
+
+```text
+built-in
+< extension
+< user
+< workspace
+```
+
+same-name precedence.
+
+Current security behavior also includes:
+
+- workspace skills require trusted workspace;
+- activation consent before skill resource access;
+- `.agents/skills` alias support.
+
+Status: **ADOPTED AS HOST-SPECIFIC IMPLEMENTATION EVIDENCE**
+
+Do not generalize these controls to every Agent Skills client.
+
+---
+
+## Google skills_lint
+
+Source:
+
+https://github.com/google/skills_lint.dart
+
+Current project provides static validation for Agent Skills structure/frontmatter/relative paths.
+
+Status:
+
+```text
+USEFUL IMPLEMENTATION EVIDENCE
+NOT OFFICIALLY SUPPORTED GOOGLE PRODUCT
+```
+
+Skill 19 continues to prefer portable/reference validation plus host-specific validation where promised.
+
+---
+
+## SkillSpector Plugin Manifest Coverage
+
+Current issue:
+
+https://github.com/NVIDIA/SkillSpector/issues/630
+
+Signal:
+
+```text
+plugin.json hooks can escape scan coverage
+```
+
+and produce a false SAFE result in the reported implementation.
+
+Status:
+
+```text
+COMMUNITY / IMPLEMENTATION SECURITY SIGNAL
+```
+
+Generic rule adopted:
+
+```text
+manifest + hooks + commands + MCP + policy
+= effective package
+```
+
+Affected:
+
+- Skill 18.
+
+---
+
+## No Material Change
+
+No newer baseline-changing source found for:
+
+```text
+Apps Script core runtime
+AppSheet
+PostgreSQL / PgBouncer after v1.22
+Workspace Studio
+Chat API after v1.22
+OpenAI Figma design workflow
+Vercel Skills
+```
 
 Status: **NO CHANGE**
