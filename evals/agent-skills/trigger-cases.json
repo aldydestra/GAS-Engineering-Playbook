@@ -1,0 +1,958 @@
+{
+  "schema_version": 1,
+  "description": "Shared multi-skill routing corpus. Each case is positive for expected_skill and negative for all other skills.",
+  "cases": [
+    {
+      "id": "gas-core-engineering-01",
+      "expected_skill": "gas-core-engineering",
+      "query": "Why does this Apps Script trigger run twice, and how should I use LockService to stop duplicate execution?"
+    },
+    {
+      "id": "gas-core-engineering-02",
+      "expected_skill": "gas-core-engineering",
+      "query": "I need to read and write 50,000 spreadsheet rows in Apps Script without timing out. What batching pattern should I use?"
+    },
+    {
+      "id": "gas-core-engineering-03",
+      "expected_skill": "gas-core-engineering",
+      "query": "How should I structure configuration and PropertiesService access in a Google Apps Script project?"
+    },
+    {
+      "id": "gas-core-engineering-04",
+      "expected_skill": "gas-core-engineering",
+      "query": "My Apps Script job exceeds execution time. Help me add checkpoints and resume safely on the next trigger."
+    },
+    {
+      "id": "gas-core-engineering-05",
+      "expected_skill": "gas-core-engineering",
+      "query": "What is the safest pattern for calling an external REST service from Apps Script with retries and timeouts?"
+    },
+    {
+      "id": "gas-core-engineering-06",
+      "expected_skill": "gas-core-engineering",
+      "query": "I have a google.script.run callback chain that sometimes returns out of order; how should I reason about the Apps Script runtime?"
+    },
+    {
+      "id": "gas-core-engineering-07",
+      "expected_skill": "gas-core-engineering",
+      "query": "How should I handle concurrent updates to the same Google Sheet from multiple Apps Script executions?"
+    },
+    {
+      "id": "gas-core-engineering-08",
+      "expected_skill": "gas-core-engineering",
+      "query": "Can you review this core Apps Script project for trigger, SpreadsheetApp, quota, and runtime mistakes?"
+    },
+    {
+      "id": "appsheet-migration-01",
+      "expected_skill": "appsheet-migration",
+      "query": "I want to migrate an AppSheet app with bots, slices, and security filters into Google Apps Script. How should I inventory it?"
+    },
+    {
+      "id": "appsheet-migration-02",
+      "expected_skill": "appsheet-migration",
+      "query": "How do I preserve AppSheet Ref relationships and automation behavior when moving to a custom GAS backend?"
+    },
+    {
+      "id": "appsheet-migration-03",
+      "expected_skill": "appsheet-migration",
+      "query": "We are replacing AppSheet with a hybrid Apps Script and PostgreSQL solution. What migration phases should we use?"
+    },
+    {
+      "id": "appsheet-migration-04",
+      "expected_skill": "appsheet-migration",
+      "query": "Help me map AppSheet virtual columns, actions, bots, and expressions before rebuilding the application."
+    },
+    {
+      "id": "appsheet-migration-05",
+      "expected_skill": "appsheet-migration",
+      "query": "Our AppSheet editor state changed during migration. How do we capture a durable baseline and verify saved behavior?"
+    },
+    {
+      "id": "appsheet-migration-06",
+      "expected_skill": "appsheet-migration",
+      "query": "How can I validate that migrated AppSheet email/PDF automations produce the same downstream outcomes?"
+    },
+    {
+      "id": "appsheet-migration-07",
+      "expected_skill": "appsheet-migration",
+      "query": "I need a cutover checklist from AppSheet to a custom Google Workspace application without losing workflow semantics."
+    },
+    {
+      "id": "appsheet-migration-08",
+      "expected_skill": "appsheet-migration",
+      "query": "What should I test when evaluating AppSheet new mobile framework behavior before migration?"
+    },
+    {
+      "id": "software-architecture-01",
+      "expected_skill": "software-architecture",
+      "query": "How should I split a growing Apps Script codebase into services, repositories, adapters, and stable global entry points?"
+    },
+    {
+      "id": "software-architecture-02",
+      "expected_skill": "software-architecture",
+      "query": "I need an architecture for a GAS application so UI code does not directly call database or external API logic."
+    },
+    {
+      "id": "software-architecture-03",
+      "expected_skill": "software-architecture",
+      "query": "Where should DTO mapping live in a layered Apps Script application?"
+    },
+    {
+      "id": "software-architecture-04",
+      "expected_skill": "software-architecture",
+      "query": "Help me define ports and adapters for a system that can switch from Sheets to PostgreSQL later."
+    },
+    {
+      "id": "software-architecture-05",
+      "expected_skill": "software-architecture",
+      "query": "My Apps Script project has business rules scattered across menu handlers and triggers. How should I refactor boundaries?"
+    },
+    {
+      "id": "software-architecture-06",
+      "expected_skill": "software-architecture",
+      "query": "What is a pragmatic dependency injection approach for Apps Script without overengineering a framework?"
+    },
+    {
+      "id": "software-architecture-07",
+      "expected_skill": "software-architecture",
+      "query": "How should I separate domain workflow from Google-specific services in a maintainable GAS application?"
+    },
+    {
+      "id": "software-architecture-08",
+      "expected_skill": "software-architecture",
+      "query": "Can you review this module layout for coupling, ownership, and stable interfaces?"
+    },
+    {
+      "id": "database-engineering-01",
+      "expected_skill": "database-engineering",
+      "query": "Help me normalize this business data model and decide primary keys, foreign keys, and uniqueness constraints."
+    },
+    {
+      "id": "database-engineering-02",
+      "expected_skill": "database-engineering",
+      "query": "How should I design a source-of-truth database when Sheets is only a reporting/read model?"
+    },
+    {
+      "id": "database-engineering-03",
+      "expected_skill": "database-engineering",
+      "query": "I need a staging-table import pattern with validation and atomic promotion into canonical tables."
+    },
+    {
+      "id": "database-engineering-04",
+      "expected_skill": "database-engineering",
+      "query": "How do I detect schema drift and reconcile imported spreadsheet data with relational constraints?"
+    },
+    {
+      "id": "database-engineering-05",
+      "expected_skill": "database-engineering",
+      "query": "What data types and constraints should I use for money, dates, identifiers, and status fields?"
+    },
+    {
+      "id": "database-engineering-06",
+      "expected_skill": "database-engineering",
+      "query": "How should I model many-to-many relationships instead of storing comma-separated IDs in a Sheet?"
+    },
+    {
+      "id": "database-engineering-07",
+      "expected_skill": "database-engineering",
+      "query": "I need an idempotent synchronization design between a relational database and Google Sheets."
+    },
+    {
+      "id": "database-engineering-08",
+      "expected_skill": "database-engineering",
+      "query": "Can you review this schema for transaction boundaries, identity, integrity, and audit fields?"
+    },
+    {
+      "id": "postgresql-integration-01",
+      "expected_skill": "postgresql-integration",
+      "query": "How do I connect Apps Script to PostgreSQL safely using JDBC and prepared statements?"
+    },
+    {
+      "id": "postgresql-integration-02",
+      "expected_skill": "postgresql-integration",
+      "query": "Should my GAS app connect directly to PostgreSQL or call a backend API instead?"
+    },
+    {
+      "id": "postgresql-integration-03",
+      "expected_skill": "postgresql-integration",
+      "query": "Help me batch inserts and transactions from Apps Script into PostgreSQL without duplicate rows."
+    },
+    {
+      "id": "postgresql-integration-04",
+      "expected_skill": "postgresql-integration",
+      "query": "How should I deploy PgBouncer in front of PostgreSQL for an Apps Script adjacent backend?"
+    },
+    {
+      "id": "postgresql-integration-05",
+      "expected_skill": "postgresql-integration",
+      "query": "What security and transaction-pooling assumptions should I document when using PgBouncer?"
+    },
+    {
+      "id": "postgresql-integration-06",
+      "expected_skill": "postgresql-integration",
+      "query": "I need to sync PostgreSQL data into a Google Sheet read model efficiently and idempotently."
+    },
+    {
+      "id": "postgresql-integration-07",
+      "expected_skill": "postgresql-integration",
+      "query": "Can I use PostgreSQL 19 beta features in production yet, or should I keep PostgreSQL 18?"
+    },
+    {
+      "id": "postgresql-integration-08",
+      "expected_skill": "postgresql-integration",
+      "query": "How should I handle JDBC credentials, TLS, retries, and connection failures for PostgreSQL integration?"
+    },
+    {
+      "id": "performance-engineering-01",
+      "expected_skill": "performance-engineering",
+      "query": "My Apps Script is slow because it calls getValue in a loop. How should I batch spreadsheet I/O?"
+    },
+    {
+      "id": "performance-engineering-02",
+      "expected_skill": "performance-engineering",
+      "query": "How do I profile an Apps Script workflow and find the calls consuming most execution time?"
+    },
+    {
+      "id": "performance-engineering-03",
+      "expected_skill": "performance-engineering",
+      "query": "I need to process a large Sheet under Apps Script runtime limits using chunking and checkpoints."
+    },
+    {
+      "id": "performance-engineering-04",
+      "expected_skill": "performance-engineering",
+      "query": "How should I reduce Workspace API quota units, pagination, and egress in a large automation?"
+    },
+    {
+      "id": "performance-engineering-05",
+      "expected_skill": "performance-engineering",
+      "query": "What caching strategy is safe for repeated reference-data lookups in Apps Script?"
+    },
+    {
+      "id": "performance-engineering-06",
+      "expected_skill": "performance-engineering",
+      "query": "How do I avoid N+1 calls to Drive or Sheets services in Google Apps Script?"
+    },
+    {
+      "id": "performance-engineering-07",
+      "expected_skill": "performance-engineering",
+      "query": "Our agent makes too many Workspace API calls. Help me define tool-call and quota budgets."
+    },
+    {
+      "id": "performance-engineering-08",
+      "expected_skill": "performance-engineering",
+      "query": "Can you optimize this GAS workflow for latency, quotas, memory, and execution duration?"
+    },
+    {
+      "id": "security-engineering-01",
+      "expected_skill": "security-engineering",
+      "query": "How should I design authentication and authorization for a Google Apps Script web app?"
+    },
+    {
+      "id": "security-engineering-02",
+      "expected_skill": "security-engineering",
+      "query": "Where should API keys and OAuth secrets live in an Apps Script project?"
+    },
+    {
+      "id": "security-engineering-03",
+      "expected_skill": "security-engineering",
+      "query": "How do I validate server-side permissions instead of trusting hidden UI buttons?"
+    },
+    {
+      "id": "security-engineering-04",
+      "expected_skill": "security-engineering",
+      "query": "What is the threat model for exposing a GAS web endpoint to external users?"
+    },
+    {
+      "id": "security-engineering-05",
+      "expected_skill": "security-engineering",
+      "query": "How should I treat prompt injection in data returned from a trusted Workspace MCP server?"
+    },
+    {
+      "id": "security-engineering-06",
+      "expected_skill": "security-engineering",
+      "query": "An API list call returns an empty result for a restricted user. How do I distinguish authorization filtering from true absence?"
+    },
+    {
+      "id": "security-engineering-07",
+      "expected_skill": "security-engineering",
+      "query": "Help me apply least privilege to Workspace OAuth scopes and external service credentials."
+    },
+    {
+      "id": "security-engineering-08",
+      "expected_skill": "security-engineering",
+      "query": "Can you review this Apps Script application for XSS, CSRF-like risks, authorization, secrets, and unsafe logging?"
+    },
+    {
+      "id": "testing-quality-01",
+      "expected_skill": "testing-quality",
+      "query": "How should I write unit and integration tests for an Apps Script service with external dependencies?"
+    },
+    {
+      "id": "testing-quality-02",
+      "expected_skill": "testing-quality",
+      "query": "I need a regression test strategy for a GAS migration before releasing it."
+    },
+    {
+      "id": "testing-quality-03",
+      "expected_skill": "testing-quality",
+      "query": "How do I evaluate whether a new Agent Skill version actually improves results over the old version?"
+    },
+    {
+      "id": "testing-quality-04",
+      "expected_skill": "testing-quality",
+      "query": "Help me design positive and negative trigger evals for a skill description."
+    },
+    {
+      "id": "testing-quality-05",
+      "expected_skill": "testing-quality",
+      "query": "How should I measure variance, token cost, and pass rate across repeated agent evaluation runs?"
+    },
+    {
+      "id": "testing-quality-06",
+      "expected_skill": "testing-quality",
+      "query": "I need adversarial scanner tests for nested scripts, symlinks, archives, and compiled bytecode."
+    },
+    {
+      "id": "testing-quality-07",
+      "expected_skill": "testing-quality",
+      "query": "What should a target-parser compatibility test verify for generated YAML or Agent Skills?"
+    },
+    {
+      "id": "testing-quality-08",
+      "expected_skill": "testing-quality",
+      "query": "Can you create a quality gate combining assertions, integration tests, and behavioral evals?"
+    },
+    {
+      "id": "monitoring-observability-01",
+      "expected_skill": "monitoring-observability",
+      "query": "What structured logs and correlation IDs should I add to this Apps Script automation?"
+    },
+    {
+      "id": "monitoring-observability-02",
+      "expected_skill": "monitoring-observability",
+      "query": "How should I monitor trigger failures, retries, and execution duration in GAS?"
+    },
+    {
+      "id": "monitoring-observability-03",
+      "expected_skill": "monitoring-observability",
+      "query": "Our job says SUCCESS but the email never arrived. How do we monitor the actual business outcome?"
+    },
+    {
+      "id": "monitoring-observability-04",
+      "expected_skill": "monitoring-observability",
+      "query": "Help me design synthetic probes and reconciliation for an asynchronous workflow."
+    },
+    {
+      "id": "monitoring-observability-05",
+      "expected_skill": "monitoring-observability",
+      "query": "How should I distinguish provider outage, local regression, and dependency failure from telemetry?"
+    },
+    {
+      "id": "monitoring-observability-06",
+      "expected_skill": "monitoring-observability",
+      "query": "A membership list query returns zero rows. What observability fields show whether the result was permission-filtered?"
+    },
+    {
+      "id": "monitoring-observability-07",
+      "expected_skill": "monitoring-observability",
+      "query": "What metrics should I track for Workspace Studio starter 404, 429, and retry behavior?"
+    },
+    {
+      "id": "monitoring-observability-08",
+      "expected_skill": "monitoring-observability",
+      "query": "Can you define an incident logging and alert-deduplication strategy for this automation?"
+    },
+    {
+      "id": "deployment-engineering-01",
+      "expected_skill": "deployment-engineering",
+      "query": "How should I deploy Apps Script with clasp without confusing push with an immutable deployment?"
+    },
+    {
+      "id": "deployment-engineering-02",
+      "expected_skill": "deployment-engineering",
+      "query": "What is the safest promotion flow from development to production for a GAS web app?"
+    },
+    {
+      "id": "deployment-engineering-03",
+      "expected_skill": "deployment-engineering",
+      "query": "How should I manage Apps Script deployment IDs, versions, and rollback?"
+    },
+    {
+      "id": "deployment-engineering-04",
+      "expected_skill": "deployment-engineering",
+      "query": "I need a CI/CD pipeline that bundles TypeScript before clasp push."
+    },
+    {
+      "id": "deployment-engineering-05",
+      "expected_skill": "deployment-engineering",
+      "query": "How do I release a Workspace add-on when host products change in the Marketplace listing?"
+    },
+    {
+      "id": "deployment-engineering-06",
+      "expected_skill": "deployment-engineering",
+      "query": "What deployment checks are needed for Workspace Studio workflow starters?"
+    },
+    {
+      "id": "deployment-engineering-07",
+      "expected_skill": "deployment-engineering",
+      "query": "How should I smoke-test OAuth redirect and refresh-token handling for an external runtime?"
+    },
+    {
+      "id": "deployment-engineering-08",
+      "expected_skill": "deployment-engineering",
+      "query": "Can you design a release checklist for manifests, triggers, deployments, and rollback?"
+    },
+    {
+      "id": "documentation-engineering-01",
+      "expected_skill": "documentation-engineering",
+      "query": "Help me write an ADR for this Apps Script architecture decision and preserve the trade-offs."
+    },
+    {
+      "id": "documentation-engineering-02",
+      "expected_skill": "documentation-engineering",
+      "query": "How should I document a complex GAS system so another engineer can operate and hand it over?"
+    },
+    {
+      "id": "documentation-engineering-03",
+      "expected_skill": "documentation-engineering",
+      "query": "I need canonical Markdown that can generate human docs, llms.txt, and MCP-searchable documentation."
+    },
+    {
+      "id": "documentation-engineering-04",
+      "expected_skill": "documentation-engineering",
+      "query": "How do I prevent generated AI documentation indexes from becoming stale?"
+    },
+    {
+      "id": "documentation-engineering-05",
+      "expected_skill": "documentation-engineering",
+      "query": "What should a runbook include for failure recovery, ownership, and operational handoff?"
+    },
+    {
+      "id": "documentation-engineering-06",
+      "expected_skill": "documentation-engineering",
+      "query": "How should I document source status when a release note says GA but an older guide still says preview?"
+    },
+    {
+      "id": "documentation-engineering-07",
+      "expected_skill": "documentation-engineering",
+      "query": "What evidence should accompany a skill benchmark so results are reproducible?"
+    },
+    {
+      "id": "documentation-engineering-08",
+      "expected_skill": "documentation-engineering",
+      "query": "Can you restructure these engineering docs into canonical source plus generated documentation artifacts?"
+    },
+    {
+      "id": "web-app-frontend-engineering-01",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "How should I structure HTMLService frontend files for a Google Apps Script web app?"
+    },
+    {
+      "id": "web-app-frontend-engineering-02",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "Can you wrap google.script.run in Promises and add loading/error states?"
+    },
+    {
+      "id": "web-app-frontend-engineering-03",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "How do I implement client-side routing and state without putting business logic in the browser?"
+    },
+    {
+      "id": "web-app-frontend-engineering-04",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "What is the secure way to submit a file form from an HtmlService page to Apps Script?"
+    },
+    {
+      "id": "web-app-frontend-engineering-05",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "How should I bundle a frontend framework for Apps Script HtmlService?"
+    },
+    {
+      "id": "web-app-frontend-engineering-06",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "I need responsive pagination, filters, and async RPC in a GAS web UI."
+    },
+    {
+      "id": "web-app-frontend-engineering-07",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "How do I avoid exposing authorization decisions to client-side JavaScript?"
+    },
+    {
+      "id": "web-app-frontend-engineering-08",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "Can you review this Apps Script web app for RPC, state, loading, error, and browser-runtime issues?"
+    },
+    {
+      "id": "ai-agent-integration-01",
+      "expected_skill": "ai-agent-integration",
+      "query": "How should I add an LLM tool-calling agent to an Apps Script workflow without letting the model authorize destructive actions?"
+    },
+    {
+      "id": "ai-agent-integration-02",
+      "expected_skill": "ai-agent-integration",
+      "query": "I need bounded agent loops with human approval, durable state, and idempotent side effects."
+    },
+    {
+      "id": "ai-agent-integration-03",
+      "expected_skill": "ai-agent-integration",
+      "query": "When should an agent use MCP versus REST fallback for authoritative documentation retrieval?"
+    },
+    {
+      "id": "ai-agent-integration-04",
+      "expected_skill": "ai-agent-integration",
+      "query": "How do I defend an AI agent against indirect prompt injection in Chat messages and Drive documents?"
+    },
+    {
+      "id": "ai-agent-integration-05",
+      "expected_skill": "ai-agent-integration",
+      "query": "Help me design a multi-agent workflow with scoped tools, shared memory boundaries, and budgets."
+    },
+    {
+      "id": "ai-agent-integration-06",
+      "expected_skill": "ai-agent-integration",
+      "query": "How should I normalize tool errors and structured outputs across different LLM providers?"
+    },
+    {
+      "id": "ai-agent-integration-07",
+      "expected_skill": "ai-agent-integration",
+      "query": "I need an agent gateway that supports MCP, A2A, observability, and evaluation."
+    },
+    {
+      "id": "ai-agent-integration-08",
+      "expected_skill": "ai-agent-integration",
+      "query": "How do I keep an AI agent from making unbounded Workspace API calls while preserving useful autonomy?"
+    },
+    {
+      "id": "workspace-addons-chat-engineering-01",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "How do I build a Google Workspace Add-on homepage card with CardService actions and navigation?"
+    },
+    {
+      "id": "workspace-addons-chat-engineering-02",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "What manifest settings and callbacks are needed for a Gmail or Drive Workspace Add-on?"
+    },
+    {
+      "id": "workspace-addons-chat-engineering-03",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "How should a Google Chat app return synchronous versus asynchronous card responses?"
+    },
+    {
+      "id": "workspace-addons-chat-engineering-04",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "I need to add a Workspace Studio workflow starter to my add-on using workflowTriggers."
+    },
+    {
+      "id": "workspace-addons-chat-engineering-05",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "How should I handle triggerCreation and triggerDeletion lifecycle callbacks in Workspace Studio?"
+    },
+    {
+      "id": "workspace-addons-chat-engineering-06",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "What UI state should a Chat add-on show when membership visibility is restricted?"
+    },
+    {
+      "id": "workspace-addons-chat-engineering-07",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "How do universal actions and host-specific contextual cards fit into one add-on architecture?"
+    },
+    {
+      "id": "workspace-addons-chat-engineering-08",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "Can you review this Workspace Add-on for CardService, OAuth, navigation, Chat, and Studio behavior?"
+    },
+    {
+      "id": "product-design-engineering-01",
+      "expected_skill": "product-design-engineering",
+      "query": "Help me audit this product screen for hierarchy, typography, spacing, accessibility, and UX flow."
+    },
+    {
+      "id": "product-design-engineering-02",
+      "expected_skill": "product-design-engineering",
+      "query": "How should I convert an existing UI into Figma while reusing design-system components and tokens?"
+    },
+    {
+      "id": "product-design-engineering-03",
+      "expected_skill": "product-design-engineering",
+      "query": "I need semantic design tokens for color, spacing, typography, and component states."
+    },
+    {
+      "id": "product-design-engineering-04",
+      "expected_skill": "product-design-engineering",
+      "query": "How do I compare the approved Figma source with the rendered implementation for visual QA?"
+    },
+    {
+      "id": "product-design-engineering-05",
+      "expected_skill": "product-design-engineering",
+      "query": "What accessibility checks can I infer from a screenshot and which require live testing?"
+    },
+    {
+      "id": "product-design-engineering-06",
+      "expected_skill": "product-design-engineering",
+      "query": "Help me define component variants and state coverage for a design system."
+    },
+    {
+      "id": "product-design-engineering-07",
+      "expected_skill": "product-design-engineering",
+      "query": "How should I evaluate both pixel fidelity and design-system fidelity during reconstruction?"
+    },
+    {
+      "id": "product-design-engineering-08",
+      "expected_skill": "product-design-engineering",
+      "query": "Can you create a design audit with evidence, severity, impact, and concrete fixes?"
+    },
+    {
+      "id": "workspace-api-event-engineering-01",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How do I choose between Apps Script built-in services, Advanced Services, and direct Workspace REST APIs?"
+    },
+    {
+      "id": "workspace-api-event-engineering-02",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "I need to subscribe to Google Workspace Events and process Pub/Sub notifications idempotently."
+    },
+    {
+      "id": "workspace-api-event-engineering-03",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How should I paginate Drive or Chat API calls with checkpoints and quota bounds?"
+    },
+    {
+      "id": "workspace-api-event-engineering-04",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "What is the difference between Workspace Events API and a Workspace Studio starter event?"
+    },
+    {
+      "id": "workspace-api-event-engineering-05",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How do I call Workspace Studio triggers.fire with requestId and handle 404, 429, and 5xx?"
+    },
+    {
+      "id": "workspace-api-event-engineering-06",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "I need to use Universal Search MCP for cross-product Workspace retrieval."
+    },
+    {
+      "id": "workspace-api-event-engineering-07",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How should I implement Chat membership visibility updates with explicit update masks?"
+    },
+    {
+      "id": "workspace-api-event-engineering-08",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How do I use Developer Knowledge through MCP, REST, or gcloud while preserving error semantics?"
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-01",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "How should our Workspace organization govern Apps Script Data Regions and nonregionalized services?"
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-02",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "I need policy-as-code for Workspace DLP with audit evidence and exception handling."
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-03",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "How do Vault, eDiscovery, retention, and Reports API evidence fit into a governance architecture?"
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-04",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "What governance controls are needed for Client-side Encryption and KACLS?"
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-05",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "How should we approve Workspace MCP products, scopes, clients, logging, and data classes?"
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-06",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "Who should be allowed to enable billing or quota expansion for autonomous Workspace agents?"
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-07",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "How should target audiences and Chat membership-list privacy be governed across sensitive spaces?"
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-08",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "Can you create a compliance engineering preflight for data residency, DLP, audit, and AI access?"
+    },
+    {
+      "id": "agent-skill-supply-chain-security-01",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "How do I security-scan an Agent Skill before installation for prompt injection, exfiltration, and dangerous scripts?"
+    },
+    {
+      "id": "agent-skill-supply-chain-security-02",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "What should a scanner inspect in SKILL.md, hooks, plugin manifests, MCP config, and nested archives?"
+    },
+    {
+      "id": "agent-skill-supply-chain-security-03",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "How do I detect a malicious same-name skill shadowing a trusted skill at higher precedence?"
+    },
+    {
+      "id": "agent-skill-supply-chain-security-04",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "What does fail-closed incomplete analysis mean for an Agent Skill security scanner?"
+    },
+    {
+      "id": "agent-skill-supply-chain-security-05",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "How should I review tool descriptions and MCP metadata for prompt injection or permission mismatch?"
+    },
+    {
+      "id": "agent-skill-supply-chain-security-06",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "I need CI/SARIF gates for a catalog of third-party Agent Skills."
+    },
+    {
+      "id": "agent-skill-supply-chain-security-07",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "How do I verify dependency registry provenance and executable Markdown install snippets?"
+    },
+    {
+      "id": "agent-skill-supply-chain-security-08",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "Can you design an admission, update, revoke, and incident-response lifecycle for Agent Skills?"
+    },
+    {
+      "id": "agent-skill-engineering-01",
+      "expected_skill": "agent-skill-engineering",
+      "query": "How should I author a new Agent Skill with SKILL.md, references, scripts, and assets?"
+    },
+    {
+      "id": "agent-skill-engineering-02",
+      "expected_skill": "agent-skill-engineering",
+      "query": "Help me improve this skill description so it triggers on the right tasks without colliding with neighboring skills."
+    },
+    {
+      "id": "agent-skill-engineering-03",
+      "expected_skill": "agent-skill-engineering",
+      "query": "How do I package our large canonical skill into a progressive-disclosure installable Agent Skill?"
+    },
+    {
+      "id": "agent-skill-engineering-04",
+      "expected_skill": "agent-skill-engineering",
+      "query": "What is the correct frontmatter and directory naming convention for the Agent Skills specification?"
+    },
+    {
+      "id": "agent-skill-engineering-05",
+      "expected_skill": "agent-skill-engineering",
+      "query": "How should I validate and install a .skill package across different agent hosts?"
+    },
+    {
+      "id": "agent-skill-engineering-06",
+      "expected_skill": "agent-skill-engineering",
+      "query": "What happens if a workspace skill has the same name as a user or extension skill?"
+    },
+    {
+      "id": "agent-skill-engineering-07",
+      "expected_skill": "agent-skill-engineering",
+      "query": "How do I separate canonical source layout from generated Agent Skill distribution artifacts?"
+    },
+    {
+      "id": "agent-skill-engineering-08",
+      "expected_skill": "agent-skill-engineering",
+      "query": "Can you design the versioning, packaging, validation, update, and uninstall lifecycle for our skill catalog?"
+    }
+  ],
+  "negative_cases": [
+    {
+      "id": "gas-core-engineering-neg-01",
+      "forbidden_skill": "gas-core-engineering",
+      "query": "Design a normalized customer-order schema with foreign keys and uniqueness constraints."
+    },
+    {
+      "id": "gas-core-engineering-neg-02",
+      "forbidden_skill": "gas-core-engineering",
+      "query": "Audit this Figma checkout screen for typography, spacing, and accessibility."
+    },
+    {
+      "id": "appsheet-migration-neg-01",
+      "forbidden_skill": "appsheet-migration",
+      "query": "How should I configure PgBouncer transaction pooling for PostgreSQL?"
+    },
+    {
+      "id": "appsheet-migration-neg-02",
+      "forbidden_skill": "appsheet-migration",
+      "query": "Build a responsive HtmlService page with Promise-wrapped google.script.run calls."
+    },
+    {
+      "id": "software-architecture-neg-01",
+      "forbidden_skill": "software-architecture",
+      "query": "Which OAuth scope is required to list Google Chat members through the REST API?"
+    },
+    {
+      "id": "software-architecture-neg-02",
+      "forbidden_skill": "software-architecture",
+      "query": "Review this screen for WCAG contrast and design-token consistency."
+    },
+    {
+      "id": "database-engineering-neg-01",
+      "forbidden_skill": "database-engineering",
+      "query": "How do I build a CardService homepage for a Workspace Add-on?"
+    },
+    {
+      "id": "database-engineering-neg-02",
+      "forbidden_skill": "database-engineering",
+      "query": "Optimize this Apps Script loop by batching SpreadsheetApp calls."
+    },
+    {
+      "id": "postgresql-integration-neg-01",
+      "forbidden_skill": "postgresql-integration",
+      "query": "Map AppSheet slices, actions, bots, and security filters before migration."
+    },
+    {
+      "id": "postgresql-integration-neg-02",
+      "forbidden_skill": "postgresql-integration",
+      "query": "Create a semantic design-token hierarchy for our product UI."
+    },
+    {
+      "id": "performance-engineering-neg-01",
+      "forbidden_skill": "performance-engineering",
+      "query": "Define least-privilege OAuth scopes and server-side authorization for this web app."
+    },
+    {
+      "id": "performance-engineering-neg-02",
+      "forbidden_skill": "performance-engineering",
+      "query": "Write an ADR and operations runbook for this system."
+    },
+    {
+      "id": "security-engineering-neg-01",
+      "forbidden_skill": "security-engineering",
+      "query": "Batch these Spreadsheet reads to reduce Apps Script execution time."
+    },
+    {
+      "id": "security-engineering-neg-02",
+      "forbidden_skill": "security-engineering",
+      "query": "Create a component-state matrix and visual QA checklist for this Figma design."
+    },
+    {
+      "id": "testing-quality-neg-01",
+      "forbidden_skill": "testing-quality",
+      "query": "Deploy this Apps Script web app with immutable deployment IDs and rollback."
+    },
+    {
+      "id": "testing-quality-neg-02",
+      "forbidden_skill": "testing-quality",
+      "query": "Normalize this many-to-many relational model and add foreign-key constraints."
+    },
+    {
+      "id": "monitoring-observability-neg-01",
+      "forbidden_skill": "monitoring-observability",
+      "query": "Package this Agent Skill with progressive disclosure and a concise SKILL.md."
+    },
+    {
+      "id": "monitoring-observability-neg-02",
+      "forbidden_skill": "monitoring-observability",
+      "query": "Create typography, spacing, and component tokens for our design system."
+    },
+    {
+      "id": "deployment-engineering-neg-01",
+      "forbidden_skill": "deployment-engineering",
+      "query": "Model this import table with primary keys, constraints, and staging promotion."
+    },
+    {
+      "id": "deployment-engineering-neg-02",
+      "forbidden_skill": "deployment-engineering",
+      "query": "Audit this product flow for hierarchy, accessibility, and UX friction."
+    },
+    {
+      "id": "documentation-engineering-neg-01",
+      "forbidden_skill": "documentation-engineering",
+      "query": "Reduce Workspace API quota usage with bounded pagination and caching."
+    },
+    {
+      "id": "documentation-engineering-neg-02",
+      "forbidden_skill": "documentation-engineering",
+      "query": "Implement OAuth authorization checks for a public Apps Script web endpoint."
+    },
+    {
+      "id": "web-app-frontend-engineering-neg-01",
+      "forbidden_skill": "web-app-frontend-engineering",
+      "query": "Design PostgreSQL tables with foreign keys, indexes, and transaction boundaries."
+    },
+    {
+      "id": "web-app-frontend-engineering-neg-02",
+      "forbidden_skill": "web-app-frontend-engineering",
+      "query": "Scan this third-party Agent Skill for malicious hooks and MCP tool poisoning."
+    },
+    {
+      "id": "ai-agent-integration-neg-01",
+      "forbidden_skill": "ai-agent-integration",
+      "query": "Configure PgBouncer and prepared statements for a PostgreSQL backend."
+    },
+    {
+      "id": "ai-agent-integration-neg-02",
+      "forbidden_skill": "ai-agent-integration",
+      "query": "Reconstruct this mobile screen in Figma using design-system components."
+    },
+    {
+      "id": "workspace-addons-chat-engineering-neg-01",
+      "forbidden_skill": "workspace-addons-chat-engineering",
+      "query": "Design a relational staging schema with referential integrity."
+    },
+    {
+      "id": "workspace-addons-chat-engineering-neg-02",
+      "forbidden_skill": "workspace-addons-chat-engineering",
+      "query": "Create and validate an installable Agent Skill package from this SKILL.md."
+    },
+    {
+      "id": "product-design-engineering-neg-01",
+      "forbidden_skill": "product-design-engineering",
+      "query": "Implement idempotent PostgreSQL synchronization with JDBC prepared statements."
+    },
+    {
+      "id": "product-design-engineering-neg-02",
+      "forbidden_skill": "product-design-engineering",
+      "query": "Define Workspace DLP, Vault retention, and Data Region governance policy."
+    },
+    {
+      "id": "workspace-api-event-engineering-neg-01",
+      "forbidden_skill": "workspace-api-event-engineering",
+      "query": "Create a design-system audit for this Figma dashboard."
+    },
+    {
+      "id": "workspace-api-event-engineering-neg-02",
+      "forbidden_skill": "workspace-api-event-engineering",
+      "query": "Normalize this database schema and choose primary and foreign keys."
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-neg-01",
+      "forbidden_skill": "workspace-governance-compliance-engineering",
+      "query": "Optimize SpreadsheetApp I/O and caching for a slow Apps Script job."
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-neg-02",
+      "forbidden_skill": "workspace-governance-compliance-engineering",
+      "query": "Build an HtmlService SPA with google.script.run and client-side state."
+    },
+    {
+      "id": "agent-skill-supply-chain-security-neg-01",
+      "forbidden_skill": "agent-skill-supply-chain-security",
+      "query": "Audit this product interface for typography, spacing, accessibility, and component consistency."
+    },
+    {
+      "id": "agent-skill-supply-chain-security-neg-02",
+      "forbidden_skill": "agent-skill-supply-chain-security",
+      "query": "Plan an AppSheet migration preserving bots, slices, Ref columns, and security filters."
+    },
+    {
+      "id": "agent-skill-engineering-neg-01",
+      "forbidden_skill": "agent-skill-engineering",
+      "query": "Configure TLS, PgBouncer, and prepared statements for PostgreSQL connectivity."
+    },
+    {
+      "id": "agent-skill-engineering-neg-02",
+      "forbidden_skill": "agent-skill-engineering",
+      "query": "Build a Google Workspace Add-on card with CardService navigation and Chat actions."
+    }
+  ]
+}

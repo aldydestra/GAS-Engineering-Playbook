@@ -1,10 +1,10 @@
 ---
 name: workspace-governance-compliance-engineering
-description: "Experience-driven governance and compliance engineering for Google Workspace and Apps Script, covering data regions, regionalized/nonregionalized services, DLP policy automation, audit evidence, Vault/eDiscovery boundaries, client-side encryption, data classification, policy-as-code, control validation, compliance-safe architecture, and operational governance."
-skill_version: "1.2.0"
+description: "Engineer Google Workspace governance controls for Data Regions, DLP/policy-as-code, Reports/audit evidence, Vault/eDiscovery, Client-side Encryption/KACLS, target audiences, Chat membership privacy, MCP scope/client governance, data egress, exceptions, and compliance preflight. Use for organization-level policy and evidence."
+skill_version: "1.2.1"
 repository_introduced: "v1.18.0"
 status: "evolving"
-last_repository_update: "v1.22.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-workspace
   - governance

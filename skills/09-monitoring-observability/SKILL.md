@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
-description: "Experience-driven monitoring and observability for Google Apps Script, covering execution logs, Cloud Logging, Error Reporting, structured events, correlation IDs, phase timing, job telemetry, alerts, health signals, privacy, incident triage, and operational runbooks."
-skill_version: "1.5.0"
+description: "Design observability for Apps Script and Workspace workflows using structured logs, correlation IDs, metrics, retries, synthetic probes, reconciliation, incident classification, business-outcome checks, completeness-aware reads, and alert deduplication. Use when diagnosing or monitoring runtime behavior."
+skill_version: "1.5.1"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.22.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - monitoring

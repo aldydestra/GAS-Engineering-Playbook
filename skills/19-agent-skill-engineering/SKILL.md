@@ -1,13 +1,13 @@
 ---
 name: 19-agent-skill-engineering
-description: Author, package, validate, route, install, update, and maintain Agent Skills with progressive disclosure and cross-client compatibility. Use when creating or refactoring SKILL.md packages, defining trigger descriptions, structuring scripts/references/assets, resolving skill precedence, packaging installable skills, or preparing skills for Claude Code, Codex, Gemini CLI, and other Agent Skills-compatible hosts.
+description: "Author, package, validate, route, install, update, and maintain Agent Skills using current SKILL.md/frontmatter conventions, trigger descriptions, progressive disclosure, references/scripts/assets, discovery/precedence, package validation, source-to-distribution normalization, host compatibility, and lifecycle/version management."
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.2.0"
+  gas_playbook_skill_version: "1.3.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.25.0"
+  gas_playbook_last_repository_update: "v1.26.0"
 ---
 
 # Agent Skill Engineering
@@ -459,6 +459,29 @@ distribution: agent-skill-engineering
 ```
 
 The canonical repository remains the editable source of truth. Generated distribution files remain read-only build outputs.
+
+## v1.26 Evaluation & Trigger Parity
+
+A packaging migration is not complete when only structure validates. Evaluate:
+
+```text
+canonical source
+vs
+installable package
+```
+
+across four independent dimensions:
+
+```text
+routing metadata parity
+static trigger-routing corpus
+capability assertions
+live host/model behavior when available
+```
+
+Keep deterministic CI and live-model evidence separate. A static routing proxy is useful for drift detection, but it must never be presented as proof that a real host/model will activate the same skill.
+
+For live trigger evaluation, use realistic positive/negative prompts, repeated runs, and record the exact host/model/runtime. Preserve `NOT_RUN` rather than converting unavailable live evidence into a pass.
 
 ## References
 

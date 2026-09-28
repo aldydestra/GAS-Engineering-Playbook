@@ -2,6 +2,162 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.26.0] - 2026-09-28
+
+### Evaluation & Trigger Parity
+
+This release builds on v1.25.0 full packaging coverage and adds a deterministic source-vs-package evaluation gate.
+
+### Added — Routing Evaluation Corpus
+
+Created:
+
+- `evals/agent-skills/trigger-cases.json`
+- `evals/agent-skills/capability-assertions.json`
+
+Current corpus:
+
+```text
+152 positive routing cases
+38 explicit negative cases
+38 capability assertions
+19 skills
+```
+
+### Added — Evaluation Harness
+
+Created:
+
+- `tools/evaluate_agent_skill_parity.py`
+- `tools/test_agent_skill_evaluation.py`
+
+The deterministic gate checks:
+
+```text
+source/package description parity
+positive routing candidate recall
+explicit negative specificity
+source/package routing classification parity
+capability assertions
+activation-context reduction
+```
+
+The routing proxy uses deterministic BM25 over discovery `name + description`.
+
+It is explicitly **not** a live-model trigger evaluation.
+
+### Final Static Trigger Results
+
+```text
+description parity                 19/19
+positive cases                       152
+explicit negative cases               38
+source positive top-3 recall       96.71%
+package positive top-3 recall      96.71%
+positive classification parity      100%
+source negative specificity         100%
+package negative specificity        100%
+negative classification parity      100%
+capability assertions              38/38
+```
+
+Informational only:
+
+```text
+package top-1 lexical proxy accuracy = 82.89%
+```
+
+### Live Host Evaluation Status
+
+```text
+NOT_RUN
+```
+
+No deterministic repository CI host/model runner is configured.
+
+Unavailable live evidence is not converted into a PASS.
+
+Host/model trigger testing remains part of v1.27 compatibility work.
+
+### Trigger Metadata Refresh
+
+The initial corpus exposed ambiguous descriptions.
+
+All 19 canonical skill descriptions were rewritten as task-oriented routing metadata and regenerated into packages.
+
+Current package gate requires:
+
+```text
+source description == package description
+```
+
+for all 19 skills.
+
+### Updated — Testing & Quality
+
+Skill 08:
+
+```text
+1.4.0 → 1.5.0
+```
+
+Added canonical-to-package evaluation parity, deterministic/static vs live evidence separation, capability assertions, and explicit evaluation completeness states.
+
+### Updated — Agent Skill Engineering
+
+Skill 19:
+
+```text
+1.2.0 → 1.3.0
+```
+
+Added source-vs-package evaluation lifecycle and `NOT_RUN` handling for unavailable live-host evidence.
+
+### Routing-Metadata Patch Updates
+
+Because `description` is activation/routing metadata, description-only changes receive patch-level skill bumps:
+
+```text
+01 1.3.0 → 1.3.1
+02 1.3.0 → 1.3.1
+03 1.2.0 → 1.2.1
+04 1.2.0 → 1.2.1
+05 1.3.0 → 1.3.1
+06 1.3.0 → 1.3.1
+07 1.6.0 → 1.6.1
+09 1.5.0 → 1.5.1
+10 1.4.0 → 1.4.1
+11 1.6.0 → 1.6.1
+12 1.1.0 → 1.1.1
+13 1.6.0 → 1.6.1
+14 1.3.0 → 1.3.1
+15 1.2.0 → 1.2.1
+16 1.5.0 → 1.5.1
+17 1.2.0 → 1.2.1
+18 1.4.0 → 1.4.1
+```
+
+### Packaging Pipeline
+
+New current profile/distribution:
+
+- `packaging/agent-skills/full-v1.26.json`
+- `dist/agent-skills-v1.26.0/`
+
+The repository no longer carries older generated distribution directories in the current snapshot.
+
+### Roadmap
+
+`v1.26.0` is marked implemented.
+
+Next planned stage:
+
+```text
+v1.27.x — Host Compatibility Matrix
+```
+
+---
+
 ## [v1.25.0] - 2026-09-28
 
 ### Full Agent Skill Packaging Coverage

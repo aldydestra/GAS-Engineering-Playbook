@@ -169,7 +169,8 @@ last_repository_update: "v1.13.0"
 | v1.22.0 | Chat membership privacy + Developer Knowledge CLI GA + PostgreSQL/PgBouncer + design/supply-chain deepening |
 | v1.23.0 | Agent Skill Engineering + spec compatibility audit + first-party Google skill/fallback + precedence security |
 | v1.24.0 | Agent Skill Packaging Pipeline pilot + deterministic `.skill` artifacts + roadmap to v2 |
-| **v1.25.0** | **Full Agent Skill packaging coverage 19/19 + knowledge-retention verification + deterministic distribution** |
+| v1.25.0 | Full Agent Skill packaging coverage 19/19 + knowledge-retention verification + deterministic distribution |
+| **v1.26.0** | **Evaluation & Trigger Parity: routing corpus, capability assertions, 19-skill trigger metadata refresh, deterministic parity gate** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -652,24 +653,29 @@ If a future branch, private repository, skill file, or artifact cannot be retrie
 
 # Agent Skill Distribution Pipeline
 
-Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. In v1.25.0 this packaging model reaches **19/19 skill coverage**:
+Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**; v1.26.0 adds deterministic evaluation and trigger-parity gates:
 
 ```text
 skills/ (canonical source)
 ↓
-packaging/agent-skills/
+packaging/agent-skills/full-v1.26.json
 ↓
 tools/agent_skill_packager.py
 ↓
-dist/agent-skills-v1.25.0/
+dist/agent-skills-v1.26.0/
+↓
+tools/evaluate_agent_skill_parity.py
+↓
+reports/agent-skill-evaluation-v1.26.0.*
 ```
 
-Current pilot packages Skills 13, 16, 18, and 19. Generated files must not be edited manually.
+Generated distribution files must not be edited manually. v1.26 tests 152 positive routing prompts, 38 explicit negatives, 38 capability assertions, and exact source/package description parity. Live host/model activation remains explicitly `NOT_RUN` until a host runner is available.
 
 See:
 
 - `docs/agent-skill-packaging-pipeline-v1.24.0.md`
 - `docs/agent-skill-packaging-full-coverage-v1.25.0.md`
+- `docs/evaluation-trigger-parity-audit-v1.26.0.md`
 - `docs/roadmap-to-v2.0.md`
 
 # Repository Structure
@@ -708,9 +714,13 @@ gas-engineering-playbook/
 ├── packaging/
 │   └── agent-skills/
 ├── tools/
+├── evals/
+│   └── agent-skills/
 ├── dist/
-│   ├── agent-skills-v1.24.0/
-│   └── agent-skills-v1.25.0/
+│   └── agent-skills-v1.26.0/
+├── reports/
+│   ├── agent-skill-evaluation-v1.26.0.json
+│   └── agent-skill-evaluation-v1.26.0.md
 ├── examples/
 └── docs/
     ├── module-development-guide.md
@@ -731,6 +741,7 @@ gas-engineering-playbook/
     ├── agent-skill-spec-compatibility-audit-v1.23.0.md
     ├── agent-skill-packaging-pipeline-v1.24.0.md
     ├── agent-skill-packaging-full-coverage-v1.25.0.md
+    ├── evaluation-trigger-parity-audit-v1.26.0.md
     ├── roadmap-to-v2.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md

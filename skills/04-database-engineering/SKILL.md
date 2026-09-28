@@ -1,10 +1,10 @@
 ---
 name: database-engineering
-description: "Experience-driven database engineering for Google Apps Script ecosystems, covering source of truth, identity, relational modeling, constraints, transactions, data types, staging, imports, schema drift, synchronization, reconciliation, lifecycle, and Sheet/database boundaries."
-skill_version: "1.2.0"
+description: "Design relational data models and database workflows for GAS ecosystems: primary/foreign keys, constraints, normalization, transactions, staging imports, schema drift, synchronization, identity, data types, and source-of-truth rules. Use for database/schema design independent of one specific database engine. Design many-to-many relationships and replace denormalized comma-separated identifiers with relational junction tables."
+skill_version: "1.2.1"
 repository_introduced: "v1.5.0"
 status: "evolving"
-last_repository_update: "v1.17.0"
+last_repository_update: "v1.26.0"
 tags:
   - database-engineering
   - relational-data

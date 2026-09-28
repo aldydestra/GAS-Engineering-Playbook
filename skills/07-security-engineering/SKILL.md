@@ -1,10 +1,10 @@
 ---
 name: security-engineering
-description: "Experience-driven security engineering for Google Apps Script covering execution identity, OAuth scopes, authorization, secrets, web apps, triggers, input validation, external integrations, PostgreSQL access, auditability, and secure operational boundaries."
-skill_version: "1.6.0"
+description: "Secure Apps Script, Workspace, and adjacent agent integrations: authentication, authorization, least privilege, OAuth scopes, secrets, XSS/input validation, prompt injection, server-side permission checks, filtered/partial read semantics, and safe logging. Use for application/runtime trust boundaries rather than skill-package scanning. Use for threat modeling public/web endpoints and access-control failures as well as OAuth and prompt-injection risks."
+skill_version: "1.6.1"
 repository_introduced: "v1.8.0"
 status: "evolving"
-last_repository_update: "v1.22.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - security

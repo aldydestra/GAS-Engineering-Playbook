@@ -1,10 +1,10 @@
 ---
 name: software-architecture
-description: "Experience-driven architecture for Google Apps Script applications using pragmatic boundaries, stable global entry points, services, repositories, adapters, DTOs, dependency seams, deterministic workflows, and platform-aware modularity."
-skill_version: "1.2.0"
+description: "Design maintainable Google Apps Script application architecture using services, repositories, adapters, DTOs, ports, dependency seams, stable global entry points, and clear module ownership. Use when refactoring coupling or deciding application boundaries rather than tuning one API call."
+skill_version: "1.2.1"
 repository_introduced: "v1.4.0"
 status: "evolving"
-last_repository_update: "v1.18.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - software-architecture

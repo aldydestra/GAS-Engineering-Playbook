@@ -1,0 +1,310 @@
+{
+  "schema_version": 1,
+  "description": "Static semantic landmarks that must be reachable in both canonical source and generated package.",
+  "assertions": [
+    {
+      "id": "gas-core-engineering-cap-01",
+      "skill": "gas-core-engineering",
+      "all_of": [
+        "LockService",
+        "concurr"
+      ]
+    },
+    {
+      "id": "gas-core-engineering-cap-02",
+      "skill": "gas-core-engineering",
+      "all_of": [
+        "PropertiesService",
+        "trigger"
+      ]
+    },
+    {
+      "id": "appsheet-migration-cap-01",
+      "skill": "appsheet-migration",
+      "all_of": [
+        "AppSheet",
+        "migration"
+      ]
+    },
+    {
+      "id": "appsheet-migration-cap-02",
+      "skill": "appsheet-migration",
+      "all_of": [
+        "bot",
+        "security filter"
+      ]
+    },
+    {
+      "id": "software-architecture-cap-01",
+      "skill": "software-architecture",
+      "all_of": [
+        "repository",
+        "adapter"
+      ]
+    },
+    {
+      "id": "software-architecture-cap-02",
+      "skill": "software-architecture",
+      "all_of": [
+        "DTO",
+        "dependency"
+      ]
+    },
+    {
+      "id": "database-engineering-cap-01",
+      "skill": "database-engineering",
+      "all_of": [
+        "foreign key",
+        "constraint"
+      ]
+    },
+    {
+      "id": "database-engineering-cap-02",
+      "skill": "database-engineering",
+      "all_of": [
+        "staging",
+        "schema drift"
+      ]
+    },
+    {
+      "id": "postgresql-integration-cap-01",
+      "skill": "postgresql-integration",
+      "all_of": [
+        "prepared statement",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "id": "postgresql-integration-cap-02",
+      "skill": "postgresql-integration",
+      "all_of": [
+        "PgBouncer",
+        "SCRAM"
+      ]
+    },
+    {
+      "id": "performance-engineering-cap-01",
+      "skill": "performance-engineering",
+      "all_of": [
+        "batch",
+        "quota"
+      ]
+    },
+    {
+      "id": "performance-engineering-cap-02",
+      "skill": "performance-engineering",
+      "all_of": [
+        "checkpoint",
+        "cache"
+      ]
+    },
+    {
+      "id": "security-engineering-cap-01",
+      "skill": "security-engineering",
+      "all_of": [
+        "least privilege",
+        "authorization"
+      ]
+    },
+    {
+      "id": "security-engineering-cap-02",
+      "skill": "security-engineering",
+      "all_of": [
+        "prompt injection",
+        "secret"
+      ]
+    },
+    {
+      "id": "testing-quality-cap-01",
+      "skill": "testing-quality",
+      "all_of": [
+        "should trigger",
+        "held-out"
+      ]
+    },
+    {
+      "id": "testing-quality-cap-02",
+      "skill": "testing-quality",
+      "all_of": [
+        "integration test",
+        "regression"
+      ]
+    },
+    {
+      "id": "monitoring-observability-cap-01",
+      "skill": "monitoring-observability",
+      "all_of": [
+        "correlation",
+        "structured"
+      ]
+    },
+    {
+      "id": "monitoring-observability-cap-02",
+      "skill": "monitoring-observability",
+      "all_of": [
+        "synthetic",
+        "reconciliation"
+      ]
+    },
+    {
+      "id": "deployment-engineering-cap-01",
+      "skill": "deployment-engineering",
+      "all_of": [
+        "clasp",
+        "deployment"
+      ]
+    },
+    {
+      "id": "deployment-engineering-cap-02",
+      "skill": "deployment-engineering",
+      "all_of": [
+        "rollback",
+        "Marketplace"
+      ]
+    },
+    {
+      "id": "documentation-engineering-cap-01",
+      "skill": "documentation-engineering",
+      "all_of": [
+        "canonical",
+        "llms.txt"
+      ]
+    },
+    {
+      "id": "documentation-engineering-cap-02",
+      "skill": "documentation-engineering",
+      "all_of": [
+        "runbook",
+        "ADR"
+      ]
+    },
+    {
+      "id": "web-app-frontend-engineering-cap-01",
+      "skill": "web-app-frontend-engineering",
+      "all_of": [
+        "google.script.run",
+        "Promise"
+      ]
+    },
+    {
+      "id": "web-app-frontend-engineering-cap-02",
+      "skill": "web-app-frontend-engineering",
+      "all_of": [
+        "HtmlService",
+        "loading"
+      ]
+    },
+    {
+      "id": "ai-agent-integration-cap-01",
+      "skill": "ai-agent-integration",
+      "all_of": [
+        "MCP",
+        "tool"
+      ]
+    },
+    {
+      "id": "ai-agent-integration-cap-02",
+      "skill": "ai-agent-integration",
+      "all_of": [
+        "prompt injection",
+        "human approval"
+      ]
+    },
+    {
+      "id": "workspace-addons-chat-engineering-cap-01",
+      "skill": "workspace-addons-chat-engineering",
+      "all_of": [
+        "CardService",
+        "navigation"
+      ]
+    },
+    {
+      "id": "workspace-addons-chat-engineering-cap-02",
+      "skill": "workspace-addons-chat-engineering",
+      "all_of": [
+        "workflowTriggers",
+        "triggerCreation"
+      ]
+    },
+    {
+      "id": "product-design-engineering-cap-01",
+      "skill": "product-design-engineering",
+      "all_of": [
+        "design token",
+        "accessibility"
+      ]
+    },
+    {
+      "id": "product-design-engineering-cap-02",
+      "skill": "product-design-engineering",
+      "all_of": [
+        "pixel fidelity",
+        "component"
+      ]
+    },
+    {
+      "id": "workspace-api-event-engineering-cap-01",
+      "skill": "workspace-api-event-engineering",
+      "all_of": [
+        "Workspace Events",
+        "Pub/Sub"
+      ]
+    },
+    {
+      "id": "workspace-api-event-engineering-cap-02",
+      "skill": "workspace-api-event-engineering",
+      "all_of": [
+        "triggers.fire",
+        "updateMask"
+      ]
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-cap-01",
+      "skill": "workspace-governance-compliance-engineering",
+      "all_of": [
+        "Data Regions",
+        "DLP"
+      ]
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-cap-02",
+      "skill": "workspace-governance-compliance-engineering",
+      "all_of": [
+        "Vault",
+        "Client-side Encryption"
+      ]
+    },
+    {
+      "id": "agent-skill-supply-chain-security-cap-01",
+      "skill": "agent-skill-supply-chain-security",
+      "all_of": [
+        "prompt injection",
+        "SARIF"
+      ]
+    },
+    {
+      "id": "agent-skill-supply-chain-security-cap-02",
+      "skill": "agent-skill-supply-chain-security",
+      "all_of": [
+        "shadow",
+        "plugin.json"
+      ]
+    },
+    {
+      "id": "agent-skill-engineering-cap-01",
+      "skill": "agent-skill-engineering",
+      "all_of": [
+        "progressive disclosure",
+        "description"
+      ]
+    },
+    {
+      "id": "agent-skill-engineering-cap-02",
+      "skill": "agent-skill-engineering",
+      "all_of": [
+        "package",
+        "precedence"
+      ]
+    }
+  ]
+}

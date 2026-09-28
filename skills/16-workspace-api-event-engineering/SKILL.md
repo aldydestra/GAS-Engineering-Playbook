@@ -1,10 +1,10 @@
 ---
 name: workspace-api-event-engineering
-description: "Experience-driven integration engineering for Google Workspace APIs, event systems, and MCP surfaces from Apps Script and adjacent runtimes, covering built-in vs advanced services vs REST, OAuth, pagination, quota/tiering, Workspace Events, Workspace Studio API, product MCP servers, Universal Search MCP, Pub/Sub, retries, idempotency, and reconciliation."
-skill_version: "1.5.0"
+description: "Integrate Google Workspace APIs, Advanced Services, REST, Workspace Events/Pub/Sub, Workspace Studio triggers.fire, Chat membership/updateMask operations, product MCP/Universal Search, Developer Knowledge MCP/REST/gcloud, OAuth, pagination, quotas, retries, idempotency, and reconciliation. Use for API/event/tool transport engineering."
+skill_version: "1.5.1"
 repository_introduced: "v1.17.0"
 status: "evolving"
-last_repository_update: "v1.23.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-workspace
   - google-apis

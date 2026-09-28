@@ -102,3 +102,31 @@ Portable standard rules and host-specific behaviors should be documented separat
 Current numbered repository source folders are authoring layout.
 
 Direct Agent Skills publishing should use a normalized installable package rather than silently changing v1.x source paths.
+
+# Trigger Parity Gate — v1.26.0
+
+For packaging migrations:
+
+```text
+source description == package description
+```
+
+unless a routing change is deliberate.
+
+Shared routing corpus:
+
+```text
+realistic positive prompts
++
+explicit should-not-trigger prompts
+```
+
+Then separate:
+
+```text
+static candidate routing
+from
+live host/model activation
+```
+
+Do not convert unavailable live evidence into a PASS.

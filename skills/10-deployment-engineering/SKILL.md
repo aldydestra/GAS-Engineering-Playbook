@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
-description: "Experience-driven deployment engineering for Google Apps Script, covering environments, immutable versions, versioned deployments, manifests, ownership, release gates, rollback, hotfixes, clasp/API automation, GitHub releases, and post-deploy verification."
-skill_version: "1.4.0"
+description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
+skill_version: "1.4.1"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.21.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - deployment

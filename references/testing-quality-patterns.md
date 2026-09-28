@@ -164,3 +164,28 @@ qualitative review
 ```
 
 Description optimization should use realistic positive/negative trigger cases and a held-out test set.
+
+# Canonical-to-Package Evaluation Parity — v1.26.0
+
+```text
+canonical source
+vs
+generated package
+```
+
+Evaluate separately:
+
+```text
+description parity
+static routing proxy
+capability assertions
+live host/model behavior
+```
+
+A deterministic routing proxy is a CI drift gate, not proof of real LLM activation.
+
+Use explicit states:
+
+```text
+PASS / FAIL / NOT_RUN / INCOMPLETE
+```

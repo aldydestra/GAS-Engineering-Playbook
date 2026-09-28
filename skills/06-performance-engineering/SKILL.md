@@ -1,10 +1,10 @@
 ---
 name: performance-engineering
-description: "Experience-driven performance engineering for Google Apps Script, focusing on measurement, service-call reduction, batching, in-memory algorithms, caching, concurrency, long-running job continuation, external I/O, and regression prevention."
-skill_version: "1.3.0"
+description: "Optimize Google Apps Script and Workspace automation performance: batch Spreadsheet/Drive calls, remove N+1 patterns, profile latency, use caching, chunking, checkpoints, quota/tool-call budgets, bounded pagination, and egress controls. Use when the primary goal is speed, scale, quota, memory, or runtime efficiency."
+skill_version: "1.3.1"
 repository_introduced: "v1.7.0"
 status: "evolving"
-last_repository_update: "v1.21.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - performance

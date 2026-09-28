@@ -1,10 +1,10 @@
 ---
 name: web-app-frontend-engineering
-description: "Experience-driven web application and frontend engineering for Google Apps Script HtmlService, including suitability triage, routing, templates, google.script.run RPC, UI state, framework bundling, sandbox restrictions, external frontends, file forms, security boundaries, testing, and deployment."
-skill_version: "1.1.0"
+description: "Build Google Apps Script HtmlService/browser frontends with google.script.run, Promise wrappers, loading/error states, client routing/state, forms/file upload, pagination, framework bundling, responsive UI, and secure client/server boundaries. Use for GAS web UI implementation rather than general product design."
+skill_version: "1.1.1"
 repository_introduced: "v1.14.0"
 status: "evolving"
-last_repository_update: "v1.16.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - htmlservice

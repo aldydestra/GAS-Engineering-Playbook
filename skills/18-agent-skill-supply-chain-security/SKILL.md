@@ -1,10 +1,10 @@
 ---
 name: agent-skill-supply-chain-security
-description: "Security engineering for AI agent skills, plugins, MCP-integrated skill packages, and skill catalogs: pre-install scanning, prompt-injection and exfiltration detection, executable/script review, declared-permission parity, MCP tool poisoning, dependency provenance, transitive references, fail-closed incomplete analysis, baselines, SARIF/CI gates, sandbox evaluation, signing, integrity verification, catalog admission, and safe update lifecycle."
-skill_version: "1.4.0"
+description: "Secure AI Agent Skills, plugins, MCP-integrated packages, and catalogs through pre-install scanning, prompt-injection/exfiltration detection, scripts/hooks/manifests, dependency provenance, MCP metadata/tool poisoning, permission parity, shadowing/precedence, SARIF/CI gates, fail-closed completeness, signing, admission, update, and revocation."
+skill_version: "1.4.1"
 repository_introduced: "v1.19.0"
 status: "evolving"
-last_repository_update: "v1.23.0"
+last_repository_update: "v1.26.0"
 tags:
   - agent-skills
   - supply-chain-security

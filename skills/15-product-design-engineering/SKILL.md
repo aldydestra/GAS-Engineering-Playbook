@@ -1,10 +1,10 @@
 ---
 name: product-design-engineering
-description: "Experience-driven product, visual, and design-system engineering for digital interfaces: design intent, UX research/audit, visual hierarchy, typography, color, spacing, accessibility, design tokens, component systems, design-to-code parity, design QA, and tool-agnostic workflows across Figma, Canva, code, screenshots, and prototypes."
-skill_version: "1.2.0"
+description: "Engineer product UX, visual systems, and design systems: user flows, information hierarchy, typography, color, spacing, accessibility, semantic design tokens, reusable components/variants, Figma/Canva workflows, rendered-reference reconstruction, and source-vs-rendered visual QA. Use for design intent and design-system quality."
+skill_version: "1.2.1"
 repository_introduced: "v1.16.0"
 status: "evolving"
-last_repository_update: "v1.22.0"
+last_repository_update: "v1.26.0"
 tags:
   - product-design
   - ui

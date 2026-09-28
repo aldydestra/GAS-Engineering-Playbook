@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
-description: "Experience-driven engineering for Google Workspace Add-ons, Chat apps, and Workspace Studio extensions, covering CardService UI, host manifests, contextual cards, navigation/actions, Studio workflow steps and starters, lifecycle callbacks, Workspace Studio API integration boundaries, OAuth, testing, and distribution."
-skill_version: "1.3.0"
+description: "Build Google Workspace Add-ons, Google Chat apps, and Workspace Studio extensions using CardService, host manifests, contextual/homepage cards, navigation/actions, Chat responses, workflow steps/starters, workflowTriggers, lifecycle callbacks, OAuth, and membership-visibility UI states. Use for Workspace-native add-on/chat/studio UX."
+skill_version: "1.3.1"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.22.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - google-workspace

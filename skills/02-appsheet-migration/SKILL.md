@@ -1,10 +1,10 @@
 ---
 name: appsheet-migration
-description: "Experience-driven skill for analyzing and migrating AppSheet applications into Google Apps Script, hybrid architectures, APIs, or relational backends while preserving data, automation, security, and workflow semantics."
-skill_version: "1.3.0"
+description: "Migrate AppSheet applications into Google Apps Script, hybrid architectures, APIs, or relational backends while preserving Ref relationships, expressions, actions, slices, bots/automation, security filters, durable app state, and cutover semantics. Use for AppSheet inventory, parity, migration, and replacement planning."
+skill_version: "1.3.1"
 repository_introduced: "v1.3.0"
 status: "evolving"
-last_repository_update: "v1.20.0"
+last_repository_update: "v1.26.0"
 tags:
   - appsheet
   - google-apps-script

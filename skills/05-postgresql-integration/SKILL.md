@@ -1,10 +1,10 @@
 ---
 name: postgresql-integration
-description: "Integrate Google Apps Script with PostgreSQL using direct JDBC or controlled API boundaries with secure connectivity, prepared statements, transactions, batching, idempotent synchronization, and Sheet read models."
-skill_version: "1.3.0"
+description: "Integrate Google Apps Script or adjacent services with PostgreSQL using JDBC or API boundaries, prepared statements, transactions, batching, TLS/credentials, idempotent sync, Sheet read models, and PgBouncer/proxy semantics. Use for PostgreSQL-specific connectivity, pooling, and operational compatibility."
+skill_version: "1.3.1"
 repository_introduced: "v1.6.0"
 status: "evolving"
-last_repository_update: "v1.22.0"
+last_repository_update: "v1.26.0"
 tags:
   - postgresql
   - google-apps-script

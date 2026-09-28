@@ -88,7 +88,7 @@ def verify_standard(root: Path, dist: Path, rec: dict, errors: list[str]) -> Non
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--dist", default="dist/agent-skills-v1.25.0")
+    ap.add_argument("--dist", default="dist/agent-skills-v1.26.0")
     args = ap.parse_args()
     root = Path(args.root).resolve()
     dist = (root / args.dist).resolve() if not Path(args.dist).is_absolute() else Path(args.dist).resolve()

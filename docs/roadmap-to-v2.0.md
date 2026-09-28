@@ -74,6 +74,8 @@ This proves distribution completeness, not behavioral parity.
 
 ## v1.26.0 — Evaluation & Trigger Parity
 
+Status: **implemented**
+
 Goal:
 
 Prove progressive packaging does not make skills worse.
@@ -98,12 +100,26 @@ Measure where practical:
 
 Use old/source behavior as the baseline for migrated skills.
 
+Implemented result:
+
+```text
+19/19 discovery-description parity
+152 positive routing cases
+38 explicit negative routing cases
+96.71% positive top-3 static recall
+100% explicit-negative static specificity
+100% source/package classification parity
+38/38 capability assertions
+```
+
+Live host/model trigger behavior remains explicitly `NOT_RUN` in deterministic CI and moves into the host-specific v1.27 stage.
+
 Required gate:
 
 ```text
-no material regression
-or
-regression explicitly accepted/documented
+no material deterministic regression
+AND
+no unavailable live evidence misreported as PASS
 ```
 
 ---

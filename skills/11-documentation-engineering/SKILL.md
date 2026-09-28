@@ -1,10 +1,10 @@
 ---
 name: documentation-engineering
-description: "Experience-driven documentation engineering for Google Apps Script projects, covering README, JSDoc, changelog, release notes, handoff, ADRs, runbooks, ownership, troubleshooting, contribution evidence, documentation lifecycle, and durable knowledge transfer."
-skill_version: "1.6.0"
+description: "Engineer canonical technical documentation, ADRs, runbooks, handoff guides, release notes, source/evidence status, generated AI-readable docs such as llms.txt/MCP indexes, and reproducible benchmark documentation. Use when the deliverable is durable engineering knowledge or operational documentation. Use for ADR architecture decision records, runbooks, handoff, and reproducible engineering evidence."
+skill_version: "1.6.1"
 repository_introduced: "v1.12.0"
 status: "evolving"
-last_repository_update: "v1.21.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - documentation

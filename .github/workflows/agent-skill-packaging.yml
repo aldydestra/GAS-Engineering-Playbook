@@ -8,7 +8,10 @@ on:
       - 'tools/agent_skill_packager.py'
       - 'tools/verify_agent_skill_dist.py'
       - 'tools/test_agent_skill_packaging.py'
-      - 'dist/agent-skills-v1.25.0/**'
+      - 'tools/evaluate_agent_skill_parity.py'
+      - 'tools/test_agent_skill_evaluation.py'
+      - 'evals/agent-skills/**'
+      - 'dist/agent-skills-v1.26.0/**'
   push:
     branches: [main]
     paths:
@@ -17,7 +20,10 @@ on:
       - 'tools/agent_skill_packager.py'
       - 'tools/verify_agent_skill_dist.py'
       - 'tools/test_agent_skill_packaging.py'
-      - 'dist/agent-skills-v1.25.0/**'
+      - 'tools/evaluate_agent_skill_parity.py'
+      - 'tools/test_agent_skill_evaluation.py'
+      - 'evals/agent-skills/**'
+      - 'dist/agent-skills-v1.26.0/**'
 
 jobs:
   build-and-verify:
@@ -33,5 +39,9 @@ jobs:
         run: python tools/agent_skill_packager.py
       - name: Verify package archives, coverage, and hashes
         run: python tools/verify_agent_skill_dist.py
-      - name: Ensure generated distribution is committed and reproducible
-        run: git diff --exit-code -- dist/agent-skills-v1.25.0
+      - name: Run evaluation and trigger parity gate
+        run: python tools/evaluate_agent_skill_parity.py
+      - name: Run evaluation tests
+        run: python -m unittest tools/test_agent_skill_evaluation.py -v
+      - name: Ensure generated distribution and reports are committed and reproducible
+        run: git diff --exit-code -- dist/agent-skills-v1.26.0 reports/agent-skill-evaluation-v1.26.0.json reports/agent-skill-evaluation-v1.26.0.md

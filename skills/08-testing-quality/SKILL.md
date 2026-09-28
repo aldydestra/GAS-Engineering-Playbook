@@ -1,10 +1,10 @@
 ---
 name: testing-quality
-description: "Experience-driven testing and quality engineering for Google Apps Script, covering unit tests, contracts, fakes/emulators, integration tests, live GAS parity, regression, test isolation, release gates, and quality evidence."
-skill_version: "1.4.0"
+description: "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality."
+skill_version: "1.5.0"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.21.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - testing
@@ -1746,6 +1746,95 @@ Maintain regression tests for:
 - malformed evaluator input.
 
 Cross-reference Skill 18.
+
+## Canonical-to-Package Evaluation Parity — v1.26.0
+
+### Evaluate Migration, Not Only the Final Package
+
+For a progressively packaged legacy skill, compare:
+
+```text
+canonical source skill
+vs
+normalized installable package
+```
+
+The package should not be assumed equivalent merely because validation and knowledge-retention checks pass.
+
+### Trigger Parity Has Two Layers
+
+Use a deterministic metadata/routing gate for every build:
+
+```text
+source name + description
+vs
+package name + description
+↓
+routing corpus
+↓
+rank / expected route / parity
+```
+
+Then use a live host/model runner when claiming runtime trigger behavior.
+
+Do not label a lexical/static proxy as a live-model evaluation.
+
+### One Prompt Is Negative Evidence for Other Skills
+
+A multi-skill routing corpus can encode:
+
+```text
+query
+→ expected skill
+```
+
+For the expected skill the query is positive. For every other skill the same query is a should-not-trigger case.
+
+### Source/Package Description Equality Is a Strong Migration Gate
+
+If packaging is not intentionally changing routing metadata, require:
+
+```text
+source description == packaged description
+```
+
+Any difference must be explicit and evaluated as a routing change.
+
+### Static Routing Proxy
+
+A deterministic text-ranking proxy can provide a cheap CI signal for description drift, obvious routing collisions, missing domain terms, and source/package ranking divergence.
+
+It cannot prove real LLM activation behavior.
+
+### Capability Assertions
+
+For each skill, maintain durable assertions proving important capability evidence remains reachable in the package. This complements full source-fragment retention by checking semantic landmarks.
+
+### Evaluation Completeness States
+
+Use explicit states:
+
+```text
+PASS
+FAIL
+NOT_RUN
+INCOMPLETE
+```
+
+For offline CI:
+
+```text
+metadata parity        PASS/FAIL
+static trigger proxy   PASS/FAIL
+capability assertions  PASS/FAIL
+live host trigger eval NOT_RUN unless actually executed
+```
+
+### Runtime Evaluation Belongs to the Claimed Host
+
+When a host is available, capture host/version, model/runtime, query, repeated runs, trigger rate, latency, and tokens where available.
+
+Cross-reference Skill 19 and the v1.26 evaluation report.
 
 # References
 

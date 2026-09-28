@@ -1,10 +1,10 @@
 ---
 name: ai-agent-integration
-description: "Experience-driven AI and agent integration for Google Apps Script, covering LLM provider boundaries, structured output, function/tool calling, tool authorization, agent loops, MCP, A2A, context/time budgets, human approval, idempotency, observability, testing, and safe Workspace automation."
-skill_version: "1.6.0"
+description: "Integrate LLMs and AI agents with Apps Script/Workspace using structured outputs, tool/function calling, MCP, A2A, bounded agent loops, human approval, prompt-injection defenses, durable state, retrieval, multi-agent orchestration, budgets, observability, and provider/tool gateways. Use for agent runtime behavior."
+skill_version: "1.6.1"
 repository_introduced: "v1.14.0"
 status: "evolving"
-last_repository_update: "v1.23.0"
+last_repository_update: "v1.26.0"
 tags:
   - google-apps-script
   - ai
