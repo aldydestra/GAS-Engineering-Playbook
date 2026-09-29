@@ -1,13 +1,13 @@
 ---
 name: 19-agent-skill-engineering
-description: "Author, package, validate, route, install, update, and maintain Agent Skills using current SKILL.md/frontmatter conventions, trigger descriptions, progressive disclosure, references/scripts/assets, discovery/precedence, package validation, source-to-distribution normalization, host compatibility, and lifecycle/version management."
+description: "Author, package, validate, route, install, update, and maintain Agent Skills across portable SKILL.md packages and host adapters for Gemini CLI, Claude Code, OpenAI ChatGPT/Codex Plugins, and other compatible clients. Use for trigger descriptions, progressive disclosure, packaging, discovery/precedence, host compatibility matrices, and lifecycle/version management."
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.3.0"
+  gas_playbook_skill_version: "1.4.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.26.0"
+  gas_playbook_last_repository_update: "v1.27.0"
 ---
 
 # Agent Skill Engineering
@@ -392,96 +392,31 @@ See [playbook compatibility notes](references/spec-compatibility.md).
 
 A repository-wide path/name migration should follow the playbook’s breaking-change policy.
 
-## v1.24 Packaging Pipeline
 
-The repository now ships a deterministic packaging pipeline for a pilot set of Skills 13, 16, 18, and 19.
+## Repository Packaging Evolution — v1.24 to v1.26
 
-Pipeline contract:
+The playbook now provides deterministic packaging, full 19/19 skill coverage, progressive disclosure, reproducible `.skill` archives, and source/package evaluation parity gates.
 
-```text
-canonical playbook source
-→ normalize package name/frontmatter
-→ split deep content into focused references
-→ validate generated package
-→ deterministic .skill archive
-→ manifest + SHA256SUMS
-→ CI rebuild/drift check
-```
+Generated distribution artifacts remain build outputs; canonical source remains under `skills/`.
 
-Generated distribution files live under:
+See [repository packaging evolution](references/repository-packaging-evolution.md) and `docs/roadmap-to-v2.0.md`.
+
+## v1.27 Host Compatibility Matrix
+
+Host compatibility is now evaluated in four separate evidence layers:
 
 ```text
-dist/agent-skills-v1.24.0/
+portable format validation
+host adapter validation
+host lifecycle documentation
+live host smoke test
 ```
 
-Rules:
-- never edit generated package files manually;
-- update canonical source or packaging config instead;
-- generated `SKILL.md` must remain below the packaging target;
-- the `.skill` archive contains the skill contents at archive root;
-- hidden VCS/cache artifacts are excluded;
-- archive ordering/timestamps are deterministic for reproducible hashes.
+Never convert unavailable live evidence into `PASS`.
 
-Current pilot packages:
-- `ai-agent-integration`;
-- `workspace-api-event-engineering`;
-- `agent-skill-supply-chain-security`;
-- `19-agent-skill-engineering`.
+Current verified adapters cover Gemini CLI, Claude Code, and OpenAI ChatGPT/Codex Plugins while keeping one canonical normalized skill set.
 
-The pilot validates the source/distribution separation without breaking historical v1.x source paths.
-
-See `docs/agent-skill-packaging-pipeline-v1.24.0.md` and `docs/roadmap-to-v2.0.md`.
-
-## v1.25 Full-Coverage Packaging
-
-The packaging pipeline now covers every canonical skill:
-
-```text
-19 canonical skills
-→ 19 normalized packages
-→ 19 deterministic .skill archives
-```
-
-Full-coverage rules:
-
-- auto-detect legacy numbered-H1 vs topic/H2 source structure;
-- preserve every source fragment in generated references;
-- keep final activation `SKILL.md` below 500 lines;
-- normalize distribution identity independently from canonical source paths;
-- verify source-tree hashes, package hashes, relative links, and archive integrity;
-- rebuild twice with identical output hashes before release.
-
-Skill 19 itself demonstrates source/distribution separation:
-
-```text
-canonical: skills/19-agent-skill-engineering
-distribution: agent-skill-engineering
-```
-
-The canonical repository remains the editable source of truth. Generated distribution files remain read-only build outputs.
-
-## v1.26 Evaluation & Trigger Parity
-
-A packaging migration is not complete when only structure validates. Evaluate:
-
-```text
-canonical source
-vs
-installable package
-```
-
-across four independent dimensions:
-
-```text
-routing metadata parity
-static trigger-routing corpus
-capability assertions
-live host/model behavior when available
-```
-
-Keep deterministic CI and live-model evidence separate. A static routing proxy is useful for drift detection, but it must never be presented as proof that a real host/model will activate the same skill.
-
-For live trigger evaluation, use realistic positive/negative prompts, repeated runs, and record the exact host/model/runtime. Preserve `NOT_RUN` rather than converting unavailable live evidence into a pass.
+See [host compatibility patterns](references/host-compatibility.md) and `docs/host-compatibility-matrix-v1.27.0.md`.
 
 ## References
 

@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import agent_skill_packager as packager
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / 'packaging/agent-skills/full-v1.26.json'
+CONFIG = ROOT / 'packaging/agent-skills/full-v1.27.json'
 
 
 def digest(path: Path) -> str:
@@ -68,8 +68,8 @@ class AgentSkillPackagingTests(unittest.TestCase):
                 if not path.is_file():
                     continue
                 rel=path.relative_to(out).as_posix()
-                longest=max(longest, len('dist/agent-skills-v1.26.0/') + len(rel))
-                self.assertLessEqual(len('dist/agent-skills-v1.26.0/') + len(rel), 120, rel)
+                longest=max(longest, len('dist/agent-skills-v1.27.0/') + len(rel))
+                self.assertLessEqual(len('dist/agent-skills-v1.27.0/') + len(rel), 120, rel)
                 for part in Path(rel).parts:
                     self.assertLessEqual(len(part), 80, part)
             self.assertLessEqual(longest, 120)

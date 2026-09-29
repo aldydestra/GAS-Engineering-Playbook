@@ -231,3 +231,17 @@ policies
 ```
 
 Configuration that executes commands or changes tool authority is code-equivalent security surface.
+
+# Host Security Portability Floor — v1.27.0
+
+A portable skill must remain safe even when the host differs in:
+
+```text
+activation consent
+workspace trust
+precedence/collision
+plugin lifecycle
+```
+
+Security review covers the final host artifact, including any wrapper manifest, hooks, policies, MCP configuration, and scripts.
+

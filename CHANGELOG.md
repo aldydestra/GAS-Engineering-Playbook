@@ -2,6 +2,167 @@
 
 All notable repository and skill changes are documented here.
 
+
+## [v1.27.0] - 2026-09-29
+
+### Host Compatibility Matrix
+
+This release turns the v1.26 `NOT_RUN` host boundary into explicit, reproducible host adapters and a compatibility evidence matrix.
+
+### Added — Host Compatibility Profiles
+
+Created:
+
+- `packaging/host-compat/hosts-v1.27.json`
+- `tools/build_host_compat.py`
+- `tools/verify_host_compat.py`
+- `tools/test_host_compat.py`
+- `docs/host-compatibility-matrix-v1.27.0.md`
+- `docs/host-compatibility-audit-v1.27.0.md`
+
+Current matrix covers:
+
+```text
+Gemini CLI
+Claude Code
+OpenAI ChatGPT / Codex Plugins
+```
+
+### Added — Gemini CLI Direct Adapter
+
+The existing normalized `.skill` artifacts are used directly.
+
+Current first-party Gemini CLI documentation supports:
+
+- `.skill` installation;
+- user/workspace discovery;
+- `.agents/skills` aliases;
+- built-in < extension < user < workspace precedence;
+- activation consent;
+- list/link/install/enable/disable/reload/uninstall management.
+
+Static package result:
+
+```text
+19/19 PASS
+```
+
+### Added — Claude Code Skills-Only Plugin Adapter
+
+v1.27 generates a deterministic wrapper:
+
+```text
+.claude-plugin/plugin.json
+skills/<19 normalized skills>/...
+```
+
+Current Anthropic plugin documentation confirms plugin-root skill auto-discovery and bundled resources/scripts.
+
+Static result:
+
+```text
+19/19 PASS
+```
+
+Lifecycle/collision cells remain `PARTIAL` because no live Claude Code runtime is configured and current public issue history reports scope/update/uninstall edge cases.
+
+### Added — OpenAI Portable Skills-Only Plugin Adapter
+
+v1.27 generates:
+
+```text
+plugin.json
+skills/<19 normalized skills>/...
+```
+
+using the current Agent Plugins schema.
+
+Static result:
+
+```text
+19/19 PASS
+```
+
+Precedence/collision remains `NOT_VERIFIED`; live product execution remains `NOT_RUN`.
+
+### Evidence States
+
+Compatibility is now reported using:
+
+```text
+PASS_STATIC
+DOCUMENTED
+PARTIAL
+NOT_VERIFIED
+NOT_RUN
+N/A
+```
+
+A static artifact PASS is never presented as live activation/install success.
+
+### Updated — Agent Skill Supply-Chain Security
+
+Skill 18:
+
+```text
+1.4.1 → 1.5.0
+```
+
+Added:
+
+- portability-floor security model;
+- host-specific trust/consent boundary;
+- Claude/OpenAI plugin wrapper security surfaces;
+- adapter-as-effective-artifact rule;
+- explicit unknown/live evidence handling.
+
+### Updated — Agent Skill Engineering
+
+Skill 19:
+
+```text
+1.3.0 → 1.4.0
+```
+
+Added host compatibility architecture and moved deeper repository-evolution/host material into focused references so the canonical Skill 19 remains below the progressive-disclosure target.
+
+### Packaging / Evaluation Regression Gate
+
+v1.27 regenerates all 19 portable packages and reruns the v1.26 parity suite.
+
+Current deterministic parity remains:
+
+```text
+19/19 description parity
+96.71% positive top-3 static recall
+100% explicit-negative specificity
+38/38 capability assertions
+```
+
+### Live Host Status
+
+```text
+Gemini CLI                NOT_RUN
+Claude Code               NOT_RUN
+OpenAI ChatGPT / Codex    NOT_RUN
+```
+
+Reason: the deterministic repository environment has no configured host binaries/accounts/sessions.
+
+### Roadmap
+
+v1.27 deterministic host adapters are implemented.
+
+Next stage:
+
+```text
+v1.28.x — Security, Catalog & Provenance Hardening
+```
+
+Live host smoke remains a required pre-v2 evidence gate.
+
+---
+
 ## [v1.26.0] - 2026-09-28
 
 ### Evaluation & Trigger Parity

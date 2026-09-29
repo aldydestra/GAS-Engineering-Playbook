@@ -1,10 +1,10 @@
 ---
 name: agent-skill-supply-chain-security
 description: "Secure AI Agent Skills, plugins, MCP-integrated packages, and catalogs through pre-install scanning, prompt-injection/exfiltration detection, scripts/hooks/manifests, dependency provenance, MCP metadata/tool poisoning, permission parity, shadowing/precedence, SARIF/CI gates, fail-closed completeness, signing, admission, update, and revocation."
-skill_version: "1.4.1"
+skill_version: "1.5.0"
 repository_introduced: "v1.19.0"
 status: "evolving"
-last_repository_update: "v1.26.0"
+last_repository_update: "v1.27.0"
 tags:
   - agent-skills
   - supply-chain-security
@@ -2795,6 +2795,111 @@ not:
 ```text
 main skill clean → SAFE
 ```
+
+Cross-reference Skill 19.
+
+## Host-Specific Security Controls & Portability Floor — v1.27.0
+
+### Compatibility Does Not Mean Equivalent Security UX
+
+Different Agent Skills hosts expose different installation, discovery, activation, trust, and plugin controls.
+
+Therefore:
+
+```text
+portable skill package
+≠
+portable security guarantee
+```
+
+A skill that is safe only because one host asks for activation consent is not portable-safely designed.
+
+### Design to the Portability Floor
+
+Assume the portable package might run on a host that:
+
+- auto-discovers skills;
+- activates based on description without the same consent UX;
+- exposes bundled scripts/resources after activation;
+- uses different precedence/collision rules.
+
+Keep dangerous authority outside skill prose and behind deterministic host/tool authorization.
+
+### Gemini CLI Security Profile
+
+Current Gemini CLI documentation provides explicit controls such as:
+
+```text
+workspace trust
+activation consent
+built-in < extension < user < workspace precedence
+skill enable/disable
+```
+
+These are useful defense in depth, but remain Gemini-specific implementation behavior.
+
+### Claude Code Security Profile
+
+Current Claude Code plugin architecture auto-discovers skills under a plugin's `skills/` directory and can bundle hooks, MCP servers, agents, and scripts in the same plugin package.
+
+Security review must therefore cover:
+
+```text
+.claude-plugin/plugin.json
+skills/
+hooks/
+.mcp.json
+agents/
+scripts/
+```
+
+rather than validating `SKILL.md` alone.
+
+Current public issue history also shows plugin lifecycle edge cases around disable/uninstall and scope handling. Treat host lifecycle operations as behaviors to verify, not assumptions.
+
+### OpenAI Plugin Security Profile
+
+Current OpenAI portable plugins can bundle:
+
+```text
+plugin.json
+skills/
+mcp.json
+hooks/
+assets/
+```
+
+and may also carry OpenAI-specific settings under `extensions.com.openai`.
+
+A skill-only plugin is simpler, but plugin-level manifest/path review still belongs to the security gate.
+
+### Host Adapter Is Part of the Effective Artifact
+
+If the same normalized skills are wrapped differently for multiple hosts:
+
+```text
+portable skill
++
+host adapter/manifest
+=
+host artifact
+```
+
+Scan and hash the host artifact that users actually install.
+
+### Compatibility Matrix Must Preserve Unknowns
+
+Use explicit states such as:
+
+```text
+PASS_STATIC
+DOCUMENTED
+PARTIAL
+NOT_VERIFIED
+NOT_RUN
+```
+
+Do not convert missing live-host evidence into `PASS`.
 
 Cross-reference Skill 19.
 

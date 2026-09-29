@@ -1,66 +1,64 @@
-# v1.26.0 — Evaluation & Trigger Parity
+# v1.27.0 — Host Compatibility Matrix
 
-v1.26.0 proves deterministic source-to-package routing/capability parity after the v1.25 full packaging milestone.
+v1.27.0 validates one normalized 19-skill distribution against three current host packaging models without pretending that static CI equals live execution.
 
-## Evaluation Gate
-
-```text
-19/19 description parity
-152 positive routing prompts
-38 explicit negative prompts
-96.71% package positive top-3 recall
-100% explicit-negative specificity
-100% source/package classification parity
-38/38 capability assertions
-```
-
-The routing scorer is a deterministic CI proxy over `name + description`.
-
-It is **not** presented as a live LLM/host activation result.
-
-Current live-host status:
+## Host Matrix
 
 ```text
-NOT_RUN
+Gemini CLI
+→ direct .skill artifacts
+
+Claude Code
+→ deterministic skills-only .claude-plugin wrapper
+
+OpenAI ChatGPT / Codex
+→ deterministic portable plugin.json + skills/ wrapper
 ```
 
-## Trigger Metadata Refresh
+All three adapters contain all 19 normalized skills and pass deterministic structure/resource checks.
 
-The first evaluation run exposed ambiguous descriptions, so all 19 skill descriptions were rewritten as more precise routing metadata and regenerated through the packaging pipeline.
+## Evidence Boundary
+
+```text
+static adapter validation ≠ live host activation
+```
+
+Current live status:
+
+```text
+Gemini CLI             NOT_RUN
+Claude Code            NOT_RUN
+OpenAI ChatGPT/Codex   NOT_RUN
+```
+
+This is intentional because the release environment does not provide the required host binaries/accounts.
 
 ## Updated Skills
 
 ```text
-08 Testing & Quality        1.4.0 → 1.5.0
-19 Agent Skill Engineering  1.2.0 → 1.3.0
+18 Agent Skill Supply-Chain Security  1.4.1 → 1.5.0
+19 Agent Skill Engineering            1.3.0 → 1.4.0
 ```
 
-Skills 01–07 and 09–18 receive patch-level version bumps because their routing descriptions changed.
+## New Tooling
 
-## New Evaluation Artifacts
+- `packaging/host-compat/hosts-v1.27.json`
+- `tools/build_host_compat.py`
+- `tools/verify_host_compat.py`
+- `tools/test_host_compat.py`
+- `dist/host-compat-v1.27.0/`
+- `docs/host-compatibility-matrix-v1.27.0.md`
+- `docs/host-compatibility-audit-v1.27.0.md`
 
-- `evals/agent-skills/trigger-cases.json`
-- `evals/agent-skills/capability-assertions.json`
-- `tools/evaluate_agent_skill_parity.py`
-- `tools/test_agent_skill_evaluation.py`
-- `reports/agent-skill-evaluation-v1.26.0.json`
-- `reports/agent-skill-evaluation-v1.26.0.md`
-- `docs/evaluation-trigger-parity-audit-v1.26.0.md`
+## Portable Package Regression
 
-## Roadmap
-
-```text
-v1.24 Packaging Pilot       DONE
-v1.25 Full Coverage         DONE
-v1.26 Evaluation Parity     DONE
-v1.27 Host Compatibility    NEXT
-```
+All 19 Agent Skill packages are regenerated as v1.27.0 and the v1.26 trigger/capability parity gate remains passing.
 
 ## Recommended GitHub Release Settings
 
-- Tag: `v1.26.0`
+- Tag: `v1.27.0`
 - Target: `main`
-- Release title: `v1.26.0 — Evaluation & Trigger Parity`
+- Release title: `v1.27.0 — Host Compatibility Matrix`
 - Pre-release: No
 - Set as latest release: Yes
-- Asset: `gas-engineering-playbook-v1.26.0.zip`
+- Asset: `gas-engineering-playbook-v1.27.0.zip`

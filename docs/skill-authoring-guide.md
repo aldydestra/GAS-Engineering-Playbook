@@ -1420,3 +1420,41 @@ final installable package
 ```
 
 not only the authoring source directory.
+
+# 60. Host Compatibility Needs Layered Evidence
+
+Use four layers:
+
+```text
+portable format
+host adapter
+host lifecycle documentation
+live host smoke
+```
+
+A lower-layer PASS does not imply a higher-layer PASS.
+
+---
+
+# 61. Prefer One Normalized Skill Set
+
+Default architecture:
+
+```text
+canonical source
+↓
+normalized portable skill
+↓
+host-specific wrapper only when required
+```
+
+Do not fork skill instructions per host without a documented incompatibility.
+
+---
+
+# 62. Record Unknowns Explicitly
+
+Use `PARTIAL`, `NOT_VERIFIED`, and `NOT_RUN` rather than optimistic compatibility claims.
+
+Host compatibility is an evidence statement, not a marketing label.
+

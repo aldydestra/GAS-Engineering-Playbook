@@ -130,3 +130,27 @@ live host/model activation
 ```
 
 Do not convert unavailable live evidence into a PASS.
+
+# Host Adapter Pattern — v1.27.0
+
+```text
+canonical source
+↓
+normalized Agent Skill
+↓
+├─ Gemini CLI: direct .skill
+├─ Claude Code: .claude-plugin + skills/
+└─ OpenAI: plugin.json + skills/
+```
+
+Compatibility evidence layers:
+
+```text
+PASS_STATIC
+DOCUMENTED
+PARTIAL / NOT_VERIFIED
+NOT_RUN live host
+```
+
+Do not fork the skill body just to satisfy host packaging conventions.
+

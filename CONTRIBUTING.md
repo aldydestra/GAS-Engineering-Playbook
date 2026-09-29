@@ -382,3 +382,28 @@ Current package-quality checks should include:
 Do not rename historical v1.x source paths as part of an unrelated minor contribution.
 
 Breaking path/name normalization belongs in an explicit compatibility release.
+
+## Host Compatibility Contributions
+
+When claiming support for a new Agent Skills host, separate:
+
+```text
+portable-format validation
+host-adapter validation
+first-party documented behavior
+live host evidence
+```
+
+Include:
+
+- host/product and version when live-tested;
+- adapter/package shape;
+- discovery/install path;
+- activation behavior;
+- relative resource/script behavior;
+- precedence/collision semantics if known;
+- reload/update/uninstall behavior;
+- explicit `NOT_RUN` / `NOT_VERIFIED` cells where evidence is missing.
+
+Do not label a static wrapper test as live compatibility.
+

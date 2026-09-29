@@ -332,3 +332,19 @@ Skill 19
 ```
 
 A new Agent Skill domain should not be created merely because a new host/tool exists. Create a new skill only when the lifecycle and failure modes cannot be cleanly owned by these boundaries.
+
+## Host Adapter Boundary — v1.27.0
+
+Skill 19 owns host compatibility and adapter packaging:
+
+```text
+normalized portable skill
+↓
+├─ direct host artifact
+└─ host-specific wrapper when required
+```
+
+Skill content should remain shared unless a documented incompatibility requires divergence.
+
+Static adapter validation, documented host behavior, and live runtime evidence must remain separate evidence classes.
+

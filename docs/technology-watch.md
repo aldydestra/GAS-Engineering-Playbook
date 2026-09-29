@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-28**
+Last audit: **2026-09-29**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -3578,3 +3578,68 @@ v1.24 generated packages are constructed from explicit generated/copied skill re
 ## No new platform baseline change
 
 No newer Apps Script/AppSheet/PostgreSQL/Workspace platform change discovered in this packaging-focused cycle requires another domain version bump.
+
+---
+
+# v1.27.0 Host Compatibility Refresh — 2026-09-29
+
+## Gemini CLI
+
+Current first-party sources:
+
+- https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md
+- https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/using-agent-skills.md
+- https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/creating-skills.md
+
+Current documented behavior includes `.skill` installation, discovery scopes, `.agents/skills` aliases, precedence, activation consent, reload, disable/enable, and uninstall.
+
+Status: **ADOPTED AS DIRECT-HOST ADAPTER**
+
+## Claude Code
+
+Current first-party sources:
+
+- https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/plugin-structure/SKILL.md
+- https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/plugin-structure/references/manifest-reference.md
+- https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/skill-development/SKILL.md
+
+Current plugin structure uses `.claude-plugin/plugin.json` with plugin-root `skills/` auto-discovery.
+
+Status: **ADOPTED AS SKILLS-ONLY PLUGIN ADAPTER**
+
+Current public issue history reports scope/update/uninstall edge cases; lifecycle cells remain PARTIAL until live tests are recorded.
+
+## OpenAI ChatGPT / Codex Plugins
+
+Current first-party sources:
+
+- https://developers.openai.com/plugins/build/plugins
+- https://developers.openai.com/plugins/build/skills
+- https://help.openai.com/en/articles/20001256-plugins-in-chatgpt-and-codex
+
+Current portable plugin structure supports root `plugin.json` plus a root `skills/` directory, with MCP/hooks/assets optional.
+
+Status: **ADOPTED AS PORTABLE SKILLS-ONLY PLUGIN ADAPTER**
+
+## Agent Skills Open Standard
+
+Source:
+
+https://github.com/agentskills/agentskills
+
+The portable specification remains the host-neutral package contract. Discovery location and lifecycle controls are implementation-specific.
+
+Status: **NORMATIVE PORTABLE FORMAT SOURCE**
+
+## Live Host Evidence
+
+Current deterministic repository environment does not provide configured Gemini CLI, Claude Code, or Codex/ChatGPT host runners.
+
+Status:
+
+```text
+LIVE HOST SMOKE = NOT_RUN
+```
+
+No unavailable runtime evidence is promoted to PASS.
+

@@ -124,38 +124,55 @@ no unavailable live evidence misreported as PASS
 
 ---
 
-## v1.27.x — Host Compatibility Matrix
 
-Goal:
+## v1.27.0 — Host Compatibility Matrix
 
-Test promised compatibility rather than infer it.
+Status: **implemented — deterministic/static adapters; live host smoke remains explicitly NOT_RUN**
 
-Matrix should include only hosts we can verify at that time.
-
-Minimum dimensions:
+Implemented hosts:
 
 ```text
-discovery
-activation
-relative resources
-scripts
-install package
-precedence/collision
-reload/update
-uninstall/disable
+Gemini CLI
+Claude Code
+OpenAI ChatGPT / Codex Plugins
 ```
 
-Current verified documentation makes Gemini CLI a natural first host target.
+Implemented evidence layers:
 
-Other hosts enter the matrix only after current first-party behavior is verified.
+```text
+portable format validation
+host adapter validation
+current first-party lifecycle documentation
+live host status = NOT_RUN when runtime unavailable
+```
 
-Required gate:
+Artifacts:
 
-- portable reference validation;
-- target-host validation where available;
-- smoke activation;
-- install/update/uninstall test;
-- documented host-specific deviations.
+```text
+dist/agent-skills-v1.27.0/
+dist/host-compat-v1.27.0/
+docs/host-compatibility-matrix-v1.27.0.md
+```
+
+Current adapters:
+
+- Gemini CLI: direct `.skill` artifacts;
+- Claude Code: deterministic skills-only `.claude-plugin` wrapper;
+- OpenAI: deterministic portable `plugin.json` + `skills/` wrapper.
+
+Gate result:
+
+```text
+3/3 host adapter structures PASS
+19/19 skills represented per adapter PASS
+relative resources PASS
+adapter reproducibility PASS
+live host/model smoke NOT_RUN
+```
+
+Important limitation:
+
+A static adapter PASS is not a live install/activation PASS. Before v2.0, target production hosts must accumulate real install/activation/update/uninstall evidence where the runtime/account is available.
 
 ---
 
