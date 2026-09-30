@@ -3,6 +3,194 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.28.0] - 2026-09-30
+
+### Security, Catalog & Provenance
+
+This release adds a deterministic trust layer over the complete 19-skill distribution.
+
+### Added — Static Security Admission
+
+Created:
+
+- `tools/build_agent_skill_trust.py`
+- `tools/verify_agent_skill_trust.py`
+- `tools/test_agent_skill_trust.py`
+- `dist/agent-skills-v1.28.0/security-report.json`
+- `dist/agent-skills-v1.28.0/SECURITY_REPORT.md`
+
+Current deterministic gate scans:
+
+```text
+19 normalized skill trees
+19 .skill archives
+Claude/OpenAI host adapter ZIPs/manifests
+```
+
+It checks archive traversal/symlinks, credential/private-key patterns, wildcard authority, opaque content, host-manifest execution surfaces, and scan completeness.
+
+Current result:
+
+```text
+scan complete       PASS
+critical findings   0
+high findings       0
+security gate       PASS
+```
+
+Executable documentation fences and remote URLs remain visible review surface rather than being silently ignored.
+
+### Added — Trust Catalog
+
+Generated:
+
+- `dist/agent-skills-v1.28.0/catalog.json`
+- `dist/agent-skills-v1.28.0/CATALOG.md`
+
+Each catalog entry binds:
+
+```text
+canonical source/hash
+package/hash/version
+security admission
+evaluation evidence
+host compatibility evidence
+provenance
+revocation state
+```
+
+### Added — Deterministic Package Provenance
+
+Generated 19 per-package in-toto/SLSA provenance statements:
+
+```text
+dist/agent-skills-v1.28.0/provenance/*.intoto.json
+```
+
+Current local provenance uses:
+
+```text
+_type: https://in-toto.io/Statement/v1
+predicateType: https://slsa.dev/provenance/v1
+```
+
+and binds package digest to source-tree, packaging-profile, and builder digests.
+
+These statements are explicitly **unsigned** and do not claim a SLSA Build level.
+
+### Added — Revocation Gate
+
+Generated:
+
+- `dist/agent-skills-v1.28.0/revocations.json`
+
+The verifier denies packages revoked by name and/or SHA-256.
+
+A deterministic test fixture proves the deny path works. Trust evidence also reproduces byte-for-byte across repeated local builds.
+
+### Added — GitHub Signed-Attestation Workflow
+
+Created:
+
+- `.github/workflows/agent-skill-attestation.yml`
+
+The release workflow is configured to use current:
+
+```text
+actions/attest@v4
+```
+
+for `.skill` and host-wrapper artifacts.
+
+Local build status remains:
+
+```text
+SIGNED_ATTESTATION = NOT_RUN
+```
+
+until GitHub actually executes the signing workflow.
+
+### Updated — Deployment Engineering
+
+Skill 10:
+
+```text
+1.4.1 → 1.5.0
+```
+
+Added artifact-hash/provenance/signed-attestation separation, GitHub attestation release gates, and consumer verification guidance.
+
+### Updated — Agent Skill Supply-Chain Security
+
+Skill 18:
+
+```text
+1.5.0 → 1.6.0
+```
+
+Added:
+
+- catalog admission model;
+- complete security gate;
+- package/host-wrapper scanning;
+- per-artifact provenance;
+- unsigned vs signed evidence states;
+- revocation enforcement/testing;
+- evidence-toolchain provenance.
+
+### Updated — Agent Skill Engineering
+
+Skill 19:
+
+```text
+1.4.0 → 1.5.0
+```
+
+Added catalog/provenance/revocation distribution lifecycle.
+
+### Current External Baseline
+
+SLSA current approved version observed in this audit:
+
+```text
+1.2
+```
+
+Current build-provenance predicate remains:
+
+```text
+https://slsa.dev/provenance/v1
+```
+
+GitHub's current recommended new attestation action is:
+
+```text
+actions/attest@v4
+```
+
+### Roadmap
+
+```text
+v1.24 Packaging Pilot               PASS
+v1.25 Full Packaging                PASS
+v1.26 Evaluation Parity             PASS
+v1.27 Host Compatibility            PASS_STATIC
+v1.28 Security/Catalog/Provenance   PASS
+v1.29 Dual-Distribution RC          NEXT
+```
+
+### Repository Model
+
+```text
+Foundation Skills: 01–11
+Extension Skills: 12–19
+```
+
+No new skill is introduced.
+
+---
+
+
 ## [v1.27.0] - 2026-09-29
 
 ### Host Compatibility Matrix

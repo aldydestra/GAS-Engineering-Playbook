@@ -1,13 +1,13 @@
 ---
 name: 19-agent-skill-engineering
-description: "Author, package, validate, route, install, update, and maintain Agent Skills across portable SKILL.md packages and host adapters for Gemini CLI, Claude Code, OpenAI ChatGPT/Codex Plugins, and other compatible clients. Use for trigger descriptions, progressive disclosure, packaging, discovery/precedence, host compatibility matrices, and lifecycle/version management."
+description: "Author, package, validate, route, install, update, and maintain Agent Skills across portable SKILL.md packages and host adapters for Gemini CLI, Claude Code, OpenAI ChatGPT/Codex Plugins, and other compatible clients. Use for trigger descriptions, progressive disclosure, packaging, discovery/precedence, host compatibility matrices, security/catalog/provenance evidence, revocation, and lifecycle/version management."
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.4.0"
+  gas_playbook_skill_version: "1.5.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.27.0"
+  gas_playbook_last_repository_update: "v1.28.0"
 ---
 
 # Agent Skill Engineering
@@ -372,6 +372,30 @@ host-installed effective version
 - [ ] Promised host compatibility is tested.
 - [ ] Version/provenance is recorded.
 
+## Catalog & Provenance Distribution
+
+For higher-trust publication, generate a machine-readable catalog that binds each normalized skill to:
+
+```text
+source hash → package hash → security/eval/host evidence → provenance → revocation state
+```
+
+Keep these evidence states distinct:
+
+```text
+PASS_STATIC
+PASS_UNSIGNED
+SIGNED_ATTESTATION_NOT_RUN
+SIGNED_ATTESTATION_VERIFIED
+REVOKED
+```
+
+A catalog entry is active only when its package digest matches, security admission passes, and no revocation rule denies it.
+
+Prefer deterministic unsigned provenance in local/reproducible builds, then add cryptographic attestation in an eligible CI/release environment. Never label the former as signed.
+
+Test revocation with a deny fixture before relying on it operationally.
+
 ## GAS Engineering Playbook v1.x Note
 
 The v1.x playbook historically uses numbered source folders and repository-specific top-level metadata. That predates the current Agent Skills format.
@@ -423,6 +447,7 @@ See [host compatibility patterns](references/host-compatibility.md) and `docs/ho
 Read only as needed:
 - [Specification & host patterns](references/spec-and-host-patterns.md)
 - [Playbook compatibility notes](references/spec-compatibility.md)
+- [Catalog, provenance & revocation patterns](references/catalog-provenance-patterns.md)
 
 External sources:
 - Agent Skills specification: https://github.com/agentskills/agentskills

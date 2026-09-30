@@ -55,10 +55,11 @@ def verify_relative_md_links(z:zipfile.ZipFile, skill_paths:dict):
                 if resolved not in names: raise AssertionError(f'{n}: missing {target} -> {resolved}')
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--dist',default='dist/host-compat-v1.27.0'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--dist',default='dist/host-compat-v1.28.0'); args=ap.parse_args()
     root=Path(__file__).resolve().parents[1]; dist=root/args.dist
     manifest=json.loads((dist/'manifest.json').read_text())
-    if manifest['repository_version']!='v1.27.0': raise SystemExit('wrong version')
+    expected_version=dist.name.replace('host-compat-','')
+    if manifest['repository_version']!=expected_version: raise SystemExit(f"wrong version {manifest['repository_version']} != {expected_version}")
     # Gemini index + direct package structure.
     g=json.loads((dist/'gemini-cli-package-index.json').read_text())
     if len(g['skills'])!=19: raise SystemExit('Gemini index != 19')

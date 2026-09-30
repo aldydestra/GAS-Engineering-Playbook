@@ -1,0 +1,49 @@
+name: Agent Skill Signed Attestations
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v1.28.*'
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+  artifact-metadata: write
+
+jobs:
+  build-attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild packages and host adapters
+        run: |
+          python tools/agent_skill_packager.py
+          python tools/verify_agent_skill_dist.py
+          python tools/evaluate_agent_skill_parity.py
+          python tools/build_host_compat.py
+          python tools/verify_host_compat.py
+          python tools/build_agent_skill_trust.py
+          python tools/verify_agent_skill_trust.py
+      - name: Generate signed GitHub artifact attestations
+        uses: actions/attest@v4
+        with:
+          subject-path: |
+            dist/agent-skills-v1.28.0/packages/*.skill
+            dist/host-compat-v1.28.0/*.zip
+      - name: Upload release evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-skill-v1.28-evidence
+          path: |
+            dist/agent-skills-v1.28.0/catalog.json
+            dist/agent-skills-v1.28.0/security-report.json
+            dist/agent-skills-v1.28.0/provenance-index.json
+            dist/agent-skills-v1.28.0/provenance/
+            dist/agent-skills-v1.28.0/revocations.json
+            dist/agent-skills-v1.28.0/SHA256SUMS
+            dist/host-compat-v1.28.0/SHA256SUMS

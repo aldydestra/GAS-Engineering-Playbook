@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-29**
+Last audit: **2026-09-30**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -3642,4 +3642,120 @@ LIVE HOST SMOKE = NOT_RUN
 ```
 
 No unavailable runtime evidence is promoted to PASS.
+
+---
+
+# v1.28.0 Security / Catalog / Provenance Refresh — 2026-09-30
+
+## SLSA 1.2
+
+Official source:
+
+https://slsa.dev/spec/v1.2/
+
+Current status:
+
+```text
+Version 1.2
+Approved
+```
+
+Current build-provenance predicate remains:
+
+```text
+https://slsa.dev/provenance/v1
+```
+
+Status: **ADOPTED**
+
+Affected:
+
+- Skill 10;
+- Skill 18;
+- Skill 19.
+
+Important boundary:
+
+```text
+SLSA-shaped provenance JSON
+≠
+claimed SLSA Build level
+```
+
+A build level depends on builder/security guarantees, not JSON shape alone.
+
+---
+
+## GitHub Artifact Attestations
+
+Official sources:
+
+- https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations
+- https://github.com/actions/attest
+
+Current recommended action for new implementations:
+
+```text
+actions/attest@v4
+```
+
+Current implementation uses in-toto attestations and Sigstore-backed short-lived signing identities.
+
+Status: **ADOPTED AS RELEASE-WORKFLOW CAPABILITY**
+
+Current repository state:
+
+```text
+workflow configured
+signed attestation NOT_RUN locally
+```
+
+Affected:
+
+- Skill 10;
+- Skill 18;
+- Skill 19.
+
+---
+
+## SkillSpector 2.12.0
+
+Current public release page still reports:
+
+```text
+2.12.0
+candidate / publication pending
+```
+
+Status: **WATCH**
+
+The repository does not require SkillSpector as the v1.28 deterministic trust gate. Skill 18 principles remain scanner-agnostic.
+
+---
+
+## v1.28 Trust Distribution
+
+New repository-owned deterministic evidence:
+
+```text
+catalog.json
+security-report.json
+revocations.json
+provenance-index.json
+provenance/*.intoto.json
+```
+
+Status: **ADOPTED**
+
+Evidence states remain explicit:
+
+```text
+PASS_STATIC
+PASS_UNSIGNED
+NOT_RUN
+ACTIVE
+REVOKED
+```
+
+No signed-attestation claim is made by the local build.
 

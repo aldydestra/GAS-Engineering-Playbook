@@ -198,3 +198,19 @@ controlled starter smoke test
 ```
 
 Re-enable creates a new registration; do not reuse the old trigger ID.
+
+# Artifact Attestation Release Gate — v1.28.0
+
+```text
+build final artifact
+↓
+SHA-256
+↓
+provenance statement
+↓
+signed attestation when CI supports it
+↓
+consumer verification
+```
+
+Do not label deterministic unsigned provenance as a signed attestation.

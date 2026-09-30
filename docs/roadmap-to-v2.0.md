@@ -176,31 +176,39 @@ A static adapter PASS is not a live install/activation PASS. Before v2.0, target
 
 ---
 
-## v1.28.x — Security, Catalog & Provenance Hardening
+## v1.28.0 — Security, Catalog & Provenance Hardening
 
-Goal:
+Status: **implemented — deterministic trust evidence; signed GitHub attestation configured but NOT_RUN locally**
 
-Make distribution suitable for higher-trust reuse.
+Implemented:
 
-Add:
+- full normalized-package static security admission;
+- host adapter manifest/archive security coverage;
+- fail-closed opaque-content handling;
+- generated machine-readable catalog;
+- exact package/source/build-tool digests;
+- 19 deterministic unsigned in-toto/SLSA provenance statements;
+- revocation/blocklist registry;
+- tested revoke-path deny fixture;
+- scanner/evaluator/builder evidence digests;
+- GitHub `actions/attest@v4` release workflow for signed attestations.
 
-- full Skill 18 scan gate;
-- manifest/hook/config coverage;
-- dependency/source provenance;
-- package collision/precedence checks;
-- generated catalog index;
-- artifact attestations/signing where practical;
-- revocation/blocklist workflow;
-- scanner/evaluator version evidence.
-
-Required gate:
+Gate result:
 
 ```text
-complete security scan
-no unresolved critical/high admission findings
-provenance recorded
-revoke path tested
+19/19 catalog entries                  PASS
+19/19 static security admission        PASS
+scan completeness                      PASS
+critical findings = 0                  PASS
+high findings = 0                      PASS
+19/19 unsigned provenance statements   PASS
+revocation deny path                   PASS
+signed GitHub attestation              NOT_RUN
 ```
+
+Important limitation:
+
+Unsigned deterministic provenance is not cryptographic signer proof. Signed release attestation remains a runtime/release-workflow gate and must not be reported as PASS until the GitHub workflow actually runs and verifies.
 
 ---
 

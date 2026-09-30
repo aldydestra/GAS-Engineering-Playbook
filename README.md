@@ -171,7 +171,8 @@ last_repository_update: "v1.13.0"
 | v1.24.0 | Agent Skill Packaging Pipeline pilot + deterministic `.skill` artifacts + roadmap to v2 |
 | v1.25.0 | Full Agent Skill packaging coverage 19/19 + knowledge-retention verification + deterministic distribution |
 | v1.26.0 | Evaluation & Trigger Parity: routing corpus, capability assertions, 19-skill trigger metadata refresh, deterministic parity gate |
-| **v1.27.0** | **Host Compatibility Matrix: Gemini CLI direct skills + Claude Code/OpenAI plugin adapters + explicit live-evidence boundary** |
+| v1.27.0 | Host Compatibility Matrix: Gemini CLI direct skills + Claude Code/OpenAI plugin adapters + explicit live-evidence boundary |
+| **v1.28.0** | **Security/Catalog/Provenance: static admission, trust catalog, SLSA/in-toto lineage, revocation gate, GitHub attestation workflow** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -501,7 +502,9 @@ Agent-skill and plugin security engineering covering:
 - plugin-manifest/hook execution surface,
 - scanner release-status/evidence provenance,
 - signatures/hashes,
-- catalog admission and incident response.
+- catalog admission and incident response,
+- static admission completeness,
+- per-artifact provenance and revocation enforcement.
 
 ### 19 — Agent Skill Engineering
 
@@ -521,7 +524,9 @@ Agent Skill authoring/distribution engineering covering:
 - version/update lifecycle,
 - cross-client compatibility,
 - host compatibility matrices and deterministic host adapters,
-- explicit static/documented/live compatibility evidence.
+- explicit static/documented/live compatibility evidence,
+- generated trust catalog,
+- package provenance and revocation lifecycle.
 
 Skill 19 owns the skill lifecycle itself. Skill 18 remains the security owner.
 
@@ -656,25 +661,23 @@ If a future branch, private repository, skill file, or artifact cannot be retrie
 
 # Agent Skill Distribution Pipeline
 
-Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, and v1.27.0 adds host adapters:
+Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, and v1.28.0 adds a trust layer:
 
 ```text
-skills/ (canonical source)
+skills/ canonical source
 ↓
-packaging/agent-skills/full-v1.27.json
+normalized packages
 ↓
-tools/agent_skill_packager.py
+evaluation + host compatibility
 ↓
-dist/agent-skills-v1.27.0/
+static security admission
 ↓
-├─ evaluation parity
-└─ host adapter builder
-   ├─ Gemini CLI direct .skill
-   ├─ Claude Code plugin wrapper
-   └─ OpenAI portable plugin wrapper
+catalog + provenance + revocation
+↓
+optional signed GitHub attestation at release time
 ```
 
-Generated distribution files must not be edited manually. Static host compatibility is separated from live host evidence; current deterministic CI records live activation/install as `NOT_RUN` when the real host runtime is unavailable.
+Generated distribution files must not be edited manually. Static host/security evidence, unsigned provenance, live-host evidence, and signed attestations are intentionally reported as separate states.
 
 See:
 
@@ -683,6 +686,8 @@ See:
 - `docs/evaluation-trigger-parity-audit-v1.26.0.md`
 - `docs/host-compatibility-matrix-v1.27.0.md`
 - `docs/host-compatibility-audit-v1.27.0.md`
+- `docs/security-catalog-provenance-audit-v1.28.0.md`
+- `docs/agent-skill-provenance-v1.28.0.md`
 - `docs/roadmap-to-v2.0.md`
 
 # Repository Structure
@@ -720,16 +725,22 @@ gas-engineering-playbook/
 ├── references/
 ├── packaging/
 │   ├── agent-skills/
-│   └── host-compat/
+│   ├── host-compat/
+│   └── trust/
 ├── tools/
 ├── evals/
 │   └── agent-skills/
 ├── dist/
-│   ├── agent-skills-v1.27.0/
-│   └── host-compat-v1.27.0/
+│   ├── agent-skills-v1.28.0/
+│   │   ├── catalog.json
+│   │   ├── security-report.json
+│   │   ├── revocations.json
+│   │   ├── provenance-index.json
+│   │   └── provenance/
+│   └── host-compat-v1.28.0/
 ├── reports/
-│   ├── agent-skill-evaluation-v1.27.0.json
-│   └── agent-skill-evaluation-v1.27.0.md
+│   ├── agent-skill-evaluation-v1.28.0.json
+│   └── agent-skill-evaluation-v1.28.0.md
 ├── examples/
 └── docs/
     ├── module-development-guide.md
@@ -754,6 +765,8 @@ gas-engineering-playbook/
     ├── roadmap-to-v2.0.md
     ├── host-compatibility-matrix-v1.27.0.md
     ├── host-compatibility-audit-v1.27.0.md
+    ├── security-catalog-provenance-audit-v1.28.0.md
+    ├── agent-skill-provenance-v1.28.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md

@@ -154,3 +154,18 @@ NOT_RUN live host
 
 Do not fork the skill body just to satisfy host packaging conventions.
 
+# Trust Catalog Pattern — v1.28.0
+
+A generated skill catalog should bind:
+
+```text
+source
+package
+security
+evaluation
+host compatibility
+provenance
+revocation
+```
+
+Keep static, unsigned, signed, live-host, and revoked states explicit.

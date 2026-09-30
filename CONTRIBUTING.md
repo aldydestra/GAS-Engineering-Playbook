@@ -407,3 +407,19 @@ Include:
 
 Do not label a static wrapper test as live compatibility.
 
+## Catalog / Provenance / Revocation Contributions
+
+Changes that affect distributed Agent Skills must preserve or update:
+
+- canonical source hash;
+- package hash;
+- security admission evidence;
+- evaluation/host evidence references;
+- provenance statement;
+- catalog entry;
+- revocation compatibility.
+
+Do not claim a cryptographic attestation from an unsigned local provenance statement.
+
+If the release workflow cannot sign/attest in the current environment, record `NOT_RUN`.
+

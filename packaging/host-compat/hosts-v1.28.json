@@ -1,0 +1,99 @@
+{
+  "repository_version": "v1.28.0",
+  "source_distribution": "dist/agent-skills-v1.28.0",
+  "output_distribution": "dist/host-compat-v1.28.0",
+  "status_vocabulary": [
+    "PASS_STATIC",
+    "DOCUMENTED",
+    "PARTIAL",
+    "NOT_VERIFIED",
+    "NOT_RUN",
+    "N/A"
+  ],
+  "hosts": [
+    {
+      "id": "gemini-cli",
+      "display_name": "Gemini CLI",
+      "adapter": "direct-skill",
+      "artifact": "../agent-skills-v1.28.0/packages/*.skill",
+      "evidence": [
+        "https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md",
+        "https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/using-agent-skills.md",
+        "https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/creating-skills.md"
+      ],
+      "matrix": {
+        "portable_format": "PASS_STATIC",
+        "discovery": "DOCUMENTED",
+        "activation": "DOCUMENTED",
+        "relative_resources": "PASS_STATIC",
+        "scripts": "PASS_STATIC",
+        "install_package": "PASS_STATIC",
+        "precedence_collision": "DOCUMENTED",
+        "reload_update": "DOCUMENTED",
+        "uninstall_disable": "DOCUMENTED",
+        "live_host_smoke": "NOT_RUN"
+      },
+      "notes": [
+        "Direct .skill installation is documented.",
+        "Current precedence is built-in < extension < user < workspace; .agents aliases are documented.",
+        "Activation consent is host-specific and must not be assumed by portable skills."
+      ]
+    },
+    {
+      "id": "claude-code",
+      "display_name": "Claude Code",
+      "adapter": "skills-only-plugin",
+      "artifact": "claude-code-plugin.zip",
+      "evidence": [
+        "https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/plugin-structure/SKILL.md",
+        "https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/plugin-structure/references/manifest-reference.md",
+        "https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/skill-development/SKILL.md"
+      ],
+      "matrix": {
+        "portable_format": "PASS_STATIC",
+        "discovery": "PASS_STATIC",
+        "activation": "DOCUMENTED",
+        "relative_resources": "PASS_STATIC",
+        "scripts": "PASS_STATIC",
+        "install_package": "PASS_STATIC",
+        "precedence_collision": "PARTIAL",
+        "reload_update": "PARTIAL",
+        "uninstall_disable": "PARTIAL",
+        "live_host_smoke": "NOT_RUN"
+      },
+      "notes": [
+        "Wrapper uses .claude-plugin/plugin.json with skills/ at plugin root.",
+        "Claude Code auto-discovers SKILL.md files under plugin skills/ directories.",
+        "Lifecycle/collision behavior is intentionally PARTIAL until live host tests are recorded."
+      ]
+    },
+    {
+      "id": "openai-plugins",
+      "display_name": "OpenAI ChatGPT / Codex Plugins",
+      "adapter": "portable-skills-only-plugin",
+      "artifact": "openai-portable-plugin.zip",
+      "evidence": [
+        "https://developers.openai.com/plugins/build/plugins",
+        "https://developers.openai.com/plugins/build/skills",
+        "https://help.openai.com/en/articles/20001256-plugins-in-chatgpt-and-codex"
+      ],
+      "matrix": {
+        "portable_format": "PASS_STATIC",
+        "discovery": "PASS_STATIC",
+        "activation": "DOCUMENTED",
+        "relative_resources": "PASS_STATIC",
+        "scripts": "PASS_STATIC",
+        "install_package": "PASS_STATIC",
+        "precedence_collision": "NOT_VERIFIED",
+        "reload_update": "NOT_VERIFIED",
+        "uninstall_disable": "DOCUMENTED",
+        "live_host_smoke": "NOT_RUN"
+      },
+      "notes": [
+        "Wrapper uses root plugin.json with the Agent Plugins schema and a root skills/ directory.",
+        "OpenAI plugin packaging can be skill-only; MCP/hooks/assets remain optional.",
+        "No precedence claim is made because a current public skill-name collision hierarchy was not verified."
+      ]
+    }
+  ]
+}

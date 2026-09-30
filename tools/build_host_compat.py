@@ -64,8 +64,8 @@ def render_matrix(cfg: dict, records: list[dict]) -> str:
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument('--config',default='packaging/host-compat/hosts-v1.27.json')
-    ap.add_argument('--doc',default='docs/host-compatibility-matrix-v1.27.0.md')
+    ap.add_argument('--config',default='packaging/host-compat/hosts-v1.28.json')
+    ap.add_argument('--doc',default='docs/host-compatibility-matrix-v1.28.0.md')
     args=ap.parse_args()
     root=Path(__file__).resolve().parents[1]
     cfg=json.loads((root/args.config).read_text())
@@ -84,9 +84,9 @@ def main():
     for name in names:
         pkg=packages/f'{name}.skill'
         if not pkg.exists(): raise SystemExit(f'missing {pkg}')
-        gidx.append({'name':name,'package':f'../agent-skills-v1.27.0/packages/{name}.skill','sha256':sha256_file(pkg)})
+        gidx.append({'name':name,'package':f"../{Path(cfg['source_distribution']).name}/packages/{name}.skill",'sha256':sha256_file(pkg)})
     (out/'gemini-cli-package-index.json').write_text(json.dumps({'repository_version':cfg['repository_version'],'skills':gidx},indent=2)+'\n')
-    records.append({'host':'gemini-cli','display_name':'Gemini CLI','adapter':'direct-skill','static_validation':'PASS','skill_count':len(names),'artifact':'agent-skills-v1.27.0/packages/*.skill'})
+    records.append({'host':'gemini-cli','display_name':'Gemini CLI','adapter':'direct-skill','static_validation':'PASS','skill_count':len(names),'artifact':f"{Path(cfg['source_distribution']).name}/packages/*.skill"})
 
     with tempfile.TemporaryDirectory() as td:
         td=Path(td)
@@ -94,7 +94,7 @@ def main():
         croot=td/'claude'
         (croot/'.claude-plugin').mkdir(parents=True)
         (croot/'.claude-plugin/plugin.json').write_text(json.dumps({
-            'name':'gas-engineering-playbook','version':'1.27.0',
+            'name':'gas-engineering-playbook','version':cfg['repository_version'].lstrip('v'),
             'description':'GAS Engineering Playbook — 19 reusable Agent Skills.'
         },indent=2)+'\n')
         copy_skills(skills,croot/'skills')
@@ -107,7 +107,7 @@ def main():
         oroot.mkdir()
         (oroot/'plugin.json').write_text(json.dumps({
             '$schema':'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json',
-            'name':'gas-engineering-playbook','version':'1.27.0',
+            'name':'gas-engineering-playbook','version':cfg['repository_version'].lstrip('v'),
             'description':'GAS Engineering Playbook — 19 reusable Agent Skills.'
         },indent=2)+'\n')
         copy_skills(skills,oroot/'skills')

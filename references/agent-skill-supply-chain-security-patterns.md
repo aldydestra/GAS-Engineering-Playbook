@@ -245,3 +245,15 @@ plugin lifecycle
 
 Security review covers the final host artifact, including any wrapper manifest, hooks, policies, MCP configuration, and scripts.
 
+# Catalog Admission & Revocation — v1.28.0
+
+```text
+complete scan
++ no critical/high admission findings
++ exact package digest
++ provenance
++ revocation check
+→ catalog ACTIVE
+```
+
+A tested revoke path is part of supply-chain readiness.

@@ -1458,3 +1458,49 @@ Use `PARTIAL`, `NOT_VERIFIED`, and `NOT_RUN` rather than optimistic compatibilit
 
 Host compatibility is an evidence statement, not a marketing label.
 
+# 60. Catalog Entry Is Evidence, Not Discovery Metadata Alone
+
+For trusted distribution, bind each skill to:
+
+```text
+canonical source hash
+package hash
+security admission
+evaluation evidence
+host evidence
+provenance
+revocation status
+```
+
+Do not call every generated package catalog-active automatically.
+
+---
+
+# 61. Provenance Must Bind the Exact Artifact
+
+The provenance subject digest must match the package consumers receive.
+
+Keep source/profile/builder digests so the package can be traced and rebuilt.
+
+---
+
+# 62. Unsigned and Signed Evidence Are Different States
+
+Use explicit states such as:
+
+```text
+PASS_UNSIGNED
+SIGNED_ATTESTATION_NOT_RUN
+SIGNED_ATTESTATION_VERIFIED
+```
+
+Never promote a local hash/provenance file into a signed-attestation claim.
+
+---
+
+# 63. Revocation Must Be Tested
+
+A catalog needs a deny path.
+
+Test that a temporary blocklist entry by name/digest prevents admission before relying on revocation operationally.
+

@@ -348,3 +348,18 @@ Skill content should remain shared unless a documented incompatibility requires 
 
 Static adapter validation, documented host behavior, and live runtime evidence must remain separate evidence classes.
 
+## Trust Distribution Boundary — v1.28.0
+
+```text
+Skill 10
+→ release/attestation workflow
+
+Skill 18
+→ security admission, provenance integrity, revocation
+
+Skill 19
+→ catalog/package lifecycle
+```
+
+A package can be valid but not admitted, admitted but unsigned, or signed but later revoked. Keep these lifecycle states independent.
+

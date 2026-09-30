@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.4.1"
+skill_version: "1.5.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.26.0"
+last_repository_update: "v1.28.0"
 tags:
   - google-apps-script
   - deployment
@@ -1900,6 +1900,89 @@ At the v1.21.0 audit:
 Treat the release note as the newer lifecycle signal while preserving the documentation inconsistency in technology watch.
 
 Cross-reference Skill 11.
+
+## Artifact Provenance & Attestation Release Gate — v1.28.0
+
+### Hashes, Provenance, and Signed Attestations Answer Different Questions
+
+Keep separate:
+
+```text
+SHA-256
+→ artifact bytes unchanged?
+
+provenance statement
+→ where/how was artifact built?
+
+signed attestation
+→ can the provenance claim be cryptographically verified?
+```
+
+Do not describe an unsigned provenance JSON as a signed attestation.
+
+### Deterministic Local Provenance
+
+For locally generated Agent Skill packages, produce deterministic lineage evidence including:
+
+- canonical source path/hash;
+- package/build profile hash;
+- builder script hash;
+- output artifact SHA-256;
+- repository/skill version;
+- evaluation/security evidence references.
+
+This supports reproducibility and incident analysis even before cryptographic signing.
+
+### GitHub Artifact Attestations
+
+Current GitHub Actions supports signed artifact attestations through:
+
+```text
+actions/attest@v4
+```
+
+with OIDC-backed signing and GitHub/Sigstore verification infrastructure.
+
+For a release workflow, grant only required permissions such as:
+
+```text
+id-token: write
+attestations: write
+artifact-metadata: write
+contents: read
+```
+
+Generate the attestation **after** the final artifact is built.
+
+### Verification Is a Consumer Step
+
+Publishing an attestation is not enough.
+
+Document a verification path, for example with current GitHub CLI attestation verification, so consumers can check artifact identity and repository provenance before installation.
+
+### Release Gate
+
+For higher-trust package distribution require:
+
+```text
+package validation
++
+security admission
++
+artifact hash
++
+provenance statement
++
+signed attestation when release environment supports it
+```
+
+If signing cannot run in the current environment, record:
+
+```text
+SIGNED_ATTESTATION = NOT_RUN
+```
+
+rather than upgrading local hash/provenance evidence to a cryptographic PASS.
 
 # References
 

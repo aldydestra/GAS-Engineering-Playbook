@@ -1,39 +1,27 @@
-name: Agent Skill Packaging
+name: Agent Skill Packaging & Trust
 
 on:
   pull_request:
     paths:
       - 'skills/**'
-      - 'packaging/agent-skills/**'
-      - 'tools/agent_skill_packager.py'
-      - 'tools/verify_agent_skill_dist.py'
-      - 'tools/test_agent_skill_packaging.py'
-      - 'tools/evaluate_agent_skill_parity.py'
-      - 'tools/test_agent_skill_evaluation.py'
+      - 'packaging/**'
+      - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'packaging/host-compat/**'
-      - 'tools/build_host_compat.py'
-      - 'tools/verify_host_compat.py'
-      - 'tools/test_host_compat.py'
-      - 'dist/host-compat-v1.27.0/**'
-      - 'dist/agent-skills-v1.27.0/**'
+      - 'dist/agent-skills-v1.28.0/**'
+      - 'dist/host-compat-v1.28.0/**'
+      - 'reports/agent-skill-evaluation-v1.28.0.*'
+      - 'docs/host-compatibility-matrix-v1.28.0.md'
   push:
     branches: [main]
     paths:
       - 'skills/**'
-      - 'packaging/agent-skills/**'
-      - 'tools/agent_skill_packager.py'
-      - 'tools/verify_agent_skill_dist.py'
-      - 'tools/test_agent_skill_packaging.py'
-      - 'tools/evaluate_agent_skill_parity.py'
-      - 'tools/test_agent_skill_evaluation.py'
+      - 'packaging/**'
+      - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'packaging/host-compat/**'
-      - 'tools/build_host_compat.py'
-      - 'tools/verify_host_compat.py'
-      - 'tools/test_host_compat.py'
-      - 'dist/host-compat-v1.27.0/**'
-      - 'dist/agent-skills-v1.27.0/**'
+      - 'dist/agent-skills-v1.28.0/**'
+      - 'dist/host-compat-v1.28.0/**'
+      - 'reports/agent-skill-evaluation-v1.28.0.*'
+      - 'docs/host-compatibility-matrix-v1.28.0.md'
 
 jobs:
   build-and-verify:
@@ -59,5 +47,19 @@ jobs:
         run: python tools/verify_host_compat.py
       - name: Run host compatibility tests
         run: python -m unittest tools/test_host_compat.py -v
-      - name: Ensure generated distribution and reports are committed and reproducible
-        run: git diff --exit-code -- dist/agent-skills-v1.27.0 dist/host-compat-v1.27.0 reports/agent-skill-evaluation-v1.27.0.json reports/agent-skill-evaluation-v1.27.0.md docs/host-compatibility-matrix-v1.27.0.md
+      - name: Build security, catalog, provenance and revocation evidence
+        run: python tools/build_agent_skill_trust.py
+      - name: Verify trust catalog and provenance
+        run: python tools/verify_agent_skill_trust.py
+      - name: Run trust/revocation tests
+        env:
+          PYTHONPATH: tools
+        run: python tools/test_agent_skill_trust.py
+      - name: Ensure generated distributions and reports are committed and reproducible
+        run: >-
+          git diff --exit-code --
+          dist/agent-skills-v1.28.0
+          dist/host-compat-v1.28.0
+          reports/agent-skill-evaluation-v1.28.0.json
+          reports/agent-skill-evaluation-v1.28.0.md
+          docs/host-compatibility-matrix-v1.28.0.md

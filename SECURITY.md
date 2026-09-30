@@ -36,3 +36,22 @@ Security depends on:
 - infrastructure configuration.
 
 Always verify current official documentation and organizational requirements before production deployment.
+
+## Agent Skill Artifact / Catalog Incident
+
+If a distributed `.skill` artifact is suspected of compromise or incorrect provenance, include when possible:
+
+- skill/package name;
+- SHA-256 digest;
+- repository release/tag;
+- catalog/provenance entry;
+- affected host/installation scope;
+- observed behavior;
+- whether the artifact should be revoked.
+
+The v1.28+ distribution supports deny-by-name and/or deny-by-digest revocation metadata.
+
+A revocation can invalidate catalog admission even when an old artifact remains downloadable from a cache or historical release.
+
+Do not publish live secrets or malicious payloads unnecessarily when reporting the incident.
+

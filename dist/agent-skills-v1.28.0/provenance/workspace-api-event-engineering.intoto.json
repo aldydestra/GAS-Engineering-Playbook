@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-manual",
+        "packageName": "workspace-api-event-engineering",
+        "profile": "full-v1.28",
+        "repositoryVersion": "v1.28.0",
+        "sourcePath": "skills/16-workspace-api-event-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "2b2912c828c3f4bedda335658f69406fbf4f2ec866245d2511198f6f88a86367"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/16-workspace-api-event-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "43ff09be6f109f450b70e1a280a31d98b08a8d8fe79a3107ea7009b15c997364"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.28.json"
+        },
+        {
+          "digest": {
+            "sha256": "8e3abf4dc78cf3459a657c3d283cc640cbd75ce05edbdd519bdcbbf1dd26dcb8"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "8e3abf4dc78cf3459a657c3d283cc640cbd75ce05edbdd519bdcbbf1dd26dcb8",
+          "repository": "v1.28.0"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "ee8c39f35ae482c4927ef78264461057a01ef9064d7e4e7a7bbf5cf7c32beff5"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.28.0/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "7b819e10f81f548a118712311560ada87b078ae7d9a764488866d1c262d7ad78"
+      },
+      "name": "workspace-api-event-engineering.skill"
+    }
+  ]
+}

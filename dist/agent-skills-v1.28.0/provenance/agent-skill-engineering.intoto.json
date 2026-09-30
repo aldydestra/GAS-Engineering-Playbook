@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "standard-normalize",
+        "packageName": "agent-skill-engineering",
+        "profile": "full-v1.28",
+        "repositoryVersion": "v1.28.0",
+        "sourcePath": "skills/19-agent-skill-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "edca61fb755ebb568b4fc3f0e180fb02937bd6fee6ff50b0542d29b0b89c197d"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/19-agent-skill-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "43ff09be6f109f450b70e1a280a31d98b08a8d8fe79a3107ea7009b15c997364"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.28.json"
+        },
+        {
+          "digest": {
+            "sha256": "8e3abf4dc78cf3459a657c3d283cc640cbd75ce05edbdd519bdcbbf1dd26dcb8"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "8e3abf4dc78cf3459a657c3d283cc640cbd75ce05edbdd519bdcbbf1dd26dcb8",
+          "repository": "v1.28.0"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "ee8c39f35ae482c4927ef78264461057a01ef9064d7e4e7a7bbf5cf7c32beff5"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.28.0/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "276d8777f3daf8f8a0bcd550cb13ebe9d2e924fa4f0b6f2fd3c4a3ea06865bd3"
+      },
+      "name": "agent-skill-engineering.skill"
+    }
+  ]
+}
