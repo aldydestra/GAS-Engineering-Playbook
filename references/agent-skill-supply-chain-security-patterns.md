@@ -257,3 +257,19 @@ complete scan
 ```
 
 A tested revoke path is part of supply-chain readiness.
+
+# Dual-Distribution Trust Continuity — v1.29.0
+
+```text
+canonical source hash
+↓
+package hash
+↓
+catalog / provenance
+↓
+migration map
+```
+
+Rollback must preserve revocation state and must not reactivate an older blocked artifact.
+
+Real host/consumer evidence remains separate from deterministic trust evidence.

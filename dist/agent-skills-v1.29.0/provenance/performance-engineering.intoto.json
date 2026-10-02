@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "performance-engineering",
+        "profile": "full-v1.29",
+        "repositoryVersion": "v1.29.0",
+        "sourcePath": "skills/06-performance-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "0e7d74461cb428dfc05c9d5c4d6decf65e9fe98c0fbf60388f63fff8d788ca7d"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/06-performance-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "5348422c5632ca0b57141507ee50a16c016cd94ad878ef80ec30475ffada6203"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.29.json"
+        },
+        {
+          "digest": {
+            "sha256": "63cc4dc379b767edc2bf6c065f270948b050003971d12dd570cab65e4c4d2837"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "63cc4dc379b767edc2bf6c065f270948b050003971d12dd570cab65e4c4d2837",
+          "repository": "v1.29.0"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "fcf53646b90a3806a04d46ab012caefc5418b31c5107cc5ff6b3bc9bbdc1cdfe"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.29.0/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "8550a6de9ca8e2ce5aaed173a09b83706310b879cf62378486c8cc6e1ed18d84"
+      },
+      "name": "performance-engineering.skill"
+    }
+  ]
+}

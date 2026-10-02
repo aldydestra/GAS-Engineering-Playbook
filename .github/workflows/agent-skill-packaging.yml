@@ -7,10 +7,13 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'dist/agent-skills-v1.28.0/**'
-      - 'dist/host-compat-v1.28.0/**'
-      - 'reports/agent-skill-evaluation-v1.28.0.*'
-      - 'docs/host-compatibility-matrix-v1.28.0.md'
+      - 'dist/agent-skills-v1.29.0/**'
+      - 'dist/host-compat-v1.29.0/**'
+      - 'dist/dual-distribution-v1.29.0/**'
+      - 'reports/agent-skill-evaluation-v1.29.0.*'
+      - 'docs/host-compatibility-matrix-v1.29.0.md'
+      - 'docs/dual-distribution-rc-v1.29.0.md'
+      - 'docs/v2-go-no-go-v1.29.0.md'
   push:
     branches: [main]
     paths:
@@ -18,10 +21,13 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'dist/agent-skills-v1.28.0/**'
-      - 'dist/host-compat-v1.28.0/**'
-      - 'reports/agent-skill-evaluation-v1.28.0.*'
-      - 'docs/host-compatibility-matrix-v1.28.0.md'
+      - 'dist/agent-skills-v1.29.0/**'
+      - 'dist/host-compat-v1.29.0/**'
+      - 'dist/dual-distribution-v1.29.0/**'
+      - 'reports/agent-skill-evaluation-v1.29.0.*'
+      - 'docs/host-compatibility-matrix-v1.29.0.md'
+      - 'docs/dual-distribution-rc-v1.29.0.md'
+      - 'docs/v2-go-no-go-v1.29.0.md'
 
 jobs:
   build-and-verify:
@@ -55,11 +61,22 @@ jobs:
         env:
           PYTHONPATH: tools
         run: python tools/test_agent_skill_trust.py
+      - name: Build dual-distribution RC evidence
+        run: python tools/build_dual_distribution.py
+      - name: Verify dual-distribution migration and rollback evidence
+        run: python tools/verify_dual_distribution.py
+      - name: Run dual-distribution tests
+        env:
+          PYTHONPATH: tools
+        run: python -m unittest tools/test_dual_distribution.py -v
       - name: Ensure generated distributions and reports are committed and reproducible
         run: >-
           git diff --exit-code --
-          dist/agent-skills-v1.28.0
-          dist/host-compat-v1.28.0
-          reports/agent-skill-evaluation-v1.28.0.json
-          reports/agent-skill-evaluation-v1.28.0.md
-          docs/host-compatibility-matrix-v1.28.0.md
+          dist/agent-skills-v1.29.0
+          dist/host-compat-v1.29.0
+          dist/dual-distribution-v1.29.0
+          reports/agent-skill-evaluation-v1.29.0.json
+          reports/agent-skill-evaluation-v1.29.0.md
+          docs/host-compatibility-matrix-v1.29.0.md
+          docs/dual-distribution-rc-v1.29.0.md
+          docs/v2-go-no-go-v1.29.0.md

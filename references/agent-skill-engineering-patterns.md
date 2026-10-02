@@ -169,3 +169,21 @@ revocation
 ```
 
 Keep static, unsigned, signed, live-host, and revoked states explicit.
+
+# Dual-Distribution RC Pattern — v1.29.0
+
+```text
+canonical authoring source
+↓ deterministic build
+normalized package distribution
+```
+
+During RC:
+
+```text
+canonical = ACTIVE_SUPPORTED
+package = RELEASE_CANDIDATE
+canonical deprecation = NOT_DEPRECATED
+```
+
+Publish a one-to-one migration map and keep live burn-in status honest.

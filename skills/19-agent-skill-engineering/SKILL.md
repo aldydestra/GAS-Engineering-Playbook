@@ -1,13 +1,13 @@
 ---
 name: 19-agent-skill-engineering
-description: "Author, package, validate, route, install, update, and maintain Agent Skills across portable SKILL.md packages and host adapters for Gemini CLI, Claude Code, OpenAI ChatGPT/Codex Plugins, and other compatible clients. Use for trigger descriptions, progressive disclosure, packaging, discovery/precedence, host compatibility matrices, security/catalog/provenance evidence, revocation, and lifecycle/version management."
+description: "Author, package, validate, route, install, update, and maintain Agent Skills across canonical source, generated packages, and host adapters. Use for trigger descriptions, progressive disclosure, packaging, discovery/precedence, host compatibility, dual-distribution migration, security/catalog/provenance evidence, rollback, revocation, and lifecycle/version management."
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.5.0"
+  gas_playbook_skill_version: "1.6.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.28.0"
+  gas_playbook_last_repository_update: "v1.29.0"
 ---
 
 # Agent Skill Engineering
@@ -442,12 +442,46 @@ Current verified adapters cover Gemini CLI, Claude Code, and OpenAI ChatGPT/Code
 
 See [host compatibility patterns](references/host-compatibility.md) and `docs/host-compatibility-matrix-v1.27.0.md`.
 
+## Dual-Distribution Release Candidate
+
+During migration, operate:
+
+```text
+canonical source
++
+normalized package distribution
+```
+
+with only the canonical tree as authoring source.
+
+Required RC evidence:
+
+- one-to-one migration map;
+- source/package hashes;
+- release index;
+- compatibility/deprecation policy;
+- deterministic rollback drill;
+- consumer/live-host evidence kept distinct from CI.
+
+For v1.29:
+
+```text
+canonical = ACTIVE_SUPPORTED
+packages = RELEASE_CANDIDATE
+canonical deprecation = NOT_DEPRECATED
+```
+
+A static RC can pass while v2 remains `NO_GO` because live-host or real burn-in evidence is `NOT_RUN`.
+
+See [dual-distribution RC patterns](references/dual-distribution-rc.md).
+
 ## References
 
 Read only as needed:
 - [Specification & host patterns](references/spec-and-host-patterns.md)
 - [Playbook compatibility notes](references/spec-compatibility.md)
 - [Catalog, provenance & revocation patterns](references/catalog-provenance-patterns.md)
+- [Dual-distribution RC patterns](references/dual-distribution-rc.md)
 
 External sources:
 - Agent Skills specification: https://github.com/agentskills/agentskills

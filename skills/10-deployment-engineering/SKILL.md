@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.5.0"
+skill_version: "1.6.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.28.0"
+last_repository_update: "v1.29.0"
 tags:
   - google-apps-script
   - deployment
@@ -1983,6 +1983,109 @@ SIGNED_ATTESTATION = NOT_RUN
 ```
 
 rather than upgrading local hash/provenance evidence to a cryptographic PASS.
+
+## Dual-Distribution Release Candidate — v1.29.0
+
+### Release Two Representations Without Two Sources of Truth
+
+During migration to package-first Agent Skills, release:
+
+```text
+canonical v1.x source tree
++
+generated Agent Skill packages
+```
+
+in parallel.
+
+The canonical tree remains the authoring source.
+
+Generated packages are release artifacts.
+
+Do not permit manual fixes in `dist/` that are not reproducible from canonical source.
+
+### Release Index
+
+A dual-distribution release should publish one machine-readable index binding:
+
+```text
+repository version
+canonical skill count/hash
+package manifest/catalog hash
+host-compatibility evidence
+migration map
+rollback drill
+v2 readiness status
+```
+
+This prevents consumers from guessing which artifact belongs to which source revision.
+
+### Migration Map Is a Release Artifact
+
+Every canonical skill must map exactly once to its normalized package identity.
+
+Example:
+
+```text
+skills/01-gas-core-engineering/
+→ gas-core-engineering.skill
+```
+
+The map should include source/package hashes where practical.
+
+### Do Not Deprecate the Old Channel Prematurely
+
+A release candidate is not a breaking migration.
+
+Keep canonical v1.x paths:
+
+```text
+ACTIVE_SUPPORTED
+```
+
+until the v2 go/no-go gates are satisfied.
+
+### Rollback Must Be Demonstrated
+
+At minimum prove deterministically that every package can be traced back to the exact canonical source represented in release evidence.
+
+A repository-level rollback drill can be:
+
+```text
+package identity
+↓
+catalog/provenance/hash verification
+↓
+migration map
+↓
+canonical source identity
+```
+
+Live host uninstall/rollback remains a separate operational test.
+
+### Release Evidence Must Keep `NOT_RUN` Honest
+
+Do not convert these to PASS because an RC is otherwise green:
+
+```text
+live host smoke
+real consumer burn-in
+signed release attestation
+```
+
+A release candidate can be statically releasable while v2 remains `NO_GO`.
+
+### v2 Is a Gate, Not the Next Calendar Version
+
+If v1.29 still lacks live-host or real-usage evidence:
+
+```text
+continue v1.x
+```
+
+rather than forcing a breaking v2 release.
+
+Cross-reference Skills 18 and 19.
 
 # References
 

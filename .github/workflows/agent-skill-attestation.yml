@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'v1.28.*'
+      - 'v1.29.*'
 
 permissions:
   contents: read
@@ -29,21 +29,27 @@ jobs:
           python tools/verify_host_compat.py
           python tools/build_agent_skill_trust.py
           python tools/verify_agent_skill_trust.py
+          python tools/build_dual_distribution.py
+          python tools/verify_dual_distribution.py
       - name: Generate signed GitHub artifact attestations
         uses: actions/attest@v4
         with:
           subject-path: |
-            dist/agent-skills-v1.28.0/packages/*.skill
-            dist/host-compat-v1.28.0/*.zip
+            dist/agent-skills-v1.29.0/packages/*.skill
+            dist/host-compat-v1.29.0/*.zip
       - name: Upload release evidence
         uses: actions/upload-artifact@v4
         with:
-          name: agent-skill-v1.28-evidence
+          name: agent-skill-v1.29-evidence
           path: |
-            dist/agent-skills-v1.28.0/catalog.json
-            dist/agent-skills-v1.28.0/security-report.json
-            dist/agent-skills-v1.28.0/provenance-index.json
-            dist/agent-skills-v1.28.0/provenance/
-            dist/agent-skills-v1.28.0/revocations.json
-            dist/agent-skills-v1.28.0/SHA256SUMS
-            dist/host-compat-v1.28.0/SHA256SUMS
+            dist/agent-skills-v1.29.0/catalog.json
+            dist/agent-skills-v1.29.0/security-report.json
+            dist/agent-skills-v1.29.0/provenance-index.json
+            dist/agent-skills-v1.29.0/provenance/
+            dist/agent-skills-v1.29.0/revocations.json
+            dist/agent-skills-v1.29.0/SHA256SUMS
+            dist/host-compat-v1.29.0/SHA256SUMS
+            dist/dual-distribution-v1.29.0/release-index.json
+            dist/dual-distribution-v1.29.0/migration-map.json
+            dist/dual-distribution-v1.29.0/rollback-drill.json
+            dist/dual-distribution-v1.29.0/SHA256SUMS

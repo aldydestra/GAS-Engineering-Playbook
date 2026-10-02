@@ -214,3 +214,26 @@ consumer verification
 ```
 
 Do not label deterministic unsigned provenance as a signed attestation.
+
+# Dual-Distribution RC — v1.29.0
+
+```text
+canonical source
++
+generated package channel
+↓
+one release index
+```
+
+Required evidence:
+
+```text
+migration map
+package/catalog hashes
+compatibility policy
+rollback drill
+live-evidence status
+v2 go/no-go
+```
+
+A static RC can be releasable while the breaking migration remains `NO_GO`.

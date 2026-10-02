@@ -81,7 +81,7 @@ def verify(root: Path, dist: Path, revocations_override: Path|None=None) -> list
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--root',default='.')
-    ap.add_argument('--dist',default='dist/agent-skills-v1.28.0')
+    ap.add_argument('--dist',default='dist/agent-skills-v1.29.0')
     ap.add_argument('--revocations')
     args=ap.parse_args()
     root=Path(args.root).resolve(); dist=root/args.dist

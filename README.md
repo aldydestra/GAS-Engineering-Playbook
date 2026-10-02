@@ -4,6 +4,10 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
+## v1.29.0 Dual-Distribution RC
+
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.29.0/` is released in parallel as a release-candidate package channel. Static migration/rollback gates pass; v2 remains `NO_GO` until live-host and real-consumer evidence exists.
+
 ## Foundation Status
 
 **Foundation complete as of repository v1.13.0.**
@@ -172,7 +176,8 @@ last_repository_update: "v1.13.0"
 | v1.25.0 | Full Agent Skill packaging coverage 19/19 + knowledge-retention verification + deterministic distribution |
 | v1.26.0 | Evaluation & Trigger Parity: routing corpus, capability assertions, 19-skill trigger metadata refresh, deterministic parity gate |
 | v1.27.0 | Host Compatibility Matrix: Gemini CLI direct skills + Claude Code/OpenAI plugin adapters + explicit live-evidence boundary |
-| **v1.28.0** | **Security/Catalog/Provenance: static admission, trust catalog, SLSA/in-toto lineage, revocation gate, GitHub attestation workflow** |
+| v1.28.0 | Security/Catalog/Provenance: static admission, trust catalog, SLSA/in-toto lineage, revocation gate, GitHub attestation workflow |
+| **v1.29.0** | **Dual-Distribution RC: canonical + package channels, migration map, rollback drill, explicit v2 NO_GO evidence** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -661,7 +666,7 @@ If a future branch, private repository, skill file, or artifact cannot be retrie
 
 # Agent Skill Distribution Pipeline
 
-Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, and v1.28.0 adds a trust layer:
+Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, v1.28.0 added the trust layer, and v1.29.0 operates canonical and package channels in parallel as a release candidate:
 
 ```text
 skills/ canonical source
@@ -675,6 +680,8 @@ static security admission
 catalog + provenance + revocation
 ↓
 optional signed GitHub attestation at release time
+↓
+dual-distribution migration + rollback evidence
 ```
 
 Generated distribution files must not be edited manually. Static host/security evidence, unsigned provenance, live-host evidence, and signed attestations are intentionally reported as separate states.
@@ -688,6 +695,8 @@ See:
 - `docs/host-compatibility-audit-v1.27.0.md`
 - `docs/security-catalog-provenance-audit-v1.28.0.md`
 - `docs/agent-skill-provenance-v1.28.0.md`
+- `docs/dual-distribution-rc-v1.29.0.md`
+- `docs/v2-go-no-go-v1.29.0.md`
 - `docs/roadmap-to-v2.0.md`
 
 # Repository Structure
@@ -726,21 +735,23 @@ gas-engineering-playbook/
 ├── packaging/
 │   ├── agent-skills/
 │   ├── host-compat/
-│   └── trust/
+│   ├── trust/
+│   └── dual-distribution/
 ├── tools/
 ├── evals/
 │   └── agent-skills/
 ├── dist/
-│   ├── agent-skills-v1.28.0/
+│   ├── agent-skills-v1.29.0/
 │   │   ├── catalog.json
 │   │   ├── security-report.json
 │   │   ├── revocations.json
 │   │   ├── provenance-index.json
 │   │   └── provenance/
-│   └── host-compat-v1.28.0/
+│   ├── host-compat-v1.29.0/
+│   └── dual-distribution-v1.29.0/
 ├── reports/
-│   ├── agent-skill-evaluation-v1.28.0.json
-│   └── agent-skill-evaluation-v1.28.0.md
+│   ├── agent-skill-evaluation-v1.29.0.json
+│   └── agent-skill-evaluation-v1.29.0.md
 ├── examples/
 └── docs/
     ├── module-development-guide.md
@@ -767,6 +778,8 @@ gas-engineering-playbook/
     ├── host-compatibility-audit-v1.27.0.md
     ├── security-catalog-provenance-audit-v1.28.0.md
     ├── agent-skill-provenance-v1.28.0.md
+    ├── dual-distribution-rc-v1.29.0.md
+    ├── v2-go-no-go-v1.29.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md

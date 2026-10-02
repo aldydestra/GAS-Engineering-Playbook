@@ -212,7 +212,9 @@ Unsigned deterministic provenance is not cryptographic signer proof. Signed rele
 
 ---
 
-## v1.29.x — Dual-Distribution Release Candidate
+## v1.29.0 — Dual-Distribution Release Candidate
+
+Status: **implemented — static RC PASS; v2 remains NO_GO**
 
 Goal:
 
@@ -241,6 +243,41 @@ Required gate:
 - cross-host matrix acceptable;
 - trigger/effectiveness parity acceptable;
 - release rollback tested.
+
+Implemented result:
+
+```text
+19/19 migration map           PASS
+package/catalog drift         PASS
+static host compatibility     PASS
+static rollback drill         PASS
+canonical deprecation         NOT_DEPRECATED
+live host smoke               NOT_RUN
+real consumer burn-in         NOT_RUN
+v2 readiness                  NO_GO
+```
+
+---
+
+## v1.30.x — Live Validation & Operational Burn-In
+
+Status: **required before v2 because v1.29 operational gates are incomplete**
+
+Goal:
+
+- real install/activation/update/uninstall on at least one supported host;
+- real dual-distribution usage window;
+- consumer feedback/incident log;
+- rollback exercise against a real host where feasible;
+- signed release attestation verification if the GitHub release workflow is available.
+
+Exit gate:
+
+```text
+at least one live host PASS
+real usage evidence PASS
+no blocking RC incident
+```
 
 ---
 

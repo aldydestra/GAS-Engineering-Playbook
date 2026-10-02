@@ -3,6 +3,54 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.29.0] - 2026-10-02
+
+### Dual-Distribution Release Candidate
+
+Added deterministic parallel release evidence for:
+
+```text
+canonical v1.x source tree
++
+generated Agent Skill packages
+```
+
+### Added
+
+- `packaging/dual-distribution/dual-v1.29.json`
+- `tools/build_dual_distribution.py`
+- `tools/verify_dual_distribution.py`
+- `tools/test_dual_distribution.py`
+- `dist/dual-distribution-v1.29.0/`
+- `docs/dual-distribution-rc-v1.29.0.md`
+- `docs/v2-go-no-go-v1.29.0.md`
+
+### Updated Skills
+
+```text
+10 Deployment Engineering             1.5.0 → 1.6.0
+18 Agent Skill Supply-Chain Security  1.6.0 → 1.7.0
+19 Agent Skill Engineering            1.5.0 → 1.6.0
+```
+
+### RC Result
+
+```text
+19/19 migration map               PASS
+package/evaluation/trust gates    PASS
+host static compatibility         PASS
+rollback drill                    PASS_STATIC
+canonical deprecation             NOT_DEPRECATED
+live host smoke                   NOT_RUN
+real consumer burn-in             NOT_RUN
+v2 readiness                      NO_GO
+```
+
+v1.29.0 is intentionally an RC. Missing live evidence remains a blocker for v2 rather than being rewritten as PASS.
+
+---
+
+
 ## [v1.28.0] - 2026-09-30
 
 ### Security, Catalog & Provenance

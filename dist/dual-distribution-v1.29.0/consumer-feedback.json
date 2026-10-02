@@ -1,0 +1,8 @@
+{
+  "blocking_incidents": [],
+  "feedback_items": [],
+  "reason": "No real consumer burn-in or submitted production incident evidence is recorded by deterministic repository CI.",
+  "repository_version": "v1.29.0",
+  "schema_version": 1,
+  "status": "NOT_RUN"
+}

@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-09-30**
+Last audit: **2026-10-02**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -3758,4 +3758,42 @@ REVOKED
 ```
 
 No signed-attestation claim is made by the local build.
+---
 
+# v1.29.0 Dual-Distribution RC Check — 2026-10-02
+
+## Agent Skills / Gemini CLI
+
+Current Agent Skills and Gemini CLI documentation continues to support the architecture used by the v1.29 RC:
+
+```text
+portable skill directory
+progressive disclosure
+direct `.skill` installation
+discovery tiers
+workspace/user scope
+reload/enable/disable/uninstall lifecycle
+```
+
+Current Gemini CLI precedence remains:
+
+```text
+built-in < extension < user < workspace
+```
+
+Status: **NO BREAKING FORMAT CHANGE FOUND**
+
+The v1.29 release therefore focuses on repository migration/rollback evidence rather than another host-format revision.
+
+## Dual-Distribution Evidence Boundary
+
+Current repository evidence remains intentionally separated:
+
+```text
+static package / evaluation / trust / host adapters = PASS
+live host smoke = NOT_RUN
+real consumer burn-in = NOT_RUN
+signed GitHub attestation = NOT_RUN locally
+```
+
+Status: **ADOPTED AS RC EVIDENCE MODEL**

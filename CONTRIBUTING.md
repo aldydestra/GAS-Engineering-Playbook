@@ -423,3 +423,27 @@ Do not claim a cryptographic attestation from an unsigned local provenance state
 
 If the release workflow cannot sign/attest in the current environment, record `NOT_RUN`.
 
+## Dual-Distribution Contributions
+
+During the v1.29 RC:
+
+```text
+skills/
+= canonical authoring source
+
+dist/agent-skills-v1.29.0/
+= generated distribution
+```
+
+Do not manually patch generated package content.
+
+Changes affecting skill content must regenerate and pass:
+
+- package verification;
+- evaluation parity;
+- host compatibility;
+- trust/catalog/provenance;
+- dual-distribution migration/rollback verification.
+
+Do not mark live-host, signed-attestation, or real-consumer evidence `PASS` unless it actually ran.
+

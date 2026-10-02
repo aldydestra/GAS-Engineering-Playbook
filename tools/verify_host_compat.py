@@ -55,7 +55,7 @@ def verify_relative_md_links(z:zipfile.ZipFile, skill_paths:dict):
                 if resolved not in names: raise AssertionError(f'{n}: missing {target} -> {resolved}')
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--dist',default='dist/host-compat-v1.28.0'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--dist',default='dist/host-compat-v1.29.0'); args=ap.parse_args()
     root=Path(__file__).resolve().parents[1]; dist=root/args.dist
     manifest=json.loads((dist/'manifest.json').read_text())
     expected_version=dist.name.replace('host-compat-','')
