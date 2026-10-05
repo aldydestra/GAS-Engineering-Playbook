@@ -34,9 +34,9 @@ def skill_version(skill_md: Path) -> str:
     return m.group(1).strip() if m else 'unknown'
 
 
-def md_table(rows: list[dict]) -> str:
-    lines=['# Migration Map — v1.29.0','',
-           'Canonical source paths remain supported in v1.29.0. Generated Agent Skill packages are the parallel release-candidate distribution.','',
+def md_table(rows: list[dict], repository_version: str) -> str:
+    lines=[f'# Migration Map — {repository_version}','',
+           f'Canonical source paths remain supported in {repository_version}. Generated Agent Skill packages are the parallel release-candidate distribution.','',
            '| Canonical source | Skill version | Package | Package SHA-256 |',
            '|---|---:|---|---|']
     for r in rows:
@@ -57,7 +57,7 @@ def report_md(index: dict) -> str:
     for k,v in ev.items(): lines.append(f"- `{k}`: **{v['status']}** — {v['reason']}")
     lines += ['', '## v2 blockers','']
     for b in g['v2_blockers']: lines.append(f"- {b}")
-    lines += ['', 'v1.29.0 is therefore a dual-distribution **release candidate**, not authorization to remove the canonical v1.x source layout.', '']
+    lines += ['', f"{index['repository_version']} is therefore a dual-distribution **release candidate**, not authorization to remove the canonical v1.x source layout.", '']
     return '\n'.join(lines)
 
 
@@ -95,7 +95,7 @@ Generated artifacts must be rebuilt from canonical source; manual edits to `dist
 
 ## Deprecation
 
-No canonical skill path is deprecated in v1.29.0. A future package-first v2 requires an explicit migration release and passing go/no-go gates.
+No canonical skill path is deprecated in {cfg["repository_version"]}. A future package-first v2 requires an explicit migration release and passing go/no-go gates.
 '''
 
 
@@ -205,7 +205,7 @@ def build(root: Path, config_path: Path) -> Path:
                'canonical_status':cfg['canonical_status'],'package_status':cfg['package_status'],
                'deprecation_status':cfg['deprecation_status'],'skills':mappings}
     (out/'migration-map.json').write_text(json.dumps(migration,indent=2,sort_keys=True)+'\n')
-    (out/'MIGRATION_MAP.md').write_text(md_table(mappings)+'\n')
+    (out/'MIGRATION_MAP.md').write_text(md_table(mappings, cfg['repository_version'])+'\n')
 
     rollback={'schema_version':1,'repository_version':cfg['repository_version'],
               'status':'PASS_STATIC' if map_fail==0 and hash_fail==0 else 'FAIL',
@@ -268,7 +268,7 @@ def build(root: Path, config_path: Path) -> Path:
 
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/dual-distribution/dual-v1.29.json'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/dual-distribution/dual-v1.30.json'); args=ap.parse_args()
     root=Path(args.root).resolve(); build(root, root/args.config)
 
 if __name__=='__main__': main()

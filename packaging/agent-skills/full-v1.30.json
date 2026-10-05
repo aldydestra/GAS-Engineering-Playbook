@@ -1,0 +1,314 @@
+{
+  "repository_version": "v1.30.0",
+  "profile": "full-v1.30",
+  "default_max_sections_per_reference": 10,
+  "skills": [
+    {
+      "source": "skills/01-gas-core-engineering",
+      "package_name": "gas-core-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/02-appsheet-migration",
+      "package_name": "appsheet-migration",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/03-software-architecture",
+      "package_name": "software-architecture",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/04-database-engineering",
+      "package_name": "database-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/05-postgresql-integration",
+      "package_name": "postgresql-integration",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/06-performance-engineering",
+      "package_name": "performance-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/07-security-engineering",
+      "package_name": "security-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/08-testing-quality",
+      "package_name": "testing-quality",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/09-monitoring-observability",
+      "package_name": "monitoring-observability",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/10-deployment-engineering",
+      "package_name": "deployment-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/11-documentation-engineering",
+      "package_name": "documentation-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/12-web-app-frontend-engineering",
+      "package_name": "web-app-frontend-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/13-ai-agent-integration",
+      "package_name": "ai-agent-integration",
+      "use_when": [
+        "Integrating LLMs or agents with Apps Script or Google Workspace workflows.",
+        "Designing tool calling, MCP/A2A, human approval, agent state, retrieval, or bounded agent loops."
+      ],
+      "core_rules": [
+        "Treat model output and retrieved content as untrusted input.",
+        "Keep application/tool authorization deterministic and outside model discretion.",
+        "Use bounded loops, context budgets, idempotent side effects, and explicit error categories.",
+        "Prefer authoritative retrieval/tools over unsupported model-memory guesses."
+      ],
+      "groups": [
+        {
+          "file": "decision-and-provider.md",
+          "title": "Decision, providers, structured output, and tool declaration",
+          "range": [
+            1,
+            8
+          ]
+        },
+        {
+          "file": "authorization-and-trust.md",
+          "title": "Tool authorization, prompt injection, least privilege, and human approval",
+          "range": [
+            9,
+            16
+          ]
+        },
+        {
+          "file": "runtime-state-and-errors.md",
+          "title": "Runtime budgets, durable state, idempotency, and errors",
+          "range": [
+            17,
+            28
+          ]
+        },
+        {
+          "file": "orchestration-and-protocols.md",
+          "title": "Tool flow, sub-agents, MCP, A2A, and discovery",
+          "range": [
+            29,
+            42
+          ]
+        },
+        {
+          "file": "skills-security-and-observability.md",
+          "title": "Skills, hooks, privacy, observability, and quotas",
+          "range": [
+            43,
+            54
+          ]
+        },
+        {
+          "file": "retrieval-and-use-cases.md",
+          "title": "Retrieval and common AI use cases",
+          "range": [
+            55,
+            64
+          ]
+        },
+        {
+          "file": "testing-release-and-sources.md",
+          "title": "Testing, deployment, release, contribution evidence, and sources",
+          "range": [
+            65,
+            999
+          ]
+        }
+      ],
+      "mode": "legacy-manual"
+    },
+    {
+      "source": "skills/14-workspace-addons-chat-engineering",
+      "package_name": "workspace-addons-chat-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/15-product-design-engineering",
+      "package_name": "product-design-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/16-workspace-api-event-engineering",
+      "package_name": "workspace-api-event-engineering",
+      "use_when": [
+        "Calling Google Workspace APIs from Apps Script or adjacent runtimes.",
+        "Designing OAuth, pagination, Workspace Events, Pub/Sub, Studio API, MCP, retries, quotas, or reconciliation."
+      ],
+      "core_rules": [
+        "Choose the narrowest viable integration surface: built-in service, advanced service, REST, event API, or MCP.",
+        "Keep authentication identity, scopes, resource names, pagination, and API version explicit.",
+        "Treat event notifications as signals that can require authoritative state reconciliation.",
+        "Bound pagination, retries, quota use, egress, and asynchronous state."
+      ],
+      "groups": [
+        {
+          "file": "surface-authentication.md",
+          "title": "Integration surfaces, projects, credentials, and authentication",
+          "range": [
+            1,
+            12
+          ]
+        },
+        {
+          "file": "scopes-rest-and-versioning.md",
+          "title": "Identity, scopes, REST, pagination, filtering, and versioning",
+          "range": [
+            13,
+            24
+          ]
+        },
+        {
+          "file": "meet-and-event-subscriptions.md",
+          "title": "Meet and Workspace Events subscription foundations",
+          "range": [
+            25,
+            36
+          ]
+        },
+        {
+          "file": "subscription-lifecycle-and-product-events.md",
+          "title": "Subscription lifecycle, Drive, Meet, Chat, and customer-level events",
+          "range": [
+            37,
+            50
+          ]
+        },
+        {
+          "file": "delivery-idempotency-and-retries.md",
+          "title": "Authentication, event delivery, idempotency, backpressure, and retries",
+          "range": [
+            51,
+            65
+          ]
+        },
+        {
+          "file": "quota-scripts-run-and-architecture.md",
+          "title": "Quotas, Apps Script API, gateways, adapters, and cached reference data",
+          "range": [
+            66,
+            80
+          ]
+        },
+        {
+          "file": "sync-security-and-preview.md",
+          "title": "Incremental sync, product change patterns, security, and preview boundaries",
+          "range": [
+            81,
+            92
+          ]
+        },
+        {
+          "file": "testing-operations-and-sources.md",
+          "title": "Testing, operations, checklists, and sources",
+          "range": [
+            93,
+            999
+          ]
+        }
+      ],
+      "mode": "legacy-manual"
+    },
+    {
+      "source": "skills/17-workspace-governance-compliance-engineering",
+      "package_name": "workspace-governance-compliance-engineering",
+      "mode": "legacy-auto"
+    },
+    {
+      "source": "skills/18-agent-skill-supply-chain-security",
+      "package_name": "agent-skill-supply-chain-security",
+      "use_when": [
+        "Reviewing, admitting, installing, updating, or publishing Agent Skills, plugins, MCP-integrated packages, or skill catalogs.",
+        "Investigating prompt injection, exfiltration, executable content, dependency provenance, skill shadowing, scanner completeness, or package integrity."
+      ],
+      "core_rules": [
+        "Treat the complete effective package as executable supply-chain input, not just SKILL.md.",
+        "Fail closed when relevant analysis is incomplete.",
+        "Separate security scanning, effectiveness evaluation, and artifact integrity evidence.",
+        "Pin/review provenance and detect permission, dependency, trigger, and precedence drift on updates."
+      ],
+      "groups": [
+        {
+          "file": "threat-model-and-scan-completeness.md",
+          "title": "Threat model, package materialization, resource bounds, and scan completeness",
+          "range": [
+            1,
+            20
+          ]
+        },
+        {
+          "file": "authority-mcp-and-behavior.md",
+          "title": "Secrets, execution, authority, MCP poisoning, and behavior parity",
+          "range": [
+            21,
+            39
+          ]
+        },
+        {
+          "file": "code-dependencies-and-integrity.md",
+          "title": "Code, dependencies, archive safety, source integrity, and signatures",
+          "range": [
+            40,
+            52
+          ]
+        },
+        {
+          "file": "findings-ci-and-sandbox.md",
+          "title": "Finding severity, suppression, CI, scanner provenance, and sandboxing",
+          "range": [
+            53,
+            64
+          ]
+        },
+        {
+          "file": "evaluation-catalog-and-updates.md",
+          "title": "Evaluation, catalogs, routing, and update drift",
+          "range": [
+            65,
+            84
+          ]
+        },
+        {
+          "file": "routing-memory-and-operations.md",
+          "title": "Skill routing, multi-agent memory, scanner operations, and risk acceptance",
+          "range": [
+            85,
+            99
+          ]
+        },
+        {
+          "file": "release-gates-incident-and-sources.md",
+          "title": "Release/install gates, incident response, checklists, and sources",
+          "range": [
+            100,
+            999
+          ]
+        }
+      ],
+      "mode": "legacy-manual"
+    },
+    {
+      "source": "skills/19-agent-skill-engineering",
+      "package_name": "agent-skill-engineering",
+      "mode": "standard-normalize"
+    }
+  ]
+}

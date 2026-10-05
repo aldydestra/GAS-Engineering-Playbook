@@ -88,7 +88,7 @@ def verify_standard(root: Path, dist: Path, rec: dict, errors: list[str]) -> Non
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--dist", default="dist/agent-skills-v1.29.0")
+    ap.add_argument("--dist", default="dist/agent-skills-v1.30.0")
     args = ap.parse_args()
     root = Path(args.root).resolve()
     dist = (root / args.dist).resolve() if not Path(args.dist).is_absolute() else Path(args.dist).resolve()
@@ -173,8 +173,26 @@ def main() -> int:
 
     sums_path = dist / "SHA256SUMS"
     actual_sums = sums_path.read_text(encoding="utf-8").strip().splitlines() if sums_path.exists() else []
-    if actual_sums != expected_sums:
-        errors.append("SHA256SUMS does not match manifest/archive hashes")
+    checksum_map: dict[str, str] = {}
+    for line in actual_sums:
+        try:
+            digest, rel = line.split("  ", 1)
+        except ValueError:
+            errors.append(f"malformed SHA256SUMS line: {line!r}")
+            continue
+        if rel in checksum_map:
+            errors.append(f"duplicate SHA256SUMS entry: {rel}")
+            continue
+        checksum_map[rel] = digest
+        target = dist / rel
+        if not target.exists() or not target.is_file():
+            errors.append(f"SHA256SUMS references missing file: {rel}")
+        elif sha256(target) != digest:
+            errors.append(f"SHA256SUMS digest mismatch: {rel}")
+    for expected in expected_sums:
+        digest, rel = expected.split("  ", 1)
+        if checksum_map.get(rel) != digest:
+            errors.append(f"SHA256SUMS missing/mismatched package hash: {rel}")
     if not (dist / "PACKAGING_REPORT.md").exists():
         errors.append("missing PACKAGING_REPORT.md")
 

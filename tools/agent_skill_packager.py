@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build deterministic Agent Skills packages from the GAS Engineering Playbook.
 
-v1.29 continues full repository coverage with deterministic packaging. Canonical source skills are never modified.
+v1.30 continues full repository coverage with deterministic packaging. Canonical source skills are never modified.
 The generated distribution normalizes package identity, frontmatter, progressive
 references, and deterministic .skill archives.
 """
@@ -604,8 +604,8 @@ def build(root: Path, config_path: Path, out_dir: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=".", help="repository root")
-    parser.add_argument("--config", default="packaging/agent-skills/full-v1.29.json")
-    parser.add_argument("--out", default="dist/agent-skills-v1.29.0")
+    parser.add_argument("--config", default="packaging/agent-skills/full-v1.30.json")
+    parser.add_argument("--out", default="dist/agent-skills-v1.30.0")
     args = parser.parse_args()
     root = Path(args.root).resolve()
     build(root, root / args.config, root / args.out)

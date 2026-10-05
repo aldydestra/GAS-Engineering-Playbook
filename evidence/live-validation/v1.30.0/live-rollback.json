@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.30.0",
+  "claimed_status": "NOT_RUN",
+  "host_id": null,
+  "tested_at": null,
+  "tester": null,
+  "steps": [],
+  "evidence_refs": []
+}

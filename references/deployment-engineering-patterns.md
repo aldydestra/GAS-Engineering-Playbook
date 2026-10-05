@@ -237,3 +237,7 @@ v2 go/no-go
 ```
 
 A static RC can be releasable while the breaking migration remains `NO_GO`.
+
+# Live Validation Harness — v1.30.0
+
+Treat `HARNESS_READY`, `NOT_RUN`, and live `PASS` as different release states. A host PASS must bind install, activation/use, update/reload, and uninstall/disable observations to the exact tested artifact digest and durable evidence. Real dual-distribution burn-in must exercise both canonical and package channels. Incomplete self-declared PASS evidence fails closed.

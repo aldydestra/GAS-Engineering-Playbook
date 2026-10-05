@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "testing-quality",
+        "profile": "full-v1.30",
+        "repositoryVersion": "v1.30.0",
+        "sourcePath": "skills/08-testing-quality"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "a2d0861f54dd154e4f70e3de861ff5b492f816633a59e6633d81855cdd8676d8"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/08-testing-quality"
+        },
+        {
+          "digest": {
+            "sha256": "19b477c953fd3ecebd304b418cdba22e615ebbae583a0690513639c027668779"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.30.json"
+        },
+        {
+          "digest": {
+            "sha256": "1bb4d6635eff59642c4c69406a048217faedff71e746134ea371fd3a16e5fc01"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "1bb4d6635eff59642c4c69406a048217faedff71e746134ea371fd3a16e5fc01",
+          "repository": "v1.30.0"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "77f57c0830375b24542ea79888381541f22112fddae238fac7ff7983a8b252f8"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.30.0/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "e5e9094d08ce507e46089bf0898a16503319a948e12c190d441b3c8e059bef46"
+      },
+      "name": "testing-quality.skill"
+    }
+  ]
+}

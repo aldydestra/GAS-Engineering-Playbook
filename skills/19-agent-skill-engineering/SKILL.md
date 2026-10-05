@@ -4,10 +4,10 @@ description: "Author, package, validate, route, install, update, and maintain Ag
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.6.0"
+  gas_playbook_skill_version: "1.7.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.29.0"
+  gas_playbook_last_repository_update: "v1.30.0"
 ---
 
 # Agent Skill Engineering
@@ -475,6 +475,11 @@ A static RC can pass while v2 remains `NO_GO` because live-host or real burn-in 
 
 See [dual-distribution RC patterns](references/dual-distribution-rc.md).
 
+
+## v1.30 Live Validation Harness
+
+Before v2, require fail-closed real host lifecycle evidence plus real dual-channel burn-in; synthetic fixtures test verifier logic only and unavailable evidence remains `NOT_RUN`. See [live validation & burn-in patterns](references/live-validation-operational-burn-in.md).
+
 ## References
 
 Read only as needed:
@@ -482,6 +487,7 @@ Read only as needed:
 - [Playbook compatibility notes](references/spec-compatibility.md)
 - [Catalog, provenance & revocation patterns](references/catalog-provenance-patterns.md)
 - [Dual-distribution RC patterns](references/dual-distribution-rc.md)
+- [Live validation & operational burn-in](references/live-validation-operational-burn-in.md)
 
 External sources:
 - Agent Skills specification: https://github.com/agentskills/agentskills

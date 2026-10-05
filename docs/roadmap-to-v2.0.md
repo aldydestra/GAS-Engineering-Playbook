@@ -261,7 +261,7 @@ v2 readiness                  NO_GO
 
 ## v1.30.x — Live Validation & Operational Burn-In
 
-Status: **required before v2 because v1.29 operational gates are incomplete**
+Status: **v1.30.0 harness implemented; real operational evidence still required before v2**
 
 Goal:
 
@@ -278,6 +278,20 @@ at least one live host PASS
 real usage evidence PASS
 no blocking RC incident
 ```
+
+Implemented in v1.30.0:
+
+```text
+fail-closed evidence schema/ingestion      PASS_STATIC
+host lifecycle verifier                  PASS_STATIC
+dual-channel burn-in verifier            PASS_STATIC
+synthetic positive/negative gate tests   PASS
+live host smoke                          NOT_RUN
+real consumer burn-in                    NOT_RUN
+v2 readiness                             NO_GO
+```
+
+The synthetic PASS fixture proves gate semantics only; it is never written into release evidence.
 
 ---
 

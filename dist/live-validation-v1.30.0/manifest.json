@@ -1,0 +1,67 @@
+{
+  "consumer_burn_in": {
+    "blocking_incidents": 0,
+    "claimed_status": "NOT_RUN",
+    "errors": [],
+    "status": "NOT_RUN"
+  },
+  "errors": [],
+  "evidence": {
+    "consumer_burn_in": {
+      "path": "evidence/live-validation/v1.30.0/consumer-burn-in.json",
+      "sha256": "aa21dc283e0f1a29556f996f0d332557ed38f7bef40618f34fc9266244e300aa"
+    },
+    "host_smoke": {
+      "path": "evidence/live-validation/v1.30.0/host-smoke.json",
+      "sha256": "504fe109492c787778c967484de5e5a66e214fd4c477a8efb95d119ca4cbbc49"
+    },
+    "live_rollback": {
+      "path": "evidence/live-validation/v1.30.0/live-rollback.json",
+      "sha256": "964d8935b1e9dd3615c4953545487a32aeb1604ebc26a260bd938e3d4ae6928f"
+    },
+    "signed_attestation": {
+      "path": "evidence/live-validation/v1.30.0/signed-attestation.json",
+      "sha256": "a2c81ab07d7ee2baeaf1e7853c412e5c7a9dd526a994abe04b17961aa2c4d69b"
+    }
+  },
+  "harness_status": "HARNESS_READY",
+  "host_smoke": {
+    "errors": [],
+    "pass_count": 0,
+    "records": [],
+    "status": "NOT_RUN"
+  },
+  "live_rollback": {
+    "errors": [],
+    "status": "NOT_RUN"
+  },
+  "policy": {
+    "require_consumer_burn_in": true,
+    "require_live_rollback": false,
+    "require_no_blocking_incidents": true,
+    "require_signed_attestation": false,
+    "required_burn_in_channels": [
+      "canonical",
+      "package"
+    ],
+    "required_host_steps": [
+      "install",
+      "activation",
+      "update",
+      "uninstall"
+    ],
+    "required_live_hosts": 1
+  },
+  "repository_version": "v1.30.0",
+  "schema_version": 1,
+  "signed_attestation": {
+    "errors": [],
+    "status": "NOT_RUN"
+  },
+  "static_rc_status": "PASS_STATIC",
+  "v2_blockers": [
+    "Live host lifecycle gate is NOT_RUN.",
+    "Consumer dual-distribution burn-in gate is NOT_RUN."
+  ],
+  "v2_readiness": "NO_GO"
+}

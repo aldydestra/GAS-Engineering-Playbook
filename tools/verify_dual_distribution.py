@@ -25,7 +25,7 @@ def verify(root: Path, dist: Path) -> list[str]:
     if len(mm.get('skills',[]))!=19: e.append('migration map must contain 19 skills')
     if len({x['canonical_source'] for x in mm.get('skills',[])})!=19: e.append('canonical mapping is not unique')
     if len({x['package_name'] for x in mm.get('skills',[])})!=19: e.append('package mapping is not unique')
-    if mm.get('deprecation_status')!='NOT_DEPRECATED': e.append('canonical source must not be deprecated in v1.29')
+    if mm.get('deprecation_status')!='NOT_DEPRECATED': e.append('canonical source must not be deprecated during the RC')
     if rb.get('status')!='PASS_STATIC' or rb.get('skill_count')!=19 or rb.get('mapping_failures') or rb.get('hash_failures'): e.append('rollback static drill failed')
     if rb.get('live_host_rollback')!='NOT_RUN': e.append('live rollback must remain NOT_RUN')
     if fb.get('status')!='NOT_RUN': e.append('consumer feedback must remain NOT_RUN without real evidence')
@@ -61,7 +61,7 @@ def verify(root: Path, dist: Path) -> list[str]:
     return e
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--dist',default='dist/dual-distribution-v1.29.0'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--dist',default='dist/dual-distribution-v1.30.0'); args=ap.parse_args()
     root=Path(args.root).resolve(); errors=verify(root,root/args.dist)
     if errors:
         print('DUAL DISTRIBUTION VERIFY FAILED'); [print('-',x) for x in errors]; raise SystemExit(1)

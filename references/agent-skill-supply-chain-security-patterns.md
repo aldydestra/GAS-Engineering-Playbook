@@ -273,3 +273,7 @@ migration map
 Rollback must preserve revocation state and must not reactivate an older blocked artifact.
 
 Real host/consumer evidence remains separate from deterministic trust evidence.
+
+# Operational Evidence Admission — v1.30.0
+
+Operational evidence is untrusted release-gate input. Recompute host and burn-in status from required fields instead of trusting a top-level PASS. Reject incomplete lifecycle evidence as `INVALID_EVIDENCE`; synthetic fixtures may test the verifier but must never authorize production migration.

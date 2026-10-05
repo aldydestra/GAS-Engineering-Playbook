@@ -187,3 +187,7 @@ canonical deprecation = NOT_DEPRECATED
 ```
 
 Publish a one-to-one migration map and keep live burn-in status honest.
+
+# Live Validation & Burn-In — v1.30.0
+
+Insert a fail-closed operational layer between the static dual-distribution RC and package-first v2. Require at least one real host lifecycle PASS and real dual-channel consumer burn-in with no blocking incident. Preserve `NOT_RUN` when host/account evidence is unavailable.

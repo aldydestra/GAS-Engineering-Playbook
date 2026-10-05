@@ -3,6 +3,59 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.30.0] - 2026-10-05
+
+### Live Validation & Operational Burn-In Harness
+
+Added a fail-closed operational evidence layer on top of the v1.29 dual-distribution RC.
+
+### Added
+
+- `packaging/live-validation/live-v1.30.json`
+- `evidence/live-validation/v1.30.0/` evidence templates
+- `tools/build_live_validation.py`
+- `tools/verify_live_validation.py`
+- `tools/test_live_validation.py`
+- `dist/live-validation-v1.30.0/`
+- `docs/live-validation-operational-burn-in-v1.30.0.md`
+- `docs/v2-go-no-go-v1.30.0.md`
+
+### Hardened
+
+- live host PASS is derived only from complete install/activation/update/uninstall records;
+- claimed PASS with missing lifecycle/artifact/evidence fields becomes `INVALID_EVIDENCE`;
+- consumer burn-in PASS requires both canonical and package channels, a real usage window, feedback, and no blocking incident;
+- synthetic test fixtures prove verifier semantics but cannot satisfy repository live evidence;
+- reusable report builders no longer hard-code the v1.29 report heading/version in key paths;
+- package verification now accepts trust-enriched `SHA256SUMS` as a validated superset while still requiring every package digest.
+
+### Updated Skills
+
+```text
+10 Deployment Engineering             1.6.0 → 1.7.0
+18 Agent Skill Supply-Chain Security  1.7.0 → 1.8.0
+19 Agent Skill Engineering            1.6.0 → 1.7.0
+```
+
+### Validation Result
+
+```text
+19/19 package validation             PASS
+evaluation parity                    PASS
+host static compatibility            PASS
+security/catalog/provenance          PASS
+dual-distribution static RC          PASS_STATIC
+live-validation harness              HARNESS_READY
+live host smoke                      NOT_RUN
+real consumer burn-in                NOT_RUN
+v2 readiness                         NO_GO
+19/19 repository tests               PASS
+```
+
+This release intentionally does not manufacture live evidence. v2 remains blocked until real host and consumer evidence is recorded.
+
+---
+
 ## [v1.29.0] - 2026-10-02
 
 ### Dual-Distribution Release Candidate
