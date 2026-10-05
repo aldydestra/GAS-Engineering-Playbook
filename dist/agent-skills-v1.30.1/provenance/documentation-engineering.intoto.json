@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "documentation-engineering",
+        "profile": "full-v1.30.1",
+        "repositoryVersion": "v1.30.1",
+        "sourcePath": "skills/11-documentation-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "0a7ffd7f0bd58f3993e8779e1dc39638c70410c1b9fbff3cef16750f31a01fae"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/11-documentation-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "71cf4d91c8287e4eb78a7b877d5cac8ebe4a6c5b8f09ad9a6905f71c28522fe0"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.30.1.json"
+        },
+        {
+          "digest": {
+            "sha256": "5d51279099086bdd06f2162cb2ad01e818aabb2eea6039957e5fb2428bc675a4"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "5d51279099086bdd06f2162cb2ad01e818aabb2eea6039957e5fb2428bc675a4",
+          "repository": "v1.30.1"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "8303dcbea78f283de98c7a389422b2fbc4bcf77fc585e9dd945d13ccefbd6c48"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.30.1/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "8939b2e0dc422a3562d9f63fda107fa4c61f9ac26ddea7cd4ffcf2ca55d25e3a"
+      },
+      "name": "documentation-engineering.skill"
+    }
+  ]
+}

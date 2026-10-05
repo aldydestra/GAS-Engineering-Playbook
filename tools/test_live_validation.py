@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 import build_live_validation as builder
 
-CFG = json.loads((ROOT / "packaging/live-validation/live-v1.30.json").read_text())
+CFG = json.loads((ROOT / "packaging/live-validation/live-v1.30.1.json").read_text())
 
 
 def dump(path: Path, obj: dict) -> None:
@@ -38,9 +38,9 @@ class LiveValidationTests(unittest.TestCase):
     def test_self_declared_host_pass_without_lifecycle_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             er = Path(td)
-            dump(er / "host-smoke.json", {"schema_version": 1, "repository_version": "v1.30.0", "records": [{"host_id": "claude-code", "claimed_status": "PASS"}]})
-            dump(er / "consumer-burn-in.json", {"schema_version": 1, "repository_version": "v1.30.0", "claimed_status": "NOT_RUN", "sessions": 0, "feedback_items": [], "evidence_refs": []})
-            a, r = base_optional("v1.30.0")
+            dump(er / "host-smoke.json", {"schema_version": 1, "repository_version": "v1.30.1", "records": [{"host_id": "claude-code", "claimed_status": "PASS"}]})
+            dump(er / "consumer-burn-in.json", {"schema_version": 1, "repository_version": "v1.30.1", "claimed_status": "NOT_RUN", "sessions": 0, "feedback_items": [], "evidence_refs": []})
+            a, r = base_optional("v1.30.1")
             dump(er / "signed-attestation.json", a); dump(er / "live-rollback.json", r)
             result = builder.evaluate(ROOT, CFG, er)
             self.assertEqual(result["host_smoke"]["status"], "INVALID_EVIDENCE")
@@ -49,15 +49,15 @@ class LiveValidationTests(unittest.TestCase):
     def test_burn_in_pass_without_both_channels_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
             er = Path(td)
-            dump(er / "host-smoke.json", {"schema_version": 1, "repository_version": "v1.30.0", "records": []})
+            dump(er / "host-smoke.json", {"schema_version": 1, "repository_version": "v1.30.1", "records": []})
             now = datetime.now(timezone.utc)
             dump(er / "consumer-burn-in.json", {
-                "schema_version": 1, "repository_version": "v1.30.0", "claimed_status": "PASS",
+                "schema_version": 1, "repository_version": "v1.30.1", "claimed_status": "PASS",
                 "usage_window": {"start": (now-timedelta(days=1)).isoformat(), "end": now.isoformat()},
                 "channels_observed": ["package"], "sessions": 2, "consumers": 1,
                 "feedback_items": [{"summary": "fixture"}], "incidents": [], "evidence_refs": ["fixture://burn-in"]
             })
-            a, r = base_optional("v1.30.0")
+            a, r = base_optional("v1.30.1")
             dump(er / "signed-attestation.json", a); dump(er / "live-rollback.json", r)
             result = builder.evaluate(ROOT, CFG, er)
             self.assertEqual(result["consumer_burn_in"]["status"], "INVALID_EVIDENCE")
@@ -65,11 +65,11 @@ class LiveValidationTests(unittest.TestCase):
     def test_complete_synthetic_fixture_proves_gate_logic_only(self):
         with tempfile.TemporaryDirectory() as td:
             er = Path(td)
-            artifact = ROOT / "dist/host-compat-v1.30.0/claude-code-plugin.zip"
+            artifact = ROOT / "dist/host-compat-v1.30.1/claude-code-plugin.zip"
             digest = hashlib.sha256(artifact.read_bytes()).hexdigest()
             lifecycle = {s: {"status": "PASS", "evidence_ref": f"fixture://{s}"} for s in CFG["required_host_steps"]}
             dump(er / "host-smoke.json", {
-                "schema_version": 1, "repository_version": "v1.30.0", "records": [{
+                "schema_version": 1, "repository_version": "v1.30.1", "records": [{
                     "host_id": "claude-code", "claimed_status": "PASS", "host_version": "fixture-1.0",
                     "platform": "fixture", "tester": "unit-test", "tested_at": "2026-10-05T12:00:00+00:00",
                     "artifact": "claude-code-plugin.zip", "artifact_sha256": digest,
@@ -77,13 +77,13 @@ class LiveValidationTests(unittest.TestCase):
                 }]
             })
             dump(er / "consumer-burn-in.json", {
-                "schema_version": 1, "repository_version": "v1.30.0", "claimed_status": "PASS",
+                "schema_version": 1, "repository_version": "v1.30.1", "claimed_status": "PASS",
                 "usage_window": {"start": "2026-10-01T00:00:00+00:00", "end": "2026-10-05T00:00:00+00:00"},
                 "channels_observed": ["canonical", "package"], "sessions": 5, "consumers": 2,
                 "feedback_items": [{"summary": "synthetic verifier fixture"}], "incidents": [],
                 "evidence_refs": ["fixture://consumer-burn-in"]
             })
-            a, r = base_optional("v1.30.0")
+            a, r = base_optional("v1.30.1")
             dump(er / "signed-attestation.json", a); dump(er / "live-rollback.json", r)
             result = builder.evaluate(ROOT, CFG, er)
             self.assertEqual(result["host_smoke"]["status"], "PASS")

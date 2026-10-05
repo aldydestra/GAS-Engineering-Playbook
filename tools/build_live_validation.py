@@ -246,6 +246,103 @@ def evaluate_optional_record(cfg: dict[str, Any], data: dict[str, Any], kind: st
     return {"status": claimed, "errors": []}
 
 
+
+
+ATTEMPT_OUTCOMES = {
+    "PASS", "FAIL", "BLOCKED_RUNTIME", "BLOCKED_AUTH", "BLOCKED_NETWORK", "BLOCKED_PREREQUISITE"
+}
+
+
+def evaluate_execution_attempts(
+    root: Path, cfg: dict[str, Any], evidence_root: Path, host_records: list[dict[str, Any]]
+) -> dict[str, Any]:
+    attempts_dir = evidence_root / cfg.get("execution_attempts_subdir", "attempts")
+    if not attempts_dir.exists():
+        return {"status": "NOT_RUN", "records": [], "errors": [], "counts": {}}
+    promoted_ids = {str(r.get("run_id")) for r in host_records if r.get("run_id")}
+    records: list[dict[str, Any]] = []
+    top_errors: list[str] = []
+    for path in sorted(attempts_dir.glob("*.json")):
+        try:
+            data = load_json(path)
+        except Exception as exc:
+            top_errors.append(f"{path.name}: unreadable JSON: {exc}")
+            continue
+        errors: list[str] = []
+        if data.get("repository_version") != cfg["repository_version"]:
+            errors.append("repository_version mismatch")
+        for field in ("run_id", "host_id", "tester", "platform", "started_at", "finished_at", "artifact", "artifact_sha256", "outcome"):
+            if not isinstance(data.get(field), str) or not data[field].strip():
+                errors.append(f"missing {field}")
+        if data.get("started_at") and parse_time(data.get("started_at")) is None:
+            errors.append("invalid started_at")
+        if data.get("finished_at") and parse_time(data.get("finished_at")) is None:
+            errors.append("invalid finished_at")
+        outcome = data.get("outcome")
+        if outcome not in ATTEMPT_OUTCOMES:
+            errors.append("invalid outcome")
+        digest = data.get("artifact_sha256")
+        if isinstance(digest, str) and not SHA256_RE.fullmatch(digest.lower()):
+            errors.append("invalid artifact_sha256")
+        artifact = data.get("artifact")
+        artifact_path = resolve_artifact(root, cfg, str(data.get("host_id")), artifact) if isinstance(artifact, str) else None
+        if artifact_path is None:
+            errors.append("artifact cannot be resolved inside release")
+        elif isinstance(digest, str) and SHA256_RE.fullmatch(digest.lower()) and sha256_file(artifact_path) != digest.lower():
+            errors.append("artifact_sha256 mismatch")
+        promoted = bool(data.get("promoted_to_host_smoke"))
+        if outcome in {"PASS", "FAIL"}:
+            if not promoted:
+                errors.append("completed PASS/FAIL attempt was not promoted to host-smoke")
+            if str(data.get("run_id")) not in promoted_ids:
+                errors.append("promoted run_id not found in host-smoke records")
+        elif promoted:
+            errors.append("blocked attempt must not be promoted to host-smoke")
+        commands = data.get("commands", [])
+        if not isinstance(commands, list):
+            errors.append("commands must be a list")
+        else:
+            for idx, cmd in enumerate(commands):
+                if not isinstance(cmd, dict):
+                    errors.append(f"command[{idx}] must be an object")
+                    continue
+                for ref_field, hash_field in (("stdout_ref", "stdout_sha256"), ("stderr_ref", "stderr_sha256")):
+                    ref = cmd.get(ref_field)
+                    digest2 = cmd.get(hash_field)
+                    if not isinstance(ref, str) or not ref.strip():
+                        errors.append(f"command[{idx}] missing {ref_field}")
+                        continue
+                    log_path = root / ref if not Path(ref).is_absolute() else Path(ref)
+                    if not log_path.exists() or not log_path.is_file():
+                        errors.append(f"command[{idx}] missing log {ref}")
+                    elif not isinstance(digest2, str) or not SHA256_RE.fullmatch(digest2.lower()):
+                        errors.append(f"command[{idx}] invalid {hash_field}")
+                    elif sha256_file(log_path) != digest2.lower():
+                        errors.append(f"command[{idx}] {hash_field} mismatch")
+        records.append({
+            "run_id": data.get("run_id"),
+            "host_id": data.get("host_id"),
+            "outcome": outcome,
+            "blocker": data.get("blocker"),
+            "started_at": data.get("started_at"),
+            "finished_at": data.get("finished_at"),
+            "promoted_to_host_smoke": promoted,
+            "attempt_ref": path.relative_to(root).as_posix() if path.is_relative_to(root) else str(path),
+            "attempt_sha256": sha256_file(path),
+            "errors": errors,
+        })
+    invalid = bool(top_errors) or any(r["errors"] for r in records)
+    counts: dict[str, int] = {}
+    for r in records:
+        counts[r["outcome"]] = counts.get(r["outcome"], 0) + 1
+    return {
+        "status": "INVALID_EVIDENCE" if invalid else ("ATTEMPTED" if records else "NOT_RUN"),
+        "records": records,
+        "errors": top_errors,
+        "counts": counts,
+    }
+
+
 def evaluate(root: Path, cfg: dict[str, Any], evidence_root: Path | None = None) -> dict[str, Any]:
     evidence_root = evidence_root or (root / cfg["evidence_root"])
     host_dist = root / cfg["host_distribution"]
@@ -272,6 +369,7 @@ def evaluate(root: Path, cfg: dict[str, Any], evidence_root: Path | None = None)
     burn = evaluate_burn_in(cfg, raw["consumer_burn_in"])
     signed = evaluate_optional_record(cfg, raw["signed_attestation"], "signed_attestation")
     rollback = evaluate_optional_record(cfg, raw["live_rollback"], "live_rollback")
+    attempts = evaluate_execution_attempts(root, cfg, evidence_root, raw["host_smoke"].get("records", []))
 
     static_gate = dual_index.get("gates", {}).get("dual_distribution_rc")
     blockers: list[str] = []
@@ -288,7 +386,7 @@ def evaluate(root: Path, cfg: dict[str, Any], evidence_root: Path | None = None)
     if cfg.get("require_live_rollback", False) and rollback["status"] != "PASS":
         blockers.append(f"Live rollback gate is {rollback['status']}.")
 
-    invalid = any(x["status"] == "INVALID_EVIDENCE" for x in (hosts, burn, signed, rollback))
+    invalid = any(x["status"] == "INVALID_EVIDENCE" for x in (hosts, burn, signed, rollback, attempts))
     harness_status = "INVALID_EVIDENCE" if invalid else "HARNESS_READY"
     evidence_hashes = {k: {"path": p.relative_to(root).as_posix() if p.is_relative_to(root) else str(p), "sha256": sha256_file(p)} for k, p in files.items()}
     return {
@@ -300,6 +398,7 @@ def evaluate(root: Path, cfg: dict[str, Any], evidence_root: Path | None = None)
         "consumer_burn_in": burn,
         "signed_attestation": signed,
         "live_rollback": rollback,
+        "execution_attempts": attempts,
         "evidence": evidence_hashes,
         "policy": {
             "required_live_hosts": cfg.get("required_live_hosts", 1),
@@ -309,6 +408,8 @@ def evaluate(root: Path, cfg: dict[str, Any], evidence_root: Path | None = None)
             "require_no_blocking_incidents": cfg.get("require_no_blocking_incidents", True),
             "require_signed_attestation": cfg.get("require_signed_attestation", False),
             "require_live_rollback": cfg.get("require_live_rollback", False),
+            "blocked_attempts_affect_gate": cfg.get("blocked_attempts_affect_gate", False),
+            "supported_live_runners": cfg.get("supported_live_runners", []),
         },
         "v2_readiness": "GO" if not blockers and not invalid else "NO_GO",
         "v2_blockers": blockers,
@@ -332,12 +433,28 @@ def render_report(result: dict[str, Any]) -> str:
         f"- Consumer dual-channel burn-in: **{burn.get('status', 'UNKNOWN')}**",
         f"- Signed attestation: **{result.get('signed_attestation', {}).get('status', 'UNKNOWN')}** (non-blocking unless policy changes)",
         f"- Live rollback: **{result.get('live_rollback', {}).get('status', 'UNKNOWN')}** (non-blocking unless policy changes)",
+        f"- Execution attempts: **{result.get('execution_attempts', {}).get('status', 'NOT_RUN')}** {result.get('execution_attempts', {}).get('counts', {})}",
         "",
         "## Evidence Boundary",
         "",
         "`HARNESS_READY` means the repository can ingest and verify operational evidence. It does not mean a real host or consumer test has passed.",
         "",
         "Synthetic fixtures are valid only for testing verifier behavior and never count as production/live evidence.",
+        "",
+        "Blocked runtime/auth/network attempts are diagnostic evidence only. They do not become host FAIL/PASS records.",
+        "",
+        "## Execution Attempts",
+        "",
+    ]
+    attempts = result.get("execution_attempts", {}).get("records", [])
+    if not attempts:
+        lines.append("No live execution attempt has been recorded.")
+    else:
+        for a in attempts:
+            lines += [
+                f"- `{a.get('run_id')}` — **{a.get('outcome')}** ({a.get('host_id')}); blocker=`{a.get('blocker')}`; errors={len(a.get('errors', []))}",
+            ]
+    lines += [
         "",
         "## Host Records",
         "",
@@ -402,6 +519,14 @@ def render_runbook(cfg: dict[str, Any]) -> str:
 
 ## 1. Host lifecycle smoke
 
+Prefer the live executor for supported hosts. It captures command logs, hashes them, redacts secret values, and only promotes completed lifecycle records.
+
+```bash
+python3 tools/run_live_host_smoke.py --host gemini-cli
+```
+
+A blocked runtime/auth/network attempt is retained as diagnostic evidence and does not count as a host FAIL or PASS.
+
 Test a release artifact on a real supported host and record all required lifecycle stages:
 
 {steps}
@@ -427,7 +552,15 @@ Exercise both release channels during a real usage window:
 
 {channels}
 
-Record sessions, consumers, at least one feedback item, incidents, and durable evidence references in:
+Record sessions with the burn-in journal, then finalize the aggregate:
+
+```bash
+python3 tools/record_burn_in.py record --channel canonical --consumer <alias> --summary <summary> --evidence-ref <ref>
+python3 tools/record_burn_in.py record --channel package --consumer <alias> --summary <summary> --evidence-ref <ref>
+python3 tools/record_burn_in.py finalize
+```
+
+The final aggregate records sessions, consumers, feedback, incidents, and durable evidence references in:
 
 `{cfg["evidence_root"]}/consumer-burn-in.json`
 
@@ -435,7 +568,7 @@ A blocking incident prevents v2 promotion.
 
 ## 3. Optional evidence
 
-Signed release attestation and live rollback have dedicated evidence files. They remain non-blocking under the current v1.30 policy, but their real status is preserved.
+Signed release attestation and live rollback have dedicated evidence files. They remain non-blocking under the current live-validation policy, but their real status is preserved.
 
 ## 4. Evidence integrity
 
@@ -463,7 +596,7 @@ def build(root: Path, config_path: Path) -> Path:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.30.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.30.1.json")
     args = ap.parse_args()
     root = Path(args.root).resolve()
     build(root, root / args.config)

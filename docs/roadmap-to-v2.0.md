@@ -261,7 +261,7 @@ v2 readiness                  NO_GO
 
 ## v1.30.x — Live Validation & Operational Burn-In
 
-Status: **v1.30.0 harness implemented; real operational evidence still required before v2**
+Status: **v1.30.1 live executor implemented; real host/authenticated lifecycle and consumer burn-in still required before v2**
 
 Goal:
 
@@ -292,6 +292,23 @@ v2 readiness                             NO_GO
 ```
 
 The synthetic PASS fixture proves gate semantics only; it is never written into release evidence.
+
+Implemented in v1.30.1:
+
+```text
+Gemini CLI lifecycle executor                  PASS_STATIC + tested
+isolated HOME/workspace                        PASS
+secret-redacted/hash-bound command evidence    PASS
+blocker-aware promotion semantics              PASS
+burn-in append-only journal                    PASS
+executor unit/integration fixtures             5/5 PASS
+first real executor attempt                    BLOCKED_NETWORK
+live host lifecycle gate                       NOT_RUN
+consumer burn-in                               NOT_RUN
+v2 readiness                                   NO_GO
+```
+
+`BLOCKED_NETWORK` is an execution prerequisite state, not a host/package incompatibility result. The next operational step is to run the same executor where Gemini CLI and authentication/network access are available, then begin real canonical/package burn-in.
 
 ---
 

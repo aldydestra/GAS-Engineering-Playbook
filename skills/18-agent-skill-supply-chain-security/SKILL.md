@@ -1,10 +1,10 @@
 ---
 name: agent-skill-supply-chain-security
 description: "Secure AI Agent Skills, plugins, MCP-integrated packages, and catalogs through pre-install scanning, prompt-injection/exfiltration detection, scripts/hooks/manifests, dependency provenance, MCP metadata/tool poisoning, permission parity, shadowing/precedence, SARIF/CI gates, fail-closed completeness, signing, admission, update, and revocation."
-skill_version: "1.8.0"
+skill_version: "1.8.1"
 repository_introduced: "v1.19.0"
 status: "evolving"
-last_repository_update: "v1.30.0"
+last_repository_update: "v1.30.1"
 tags:
   - agent-skills
   - supply-chain-security
@@ -3151,6 +3151,22 @@ and include a real usage window, at least one observation/feedback item, inciden
 Unit tests may use synthetic PASS fixtures to prove that the verifier accepts a complete record and rejects incomplete records.
 
 Those fixtures must never be copied into production/live evidence or used to authorize v2.
+
+## Live-Runner Evidence Integrity — v1.30.1
+
+A live executor becomes part of the release evidence supply chain. Treat its output as tamper-sensitive.
+
+Require at minimum:
+
+- isolated runtime/workspace by default;
+- secret-value redaction before log persistence;
+- SHA-256 binding for stdout/stderr evidence;
+- exact release-artifact digest binding;
+- explicit blocker taxonomy for runtime/auth/network prerequisites;
+- no promotion of blocked attempts into host PASS/FAIL;
+- promotion only when the configured lifecycle is complete.
+
+A failed authentication attempt is evidence that the execution prerequisite was unavailable, not evidence that the package is incompatible with the host.
 
 # References
 

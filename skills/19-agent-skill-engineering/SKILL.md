@@ -4,10 +4,10 @@ description: "Author, package, validate, route, install, update, and maintain Ag
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.7.0"
+  gas_playbook_skill_version: "1.7.1"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.30.0"
+  gas_playbook_last_repository_update: "v1.30.1"
 ---
 
 # Agent Skill Engineering
@@ -475,13 +475,11 @@ A static RC can pass while v2 remains `NO_GO` because live-host or real burn-in 
 
 See [dual-distribution RC patterns](references/dual-distribution-rc.md).
 
-
 ## v1.30 Live Validation Harness
-
 Before v2, require fail-closed real host lifecycle evidence plus real dual-channel burn-in; synthetic fixtures test verifier logic only and unavailable evidence remains `NOT_RUN`. See [live validation & burn-in patterns](references/live-validation-operational-burn-in.md).
+v1.30.1 adds executable host-smoke/burn-in capture: blocked prerequisites stay diagnostic, completed lifecycle runs alone can promote host evidence, and persisted command logs are hash-bound.
 
 ## References
-
 Read only as needed:
 - [Specification & host patterns](references/spec-and-host-patterns.md)
 - [Playbook compatibility notes](references/spec-compatibility.md)

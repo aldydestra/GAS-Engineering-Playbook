@@ -1,0 +1,14 @@
+{
+  "repository_version": "v1.30.1",
+  "canonical_root": "skills",
+  "package_distribution": "dist/agent-skills-v1.30.1",
+  "host_distribution": "dist/host-compat-v1.30.1",
+  "evaluation_report": "reports/agent-skill-evaluation-v1.30.1.json",
+  "output_distribution": "dist/dual-distribution-v1.30.1",
+  "canonical_status": "ACTIVE_SUPPORTED",
+  "package_status": "RELEASE_CANDIDATE",
+  "deprecation_status": "NOT_DEPRECATED",
+  "v2_required_live_hosts": 1,
+  "v2_require_real_usage_evidence": true,
+  "v2_require_signed_attestation": false
+}

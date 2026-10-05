@@ -3,6 +3,63 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.30.1] - 2026-10-05
+
+### Live Execution Orchestrator
+
+Moved the v1.30 fail-closed evidence harness into executable live operations without weakening the evidence boundary.
+
+### Added
+
+- `tools/run_live_host_smoke.py` — Gemini CLI live lifecycle executor;
+- `tools/record_burn_in.py` — append-only consumer burn-in journal and deterministic aggregator;
+- `tools/test_live_execution.py` — lifecycle/blocker/tamper tests;
+- `packaging/live-validation/live-v1.30.1.json`;
+- `evidence/live-validation/v1.30.1/attempts/` and `runs/`;
+- `docs/live-validation-operational-burn-in-v1.30.1.md`;
+- `docs/v2-go-no-go-v1.30.1.md`.
+
+### Hardened
+
+- blocked runtime/auth/network prerequisites are diagnostic attempts and never auto-promote to host `FAIL` or `PASS`;
+- completed lifecycle runs alone may be promoted into `host-smoke.json`;
+- command stdout/stderr is persisted with secret-value redaction and SHA-256 binding;
+- release artifact SHA-256 is bound to every live attempt;
+- activation success requires observing an `activate_skill` event, not merely process exit code 0;
+- default runtime uses isolated HOME/workspace; using the operator HOME is explicit opt-in;
+- optional `--npx-bootstrap` can launch current Gemini CLI without global installation;
+- execution-attempt evidence is independently validated and tamper detection is fail-closed.
+- GitHub packaging/attestation workflows now target v1.30.1 artifacts and include live-validation build/verification tests.
+
+### Real Execution Attempt
+
+The build environment did not contain a preinstalled Gemini CLI binary. An opt-in `npx @google/gemini-cli@latest` bootstrap was attempted and timed out because package-registry/network access was unavailable. The attempt is retained as `BLOCKED_NETWORK` evidence and is intentionally **not** promoted to a host compatibility failure.
+
+### Updated Skills
+
+```text
+10 Deployment Engineering             1.7.0 → 1.7.1
+18 Agent Skill Supply-Chain Security  1.8.0 → 1.8.1
+19 Agent Skill Engineering            1.7.0 → 1.7.1
+```
+
+### Validation Result
+
+```text
+19/19 package validation             PASS
+evaluation parity                    PASS
+host static compatibility            PASS
+security/catalog/provenance          PASS
+dual-distribution static RC          PASS_STATIC
+live execution attempt               BLOCKED_NETWORK (diagnostic)
+live host lifecycle gate             NOT_RUN
+consumer burn-in                     NOT_RUN
+v2 readiness                         NO_GO
+repository tests                     24/24 PASS
+```
+
+---
+
 ## [v1.30.0] - 2026-10-05
 
 ### Live Validation & Operational Burn-In Harness

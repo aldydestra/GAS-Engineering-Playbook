@@ -1,0 +1,42 @@
+{
+  "artifact": "dist/agent-skills-v1.30.1/packages/agent-skill-engineering.skill",
+  "artifact_sha256": "1586837ffe2c9942a8f6246716045f213bc8af4ad0242aacdc7d443bde4b2836",
+  "blocker": "BLOCKED_NETWORK",
+  "commands": [
+    {
+      "command": [
+        "/opt/nvm/versions/node/v22.16.0/bin/npx",
+        "-y",
+        "@google/gemini-cli@latest",
+        "--version"
+      ],
+      "duration_ms": 20023,
+      "exception": "TimeoutExpired after 20s",
+      "finished_at": "2026-10-05T09:00:25.262576+00:00",
+      "name": "00-version",
+      "passed": false,
+      "returncode": null,
+      "started_at": "2026-10-05T09:00:05.239471+00:00",
+      "stderr_ref": "evidence/live-validation/v1.30.1/runs/gemini-20261005T090005Z-13ae8287/00-version.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_ref": "evidence/live-validation/v1.30.1/runs/gemini-20261005T090005Z-13ae8287/00-version.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed_out": true
+    }
+  ],
+  "finished_at": "2026-10-05T09:00:25.263429+00:00",
+  "host_id": "gemini-cli",
+  "host_version": "unknown",
+  "lifecycle": {},
+  "outcome": "BLOCKED_NETWORK",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "promoted_to_host_smoke": false,
+  "repository_version": "v1.30.1",
+  "run_id": "gemini-20261005T090005Z-13ae8287",
+  "runtime_bootstrap": "npx:@google/gemini-cli@latest",
+  "runtime_isolation": "isolated-home",
+  "schema_version": 1,
+  "skill_name": "agent-skill-engineering",
+  "started_at": "2026-10-05T09:00:05.237802+00:00",
+  "tester": "openai-build-container"
+}

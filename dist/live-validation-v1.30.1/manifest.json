@@ -1,0 +1,92 @@
+{
+  "consumer_burn_in": {
+    "blocking_incidents": 0,
+    "claimed_status": "NOT_RUN",
+    "errors": [],
+    "status": "NOT_RUN"
+  },
+  "errors": [],
+  "evidence": {
+    "consumer_burn_in": {
+      "path": "evidence/live-validation/v1.30.1/consumer-burn-in.json",
+      "sha256": "e872506e30313fe0565bfcbf1086356015832d49280addc7f0700e3d28be4c68"
+    },
+    "host_smoke": {
+      "path": "evidence/live-validation/v1.30.1/host-smoke.json",
+      "sha256": "b63b04c84c6bd6d2bb3089e6da633d6acb16e496f8e2950dff600410c7877b49"
+    },
+    "live_rollback": {
+      "path": "evidence/live-validation/v1.30.1/live-rollback.json",
+      "sha256": "ae9461341e48f351ea810b0e3a460eb7f5dea24fbc977fcccbbd511d5a05e762"
+    },
+    "signed_attestation": {
+      "path": "evidence/live-validation/v1.30.1/signed-attestation.json",
+      "sha256": "ae9461341e48f351ea810b0e3a460eb7f5dea24fbc977fcccbbd511d5a05e762"
+    }
+  },
+  "execution_attempts": {
+    "counts": {
+      "BLOCKED_NETWORK": 1
+    },
+    "errors": [],
+    "records": [
+      {
+        "attempt_ref": "evidence/live-validation/v1.30.1/attempts/gemini-20261005T090005Z-13ae8287.json",
+        "attempt_sha256": "9d955de991bf2ec1192a72359819be50d37a8f582d4a78218ea208fcb3fab1e8",
+        "blocker": "BLOCKED_NETWORK",
+        "errors": [],
+        "finished_at": "2026-10-05T09:00:25.263429+00:00",
+        "host_id": "gemini-cli",
+        "outcome": "BLOCKED_NETWORK",
+        "promoted_to_host_smoke": false,
+        "run_id": "gemini-20261005T090005Z-13ae8287",
+        "started_at": "2026-10-05T09:00:05.237802+00:00"
+      }
+    ],
+    "status": "ATTEMPTED"
+  },
+  "harness_status": "HARNESS_READY",
+  "host_smoke": {
+    "errors": [],
+    "pass_count": 0,
+    "records": [],
+    "status": "NOT_RUN"
+  },
+  "live_rollback": {
+    "errors": [],
+    "status": "NOT_RUN"
+  },
+  "policy": {
+    "blocked_attempts_affect_gate": false,
+    "require_consumer_burn_in": true,
+    "require_live_rollback": false,
+    "require_no_blocking_incidents": true,
+    "require_signed_attestation": false,
+    "required_burn_in_channels": [
+      "canonical",
+      "package"
+    ],
+    "required_host_steps": [
+      "install",
+      "activation",
+      "update",
+      "uninstall"
+    ],
+    "required_live_hosts": 1,
+    "supported_live_runners": [
+      "gemini-cli"
+    ]
+  },
+  "repository_version": "v1.30.1",
+  "schema_version": 1,
+  "signed_attestation": {
+    "errors": [],
+    "status": "NOT_RUN"
+  },
+  "static_rc_status": "PASS_STATIC",
+  "v2_blockers": [
+    "Live host lifecycle gate is NOT_RUN.",
+    "Consumer dual-distribution burn-in gate is NOT_RUN."
+  ],
+  "v2_readiness": "NO_GO"
+}

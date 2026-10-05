@@ -1,4 +1,4 @@
-name: Agent Skill Packaging & Trust
+name: Agent Skill Packaging, Trust & Live Validation
 
 on:
   pull_request:
@@ -7,13 +7,16 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'dist/agent-skills-v1.29.0/**'
-      - 'dist/host-compat-v1.29.0/**'
-      - 'dist/dual-distribution-v1.29.0/**'
-      - 'reports/agent-skill-evaluation-v1.29.0.*'
-      - 'docs/host-compatibility-matrix-v1.29.0.md'
-      - 'docs/dual-distribution-rc-v1.29.0.md'
-      - 'docs/v2-go-no-go-v1.29.0.md'
+      - 'evidence/live-validation/v1.30.1/**'
+      - 'dist/agent-skills-v1.30.1/**'
+      - 'dist/host-compat-v1.30.1/**'
+      - 'dist/dual-distribution-v1.30.1/**'
+      - 'dist/live-validation-v1.30.1/**'
+      - 'reports/agent-skill-evaluation-v1.30.1.*'
+      - 'docs/host-compatibility-matrix-v1.30.1.md'
+      - 'docs/dual-distribution-rc-v1.30.1.md'
+      - 'docs/live-validation-operational-burn-in-v1.30.1.md'
+      - 'docs/v2-go-no-go-v1.30.1.md'
   push:
     branches: [main]
     paths:
@@ -21,13 +24,16 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'dist/agent-skills-v1.29.0/**'
-      - 'dist/host-compat-v1.29.0/**'
-      - 'dist/dual-distribution-v1.29.0/**'
-      - 'reports/agent-skill-evaluation-v1.29.0.*'
-      - 'docs/host-compatibility-matrix-v1.29.0.md'
-      - 'docs/dual-distribution-rc-v1.29.0.md'
-      - 'docs/v2-go-no-go-v1.29.0.md'
+      - 'evidence/live-validation/v1.30.1/**'
+      - 'dist/agent-skills-v1.30.1/**'
+      - 'dist/host-compat-v1.30.1/**'
+      - 'dist/dual-distribution-v1.30.1/**'
+      - 'dist/live-validation-v1.30.1/**'
+      - 'reports/agent-skill-evaluation-v1.30.1.*'
+      - 'docs/host-compatibility-matrix-v1.30.1.md'
+      - 'docs/dual-distribution-rc-v1.30.1.md'
+      - 'docs/live-validation-operational-burn-in-v1.30.1.md'
+      - 'docs/v2-go-no-go-v1.30.1.md'
 
 jobs:
   build-and-verify:
@@ -69,14 +75,22 @@ jobs:
         env:
           PYTHONPATH: tools
         run: python -m unittest tools/test_dual_distribution.py -v
+      - name: Build fail-closed live-validation evidence
+        run: python tools/build_live_validation.py
+      - name: Verify live-validation gate
+        run: python tools/verify_live_validation.py
+      - name: Test live-validation semantics
+        run: python -m unittest tools/test_live_validation.py tools/test_live_execution.py -v
       - name: Ensure generated distributions and reports are committed and reproducible
         run: >-
           git diff --exit-code --
-          dist/agent-skills-v1.29.0
-          dist/host-compat-v1.29.0
-          dist/dual-distribution-v1.29.0
-          reports/agent-skill-evaluation-v1.29.0.json
-          reports/agent-skill-evaluation-v1.29.0.md
-          docs/host-compatibility-matrix-v1.29.0.md
-          docs/dual-distribution-rc-v1.29.0.md
-          docs/v2-go-no-go-v1.29.0.md
+          dist/agent-skills-v1.30.1
+          dist/host-compat-v1.30.1
+          dist/dual-distribution-v1.30.1
+          dist/live-validation-v1.30.1
+          reports/agent-skill-evaluation-v1.30.1.json
+          reports/agent-skill-evaluation-v1.30.1.md
+          docs/host-compatibility-matrix-v1.30.1.md
+          docs/dual-distribution-rc-v1.30.1.md
+          docs/live-validation-operational-burn-in-v1.30.1.md
+          docs/v2-go-no-go-v1.30.1.md

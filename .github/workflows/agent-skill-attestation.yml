@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'v1.29.*'
+      - 'v1.30.*'
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Rebuild packages and host adapters
+      - name: Rebuild packages and release evidence
         run: |
           python tools/agent_skill_packager.py
           python tools/verify_agent_skill_dist.py
@@ -31,25 +31,30 @@ jobs:
           python tools/verify_agent_skill_trust.py
           python tools/build_dual_distribution.py
           python tools/verify_dual_distribution.py
+          python tools/build_live_validation.py
+          python tools/verify_live_validation.py
       - name: Generate signed GitHub artifact attestations
         uses: actions/attest@v4
         with:
           subject-path: |
-            dist/agent-skills-v1.29.0/packages/*.skill
-            dist/host-compat-v1.29.0/*.zip
+            dist/agent-skills-v1.30.1/packages/*.skill
+            dist/host-compat-v1.30.1/*.zip
       - name: Upload release evidence
         uses: actions/upload-artifact@v4
         with:
-          name: agent-skill-v1.29-evidence
+          name: agent-skill-v1.30.1-evidence
           path: |
-            dist/agent-skills-v1.29.0/catalog.json
-            dist/agent-skills-v1.29.0/security-report.json
-            dist/agent-skills-v1.29.0/provenance-index.json
-            dist/agent-skills-v1.29.0/provenance/
-            dist/agent-skills-v1.29.0/revocations.json
-            dist/agent-skills-v1.29.0/SHA256SUMS
-            dist/host-compat-v1.29.0/SHA256SUMS
-            dist/dual-distribution-v1.29.0/release-index.json
-            dist/dual-distribution-v1.29.0/migration-map.json
-            dist/dual-distribution-v1.29.0/rollback-drill.json
-            dist/dual-distribution-v1.29.0/SHA256SUMS
+            dist/agent-skills-v1.30.1/catalog.json
+            dist/agent-skills-v1.30.1/security-report.json
+            dist/agent-skills-v1.30.1/provenance-index.json
+            dist/agent-skills-v1.30.1/provenance/
+            dist/agent-skills-v1.30.1/revocations.json
+            dist/agent-skills-v1.30.1/SHA256SUMS
+            dist/host-compat-v1.30.1/SHA256SUMS
+            dist/dual-distribution-v1.30.1/release-index.json
+            dist/dual-distribution-v1.30.1/migration-map.json
+            dist/dual-distribution-v1.30.1/rollback-drill.json
+            dist/dual-distribution-v1.30.1/SHA256SUMS
+            dist/live-validation-v1.30.1/manifest.json
+            dist/live-validation-v1.30.1/SHA256SUMS
+            evidence/live-validation/v1.30.1/
