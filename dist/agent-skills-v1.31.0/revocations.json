@@ -1,0 +1,12 @@
+{
+  "policy": {
+    "effect": "DENY",
+    "match_by": [
+      "name",
+      "sha256"
+    ]
+  },
+  "repository_version": "v1.31.0",
+  "revoked": [],
+  "schema_version": 1
+}

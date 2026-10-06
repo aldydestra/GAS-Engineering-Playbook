@@ -604,8 +604,8 @@ def build(root: Path, config_path: Path, out_dir: Path) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=".", help="repository root")
-    parser.add_argument("--config", default="packaging/agent-skills/full-v1.30.1.json")
-    parser.add_argument("--out", default="dist/agent-skills-v1.30.1")
+    parser.add_argument("--config", default="packaging/agent-skills/full-v1.31.0.json")
+    parser.add_argument("--out", default="dist/agent-skills-v1.31.0")
     args = parser.parse_args()
     root = Path(args.root).resolve()
     build(root, root / args.config, root / args.out)

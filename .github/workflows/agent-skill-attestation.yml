@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'v1.30.*'
+      - 'v1.31.*'
 
 permissions:
   contents: read
@@ -33,28 +33,32 @@ jobs:
           python tools/verify_dual_distribution.py
           python tools/build_live_validation.py
           python tools/verify_live_validation.py
+          python tools/build_v2_promotion.py
+          python tools/verify_v2_promotion.py
       - name: Generate signed GitHub artifact attestations
         uses: actions/attest@v4
         with:
           subject-path: |
-            dist/agent-skills-v1.30.1/packages/*.skill
-            dist/host-compat-v1.30.1/*.zip
+            dist/agent-skills-v1.31.0/packages/*.skill
+            dist/host-compat-v1.31.0/*.zip
       - name: Upload release evidence
         uses: actions/upload-artifact@v4
         with:
-          name: agent-skill-v1.30.1-evidence
+          name: agent-skill-v1.31.0-evidence
           path: |
-            dist/agent-skills-v1.30.1/catalog.json
-            dist/agent-skills-v1.30.1/security-report.json
-            dist/agent-skills-v1.30.1/provenance-index.json
-            dist/agent-skills-v1.30.1/provenance/
-            dist/agent-skills-v1.30.1/revocations.json
-            dist/agent-skills-v1.30.1/SHA256SUMS
-            dist/host-compat-v1.30.1/SHA256SUMS
-            dist/dual-distribution-v1.30.1/release-index.json
-            dist/dual-distribution-v1.30.1/migration-map.json
-            dist/dual-distribution-v1.30.1/rollback-drill.json
-            dist/dual-distribution-v1.30.1/SHA256SUMS
-            dist/live-validation-v1.30.1/manifest.json
-            dist/live-validation-v1.30.1/SHA256SUMS
-            evidence/live-validation/v1.30.1/
+            dist/agent-skills-v1.31.0/catalog.json
+            dist/agent-skills-v1.31.0/security-report.json
+            dist/agent-skills-v1.31.0/provenance-index.json
+            dist/agent-skills-v1.31.0/provenance/
+            dist/agent-skills-v1.31.0/revocations.json
+            dist/agent-skills-v1.31.0/SHA256SUMS
+            dist/host-compat-v1.31.0/SHA256SUMS
+            dist/dual-distribution-v1.31.0/release-index.json
+            dist/dual-distribution-v1.31.0/migration-map.json
+            dist/dual-distribution-v1.31.0/rollback-drill.json
+            dist/dual-distribution-v1.31.0/SHA256SUMS
+            dist/live-validation-v1.31.0/manifest.json
+            dist/live-validation-v1.31.0/SHA256SUMS
+            dist/v2-promotion-v1.31.0/promotion.json
+            dist/v2-promotion-v1.31.0/SHA256SUMS
+            evidence/live-validation/v1.31.0/

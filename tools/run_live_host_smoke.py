@@ -474,7 +474,7 @@ def execute_gemini(
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.30.1.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.31.0.json")
     ap.add_argument("--host", default="gemini-cli", choices=["gemini-cli"])
     ap.add_argument("--artifact", help="Release .skill path or package filename")
     ap.add_argument("--tester", default=os.environ.get("USER") or os.environ.get("USERNAME") or "live-runner")

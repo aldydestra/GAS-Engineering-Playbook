@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.7.1"
+skill_version: "1.8.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.30.1"
+last_repository_update: "v1.31.0"
 tags:
   - google-apps-script
   - deployment
@@ -2223,3 +2223,13 @@ Use community/tooling issues to discover workflow gaps; verify platform capabili
 
 - `clasp` repository  
   https://github.com/google/clasp
+
+## Promotion Control after Live Burn-In (v1.31)
+
+Separate technical readiness from release authorization.
+
+1. Static/package gates must pass for the exact repository version.
+2. Live host lifecycle and consumer burn-in must derive `GO` from retained evidence.
+3. Operator approval, when required, must bind to the exact live-validation manifest digest.
+4. Any evidence change invalidates stale approval and requires a new promotion decision.
+5. `READY_FOR_APPROVAL` is not equivalent to `APPROVED` and must never trigger release automatically.

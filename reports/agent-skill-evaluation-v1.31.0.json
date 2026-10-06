@@ -1,0 +1,3355 @@
+{
+  "summary": {
+    "repository_version": "v1.31.0",
+    "skill_count": 19,
+    "description_parity": {
+      "passed": 19,
+      "total": 19
+    },
+    "trigger_proxy": {
+      "method": "deterministic BM25 over discovery name+description; positive top-3 is the candidate threshold; explicit negatives fail only when the forbidden skill ranks #1; NOT a live-model trigger evaluation",
+      "positive_cases": 152,
+      "negative_cases": 38,
+      "source_top1_accuracy": 0.8289,
+      "package_top1_accuracy": 0.8289,
+      "source_positive_top3_recall": 0.9671,
+      "package_positive_top3_recall": 0.9671,
+      "positive_classification_parity": 1.0,
+      "source_negative_specificity": 1.0,
+      "package_negative_specificity": 1.0,
+      "negative_classification_parity": 1.0
+    },
+    "capability_assertions": {
+      "source_passed": 38,
+      "package_passed": 38,
+      "parity": 38,
+      "total": 38
+    },
+    "activation_line_reduction_pct": {
+      "mean": 92.34,
+      "min": -0.61,
+      "max": 98.04
+    },
+    "live_host_trigger_eval": {
+      "status": "NOT_RUN",
+      "reason": "No live host/model runner is configured in deterministic repository CI. Runtime trigger claims are deferred to host-specific evaluation."
+    },
+    "gate_pass": true
+  },
+  "metadata_parity": [
+    {
+      "skill": "gas-core-engineering",
+      "source_name": "gas-core-engineering",
+      "package_name": "gas-core-engineering",
+      "source_description": "Core Google Apps Script runtime engineering for triggers, LockService/concurrency, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, checkpoints, long-running jobs, and external HTTP calls. Use when the primary problem is GAS runtime behavior or core service usage.",
+      "package_description": "Core Google Apps Script runtime engineering for triggers, LockService/concurrency, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, checkpoints, long-running jobs, and external HTTP calls. Use when the primary problem is GAS runtime behavior or core service usage.",
+      "description_equal": true
+    },
+    {
+      "skill": "appsheet-migration",
+      "source_name": "appsheet-migration",
+      "package_name": "appsheet-migration",
+      "source_description": "Migrate AppSheet applications into Google Apps Script, hybrid architectures, APIs, or relational backends while preserving Ref relationships, expressions, actions, slices, bots/automation, security filters, durable app state, and cutover semantics. Use for AppSheet inventory, parity, migration, and replacement planning.",
+      "package_description": "Migrate AppSheet applications into Google Apps Script, hybrid architectures, APIs, or relational backends while preserving Ref relationships, expressions, actions, slices, bots/automation, security filters, durable app state, and cutover semantics. Use for AppSheet inventory, parity, migration, and replacement planning.",
+      "description_equal": true
+    },
+    {
+      "skill": "software-architecture",
+      "source_name": "software-architecture",
+      "package_name": "software-architecture",
+      "source_description": "Design maintainable Google Apps Script application architecture using services, repositories, adapters, DTOs, ports, dependency seams, stable global entry points, and clear module ownership. Use when refactoring coupling or deciding application boundaries rather than tuning one API call.",
+      "package_description": "Design maintainable Google Apps Script application architecture using services, repositories, adapters, DTOs, ports, dependency seams, stable global entry points, and clear module ownership. Use when refactoring coupling or deciding application boundaries rather than tuning one API call.",
+      "description_equal": true
+    },
+    {
+      "skill": "database-engineering",
+      "source_name": "database-engineering",
+      "package_name": "database-engineering",
+      "source_description": "Design relational data models and database workflows for GAS ecosystems: primary/foreign keys, constraints, normalization, transactions, staging imports, schema drift, synchronization, identity, data types, and source-of-truth rules. Use for database/schema design independent of one specific database engine. Design many-to-many relationships and replace denormalized comma-separated identifiers with relational junction tables.",
+      "package_description": "Design relational data models and database workflows for GAS ecosystems: primary/foreign keys, constraints, normalization, transactions, staging imports, schema drift, synchronization, identity, data types, and source-of-truth rules. Use for database/schema design independent of one specific database engine. Design many-to-many relationships and replace denormalized comma-separated identifiers with relational junction tables.",
+      "description_equal": true
+    },
+    {
+      "skill": "postgresql-integration",
+      "source_name": "postgresql-integration",
+      "package_name": "postgresql-integration",
+      "source_description": "Integrate Google Apps Script or adjacent services with PostgreSQL using JDBC or API boundaries, prepared statements, transactions, batching, TLS/credentials, idempotent sync, Sheet read models, and PgBouncer/proxy semantics. Use for PostgreSQL-specific connectivity, pooling, and operational compatibility.",
+      "package_description": "Integrate Google Apps Script or adjacent services with PostgreSQL using JDBC or API boundaries, prepared statements, transactions, batching, TLS/credentials, idempotent sync, Sheet read models, and PgBouncer/proxy semantics. Use for PostgreSQL-specific connectivity, pooling, and operational compatibility.",
+      "description_equal": true
+    },
+    {
+      "skill": "performance-engineering",
+      "source_name": "performance-engineering",
+      "package_name": "performance-engineering",
+      "source_description": "Optimize Google Apps Script and Workspace automation performance: batch Spreadsheet/Drive calls, remove N+1 patterns, profile latency, use caching, chunking, checkpoints, quota/tool-call budgets, bounded pagination, and egress controls. Use when the primary goal is speed, scale, quota, memory, or runtime efficiency.",
+      "package_description": "Optimize Google Apps Script and Workspace automation performance: batch Spreadsheet/Drive calls, remove N+1 patterns, profile latency, use caching, chunking, checkpoints, quota/tool-call budgets, bounded pagination, and egress controls. Use when the primary goal is speed, scale, quota, memory, or runtime efficiency.",
+      "description_equal": true
+    },
+    {
+      "skill": "security-engineering",
+      "source_name": "security-engineering",
+      "package_name": "security-engineering",
+      "source_description": "Secure Apps Script, Workspace, and adjacent agent integrations: authentication, authorization, least privilege, OAuth scopes, secrets, XSS/input validation, prompt injection, server-side permission checks, filtered/partial read semantics, and safe logging. Use for application/runtime trust boundaries rather than skill-package scanning. Use for threat modeling public/web endpoints and access-control failures as well as OAuth and prompt-injection risks.",
+      "package_description": "Secure Apps Script, Workspace, and adjacent agent integrations: authentication, authorization, least privilege, OAuth scopes, secrets, XSS/input validation, prompt injection, server-side permission checks, filtered/partial read semantics, and safe logging. Use for application/runtime trust boundaries rather than skill-package scanning. Use for threat modeling public/web endpoints and access-control failures as well as OAuth and prompt-injection risks.",
+      "description_equal": true
+    },
+    {
+      "skill": "testing-quality",
+      "source_name": "testing-quality",
+      "package_name": "testing-quality",
+      "source_description": "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality.",
+      "package_description": "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality.",
+      "description_equal": true
+    },
+    {
+      "skill": "monitoring-observability",
+      "source_name": "monitoring-observability",
+      "package_name": "monitoring-observability",
+      "source_description": "Design observability for Apps Script and Workspace workflows using structured logs, correlation IDs, metrics, retries, synthetic probes, reconciliation, incident classification, business-outcome checks, completeness-aware reads, and alert deduplication. Use when diagnosing or monitoring runtime behavior.",
+      "package_description": "Design observability for Apps Script and Workspace workflows using structured logs, correlation IDs, metrics, retries, synthetic probes, reconciliation, incident classification, business-outcome checks, completeness-aware reads, and alert deduplication. Use when diagnosing or monitoring runtime behavior.",
+      "description_equal": true
+    },
+    {
+      "skill": "deployment-engineering",
+      "source_name": "deployment-engineering",
+      "package_name": "deployment-engineering",
+      "source_description": "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture.",
+      "package_description": "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture.",
+      "description_equal": true
+    },
+    {
+      "skill": "documentation-engineering",
+      "source_name": "documentation-engineering",
+      "package_name": "documentation-engineering",
+      "source_description": "Engineer canonical technical documentation, ADRs, runbooks, handoff guides, release notes, source/evidence status, generated AI-readable docs such as llms.txt/MCP indexes, and reproducible benchmark documentation. Use when the deliverable is durable engineering knowledge or operational documentation. Use for ADR architecture decision records, runbooks, handoff, and reproducible engineering evidence.",
+      "package_description": "Engineer canonical technical documentation, ADRs, runbooks, handoff guides, release notes, source/evidence status, generated AI-readable docs such as llms.txt/MCP indexes, and reproducible benchmark documentation. Use when the deliverable is durable engineering knowledge or operational documentation. Use for ADR architecture decision records, runbooks, handoff, and reproducible engineering evidence.",
+      "description_equal": true
+    },
+    {
+      "skill": "web-app-frontend-engineering",
+      "source_name": "web-app-frontend-engineering",
+      "package_name": "web-app-frontend-engineering",
+      "source_description": "Build Google Apps Script HtmlService/browser frontends with google.script.run, Promise wrappers, loading/error states, client routing/state, forms/file upload, pagination, framework bundling, responsive UI, and secure client/server boundaries. Use for GAS web UI implementation rather than general product design.",
+      "package_description": "Build Google Apps Script HtmlService/browser frontends with google.script.run, Promise wrappers, loading/error states, client routing/state, forms/file upload, pagination, framework bundling, responsive UI, and secure client/server boundaries. Use for GAS web UI implementation rather than general product design.",
+      "description_equal": true
+    },
+    {
+      "skill": "ai-agent-integration",
+      "source_name": "ai-agent-integration",
+      "package_name": "ai-agent-integration",
+      "source_description": "Integrate LLMs and AI agents with Apps Script/Workspace using structured outputs, tool/function calling, MCP, A2A, bounded agent loops, human approval, prompt-injection defenses, durable state, retrieval, multi-agent orchestration, budgets, observability, and provider/tool gateways. Use for agent runtime behavior.",
+      "package_description": "Integrate LLMs and AI agents with Apps Script/Workspace using structured outputs, tool/function calling, MCP, A2A, bounded agent loops, human approval, prompt-injection defenses, durable state, retrieval, multi-agent orchestration, budgets, observability, and provider/tool gateways. Use for agent runtime behavior.",
+      "description_equal": true
+    },
+    {
+      "skill": "workspace-addons-chat-engineering",
+      "source_name": "workspace-addons-chat-engineering",
+      "package_name": "workspace-addons-chat-engineering",
+      "source_description": "Build Google Workspace Add-ons, Google Chat apps, and Workspace Studio extensions using CardService, host manifests, contextual/homepage cards, navigation/actions, Chat responses, workflow steps/starters, workflowTriggers, lifecycle callbacks, OAuth, and membership-visibility UI states. Use for Workspace-native add-on/chat/studio UX.",
+      "package_description": "Build Google Workspace Add-ons, Google Chat apps, and Workspace Studio extensions using CardService, host manifests, contextual/homepage cards, navigation/actions, Chat responses, workflow steps/starters, workflowTriggers, lifecycle callbacks, OAuth, and membership-visibility UI states. Use for Workspace-native add-on/chat/studio UX.",
+      "description_equal": true
+    },
+    {
+      "skill": "product-design-engineering",
+      "source_name": "product-design-engineering",
+      "package_name": "product-design-engineering",
+      "source_description": "Engineer product UX, visual systems, and design systems: user flows, information hierarchy, typography, color, spacing, accessibility, semantic design tokens, reusable components/variants, Figma/Canva workflows, rendered-reference reconstruction, and source-vs-rendered visual QA. Use for design intent and design-system quality.",
+      "package_description": "Engineer product UX, visual systems, and design systems: user flows, information hierarchy, typography, color, spacing, accessibility, semantic design tokens, reusable components/variants, Figma/Canva workflows, rendered-reference reconstruction, and source-vs-rendered visual QA. Use for design intent and design-system quality.",
+      "description_equal": true
+    },
+    {
+      "skill": "workspace-api-event-engineering",
+      "source_name": "workspace-api-event-engineering",
+      "package_name": "workspace-api-event-engineering",
+      "source_description": "Integrate Google Workspace APIs, Advanced Services, REST, Workspace Events/Pub/Sub, Workspace Studio triggers.fire, Chat membership/updateMask operations, product MCP/Universal Search, Developer Knowledge MCP/REST/gcloud, OAuth, pagination, quotas, retries, idempotency, and reconciliation. Use for API/event/tool transport engineering.",
+      "package_description": "Integrate Google Workspace APIs, Advanced Services, REST, Workspace Events/Pub/Sub, Workspace Studio triggers.fire, Chat membership/updateMask operations, product MCP/Universal Search, Developer Knowledge MCP/REST/gcloud, OAuth, pagination, quotas, retries, idempotency, and reconciliation. Use for API/event/tool transport engineering.",
+      "description_equal": true
+    },
+    {
+      "skill": "workspace-governance-compliance-engineering",
+      "source_name": "workspace-governance-compliance-engineering",
+      "package_name": "workspace-governance-compliance-engineering",
+      "source_description": "Engineer Google Workspace governance controls for Data Regions, DLP/policy-as-code, Reports/audit evidence, Vault/eDiscovery, Client-side Encryption/KACLS, target audiences, Chat membership privacy, MCP scope/client governance, data egress, exceptions, and compliance preflight. Use for organization-level policy and evidence.",
+      "package_description": "Engineer Google Workspace governance controls for Data Regions, DLP/policy-as-code, Reports/audit evidence, Vault/eDiscovery, Client-side Encryption/KACLS, target audiences, Chat membership privacy, MCP scope/client governance, data egress, exceptions, and compliance preflight. Use for organization-level policy and evidence.",
+      "description_equal": true
+    },
+    {
+      "skill": "agent-skill-supply-chain-security",
+      "source_name": "agent-skill-supply-chain-security",
+      "package_name": "agent-skill-supply-chain-security",
+      "source_description": "Secure AI Agent Skills, plugins, MCP-integrated packages, and catalogs through pre-install scanning, prompt-injection/exfiltration detection, scripts/hooks/manifests, dependency provenance, MCP metadata/tool poisoning, permission parity, shadowing/precedence, SARIF/CI gates, fail-closed completeness, signing, admission, update, and revocation.",
+      "package_description": "Secure AI Agent Skills, plugins, MCP-integrated packages, and catalogs through pre-install scanning, prompt-injection/exfiltration detection, scripts/hooks/manifests, dependency provenance, MCP metadata/tool poisoning, permission parity, shadowing/precedence, SARIF/CI gates, fail-closed completeness, signing, admission, update, and revocation.",
+      "description_equal": true
+    },
+    {
+      "skill": "agent-skill-engineering",
+      "source_name": "19-agent-skill-engineering",
+      "package_name": "agent-skill-engineering",
+      "source_description": "Author, package, validate, route, install, update, and maintain Agent Skills across canonical source, generated packages, and host adapters. Use for trigger descriptions, progressive disclosure, packaging, discovery/precedence, host compatibility, dual-distribution migration, security/catalog/provenance evidence, rollback, revocation, and lifecycle/version management.",
+      "package_description": "Author, package, validate, route, install, update, and maintain Agent Skills across canonical source, generated packages, and host adapters. Use for trigger descriptions, progressive disclosure, packaging, discovery/precedence, host compatibility, dual-distribution migration, security/catalog/provenance evidence, rollback, revocation, and lifecycle/version management.",
+      "description_equal": true
+    }
+  ],
+  "per_skill": {
+    "gas-core-engineering": {
+      "cases": 8,
+      "source_top1": 6,
+      "package_top1": 6,
+      "source_top3": 7,
+      "package_top3": 7,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        4,
+        1
+      ],
+      "package_ranks": [
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        4,
+        1
+      ]
+    },
+    "appsheet-migration": {
+      "cases": 8,
+      "source_top1": 8,
+      "package_top1": 8,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "software-architecture": {
+      "cases": 8,
+      "source_top1": 6,
+      "package_top1": 6,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        1,
+        1
+      ]
+    },
+    "database-engineering": {
+      "cases": 8,
+      "source_top1": 8,
+      "package_top1": 8,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "postgresql-integration": {
+      "cases": 8,
+      "source_top1": 8,
+      "package_top1": 8,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "performance-engineering": {
+      "cases": 8,
+      "source_top1": 7,
+      "package_top1": 7,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "security-engineering": {
+      "cases": 8,
+      "source_top1": 4,
+      "package_top1": 4,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        2,
+        1,
+        2,
+        3,
+        1,
+        3,
+        1,
+        1
+      ],
+      "package_ranks": [
+        2,
+        1,
+        2,
+        3,
+        1,
+        3,
+        1,
+        1
+      ]
+    },
+    "testing-quality": {
+      "cases": 8,
+      "source_top1": 7,
+      "package_top1": 7,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "monitoring-observability": {
+      "cases": 8,
+      "source_top1": 4,
+      "package_top1": 4,
+      "source_top3": 7,
+      "package_top3": 7,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        3,
+        1,
+        1,
+        11,
+        2,
+        2,
+        1
+      ],
+      "package_ranks": [
+        1,
+        3,
+        1,
+        1,
+        11,
+        2,
+        2,
+        1
+      ]
+    },
+    "deployment-engineering": {
+      "cases": 8,
+      "source_top1": 5,
+      "package_top1": 5,
+      "source_top3": 6,
+      "package_top3": 6,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        9,
+        1,
+        1,
+        1,
+        2,
+        4,
+        1
+      ],
+      "package_ranks": [
+        1,
+        9,
+        1,
+        1,
+        1,
+        2,
+        4,
+        1
+      ]
+    },
+    "documentation-engineering": {
+      "cases": 8,
+      "source_top1": 7,
+      "package_top1": 7,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "web-app-frontend-engineering": {
+      "cases": 8,
+      "source_top1": 7,
+      "package_top1": 7,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        3,
+        1
+      ]
+    },
+    "ai-agent-integration": {
+      "cases": 8,
+      "source_top1": 7,
+      "package_top1": 7,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "workspace-addons-chat-engineering": {
+      "cases": 8,
+      "source_top1": 8,
+      "package_top1": 8,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "product-design-engineering": {
+      "cases": 8,
+      "source_top1": 6,
+      "package_top1": 6,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        2
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        2
+      ]
+    },
+    "workspace-api-event-engineering": {
+      "cases": 8,
+      "source_top1": 6,
+      "package_top1": 6,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        3,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        3,
+        1
+      ]
+    },
+    "workspace-governance-compliance-engineering": {
+      "cases": 8,
+      "source_top1": 7,
+      "package_top1": 7,
+      "source_top3": 7,
+      "package_top3": 7,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        5,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        5,
+        1,
+        1
+      ]
+    },
+    "agent-skill-supply-chain-security": {
+      "cases": 8,
+      "source_top1": 8,
+      "package_top1": 8,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "agent-skill-engineering": {
+      "cases": 8,
+      "source_top1": 7,
+      "package_top1": 7,
+      "source_top3": 8,
+      "package_top3": 8,
+      "classification_parity": 8,
+      "source_ranks": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "package_ranks": [
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "trigger_cases": [
+    {
+      "id": "gas-core-engineering-01",
+      "expected_skill": "gas-core-engineering",
+      "query": "Why does this Apps Script trigger run twice, and how should I use LockService to stop duplicate execution?",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "gas-core-engineering-02",
+      "expected_skill": "gas-core-engineering",
+      "query": "I need to read and write 50,000 spreadsheet rows in Apps Script without timing out. What batching pattern should I use?",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "gas-core-engineering-03",
+      "expected_skill": "gas-core-engineering",
+      "query": "How should I structure configuration and PropertiesService access in a Google Apps Script project?",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "gas-core-engineering-04",
+      "expected_skill": "gas-core-engineering",
+      "query": "My Apps Script job exceeds execution time. Help me add checkpoints and resume safely on the next trigger.",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "gas-core-engineering-05",
+      "expected_skill": "gas-core-engineering",
+      "query": "What is the safest pattern for calling an external REST service from Apps Script with retries and timeouts?",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "gas-core-engineering-06",
+      "expected_skill": "gas-core-engineering",
+      "query": "I have a google.script.run callback chain that sometimes returns out of order; how should I reason about the Apps Script runtime?",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "gas-core-engineering-07",
+      "expected_skill": "gas-core-engineering",
+      "query": "How should I handle concurrent updates to the same Google Sheet from multiple Apps Script executions?",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 4,
+      "package_rank": 4,
+      "source_positive_pass": false,
+      "package_positive_pass": false,
+      "classification_parity": true
+    },
+    {
+      "id": "gas-core-engineering-08",
+      "expected_skill": "gas-core-engineering",
+      "query": "Can you review this core Apps Script project for trigger, SpreadsheetApp, quota, and runtime mistakes?",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-01",
+      "expected_skill": "appsheet-migration",
+      "query": "I want to migrate an AppSheet app with bots, slices, and security filters into Google Apps Script. How should I inventory it?",
+      "source_top1": "appsheet-migration",
+      "package_top1": "appsheet-migration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-02",
+      "expected_skill": "appsheet-migration",
+      "query": "How do I preserve AppSheet Ref relationships and automation behavior when moving to a custom GAS backend?",
+      "source_top1": "appsheet-migration",
+      "package_top1": "appsheet-migration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-03",
+      "expected_skill": "appsheet-migration",
+      "query": "We are replacing AppSheet with a hybrid Apps Script and PostgreSQL solution. What migration phases should we use?",
+      "source_top1": "appsheet-migration",
+      "package_top1": "appsheet-migration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-04",
+      "expected_skill": "appsheet-migration",
+      "query": "Help me map AppSheet virtual columns, actions, bots, and expressions before rebuilding the application.",
+      "source_top1": "appsheet-migration",
+      "package_top1": "appsheet-migration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-05",
+      "expected_skill": "appsheet-migration",
+      "query": "Our AppSheet editor state changed during migration. How do we capture a durable baseline and verify saved behavior?",
+      "source_top1": "appsheet-migration",
+      "package_top1": "appsheet-migration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-06",
+      "expected_skill": "appsheet-migration",
+      "query": "How can I validate that migrated AppSheet email/PDF automations produce the same downstream outcomes?",
+      "source_top1": "appsheet-migration",
+      "package_top1": "appsheet-migration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-07",
+      "expected_skill": "appsheet-migration",
+      "query": "I need a cutover checklist from AppSheet to a custom Google Workspace application without losing workflow semantics.",
+      "source_top1": "appsheet-migration",
+      "package_top1": "appsheet-migration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-08",
+      "expected_skill": "appsheet-migration",
+      "query": "What should I test when evaluating AppSheet new mobile framework behavior before migration?",
+      "source_top1": "appsheet-migration",
+      "package_top1": "appsheet-migration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-01",
+      "expected_skill": "software-architecture",
+      "query": "How should I split a growing Apps Script codebase into services, repositories, adapters, and stable global entry points?",
+      "source_top1": "software-architecture",
+      "package_top1": "software-architecture",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-02",
+      "expected_skill": "software-architecture",
+      "query": "I need an architecture for a GAS application so UI code does not directly call database or external API logic.",
+      "source_top1": "software-architecture",
+      "package_top1": "software-architecture",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-03",
+      "expected_skill": "software-architecture",
+      "query": "Where should DTO mapping live in a layered Apps Script application?",
+      "source_top1": "software-architecture",
+      "package_top1": "software-architecture",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-04",
+      "expected_skill": "software-architecture",
+      "query": "Help me define ports and adapters for a system that can switch from Sheets to PostgreSQL later.",
+      "source_top1": "software-architecture",
+      "package_top1": "software-architecture",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-05",
+      "expected_skill": "software-architecture",
+      "query": "My Apps Script project has business rules scattered across menu handlers and triggers. How should I refactor boundaries?",
+      "source_top1": "monitoring-observability",
+      "package_top1": "monitoring-observability",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-06",
+      "expected_skill": "software-architecture",
+      "query": "What is a pragmatic dependency injection approach for Apps Script without overengineering a framework?",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-07",
+      "expected_skill": "software-architecture",
+      "query": "How should I separate domain workflow from Google-specific services in a maintainable GAS application?",
+      "source_top1": "software-architecture",
+      "package_top1": "software-architecture",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-08",
+      "expected_skill": "software-architecture",
+      "query": "Can you review this module layout for coupling, ownership, and stable interfaces?",
+      "source_top1": "software-architecture",
+      "package_top1": "software-architecture",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-01",
+      "expected_skill": "database-engineering",
+      "query": "Help me normalize this business data model and decide primary keys, foreign keys, and uniqueness constraints.",
+      "source_top1": "database-engineering",
+      "package_top1": "database-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-02",
+      "expected_skill": "database-engineering",
+      "query": "How should I design a source-of-truth database when Sheets is only a reporting/read model?",
+      "source_top1": "database-engineering",
+      "package_top1": "database-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-03",
+      "expected_skill": "database-engineering",
+      "query": "I need a staging-table import pattern with validation and atomic promotion into canonical tables.",
+      "source_top1": "database-engineering",
+      "package_top1": "database-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-04",
+      "expected_skill": "database-engineering",
+      "query": "How do I detect schema drift and reconcile imported spreadsheet data with relational constraints?",
+      "source_top1": "database-engineering",
+      "package_top1": "database-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-05",
+      "expected_skill": "database-engineering",
+      "query": "What data types and constraints should I use for money, dates, identifiers, and status fields?",
+      "source_top1": "database-engineering",
+      "package_top1": "database-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-06",
+      "expected_skill": "database-engineering",
+      "query": "How should I model many-to-many relationships instead of storing comma-separated IDs in a Sheet?",
+      "source_top1": "database-engineering",
+      "package_top1": "database-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-07",
+      "expected_skill": "database-engineering",
+      "query": "I need an idempotent synchronization design between a relational database and Google Sheets.",
+      "source_top1": "database-engineering",
+      "package_top1": "database-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-08",
+      "expected_skill": "database-engineering",
+      "query": "Can you review this schema for transaction boundaries, identity, integrity, and audit fields?",
+      "source_top1": "database-engineering",
+      "package_top1": "database-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-01",
+      "expected_skill": "postgresql-integration",
+      "query": "How do I connect Apps Script to PostgreSQL safely using JDBC and prepared statements?",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-02",
+      "expected_skill": "postgresql-integration",
+      "query": "Should my GAS app connect directly to PostgreSQL or call a backend API instead?",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-03",
+      "expected_skill": "postgresql-integration",
+      "query": "Help me batch inserts and transactions from Apps Script into PostgreSQL without duplicate rows.",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-04",
+      "expected_skill": "postgresql-integration",
+      "query": "How should I deploy PgBouncer in front of PostgreSQL for an Apps Script adjacent backend?",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-05",
+      "expected_skill": "postgresql-integration",
+      "query": "What security and transaction-pooling assumptions should I document when using PgBouncer?",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-06",
+      "expected_skill": "postgresql-integration",
+      "query": "I need to sync PostgreSQL data into a Google Sheet read model efficiently and idempotently.",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-07",
+      "expected_skill": "postgresql-integration",
+      "query": "Can I use PostgreSQL 19 beta features in production yet, or should I keep PostgreSQL 18?",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-08",
+      "expected_skill": "postgresql-integration",
+      "query": "How should I handle JDBC credentials, TLS, retries, and connection failures for PostgreSQL integration?",
+      "source_top1": "postgresql-integration",
+      "package_top1": "postgresql-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-01",
+      "expected_skill": "performance-engineering",
+      "query": "My Apps Script is slow because it calls getValue in a loop. How should I batch spreadsheet I/O?",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-02",
+      "expected_skill": "performance-engineering",
+      "query": "How do I profile an Apps Script workflow and find the calls consuming most execution time?",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-03",
+      "expected_skill": "performance-engineering",
+      "query": "I need to process a large Sheet under Apps Script runtime limits using chunking and checkpoints.",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-04",
+      "expected_skill": "performance-engineering",
+      "query": "How should I reduce Workspace API quota units, pagination, and egress in a large automation?",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-05",
+      "expected_skill": "performance-engineering",
+      "query": "What caching strategy is safe for repeated reference-data lookups in Apps Script?",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-06",
+      "expected_skill": "performance-engineering",
+      "query": "How do I avoid N+1 calls to Drive or Sheets services in Google Apps Script?",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-07",
+      "expected_skill": "performance-engineering",
+      "query": "Our agent makes too many Workspace API calls. Help me define tool-call and quota budgets.",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-08",
+      "expected_skill": "performance-engineering",
+      "query": "Can you optimize this GAS workflow for latency, quotas, memory, and execution duration?",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-01",
+      "expected_skill": "security-engineering",
+      "query": "How should I design authentication and authorization for a Google Apps Script web app?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-02",
+      "expected_skill": "security-engineering",
+      "query": "Where should API keys and OAuth secrets live in an Apps Script project?",
+      "source_top1": "security-engineering",
+      "package_top1": "security-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-03",
+      "expected_skill": "security-engineering",
+      "query": "How do I validate server-side permissions instead of trusting hidden UI buttons?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-04",
+      "expected_skill": "security-engineering",
+      "query": "What is the threat model for exposing a GAS web endpoint to external users?",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-05",
+      "expected_skill": "security-engineering",
+      "query": "How should I treat prompt injection in data returned from a trusted Workspace MCP server?",
+      "source_top1": "security-engineering",
+      "package_top1": "security-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-06",
+      "expected_skill": "security-engineering",
+      "query": "An API list call returns an empty result for a restricted user. How do I distinguish authorization filtering from true absence?",
+      "source_top1": "workspace-api-event-engineering",
+      "package_top1": "workspace-api-event-engineering",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-07",
+      "expected_skill": "security-engineering",
+      "query": "Help me apply least privilege to Workspace OAuth scopes and external service credentials.",
+      "source_top1": "security-engineering",
+      "package_top1": "security-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-08",
+      "expected_skill": "security-engineering",
+      "query": "Can you review this Apps Script application for XSS, CSRF-like risks, authorization, secrets, and unsafe logging?",
+      "source_top1": "security-engineering",
+      "package_top1": "security-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-01",
+      "expected_skill": "testing-quality",
+      "query": "How should I write unit and integration tests for an Apps Script service with external dependencies?",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-02",
+      "expected_skill": "testing-quality",
+      "query": "I need a regression test strategy for a GAS migration before releasing it.",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-03",
+      "expected_skill": "testing-quality",
+      "query": "How do I evaluate whether a new Agent Skill version actually improves results over the old version?",
+      "source_top1": "agent-skill-engineering",
+      "package_top1": "agent-skill-engineering",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-04",
+      "expected_skill": "testing-quality",
+      "query": "Help me design positive and negative trigger evals for a skill description.",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-05",
+      "expected_skill": "testing-quality",
+      "query": "How should I measure variance, token cost, and pass rate across repeated agent evaluation runs?",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-06",
+      "expected_skill": "testing-quality",
+      "query": "I need adversarial scanner tests for nested scripts, symlinks, archives, and compiled bytecode.",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-07",
+      "expected_skill": "testing-quality",
+      "query": "What should a target-parser compatibility test verify for generated YAML or Agent Skills?",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-08",
+      "expected_skill": "testing-quality",
+      "query": "Can you create a quality gate combining assertions, integration tests, and behavioral evals?",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-01",
+      "expected_skill": "monitoring-observability",
+      "query": "What structured logs and correlation IDs should I add to this Apps Script automation?",
+      "source_top1": "monitoring-observability",
+      "package_top1": "monitoring-observability",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-02",
+      "expected_skill": "monitoring-observability",
+      "query": "How should I monitor trigger failures, retries, and execution duration in GAS?",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-03",
+      "expected_skill": "monitoring-observability",
+      "query": "Our job says SUCCESS but the email never arrived. How do we monitor the actual business outcome?",
+      "source_top1": "monitoring-observability",
+      "package_top1": "monitoring-observability",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-04",
+      "expected_skill": "monitoring-observability",
+      "query": "Help me design synthetic probes and reconciliation for an asynchronous workflow.",
+      "source_top1": "monitoring-observability",
+      "package_top1": "monitoring-observability",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-05",
+      "expected_skill": "monitoring-observability",
+      "query": "How should I distinguish provider outage, local regression, and dependency failure from telemetry?",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 11,
+      "package_rank": 11,
+      "source_positive_pass": false,
+      "package_positive_pass": false,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-06",
+      "expected_skill": "monitoring-observability",
+      "query": "A membership list query returns zero rows. What observability fields show whether the result was permission-filtered?",
+      "source_top1": "security-engineering",
+      "package_top1": "security-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-07",
+      "expected_skill": "monitoring-observability",
+      "query": "What metrics should I track for Workspace Studio starter 404, 429, and retry behavior?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-08",
+      "expected_skill": "monitoring-observability",
+      "query": "Can you define an incident logging and alert-deduplication strategy for this automation?",
+      "source_top1": "monitoring-observability",
+      "package_top1": "monitoring-observability",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-01",
+      "expected_skill": "deployment-engineering",
+      "query": "How should I deploy Apps Script with clasp without confusing push with an immutable deployment?",
+      "source_top1": "deployment-engineering",
+      "package_top1": "deployment-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-02",
+      "expected_skill": "deployment-engineering",
+      "query": "What is the safest promotion flow from development to production for a GAS web app?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 9,
+      "package_rank": 9,
+      "source_positive_pass": false,
+      "package_positive_pass": false,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-03",
+      "expected_skill": "deployment-engineering",
+      "query": "How should I manage Apps Script deployment IDs, versions, and rollback?",
+      "source_top1": "deployment-engineering",
+      "package_top1": "deployment-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-04",
+      "expected_skill": "deployment-engineering",
+      "query": "I need a CI/CD pipeline that bundles TypeScript before clasp push.",
+      "source_top1": "deployment-engineering",
+      "package_top1": "deployment-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-05",
+      "expected_skill": "deployment-engineering",
+      "query": "How do I release a Workspace add-on when host products change in the Marketplace listing?",
+      "source_top1": "deployment-engineering",
+      "package_top1": "deployment-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-06",
+      "expected_skill": "deployment-engineering",
+      "query": "What deployment checks are needed for Workspace Studio workflow starters?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-07",
+      "expected_skill": "deployment-engineering",
+      "query": "How should I smoke-test OAuth redirect and refresh-token handling for an external runtime?",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 4,
+      "package_rank": 4,
+      "source_positive_pass": false,
+      "package_positive_pass": false,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-08",
+      "expected_skill": "deployment-engineering",
+      "query": "Can you design a release checklist for manifests, triggers, deployments, and rollback?",
+      "source_top1": "deployment-engineering",
+      "package_top1": "deployment-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-01",
+      "expected_skill": "documentation-engineering",
+      "query": "Help me write an ADR for this Apps Script architecture decision and preserve the trade-offs.",
+      "source_top1": "documentation-engineering",
+      "package_top1": "documentation-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-02",
+      "expected_skill": "documentation-engineering",
+      "query": "How should I document a complex GAS system so another engineer can operate and hand it over?",
+      "source_top1": "product-design-engineering",
+      "package_top1": "product-design-engineering",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-03",
+      "expected_skill": "documentation-engineering",
+      "query": "I need canonical Markdown that can generate human docs, llms.txt, and MCP-searchable documentation.",
+      "source_top1": "documentation-engineering",
+      "package_top1": "documentation-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-04",
+      "expected_skill": "documentation-engineering",
+      "query": "How do I prevent generated AI documentation indexes from becoming stale?",
+      "source_top1": "documentation-engineering",
+      "package_top1": "documentation-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-05",
+      "expected_skill": "documentation-engineering",
+      "query": "What should a runbook include for failure recovery, ownership, and operational handoff?",
+      "source_top1": "documentation-engineering",
+      "package_top1": "documentation-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-06",
+      "expected_skill": "documentation-engineering",
+      "query": "How should I document source status when a release note says GA but an older guide still says preview?",
+      "source_top1": "documentation-engineering",
+      "package_top1": "documentation-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-07",
+      "expected_skill": "documentation-engineering",
+      "query": "What evidence should accompany a skill benchmark so results are reproducible?",
+      "source_top1": "documentation-engineering",
+      "package_top1": "documentation-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-08",
+      "expected_skill": "documentation-engineering",
+      "query": "Can you restructure these engineering docs into canonical source plus generated documentation artifacts?",
+      "source_top1": "documentation-engineering",
+      "package_top1": "documentation-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-01",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "How should I structure HTMLService frontend files for a Google Apps Script web app?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-02",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "Can you wrap google.script.run in Promises and add loading/error states?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-03",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "How do I implement client-side routing and state without putting business logic in the browser?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-04",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "What is the secure way to submit a file form from an HtmlService page to Apps Script?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-05",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "How should I bundle a frontend framework for Apps Script HtmlService?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-06",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "I need responsive pagination, filters, and async RPC in a GAS web UI.",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-07",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "How do I avoid exposing authorization decisions to client-side JavaScript?",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-08",
+      "expected_skill": "web-app-frontend-engineering",
+      "query": "Can you review this Apps Script web app for RPC, state, loading, error, and browser-runtime issues?",
+      "source_top1": "web-app-frontend-engineering",
+      "package_top1": "web-app-frontend-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-01",
+      "expected_skill": "ai-agent-integration",
+      "query": "How should I add an LLM tool-calling agent to an Apps Script workflow without letting the model authorize destructive actions?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-02",
+      "expected_skill": "ai-agent-integration",
+      "query": "I need bounded agent loops with human approval, durable state, and idempotent side effects.",
+      "source_top1": "ai-agent-integration",
+      "package_top1": "ai-agent-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-03",
+      "expected_skill": "ai-agent-integration",
+      "query": "When should an agent use MCP versus REST fallback for authoritative documentation retrieval?",
+      "source_top1": "ai-agent-integration",
+      "package_top1": "ai-agent-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-04",
+      "expected_skill": "ai-agent-integration",
+      "query": "How do I defend an AI agent against indirect prompt injection in Chat messages and Drive documents?",
+      "source_top1": "ai-agent-integration",
+      "package_top1": "ai-agent-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-05",
+      "expected_skill": "ai-agent-integration",
+      "query": "Help me design a multi-agent workflow with scoped tools, shared memory boundaries, and budgets.",
+      "source_top1": "ai-agent-integration",
+      "package_top1": "ai-agent-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-06",
+      "expected_skill": "ai-agent-integration",
+      "query": "How should I normalize tool errors and structured outputs across different LLM providers?",
+      "source_top1": "ai-agent-integration",
+      "package_top1": "ai-agent-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-07",
+      "expected_skill": "ai-agent-integration",
+      "query": "I need an agent gateway that supports MCP, A2A, observability, and evaluation.",
+      "source_top1": "ai-agent-integration",
+      "package_top1": "ai-agent-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-08",
+      "expected_skill": "ai-agent-integration",
+      "query": "How do I keep an AI agent from making unbounded Workspace API calls while preserving useful autonomy?",
+      "source_top1": "ai-agent-integration",
+      "package_top1": "ai-agent-integration",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-01",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "How do I build a Google Workspace Add-on homepage card with CardService actions and navigation?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-02",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "What manifest settings and callbacks are needed for a Gmail or Drive Workspace Add-on?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-03",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "How should a Google Chat app return synchronous versus asynchronous card responses?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-04",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "I need to add a Workspace Studio workflow starter to my add-on using workflowTriggers.",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-05",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "How should I handle triggerCreation and triggerDeletion lifecycle callbacks in Workspace Studio?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-06",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "What UI state should a Chat add-on show when membership visibility is restricted?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-07",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "How do universal actions and host-specific contextual cards fit into one add-on architecture?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-08",
+      "expected_skill": "workspace-addons-chat-engineering",
+      "query": "Can you review this Workspace Add-on for CardService, OAuth, navigation, Chat, and Studio behavior?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-01",
+      "expected_skill": "product-design-engineering",
+      "query": "Help me audit this product screen for hierarchy, typography, spacing, accessibility, and UX flow.",
+      "source_top1": "product-design-engineering",
+      "package_top1": "product-design-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-02",
+      "expected_skill": "product-design-engineering",
+      "query": "How should I convert an existing UI into Figma while reusing design-system components and tokens?",
+      "source_top1": "product-design-engineering",
+      "package_top1": "product-design-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-03",
+      "expected_skill": "product-design-engineering",
+      "query": "I need semantic design tokens for color, spacing, typography, and component states.",
+      "source_top1": "product-design-engineering",
+      "package_top1": "product-design-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-04",
+      "expected_skill": "product-design-engineering",
+      "query": "How do I compare the approved Figma source with the rendered implementation for visual QA?",
+      "source_top1": "product-design-engineering",
+      "package_top1": "product-design-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-05",
+      "expected_skill": "product-design-engineering",
+      "query": "What accessibility checks can I infer from a screenshot and which require live testing?",
+      "source_top1": "testing-quality",
+      "package_top1": "testing-quality",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-06",
+      "expected_skill": "product-design-engineering",
+      "query": "Help me define component variants and state coverage for a design system.",
+      "source_top1": "product-design-engineering",
+      "package_top1": "product-design-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-07",
+      "expected_skill": "product-design-engineering",
+      "query": "How should I evaluate both pixel fidelity and design-system fidelity during reconstruction?",
+      "source_top1": "product-design-engineering",
+      "package_top1": "product-design-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-08",
+      "expected_skill": "product-design-engineering",
+      "query": "Can you create a design audit with evidence, severity, impact, and concrete fixes?",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-01",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How do I choose between Apps Script built-in services, Advanced Services, and direct Workspace REST APIs?",
+      "source_top1": "workspace-api-event-engineering",
+      "package_top1": "workspace-api-event-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-02",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "I need to subscribe to Google Workspace Events and process Pub/Sub notifications idempotently.",
+      "source_top1": "workspace-api-event-engineering",
+      "package_top1": "workspace-api-event-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-03",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How should I paginate Drive or Chat API calls with checkpoints and quota bounds?",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-04",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "What is the difference between Workspace Events API and a Workspace Studio starter event?",
+      "source_top1": "workspace-api-event-engineering",
+      "package_top1": "workspace-api-event-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-05",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How do I call Workspace Studio triggers.fire with requestId and handle 404, 429, and 5xx?",
+      "source_top1": "workspace-api-event-engineering",
+      "package_top1": "workspace-api-event-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-06",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "I need to use Universal Search MCP for cross-product Workspace retrieval.",
+      "source_top1": "workspace-api-event-engineering",
+      "package_top1": "workspace-api-event-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-07",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How should I implement Chat membership visibility updates with explicit update masks?",
+      "source_top1": "workspace-addons-chat-engineering",
+      "package_top1": "workspace-addons-chat-engineering",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-08",
+      "expected_skill": "workspace-api-event-engineering",
+      "query": "How do I use Developer Knowledge through MCP, REST, or gcloud while preserving error semantics?",
+      "source_top1": "workspace-api-event-engineering",
+      "package_top1": "workspace-api-event-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-01",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "How should our Workspace organization govern Apps Script Data Regions and nonregionalized services?",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-02",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "I need policy-as-code for Workspace DLP with audit evidence and exception handling.",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-03",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "How do Vault, eDiscovery, retention, and Reports API evidence fit into a governance architecture?",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-04",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "What governance controls are needed for Client-side Encryption and KACLS?",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-05",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "How should we approve Workspace MCP products, scopes, clients, logging, and data classes?",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-06",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "Who should be allowed to enable billing or quota expansion for autonomous Workspace agents?",
+      "source_top1": "performance-engineering",
+      "package_top1": "performance-engineering",
+      "source_rank": 5,
+      "package_rank": 5,
+      "source_positive_pass": false,
+      "package_positive_pass": false,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-07",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "How should target audiences and Chat membership-list privacy be governed across sensitive spaces?",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-08",
+      "expected_skill": "workspace-governance-compliance-engineering",
+      "query": "Can you create a compliance engineering preflight for data residency, DLP, audit, and AI access?",
+      "source_top1": "workspace-governance-compliance-engineering",
+      "package_top1": "workspace-governance-compliance-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-01",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "How do I security-scan an Agent Skill before installation for prompt injection, exfiltration, and dangerous scripts?",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-02",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "What should a scanner inspect in SKILL.md, hooks, plugin manifests, MCP config, and nested archives?",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-03",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "How do I detect a malicious same-name skill shadowing a trusted skill at higher precedence?",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-04",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "What does fail-closed incomplete analysis mean for an Agent Skill security scanner?",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-05",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "How should I review tool descriptions and MCP metadata for prompt injection or permission mismatch?",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-06",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "I need CI/SARIF gates for a catalog of third-party Agent Skills.",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-07",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "How do I verify dependency registry provenance and executable Markdown install snippets?",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-08",
+      "expected_skill": "agent-skill-supply-chain-security",
+      "query": "Can you design an admission, update, revoke, and incident-response lifecycle for Agent Skills?",
+      "source_top1": "agent-skill-supply-chain-security",
+      "package_top1": "agent-skill-supply-chain-security",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-01",
+      "expected_skill": "agent-skill-engineering",
+      "query": "How should I author a new Agent Skill with SKILL.md, references, scripts, and assets?",
+      "source_top1": "agent-skill-engineering",
+      "package_top1": "agent-skill-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-02",
+      "expected_skill": "agent-skill-engineering",
+      "query": "Help me improve this skill description so it triggers on the right tasks without colliding with neighboring skills.",
+      "source_top1": "gas-core-engineering",
+      "package_top1": "gas-core-engineering",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-03",
+      "expected_skill": "agent-skill-engineering",
+      "query": "How do I package our large canonical skill into a progressive-disclosure installable Agent Skill?",
+      "source_top1": "agent-skill-engineering",
+      "package_top1": "agent-skill-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-04",
+      "expected_skill": "agent-skill-engineering",
+      "query": "What is the correct frontmatter and directory naming convention for the Agent Skills specification?",
+      "source_top1": "agent-skill-engineering",
+      "package_top1": "agent-skill-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-05",
+      "expected_skill": "agent-skill-engineering",
+      "query": "How should I validate and install a .skill package across different agent hosts?",
+      "source_top1": "agent-skill-engineering",
+      "package_top1": "agent-skill-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-06",
+      "expected_skill": "agent-skill-engineering",
+      "query": "What happens if a workspace skill has the same name as a user or extension skill?",
+      "source_top1": "agent-skill-engineering",
+      "package_top1": "agent-skill-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-07",
+      "expected_skill": "agent-skill-engineering",
+      "query": "How do I separate canonical source layout from generated Agent Skill distribution artifacts?",
+      "source_top1": "agent-skill-engineering",
+      "package_top1": "agent-skill-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-08",
+      "expected_skill": "agent-skill-engineering",
+      "query": "Can you design the versioning, packaging, validation, update, and uninstall lifecycle for our skill catalog?",
+      "source_top1": "agent-skill-engineering",
+      "package_top1": "agent-skill-engineering",
+      "source_rank": 1,
+      "package_rank": 1,
+      "source_positive_pass": true,
+      "package_positive_pass": true,
+      "classification_parity": true
+    }
+  ],
+  "negative_trigger_cases": [
+    {
+      "id": "gas-core-engineering-neg-01",
+      "forbidden_skill": "gas-core-engineering",
+      "query": "Design a normalized customer-order schema with foreign keys and uniqueness constraints.",
+      "source_rank": 11,
+      "package_rank": 11,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "gas-core-engineering-neg-02",
+      "forbidden_skill": "gas-core-engineering",
+      "query": "Audit this Figma checkout screen for typography, spacing, and accessibility.",
+      "source_rank": 10,
+      "package_rank": 10,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-neg-01",
+      "forbidden_skill": "appsheet-migration",
+      "query": "How should I configure PgBouncer transaction pooling for PostgreSQL?",
+      "source_rank": 5,
+      "package_rank": 5,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "appsheet-migration-neg-02",
+      "forbidden_skill": "appsheet-migration",
+      "query": "Build a responsive HtmlService page with Promise-wrapped google.script.run calls.",
+      "source_rank": 8,
+      "package_rank": 8,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-neg-01",
+      "forbidden_skill": "software-architecture",
+      "query": "Which OAuth scope is required to list Google Chat members through the REST API?",
+      "source_rank": 5,
+      "package_rank": 5,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "software-architecture-neg-02",
+      "forbidden_skill": "software-architecture",
+      "query": "Review this screen for WCAG contrast and design-token consistency.",
+      "source_rank": 5,
+      "package_rank": 5,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-neg-01",
+      "forbidden_skill": "database-engineering",
+      "query": "How do I build a CardService homepage for a Workspace Add-on?",
+      "source_rank": 13,
+      "package_rank": 13,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "database-engineering-neg-02",
+      "forbidden_skill": "database-engineering",
+      "query": "Optimize this Apps Script loop by batching SpreadsheetApp calls.",
+      "source_rank": 15,
+      "package_rank": 15,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-neg-01",
+      "forbidden_skill": "postgresql-integration",
+      "query": "Map AppSheet slices, actions, bots, and security filters before migration.",
+      "source_rank": 13,
+      "package_rank": 13,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "postgresql-integration-neg-02",
+      "forbidden_skill": "postgresql-integration",
+      "query": "Create a semantic design-token hierarchy for our product UI.",
+      "source_rank": 16,
+      "package_rank": 16,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-neg-01",
+      "forbidden_skill": "performance-engineering",
+      "query": "Define least-privilege OAuth scopes and server-side authorization for this web app.",
+      "source_rank": 15,
+      "package_rank": 15,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "performance-engineering-neg-02",
+      "forbidden_skill": "performance-engineering",
+      "query": "Write an ADR and operations runbook for this system.",
+      "source_rank": 11,
+      "package_rank": 11,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-neg-01",
+      "forbidden_skill": "security-engineering",
+      "query": "Batch these Spreadsheet reads to reduce Apps Script execution time.",
+      "source_rank": 11,
+      "package_rank": 11,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "security-engineering-neg-02",
+      "forbidden_skill": "security-engineering",
+      "query": "Create a component-state matrix and visual QA checklist for this Figma design.",
+      "source_rank": 14,
+      "package_rank": 14,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-neg-01",
+      "forbidden_skill": "testing-quality",
+      "query": "Deploy this Apps Script web app with immutable deployment IDs and rollback.",
+      "source_rank": 10,
+      "package_rank": 10,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "testing-quality-neg-02",
+      "forbidden_skill": "testing-quality",
+      "query": "Normalize this many-to-many relational model and add foreign-key constraints.",
+      "source_rank": 16,
+      "package_rank": 16,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-neg-01",
+      "forbidden_skill": "monitoring-observability",
+      "query": "Package this Agent Skill with progressive disclosure and a concise SKILL.md.",
+      "source_rank": 11,
+      "package_rank": 11,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "monitoring-observability-neg-02",
+      "forbidden_skill": "monitoring-observability",
+      "query": "Create typography, spacing, and component tokens for our design system.",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-neg-01",
+      "forbidden_skill": "deployment-engineering",
+      "query": "Model this import table with primary keys, constraints, and staging promotion.",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "deployment-engineering-neg-02",
+      "forbidden_skill": "deployment-engineering",
+      "query": "Audit this product flow for hierarchy, accessibility, and UX friction.",
+      "source_rank": 10,
+      "package_rank": 10,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-neg-01",
+      "forbidden_skill": "documentation-engineering",
+      "query": "Reduce Workspace API quota usage with bounded pagination and caching.",
+      "source_rank": 16,
+      "package_rank": 16,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "documentation-engineering-neg-02",
+      "forbidden_skill": "documentation-engineering",
+      "query": "Implement OAuth authorization checks for a public Apps Script web endpoint.",
+      "source_rank": 17,
+      "package_rank": 17,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-neg-01",
+      "forbidden_skill": "web-app-frontend-engineering",
+      "query": "Design PostgreSQL tables with foreign keys, indexes, and transaction boundaries.",
+      "source_rank": 5,
+      "package_rank": 5,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-neg-02",
+      "forbidden_skill": "web-app-frontend-engineering",
+      "query": "Scan this third-party Agent Skill for malicious hooks and MCP tool poisoning.",
+      "source_rank": 18,
+      "package_rank": 18,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-neg-01",
+      "forbidden_skill": "ai-agent-integration",
+      "query": "Configure PgBouncer and prepared statements for a PostgreSQL backend.",
+      "source_rank": 4,
+      "package_rank": 4,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "ai-agent-integration-neg-02",
+      "forbidden_skill": "ai-agent-integration",
+      "query": "Reconstruct this mobile screen in Figma using design-system components.",
+      "source_rank": 7,
+      "package_rank": 7,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-neg-01",
+      "forbidden_skill": "workspace-addons-chat-engineering",
+      "query": "Design a relational staging schema with referential integrity.",
+      "source_rank": 17,
+      "package_rank": 17,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-neg-02",
+      "forbidden_skill": "workspace-addons-chat-engineering",
+      "query": "Create and validate an installable Agent Skill package from this SKILL.md.",
+      "source_rank": 17,
+      "package_rank": 17,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-neg-01",
+      "forbidden_skill": "product-design-engineering",
+      "query": "Implement idempotent PostgreSQL synchronization with JDBC prepared statements.",
+      "source_rank": 12,
+      "package_rank": 12,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "product-design-engineering-neg-02",
+      "forbidden_skill": "product-design-engineering",
+      "query": "Define Workspace DLP, Vault retention, and Data Region governance policy.",
+      "source_rank": 16,
+      "package_rank": 16,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-neg-01",
+      "forbidden_skill": "workspace-api-event-engineering",
+      "query": "Create a design-system audit for this Figma dashboard.",
+      "source_rank": 19,
+      "package_rank": 19,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-neg-02",
+      "forbidden_skill": "workspace-api-event-engineering",
+      "query": "Normalize this database schema and choose primary and foreign keys.",
+      "source_rank": 18,
+      "package_rank": 18,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-neg-01",
+      "forbidden_skill": "workspace-governance-compliance-engineering",
+      "query": "Optimize SpreadsheetApp I/O and caching for a slow Apps Script job.",
+      "source_rank": 19,
+      "package_rank": 19,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-neg-02",
+      "forbidden_skill": "workspace-governance-compliance-engineering",
+      "query": "Build an HtmlService SPA with google.script.run and client-side state.",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-neg-01",
+      "forbidden_skill": "agent-skill-supply-chain-security",
+      "query": "Audit this product interface for typography, spacing, accessibility, and component consistency.",
+      "source_rank": 6,
+      "package_rank": 6,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-neg-02",
+      "forbidden_skill": "agent-skill-supply-chain-security",
+      "query": "Plan an AppSheet migration preserving bots, slices, Ref columns, and security filters.",
+      "source_rank": 3,
+      "package_rank": 3,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-neg-01",
+      "forbidden_skill": "agent-skill-engineering",
+      "query": "Configure TLS, PgBouncer, and prepared statements for PostgreSQL connectivity.",
+      "source_rank": 2,
+      "package_rank": 2,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    },
+    {
+      "id": "agent-skill-engineering-neg-02",
+      "forbidden_skill": "agent-skill-engineering",
+      "query": "Build a Google Workspace Add-on card with CardService navigation and Chat actions.",
+      "source_rank": 14,
+      "package_rank": 14,
+      "source_negative_pass": true,
+      "package_negative_pass": true,
+      "classification_parity": true
+    }
+  ],
+  "capability_assertions": [
+    {
+      "id": "gas-core-engineering-cap-01",
+      "skill": "gas-core-engineering",
+      "all_of": [
+        "LockService",
+        "concurr"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "gas-core-engineering-cap-02",
+      "skill": "gas-core-engineering",
+      "all_of": [
+        "PropertiesService",
+        "trigger"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "appsheet-migration-cap-01",
+      "skill": "appsheet-migration",
+      "all_of": [
+        "AppSheet",
+        "migration"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "appsheet-migration-cap-02",
+      "skill": "appsheet-migration",
+      "all_of": [
+        "bot",
+        "security filter"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "software-architecture-cap-01",
+      "skill": "software-architecture",
+      "all_of": [
+        "repository",
+        "adapter"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "software-architecture-cap-02",
+      "skill": "software-architecture",
+      "all_of": [
+        "DTO",
+        "dependency"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "database-engineering-cap-01",
+      "skill": "database-engineering",
+      "all_of": [
+        "foreign key",
+        "constraint"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "database-engineering-cap-02",
+      "skill": "database-engineering",
+      "all_of": [
+        "staging",
+        "schema drift"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "postgresql-integration-cap-01",
+      "skill": "postgresql-integration",
+      "all_of": [
+        "prepared statement",
+        "PostgreSQL"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "postgresql-integration-cap-02",
+      "skill": "postgresql-integration",
+      "all_of": [
+        "PgBouncer",
+        "SCRAM"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "performance-engineering-cap-01",
+      "skill": "performance-engineering",
+      "all_of": [
+        "batch",
+        "quota"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "performance-engineering-cap-02",
+      "skill": "performance-engineering",
+      "all_of": [
+        "checkpoint",
+        "cache"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "security-engineering-cap-01",
+      "skill": "security-engineering",
+      "all_of": [
+        "least privilege",
+        "authorization"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "security-engineering-cap-02",
+      "skill": "security-engineering",
+      "all_of": [
+        "prompt injection",
+        "secret"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "testing-quality-cap-01",
+      "skill": "testing-quality",
+      "all_of": [
+        "should trigger",
+        "held-out"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "testing-quality-cap-02",
+      "skill": "testing-quality",
+      "all_of": [
+        "integration test",
+        "regression"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "monitoring-observability-cap-01",
+      "skill": "monitoring-observability",
+      "all_of": [
+        "correlation",
+        "structured"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "monitoring-observability-cap-02",
+      "skill": "monitoring-observability",
+      "all_of": [
+        "synthetic",
+        "reconciliation"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "deployment-engineering-cap-01",
+      "skill": "deployment-engineering",
+      "all_of": [
+        "clasp",
+        "deployment"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "deployment-engineering-cap-02",
+      "skill": "deployment-engineering",
+      "all_of": [
+        "rollback",
+        "Marketplace"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "documentation-engineering-cap-01",
+      "skill": "documentation-engineering",
+      "all_of": [
+        "canonical",
+        "llms.txt"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "documentation-engineering-cap-02",
+      "skill": "documentation-engineering",
+      "all_of": [
+        "runbook",
+        "ADR"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-cap-01",
+      "skill": "web-app-frontend-engineering",
+      "all_of": [
+        "google.script.run",
+        "Promise"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "web-app-frontend-engineering-cap-02",
+      "skill": "web-app-frontend-engineering",
+      "all_of": [
+        "HtmlService",
+        "loading"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "ai-agent-integration-cap-01",
+      "skill": "ai-agent-integration",
+      "all_of": [
+        "MCP",
+        "tool"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "ai-agent-integration-cap-02",
+      "skill": "ai-agent-integration",
+      "all_of": [
+        "prompt injection",
+        "human approval"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-cap-01",
+      "skill": "workspace-addons-chat-engineering",
+      "all_of": [
+        "CardService",
+        "navigation"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "workspace-addons-chat-engineering-cap-02",
+      "skill": "workspace-addons-chat-engineering",
+      "all_of": [
+        "workflowTriggers",
+        "triggerCreation"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "product-design-engineering-cap-01",
+      "skill": "product-design-engineering",
+      "all_of": [
+        "design token",
+        "accessibility"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "product-design-engineering-cap-02",
+      "skill": "product-design-engineering",
+      "all_of": [
+        "pixel fidelity",
+        "component"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-cap-01",
+      "skill": "workspace-api-event-engineering",
+      "all_of": [
+        "Workspace Events",
+        "Pub/Sub"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "workspace-api-event-engineering-cap-02",
+      "skill": "workspace-api-event-engineering",
+      "all_of": [
+        "triggers.fire",
+        "updateMask"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-cap-01",
+      "skill": "workspace-governance-compliance-engineering",
+      "all_of": [
+        "Data Regions",
+        "DLP"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "workspace-governance-compliance-engineering-cap-02",
+      "skill": "workspace-governance-compliance-engineering",
+      "all_of": [
+        "Vault",
+        "Client-side Encryption"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-cap-01",
+      "skill": "agent-skill-supply-chain-security",
+      "all_of": [
+        "prompt injection",
+        "SARIF"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "agent-skill-supply-chain-security-cap-02",
+      "skill": "agent-skill-supply-chain-security",
+      "all_of": [
+        "shadow",
+        "plugin.json"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "agent-skill-engineering-cap-01",
+      "skill": "agent-skill-engineering",
+      "all_of": [
+        "progressive disclosure",
+        "description"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    },
+    {
+      "id": "agent-skill-engineering-cap-02",
+      "skill": "agent-skill-engineering",
+      "all_of": [
+        "package",
+        "precedence"
+      ],
+      "source_pass": true,
+      "package_pass": true,
+      "parity": true
+    }
+  ]
+}

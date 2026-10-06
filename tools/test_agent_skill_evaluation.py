@@ -7,8 +7,8 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 TRIG=ROOT/'evals/agent-skills/trigger-cases.json'
 CAP=ROOT/'evals/agent-skills/capability-assertions.json'
-DIST=ROOT/'dist/agent-skills-v1.30.1'
-REPORT=ROOT/'reports/agent-skill-evaluation-v1.30.1.json'
+DIST=ROOT/'dist/agent-skills-v1.31.0'
+REPORT=ROOT/'reports/agent-skill-evaluation-v1.31.0.json'
 
 class EvaluationCorpusTests(unittest.TestCase):
     def test_trigger_corpus_covers_every_skill(self):

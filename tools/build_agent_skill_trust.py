@@ -239,7 +239,7 @@ def markdown_catalog(catalog: dict) -> str:
 def main() -> None:
     ap=argparse.ArgumentParser()
     ap.add_argument('--root',default='.')
-    ap.add_argument('--config',default='packaging/trust/trust-v1.30.1.json')
+    ap.add_argument('--config',default='packaging/trust/trust-v1.31.0.json')
     ap.add_argument('--dist')
     ap.add_argument('--host-dist')
     ap.add_argument('--evaluation')

@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
 description: "Design observability for Apps Script and Workspace workflows using structured logs, correlation IDs, metrics, retries, synthetic probes, reconciliation, incident classification, business-outcome checks, completeness-aware reads, and alert deduplication. Use when diagnosing or monitoring runtime behavior."
-skill_version: "1.5.1"
+skill_version: "1.6.0"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.26.0"
+last_repository_update: "v1.31.0"
 tags:
   - google-apps-script
   - monitoring
@@ -1883,3 +1883,13 @@ Cross-reference Skill 07.
   https://www.reddit.com/r/GoogleAppsScript/
 
 Community sources are used to discover operational pain points. Current Google documentation and reproducible execution behavior define Apps Script logging semantics.
+
+## Operational Burn-In Evidence Gate (v1.31)
+
+For migration or release-candidate burn-in, treat observations as an append-only operational evidence stream rather than a manually edited summary.
+
+- bind every observation to a timestamp, channel, consumer alias, summary, and durable evidence reference;
+- use a hash chain when the journal is part of a release gate;
+- require a minimum observation window and minimum sessions per channel before declaring PASS;
+- distinguish `IN_PROGRESS` from `FAIL`: insufficient exposure is not a defect, while a blocking incident is;
+- recompute the aggregate from the journal during verification so a hand-edited summary cannot authorize promotion.

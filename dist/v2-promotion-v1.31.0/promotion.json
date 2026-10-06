@@ -1,0 +1,31 @@
+{
+  "blockers": [
+    "live-validation v2 readiness is not GO"
+  ],
+  "dual_distribution": {
+    "release_index": "dist/dual-distribution-v1.31.0/release-index.json",
+    "sha256": "06de6108b94e91865902c4676ac39ae26d67018769aa0cee4a39222d0be7d1e1"
+  },
+  "errors": [],
+  "live_validation": {
+    "manifest": "dist/live-validation-v1.31.0/manifest.json",
+    "sha256": "04d7b9491d044817b01f5aa132902f8eba235a5c78e5cc1e697b63d39fbc8e52",
+    "status": "NO_GO"
+  },
+  "operator_approval": {
+    "decision": "NOT_REQUESTED",
+    "evidence": "evidence/live-validation/v1.31.0/v2-approval.json",
+    "sha256": "0facc0e025772c620a7b2b19fa99c01d066eabfd105421a0f69ba8795591980e",
+    "valid": false
+  },
+  "package_distribution": {
+    "manifest": "dist/agent-skills-v1.31.0/manifest.json",
+    "sha256": "8eaa4f1cb273f327a7835363a388229009b2c5cfa5013f3efb76921cdf794930"
+  },
+  "policy": {
+    "require_operator_approval": true
+  },
+  "promotion_status": "BLOCKED",
+  "repository_version": "v1.31.0",
+  "schema_version": 1
+}

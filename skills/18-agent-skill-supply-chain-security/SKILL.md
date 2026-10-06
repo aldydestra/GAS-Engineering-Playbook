@@ -1,10 +1,10 @@
 ---
 name: agent-skill-supply-chain-security
 description: "Secure AI Agent Skills, plugins, MCP-integrated packages, and catalogs through pre-install scanning, prompt-injection/exfiltration detection, scripts/hooks/manifests, dependency provenance, MCP metadata/tool poisoning, permission parity, shadowing/precedence, SARIF/CI gates, fail-closed completeness, signing, admission, update, and revocation."
-skill_version: "1.8.1"
+skill_version: "1.9.0"
 repository_introduced: "v1.19.0"
 status: "evolving"
-last_repository_update: "v1.30.1"
+last_repository_update: "v1.31.0"
 tags:
   - agent-skills
   - supply-chain-security
@@ -3200,3 +3200,13 @@ A failed authentication attempt is evidence that the execution prerequisite was 
 
 - Ruflo  
   https://github.com/ruvnet/ruflo
+
+## Burn-In and Promotion Evidence Integrity (v1.31)
+
+Operational evidence used for release promotion is part of the software supply chain.
+
+- hash-chain append-only burn-in events where practical;
+- verify event schema, repository version, timestamp validity, and channel identity;
+- rebuild summaries deterministically from raw events;
+- bind human approval to the cryptographic digest of the evaluated live-validation manifest;
+- reject stale, mismatched, or manually elevated evidence fail-closed.

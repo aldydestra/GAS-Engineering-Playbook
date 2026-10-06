@@ -3,6 +3,59 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.31.0] - 2026-10-06
+
+### Operational Burn-In & Promotion Control
+
+Hardens the post-live-execution path so v2 readiness cannot be reached from a short or manually edited consumer test.
+
+### Added
+
+- hash-chained `burn-in-events.jsonl` with deterministic event digests;
+- minimum burn-in policy: 4 sessions, 2 per required channel, 24-hour usage window, and at least 1 consumer;
+- explicit `IN_PROGRESS` burn-in state for valid but insufficient exposure;
+- deterministic recomputation of `consumer-burn-in.json` from the raw journal;
+- `tools/build_v2_promotion.py` and `tools/verify_v2_promotion.py`;
+- digest-bound operator approval evidence in `v2-approval.json`;
+- `tools/test_v2_promotion.py` plus burn-in integrity/tamper tests;
+- CI/release workflow coverage for the promotion-control distribution.
+
+### Hardened
+
+- manual edits to the burn-in aggregate are rejected;
+- duplicate/invalid events, malformed timestamps, future clock skew, and hash-chain tampering fail closed;
+- v2 promotion distinguishes `BLOCKED`, `READY_FOR_APPROVAL`, `APPROVED`, and `INVALID_EVIDENCE`;
+- stale approval cannot authorize a changed live-validation manifest.
+
+### Updated Skills
+
+```text
+09 Monitoring & Observability           1.5.1 → 1.6.0
+10 Deployment Engineering               1.7.1 → 1.8.0
+18 Agent Skill Supply-Chain Security    1.8.1 → 1.9.0
+19 Agent Skill Engineering              1.7.1 → 1.8.0
+```
+
+### Validation Result
+
+```text
+19/19 package validation             PASS
+evaluation parity                    PASS
+host static compatibility            PASS
+security/catalog/provenance          PASS
+dual-distribution static RC          PASS_STATIC
+live-validation harness              HARNESS_READY
+consumer burn-in                     NOT_RUN
+v2 readiness                         NO_GO
+v2 promotion                         BLOCKED
+repository tests                     29/29 PASS
+```
+
+Real host/burn-in evidence remains intentionally absent for v1.31.0, so promotion stays blocked rather than manufacturing `GO`.
+
+---
+
+
 ## [v1.30.1] - 2026-10-05
 
 ### Live Execution Orchestrator

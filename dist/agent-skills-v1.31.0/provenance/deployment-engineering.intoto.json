@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "deployment-engineering",
+        "profile": "full-v1.31.0",
+        "repositoryVersion": "v1.31.0",
+        "sourcePath": "skills/10-deployment-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "3a077522e19439a0ea31389f6daddfafd4c158f95d27e14c76e6cad47b9ca8a2"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/10-deployment-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "bd67f3d2e04445650e922b8b5b91af8e259f4e84e2c3600a7a90200917872fae"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.31.0.json"
+        },
+        {
+          "digest": {
+            "sha256": "7107127f87b3ef9f1a6afc0282ee18d0cb116e2b9fe998956b5fcf0582fd5b29"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "7107127f87b3ef9f1a6afc0282ee18d0cb116e2b9fe998956b5fcf0582fd5b29",
+          "repository": "v1.31.0"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "19b7ea62be6c304d516ac96e4568ee98120b561880490bc66b8ef93b8ae7164b"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.31.0/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "aa89ab889b32afbe9ff9a19934bcb99e7d9a3a52c7b1131ddd08391f40b84490"
+      },
+      "name": "deployment-engineering.skill"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "repository_version": "v1.31.0",
+  "package_distribution": "dist/agent-skills-v1.31.0",
+  "host_distribution": "dist/host-compat-v1.31.0",
+  "dual_distribution": "dist/dual-distribution-v1.31.0",
+  "evidence_root": "evidence/live-validation/v1.31.0",
+  "output_distribution": "dist/live-validation-v1.31.0",
+  "required_live_hosts": 1,
+  "required_host_steps": [
+    "install",
+    "activation",
+    "update",
+    "uninstall"
+  ],
+  "required_burn_in_channels": [
+    "canonical",
+    "package"
+  ],
+  "require_consumer_burn_in": true,
+  "require_no_blocking_incidents": true,
+  "require_signed_attestation": false,
+  "require_live_rollback": false,
+  "execution_attempts_subdir": "attempts",
+  "execution_runs_subdir": "runs",
+  "supported_live_runners": [
+    "gemini-cli"
+  ],
+  "blocked_attempts_affect_gate": false,
+  "burn_in_policy": {
+    "min_total_sessions": 4,
+    "min_sessions_per_channel": 2,
+    "min_unique_consumers": 1,
+    "min_usage_window_hours": 24,
+    "max_future_clock_skew_minutes": 10,
+    "require_hash_chain": true
+  }
+}

@@ -4,9 +4,9 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.30.1 Live Execution Orchestrator
+## v1.31.0 Operational Burn-In & Promotion Control
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.30.1/` stays the parallel release-candidate package channel. v1.30.1 moves the v1.30 harness into executable operations: a Gemini CLI lifecycle runner, hash-bound/redacted command evidence, blocker-aware promotion rules, and an append-only dual-channel burn-in journal. A real execution attempt was made in the build environment; the opt-in `npx` bootstrap was blocked by network access, so the host gate correctly remains `NOT_RUN` rather than being mislabeled `FAIL`. v2 remains `NO_GO` until a real host lifecycle and real consumer burn-in pass.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.31.0/` stays the parallel release-candidate package channel. v1.31.0 hardens the path from live execution to v2 promotion: consumer burn-in now uses a tamper-evident hash-chained journal, deterministic aggregation, minimum sessions/window policy, and an explicit `IN_PROGRESS` state. A separate v2 promotion controller requires live-validation `GO` and, when configured, operator approval cryptographically bound to the exact live-validation manifest digest. No synthetic or manually edited summary can authorize promotion.
 
 ## Foundation Status
 
@@ -180,6 +180,7 @@ last_repository_update: "v1.13.0"
 | v1.29.0 | Dual-Distribution RC: canonical + package channels, migration map, rollback drill, explicit v2 NO_GO evidence |
 | **v1.30.0** | **Live Validation Harness: fail-closed host lifecycle + consumer burn-in evidence ingestion, synthetic verifier fixtures, v2 gate remains NO_GO until real evidence exists** |
 | **v1.30.1** | **Live Execution Orchestrator: Gemini CLI runner, blocker taxonomy, evidence-log hashing/redaction, burn-in journal, first real execution attempt recorded as BLOCKED_NETWORK** |
+| **v1.31.0** | **Operational Burn-In & Promotion Control: hash-chained burn-in journal, minimum exposure policy, deterministic aggregate verification, and digest-bound operator approval gate** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -668,7 +669,7 @@ If a future branch, private repository, skill file, or artifact cannot be retrie
 
 # Agent Skill Distribution Pipeline
 
-Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, v1.28.0 added the trust layer, v1.29.0 introduced dual-distribution RC operation, v1.30.0 added the fail-closed live-evidence gate, and v1.30.1 adds executable host/burn-in evidence capture:
+Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, v1.28.0 added the trust layer, v1.29.0 introduced dual-distribution RC operation, v1.30.0 added the fail-closed live-evidence gate, and v1.31.0 adds executable host/burn-in evidence capture:
 
 ```text
 skills/ canonical source
@@ -699,9 +700,9 @@ See:
 - `docs/host-compatibility-audit-v1.27.0.md`
 - `docs/security-catalog-provenance-audit-v1.28.0.md`
 - `docs/agent-skill-provenance-v1.28.0.md`
-- `docs/dual-distribution-rc-v1.30.1.md`
-- `docs/live-validation-operational-burn-in-v1.30.1.md`
-- `docs/v2-go-no-go-v1.30.1.md`
+- `docs/dual-distribution-rc-v1.31.0.md`
+- `docs/live-validation-operational-burn-in-v1.31.0.md`
+- `docs/v2-go-no-go-v1.31.0.md`
 - `docs/roadmap-to-v2.0.md`
 
 # Repository Structure
@@ -747,18 +748,18 @@ gas-engineering-playbook/
 ├── evals/
 │   └── agent-skills/
 ├── dist/
-│   ├── agent-skills-v1.30.1/
+│   ├── agent-skills-v1.31.0/
 │   │   ├── catalog.json
 │   │   ├── security-report.json
 │   │   ├── revocations.json
 │   │   ├── provenance-index.json
 │   │   └── provenance/
-│   ├── host-compat-v1.30.1/
-│   ├── dual-distribution-v1.30.1/
-│   └── live-validation-v1.30.1/
+│   ├── host-compat-v1.31.0/
+│   ├── dual-distribution-v1.31.0/
+│   └── live-validation-v1.31.0/
 ├── reports/
-│   ├── agent-skill-evaluation-v1.30.1.json
-│   └── agent-skill-evaluation-v1.30.1.md
+│   ├── agent-skill-evaluation-v1.31.0.json
+│   └── agent-skill-evaluation-v1.31.0.md
 ├── examples/
 └── docs/
     ├── module-development-guide.md
@@ -785,9 +786,9 @@ gas-engineering-playbook/
     ├── host-compatibility-audit-v1.27.0.md
     ├── security-catalog-provenance-audit-v1.28.0.md
     ├── agent-skill-provenance-v1.28.0.md
-    ├── dual-distribution-rc-v1.30.1.md
-    ├── live-validation-operational-burn-in-v1.30.1.md
-    ├── v2-go-no-go-v1.30.1.md
+    ├── dual-distribution-rc-v1.31.0.md
+    ├── live-validation-operational-burn-in-v1.31.0.md
+    ├── v2-go-no-go-v1.31.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md

@@ -1,0 +1,100 @@
+{
+  "consumer_burn_in": {
+    "blocking_incidents": 0,
+    "channels_observed": [],
+    "claimed_status": "NOT_RUN",
+    "consumers": 0,
+    "errors": [],
+    "evidence_refs": [],
+    "feedback_count": 0,
+    "incident_count": 0,
+    "journal_integrity": {
+      "errors": [],
+      "first_event_sha256": null,
+      "last_event_sha256": null,
+      "valid": true
+    },
+    "policy_checks": {},
+    "sessions": 0,
+    "sessions_per_channel": {},
+    "status": "NOT_RUN",
+    "usage_window": null
+  },
+  "errors": [],
+  "evidence": {
+    "consumer_burn_in": {
+      "path": "evidence/live-validation/v1.31.0/consumer-burn-in.json",
+      "sha256": "b24bd6c387b097f00352eb34ed5393c8f8a6ac95decfcabeaf4dd89f7db6c55d"
+    },
+    "host_smoke": {
+      "path": "evidence/live-validation/v1.31.0/host-smoke.json",
+      "sha256": "55a8875d21df672601038bee026f1c1a125f002849ef5f10f28d7343267d3369"
+    },
+    "live_rollback": {
+      "path": "evidence/live-validation/v1.31.0/live-rollback.json",
+      "sha256": "201e43da9e5603127ec7a12a1ee116d46f0a5b9f632604e3d006a94ad5452671"
+    },
+    "signed_attestation": {
+      "path": "evidence/live-validation/v1.31.0/signed-attestation.json",
+      "sha256": "201e43da9e5603127ec7a12a1ee116d46f0a5b9f632604e3d006a94ad5452671"
+    }
+  },
+  "execution_attempts": {
+    "counts": {},
+    "errors": [],
+    "records": [],
+    "status": "NOT_RUN"
+  },
+  "harness_status": "HARNESS_READY",
+  "host_smoke": {
+    "errors": [],
+    "pass_count": 0,
+    "records": [],
+    "status": "NOT_RUN"
+  },
+  "live_rollback": {
+    "errors": [],
+    "status": "NOT_RUN"
+  },
+  "policy": {
+    "blocked_attempts_affect_gate": false,
+    "burn_in_policy": {
+      "max_future_clock_skew_minutes": 10,
+      "min_sessions_per_channel": 2,
+      "min_total_sessions": 4,
+      "min_unique_consumers": 1,
+      "min_usage_window_hours": 24.0,
+      "require_hash_chain": true
+    },
+    "require_consumer_burn_in": true,
+    "require_live_rollback": false,
+    "require_no_blocking_incidents": true,
+    "require_signed_attestation": false,
+    "required_burn_in_channels": [
+      "canonical",
+      "package"
+    ],
+    "required_host_steps": [
+      "install",
+      "activation",
+      "update",
+      "uninstall"
+    ],
+    "required_live_hosts": 1,
+    "supported_live_runners": [
+      "gemini-cli"
+    ]
+  },
+  "repository_version": "v1.31.0",
+  "schema_version": 1,
+  "signed_attestation": {
+    "errors": [],
+    "status": "NOT_RUN"
+  },
+  "static_rc_status": "PASS_STATIC",
+  "v2_blockers": [
+    "Live host lifecycle gate is NOT_RUN.",
+    "Consumer dual-distribution burn-in gate is NOT_RUN."
+  ],
+  "v2_readiness": "NO_GO"
+}

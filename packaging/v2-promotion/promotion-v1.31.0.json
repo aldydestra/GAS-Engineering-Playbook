@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.31.0",
+  "live_validation_distribution": "dist/live-validation-v1.31.0",
+  "package_distribution": "dist/agent-skills-v1.31.0",
+  "dual_distribution": "dist/dual-distribution-v1.31.0",
+  "approval_evidence": "evidence/live-validation/v1.31.0/v2-approval.json",
+  "output_distribution": "dist/v2-promotion-v1.31.0",
+  "require_operator_approval": true
+}

@@ -4,10 +4,10 @@ description: "Author, package, validate, route, install, update, and maintain Ag
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.7.1"
+  gas_playbook_skill_version: "1.8.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.30.1"
+  gas_playbook_last_repository_update: "v1.31.0"
 ---
 
 # Agent Skill Engineering

@@ -11,6 +11,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+import record_burn_in as burnin
+
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 LIVE_STATES = {"NOT_RUN", "PASS", "FAIL", "INVALID_EVIDENCE"}
 
@@ -155,67 +157,63 @@ def evaluate_hosts(root: Path, cfg: dict[str, Any], host_input: dict[str, Any], 
     return {"status": status, "records": evaluated, "pass_count": pass_count, "errors": []}
 
 
-def evaluate_burn_in(cfg: dict[str, Any], data: dict[str, Any]) -> dict[str, Any]:
-    claimed = data.get("claimed_status", "NOT_RUN")
-    if claimed == "NOT_RUN":
-        # NOT_RUN is valid only when it does not smuggle positive usage claims.
-        if data.get("sessions", 0) or data.get("feedback_items") or data.get("evidence_refs"):
-            return {"status": "INVALID_EVIDENCE", "claimed_status": claimed, "errors": ["NOT_RUN burn-in contains execution evidence; set claimed_status explicitly"]}
-        return {"status": "NOT_RUN", "claimed_status": claimed, "errors": [], "blocking_incidents": 0}
-    errors: list[str] = []
-    if claimed not in {"PASS", "FAIL"}:
-        errors.append("claimed_status must be NOT_RUN, PASS, or FAIL")
-    window = data.get("usage_window")
-    start = end = None
-    if not isinstance(window, dict):
-        errors.append("usage_window must be an object")
-    else:
-        start = parse_time(window.get("start"))
-        end = parse_time(window.get("end"))
-        if start is None or end is None or end <= start:
-            errors.append("usage_window must contain valid start/end with end after start")
-    channels = data.get("channels_observed")
-    required = set(cfg.get("required_burn_in_channels", []))
-    if not isinstance(channels, list) or not required.issubset(set(channels)):
-        errors.append("channels_observed must include all required dual-distribution channels")
-    sessions = data.get("sessions")
-    if not isinstance(sessions, int) or sessions < 1:
-        errors.append("sessions must be >= 1")
-    consumers = data.get("consumers")
-    if not isinstance(consumers, int) or consumers < 1:
-        errors.append("consumers must be >= 1")
-    feedback = data.get("feedback_items")
-    if not isinstance(feedback, list) or len(feedback) < 1:
-        errors.append("at least one feedback item is required")
-    elif any(not isinstance(x, dict) or not str(x.get("summary", "")).strip() for x in feedback):
-        errors.append("every feedback item must include a summary")
-    if not nonempty_strings(data.get("evidence_refs")):
-        errors.append("evidence_refs must contain at least one durable reference")
-    incidents = data.get("incidents", [])
-    if not isinstance(incidents, list):
-        errors.append("incidents must be a list")
-        incidents = []
+def evaluate_burn_in(root: Path, cfg: dict[str, Any], data: dict[str, Any], evidence_root: Path) -> dict[str, Any]:
+    journal = evidence_root / "burn-in-events.jsonl"
+    try:
+        events = burnin.read_events(journal)
+        expected = burnin.aggregate(
+            cfg["repository_version"],
+            events,
+            cfg.get("required_burn_in_channels", []),
+            burnin.policy_from_config(cfg),
+        )
+    except (ValueError, json.JSONDecodeError) as exc:
+        return {
+            "status": "INVALID_EVIDENCE",
+            "claimed_status": data.get("claimed_status", "UNKNOWN"),
+            "errors": [f"burn-in journal parse/validation error: {exc}"],
+            "blocking_incidents": 0,
+        }
+
+    if data != expected:
+        return {
+            "status": "INVALID_EVIDENCE",
+            "claimed_status": data.get("claimed_status", "UNKNOWN"),
+            "errors": ["consumer-burn-in.json does not match deterministic journal aggregate; run record_burn_in.py finalize"],
+            "blocking_incidents": sum(bool(x.get("blocking")) for x in expected.get("incidents", []) if isinstance(x, dict)),
+            "journal_expected_status": expected.get("claimed_status"),
+        }
+
+    claimed = expected.get("claimed_status", "NOT_RUN")
+    if claimed not in {"NOT_RUN", "IN_PROGRESS", "PASS", "FAIL", "INVALID_EVIDENCE"}:
+        return {"status": "INVALID_EVIDENCE", "claimed_status": claimed, "errors": ["invalid burn-in claimed_status"], "blocking_incidents": 0}
+
+    incidents = expected.get("incidents", [])
     blocking = sum(bool(x.get("blocking")) for x in incidents if isinstance(x, dict))
-    if cfg.get("require_no_blocking_incidents", True) and blocking:
-        errors.append("blocking incident recorded")
-    if errors:
-        status = "INVALID_EVIDENCE" if claimed == "PASS" else "FAIL"
-    else:
-        status = "PASS" if claimed == "PASS" else "FAIL"
+    integrity = expected.get("journal_integrity", {})
+    errors = list(integrity.get("errors", [])) if isinstance(integrity, dict) else ["journal_integrity must be an object"]
+    checks = expected.get("policy_checks", {})
+    if claimed == "PASS" and (not isinstance(checks, dict) or not checks or not all(bool(v) for v in checks.values())):
+        errors.append("PASS requires every burn-in policy check to pass")
+    if cfg.get("require_no_blocking_incidents", True) and claimed == "PASS" and blocking:
+        errors.append("PASS cannot contain blocking incidents")
+    status = "INVALID_EVIDENCE" if errors or claimed == "INVALID_EVIDENCE" else claimed
     return {
         "status": status,
         "claimed_status": claimed,
         "errors": errors,
-        "usage_window": window,
-        "channels_observed": channels if isinstance(channels, list) else [],
-        "sessions": sessions if isinstance(sessions, int) else 0,
-        "consumers": consumers if isinstance(consumers, int) else 0,
-        "feedback_count": len(feedback) if isinstance(feedback, list) else 0,
+        "usage_window": expected.get("usage_window"),
+        "channels_observed": expected.get("channels_observed", []),
+        "sessions": expected.get("sessions", 0),
+        "sessions_per_channel": expected.get("sessions_per_channel", {}),
+        "consumers": expected.get("consumers", 0),
+        "feedback_count": len(expected.get("feedback_items", [])),
         "incident_count": len(incidents),
         "blocking_incidents": blocking,
-        "evidence_refs": data.get("evidence_refs", []),
+        "evidence_refs": expected.get("evidence_refs", []),
+        "journal_integrity": integrity,
+        "policy_checks": checks,
     }
-
 
 def evaluate_optional_record(cfg: dict[str, Any], data: dict[str, Any], kind: str) -> dict[str, Any]:
     claimed = data.get("claimed_status", "NOT_RUN")
@@ -366,7 +364,7 @@ def evaluate(root: Path, cfg: dict[str, Any], evidence_root: Path | None = None)
         }
     raw = {k: load_json(p) for k, p in files.items()}
     hosts = evaluate_hosts(root, cfg, raw["host_smoke"], host_manifest)
-    burn = evaluate_burn_in(cfg, raw["consumer_burn_in"])
+    burn = evaluate_burn_in(root, cfg, raw["consumer_burn_in"], evidence_root)
     signed = evaluate_optional_record(cfg, raw["signed_attestation"], "signed_attestation")
     rollback = evaluate_optional_record(cfg, raw["live_rollback"], "live_rollback")
     attempts = evaluate_execution_attempts(root, cfg, evidence_root, raw["host_smoke"].get("records", []))
@@ -389,6 +387,12 @@ def evaluate(root: Path, cfg: dict[str, Any], evidence_root: Path | None = None)
     invalid = any(x["status"] == "INVALID_EVIDENCE" for x in (hosts, burn, signed, rollback, attempts))
     harness_status = "INVALID_EVIDENCE" if invalid else "HARNESS_READY"
     evidence_hashes = {k: {"path": p.relative_to(root).as_posix() if p.is_relative_to(root) else str(p), "sha256": sha256_file(p)} for k, p in files.items()}
+    journal_path = evidence_root / "burn-in-events.jsonl"
+    if journal_path.exists():
+        evidence_hashes["burn_in_journal"] = {
+            "path": journal_path.relative_to(root).as_posix() if journal_path.is_relative_to(root) else str(journal_path),
+            "sha256": sha256_file(journal_path),
+        }
     return {
         "schema_version": 1,
         "repository_version": cfg["repository_version"],
@@ -404,6 +408,7 @@ def evaluate(root: Path, cfg: dict[str, Any], evidence_root: Path | None = None)
             "required_live_hosts": cfg.get("required_live_hosts", 1),
             "required_host_steps": cfg.get("required_host_steps", []),
             "required_burn_in_channels": cfg.get("required_burn_in_channels", []),
+            "burn_in_policy": burnin.policy_from_config(cfg),
             "require_consumer_burn_in": cfg.get("require_consumer_burn_in", True),
             "require_no_blocking_incidents": cfg.get("require_no_blocking_incidents", True),
             "require_signed_attestation": cfg.get("require_signed_attestation", False),
@@ -430,7 +435,7 @@ def render_report(result: dict[str, Any]) -> str:
         "## Operational Gates",
         "",
         f"- Live host lifecycle: **{host.get('status', 'UNKNOWN')}** ({host.get('pass_count', 0)} passing host record(s))",
-        f"- Consumer dual-channel burn-in: **{burn.get('status', 'UNKNOWN')}**",
+        f"- Consumer dual-channel burn-in: **{burn.get('status', 'UNKNOWN')}**; sessions={burn.get('sessions', 0)}; consumers={burn.get('consumers', 0)}",
         f"- Signed attestation: **{result.get('signed_attestation', {}).get('status', 'UNKNOWN')}** (non-blocking unless policy changes)",
         f"- Live rollback: **{result.get('live_rollback', {}).get('status', 'UNKNOWN')}** (non-blocking unless policy changes)",
         f"- Execution attempts: **{result.get('execution_attempts', {}).get('status', 'NOT_RUN')}** {result.get('execution_attempts', {}).get('counts', {})}",
@@ -564,7 +569,16 @@ The final aggregate records sessions, consumers, feedback, incidents, and durabl
 
 `{cfg["evidence_root"]}/consumer-burn-in.json`
 
-A blocking incident prevents v2 promotion.
+The journal is hash-chained and the aggregate is recomputed from the journal during verification. Manual edits to `consumer-burn-in.json` cannot create a valid PASS.
+
+Current minimum policy:
+
+- total sessions: `{cfg.get("burn_in_policy", {}).get("min_total_sessions", 4)}`
+- sessions per required channel: `{cfg.get("burn_in_policy", {}).get("min_sessions_per_channel", 2)}`
+- unique consumers: `{cfg.get("burn_in_policy", {}).get("min_unique_consumers", 1)}`
+- usage window: `{cfg.get("burn_in_policy", {}).get("min_usage_window_hours", 24)}` hours
+
+Until these thresholds are met, structurally valid evidence is `IN_PROGRESS`, not `PASS`. A blocking incident produces `FAIL` and prevents v2 promotion.
 
 ## 3. Optional evidence
 
@@ -596,7 +610,7 @@ def build(root: Path, config_path: Path) -> Path:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.30.1.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.31.0.json")
     args = ap.parse_args()
     root = Path(args.root).resolve()
     build(root, root / args.config)
