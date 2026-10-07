@@ -1,0 +1,40 @@
+{
+  "blockers": [
+    "live-validation v2 readiness is not GO"
+  ],
+  "dual_distribution": {
+    "release_index": "dist/dual-distribution-v1.32.0/release-index.json",
+    "sha256": "811039e68be33b664c9ced92272952d6f303350f82e558686e677f86b3015143"
+  },
+  "errors": [],
+  "live_validation": {
+    "manifest": "dist/live-validation-v1.32.0/manifest.json",
+    "sha256": "db6fe1d7b4c44aa1a30cb3375afcd0af651a447423874d07db005a645469da11",
+    "status": "NO_GO"
+  },
+  "operator_approval": {
+    "binding": "promotion_context_sha256",
+    "decision": "NOT_REQUESTED",
+    "evidence": "evidence/live-validation/v1.32.0/v2-approval.json",
+    "sha256": "e2f6ae151f68397aa7825af4feac3bdfd7f0bc60265b9e7adb52f0368fa50930",
+    "valid": false
+  },
+  "package_distribution": {
+    "all_valid": true,
+    "manifest": "dist/agent-skills-v1.32.0/manifest.json",
+    "sha256": "66f3cd8d420d317f7674ce763120fcf702b99f657a794b9f8bce927ea225a296"
+  },
+  "policy": {
+    "require_operator_approval": true
+  },
+  "promotion_context": {
+    "dual_release_index_sha256": "811039e68be33b664c9ced92272952d6f303350f82e558686e677f86b3015143",
+    "live_manifest_sha256": "db6fe1d7b4c44aa1a30cb3375afcd0af651a447423874d07db005a645469da11",
+    "package_manifest_sha256": "66f3cd8d420d317f7674ce763120fcf702b99f657a794b9f8bce927ea225a296",
+    "repository_version": "v1.32.0",
+    "sha256": "02fa85bae6c4482e8ec075045cf9dd4395ab5c0f765c4c281d1b7a515db4a18e"
+  },
+  "promotion_status": "BLOCKED",
+  "repository_version": "v1.32.0",
+  "schema_version": 2
+}

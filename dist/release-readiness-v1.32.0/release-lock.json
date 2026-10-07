@@ -1,0 +1,52 @@
+{
+  "blockers": [
+    "live-validation v2 readiness is not GO",
+    "promotion status is BLOCKED, expected APPROVED"
+  ],
+  "candidate_digest": {
+    "algorithm": "sha256",
+    "scope": "repository_version + immutable evidence input digests",
+    "value": "c70f40a4c2acc3a8e537416792da2075df8b871fa88e509575f10c81f405b09b"
+  },
+  "checks": {
+    "dual_distribution": true,
+    "evaluation": true,
+    "live_validation_go": false,
+    "package": true,
+    "promotion_status": "BLOCKED"
+  },
+  "errors": [],
+  "inputs": {
+    "dual_release_index": {
+      "path": "dist/dual-distribution-v1.32.0/release-index.json",
+      "sha256": "811039e68be33b664c9ced92272952d6f303350f82e558686e677f86b3015143"
+    },
+    "evaluation_report": {
+      "path": "reports/agent-skill-evaluation-v1.32.0.json",
+      "sha256": "1e9c0e392071aeae1ccfb8da96562fd614e2550cb410e2cc14b5175efc47f0bf"
+    },
+    "host_manifest": {
+      "path": "dist/host-compat-v1.32.0/manifest.json",
+      "sha256": "9e53c68bfb5cd5a42819b8f0eca9a23960040a1f1814cd4b21658607ceee1d90"
+    },
+    "live_manifest": {
+      "path": "dist/live-validation-v1.32.0/manifest.json",
+      "sha256": "db6fe1d7b4c44aa1a30cb3375afcd0af651a447423874d07db005a645469da11"
+    },
+    "package_manifest": {
+      "path": "dist/agent-skills-v1.32.0/manifest.json",
+      "sha256": "66f3cd8d420d317f7674ce763120fcf702b99f657a794b9f8bce927ea225a296"
+    },
+    "promotion_decision": {
+      "path": "dist/v2-promotion-v1.32.0/promotion.json",
+      "sha256": "9e5dbbde71fd969ef55e9c0ba28a988a9c20ba66471a72c5f5aabf2e95095705"
+    }
+  },
+  "policy": {
+    "fail_closed": true,
+    "required_promotion_status": "APPROVED"
+  },
+  "readiness_status": "BLOCKED",
+  "repository_version": "v1.32.0",
+  "schema_version": 1
+}

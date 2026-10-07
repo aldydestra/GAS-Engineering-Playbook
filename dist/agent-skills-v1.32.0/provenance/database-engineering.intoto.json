@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "database-engineering",
+        "profile": "full-v1.32.0",
+        "repositoryVersion": "v1.32.0",
+        "sourcePath": "skills/04-database-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "b3271930436d2f58ccbd60fb10406d4e6b15012fdbd0a2df15bbf89c013e579a"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/04-database-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "81c976d60b28786e275a5c57198e8f4f52d942cccd8e955b316937dda87296ba"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.32.0.json"
+        },
+        {
+          "digest": {
+            "sha256": "959890613eabb8d66cb96bafe92f2c1aa224c0be9454e144abf1d7d698298511"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "959890613eabb8d66cb96bafe92f2c1aa224c0be9454e144abf1d7d698298511",
+          "repository": "v1.32.0"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "ef53b7f32df2054ae5d2f597469cdd15e0bd371a83ee140cb7dad646b143dd57"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.32.0/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "bff4b10d03be83023f3b0b652160ea66b55ef162e6afefb18dab6ed072c94da0"
+      },
+      "name": "database-engineering.skill"
+    }
+  ]
+}

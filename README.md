@@ -4,9 +4,11 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.31.0 Operational Burn-In & Promotion Control
+## v1.32.0 Promotion Context & Immutable Release Freeze
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.31.0/` stays the parallel release-candidate package channel. v1.31.0 hardens the path from live execution to v2 promotion: consumer burn-in now uses a tamper-evident hash-chained journal, deterministic aggregation, minimum sessions/window policy, and an explicit `IN_PROGRESS` state. A separate v2 promotion controller requires live-validation `GO` and, when configured, operator approval cryptographically bound to the exact live-validation manifest digest. No synthetic or manually edited summary can authorize promotion.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.32.0/` stays the parallel release-candidate package channel. v1.32.0 closes the post-approval drift gap: operator approval is now bound to a single promotion-context digest covering the package manifest, dual-distribution release index, and live-validation manifest. A new release-readiness layer then freezes package, host, evaluation, dual-distribution, live-validation, and promotion evidence into one candidate digest. Any artifact/evidence change after approval invalidates the candidate instead of silently inheriting stale authorization.
+
+Current deterministic state remains intentionally fail-closed: static/package/evaluation/trust gates pass, but live host and consumer burn-in evidence are still absent, therefore v2 promotion is `BLOCKED` and release readiness is `BLOCKED` rather than `READY_TO_TAG`.
 
 ## Foundation Status
 
@@ -181,6 +183,7 @@ last_repository_update: "v1.13.0"
 | **v1.30.0** | **Live Validation Harness: fail-closed host lifecycle + consumer burn-in evidence ingestion, synthetic verifier fixtures, v2 gate remains NO_GO until real evidence exists** |
 | **v1.30.1** | **Live Execution Orchestrator: Gemini CLI runner, blocker taxonomy, evidence-log hashing/redaction, burn-in journal, first real execution attempt recorded as BLOCKED_NETWORK** |
 | **v1.31.0** | **Operational Burn-In & Promotion Control: hash-chained burn-in journal, minimum exposure policy, deterministic aggregate verification, and digest-bound operator approval gate** |
+| **v1.32.0** | **Promotion Context & Immutable Release Freeze: complete-context approval binding, post-approval drift detection, release-lock candidate digest, and READY_TO_TAG gate** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -669,7 +672,7 @@ If a future branch, private repository, skill file, or artifact cannot be retrie
 
 # Agent Skill Distribution Pipeline
 
-Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, v1.28.0 added the trust layer, v1.29.0 introduced dual-distribution RC operation, v1.30.0 added the fail-closed live-evidence gate, and v1.31.0 adds executable host/burn-in evidence capture:
+Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, v1.28.0 added the trust layer, v1.29.0 introduced dual-distribution RC operation, v1.30.0 added the fail-closed live-evidence gate, v1.31.0 added burn-in/promotion control, and v1.32.0 adds complete-context approval plus immutable release freezing:
 
 ```text
 skills/ canonical source
@@ -687,6 +690,10 @@ optional signed GitHub attestation at release time
 dual-distribution migration + rollback evidence
 ↓
 live host executor + burn-in journal
+↓
+promotion-context approval binding
+↓
+immutable release-readiness freeze
 ```
 
 Generated distribution files must not be edited manually. Static host/security evidence, unsigned provenance, live-host evidence, and signed attestations are intentionally reported as separate states.
@@ -700,9 +707,11 @@ See:
 - `docs/host-compatibility-audit-v1.27.0.md`
 - `docs/security-catalog-provenance-audit-v1.28.0.md`
 - `docs/agent-skill-provenance-v1.28.0.md`
-- `docs/dual-distribution-rc-v1.31.0.md`
-- `docs/live-validation-operational-burn-in-v1.31.0.md`
-- `docs/v2-go-no-go-v1.31.0.md`
+- `docs/dual-distribution-rc-v1.32.0.md`
+- `docs/live-validation-operational-burn-in-v1.32.0.md`
+- `docs/v2-go-no-go-v1.32.0.md`
+- `docs/v2-promotion-control-v1.32.0.md`
+- `docs/release-readiness-freeze-v1.32.0.md`
 - `docs/roadmap-to-v2.0.md`
 
 # Repository Structure
@@ -743,23 +752,27 @@ gas-engineering-playbook/
 │   ├── host-compat/
 │   ├── trust/
 │   ├── dual-distribution/
-│   └── live-validation/
+│   ├── live-validation/
+│   ├── v2-promotion/
+│   └── release-readiness/
 ├── tools/
 ├── evals/
 │   └── agent-skills/
 ├── dist/
-│   ├── agent-skills-v1.31.0/
+│   ├── agent-skills-v1.32.0/
 │   │   ├── catalog.json
 │   │   ├── security-report.json
 │   │   ├── revocations.json
 │   │   ├── provenance-index.json
 │   │   └── provenance/
-│   ├── host-compat-v1.31.0/
-│   ├── dual-distribution-v1.31.0/
-│   └── live-validation-v1.31.0/
+│   ├── host-compat-v1.32.0/
+│   ├── dual-distribution-v1.32.0/
+│   ├── live-validation-v1.32.0/
+│   ├── v2-promotion-v1.32.0/
+│   └── release-readiness-v1.32.0/
 ├── reports/
-│   ├── agent-skill-evaluation-v1.31.0.json
-│   └── agent-skill-evaluation-v1.31.0.md
+│   ├── agent-skill-evaluation-v1.32.0.json
+│   └── agent-skill-evaluation-v1.32.0.md
 ├── examples/
 └── docs/
     ├── module-development-guide.md
@@ -786,9 +799,11 @@ gas-engineering-playbook/
     ├── host-compatibility-audit-v1.27.0.md
     ├── security-catalog-provenance-audit-v1.28.0.md
     ├── agent-skill-provenance-v1.28.0.md
-    ├── dual-distribution-rc-v1.31.0.md
-    ├── live-validation-operational-burn-in-v1.31.0.md
-    ├── v2-go-no-go-v1.31.0.md
+    ├── dual-distribution-rc-v1.32.0.md
+    ├── live-validation-operational-burn-in-v1.32.0.md
+    ├── v2-go-no-go-v1.32.0.md
+    ├── v2-promotion-control-v1.32.0.md
+    ├── release-readiness-freeze-v1.32.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md

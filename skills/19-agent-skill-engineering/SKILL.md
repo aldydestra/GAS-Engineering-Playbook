@@ -4,10 +4,10 @@ description: "Author, package, validate, route, install, update, and maintain Ag
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.8.0"
+  gas_playbook_skill_version: "1.9.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.31.0"
+  gas_playbook_last_repository_update: "v1.32.0"
 ---
 
 # Agent Skill Engineering
@@ -397,13 +397,9 @@ Prefer deterministic unsigned provenance in local/reproducible builds, then add 
 Test revocation with a deny fixture before relying on it operationally.
 
 ## GAS Engineering Playbook v1.x Note
-
 The v1.x playbook historically uses numbered source folders and repository-specific top-level metadata. That predates the current Agent Skills format.
-
 Do not silently rename the published v1.x source tree during a minor release.
-
 For direct Agent Skills distribution, use a compatibility packaging step:
-
 ```text
 playbook source
 → normalize package name/metadata
@@ -411,11 +407,8 @@ playbook source
 → validate
 → publish
 ```
-
 See [playbook compatibility notes](references/spec-compatibility.md).
-
 A repository-wide path/name migration should follow the playbook’s breaking-change policy.
-
 
 ## Repository Packaging Evolution — v1.24 to v1.26
 
@@ -479,6 +472,9 @@ See [dual-distribution RC patterns](references/dual-distribution-rc.md).
 Before v2, require fail-closed real host lifecycle evidence plus real dual-channel burn-in; synthetic fixtures test verifier logic only and unavailable evidence remains `NOT_RUN`. See [live validation & burn-in patterns](references/live-validation-operational-burn-in.md).
 v1.30.1 adds executable host-smoke/burn-in capture: blocked prerequisites stay diagnostic, completed lifecycle runs alone can promote host evidence, and persisted command logs are hash-bound.
 
+## v1.31–v1.32 Promotion & Release Freeze
+Burn-in summaries are derived from tamper-evident journals. Approval binds the complete package/dual/live promotion context, then release readiness freezes all decisive artifacts into one candidate digest; any drift invalidates readiness. See [promotion and release-freeze patterns](references/promotion-release-freeze.md).
+
 ## References
 Read only as needed:
 - [Specification & host patterns](references/spec-and-host-patterns.md)
@@ -486,6 +482,7 @@ Read only as needed:
 - [Catalog, provenance & revocation patterns](references/catalog-provenance-patterns.md)
 - [Dual-distribution RC patterns](references/dual-distribution-rc.md)
 - [Live validation & operational burn-in](references/live-validation-operational-burn-in.md)
+- [Promotion context & release freeze](references/promotion-release-freeze.md)
 
 External sources:
 - Agent Skills specification: https://github.com/agentskills/agentskills

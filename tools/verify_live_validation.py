@@ -51,7 +51,7 @@ def verify(root: Path, config_path: Path, dist_override: Path | None = None) -> 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.31.0.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.32.0.json")
     ap.add_argument("--dist")
     args = ap.parse_args()
     root = Path(args.root).resolve()

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.32.0",
+  "canonical_root": "skills",
+  "package_distribution": "dist/agent-skills-v1.32.0",
+  "host_distribution": "dist/host-compat-v1.32.0",
+  "dual_distribution": "dist/dual-distribution-v1.32.0",
+  "live_validation_distribution": "dist/live-validation-v1.32.0",
+  "promotion_distribution": "dist/v2-promotion-v1.32.0",
+  "evaluation_report": "reports/agent-skill-evaluation-v1.32.0.json",
+  "output_distribution": "dist/release-readiness-v1.32.0",
+  "required_promotion_status": "APPROVED"
+}

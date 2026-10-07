@@ -3,6 +3,60 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.32.0] - 2026-10-07
+
+### Promotion Context & Immutable Release Freeze
+
+Closes the approval-to-release time-of-check/time-of-use gap introduced by independently mutable package, static, and live evidence.
+
+### Added
+
+- schema-v2 promotion context digest binding package manifest + dual-distribution release index + live-validation manifest;
+- `packaging/release-readiness/release-v1.32.0.json`;
+- `tools/build_release_readiness.py` and `tools/verify_release_readiness.py`;
+- immutable `dist/release-readiness-v1.32.0/release-lock.json`;
+- release candidate digest covering package, host compatibility, evaluation, dual-distribution, live-validation, and promotion evidence;
+- explicit `READY_TO_TAG`, `BLOCKED`, and `INVALID_EVIDENCE` release-readiness states;
+- `tools/test_release_readiness.py` and expanded promotion-context regression tests;
+- CI/attestation workflow coverage for release-readiness artifacts.
+
+### Hardened
+
+- operator approval is no longer bound only to live-validation evidence;
+- any package, dual-distribution, or live-evidence drift invalidates stale approval;
+- release readiness cross-checks the promotion decision against the exact hashes frozen into the candidate;
+- missing/mismatched repository versions fail closed;
+- an approved promotion can no longer imply release readiness if evaluation/host/freeze inputs have changed.
+
+### Updated Skills
+
+```text
+10 Deployment Engineering               1.8.0 → 1.9.0
+18 Agent Skill Supply-Chain Security    1.9.0 → 1.10.0
+19 Agent Skill Engineering              1.8.0 → 1.9.0
+```
+
+### Validation Result
+
+```text
+19/19 package validation             PASS
+evaluation parity                    PASS
+host static compatibility            PASS
+security/catalog/provenance          PASS
+dual-distribution static RC          PASS_STATIC
+live-validation harness              HARNESS_READY
+live host lifecycle                  NOT_RUN
+consumer burn-in                     NOT_RUN
+v2 readiness                         NO_GO
+v2 promotion                         BLOCKED
+release readiness                    BLOCKED
+unittest regression suite            34/34 PASS
+trust/revocation integration check   PASS
+```
+
+The release remains intentionally pre-v2 until real host lifecycle and dual-channel burn-in evidence produce live-validation `GO`; only then may operator approval and `READY_TO_TAG` be reached.
+
+
 ## [v1.31.0] - 2026-10-06
 
 ### Operational Burn-In & Promotion Control

@@ -1,0 +1,99 @@
+{
+  "repository_version": "v1.32.0",
+  "source_distribution": "dist/agent-skills-v1.32.0",
+  "output_distribution": "dist/host-compat-v1.32.0",
+  "status_vocabulary": [
+    "PASS_STATIC",
+    "DOCUMENTED",
+    "PARTIAL",
+    "NOT_VERIFIED",
+    "NOT_RUN",
+    "N/A"
+  ],
+  "hosts": [
+    {
+      "id": "gemini-cli",
+      "display_name": "Gemini CLI",
+      "adapter": "direct-skill",
+      "artifact": "../agent-skills-v1.32.0/packages/*.skill",
+      "evidence": [
+        "https://geminicli.com/docs/cli/using-agent-skills/",
+        "https://geminicli.com/docs/cli/skills/",
+        "https://github.com/google-gemini/gemini-cli/blob/main/packages/core/src/skills/builtin/skill-creator/SKILL.md"
+      ],
+      "matrix": {
+        "portable_format": "PASS_STATIC",
+        "discovery": "DOCUMENTED",
+        "activation": "DOCUMENTED",
+        "relative_resources": "PASS_STATIC",
+        "scripts": "PASS_STATIC",
+        "install_package": "PASS_STATIC",
+        "precedence_collision": "DOCUMENTED",
+        "reload_update": "DOCUMENTED",
+        "uninstall_disable": "DOCUMENTED",
+        "live_host_smoke": "NOT_RUN"
+      },
+      "notes": [
+        "Direct .skill installation, reload/refresh, enable/disable, link, and uninstall are currently documented.",
+        "Installation and activation consent are host-specific controls and must not be assumed by portable skills.",
+        "The live lifecycle still requires execution against a real Gemini CLI runtime before it can be PASS."
+      ]
+    },
+    {
+      "id": "claude-code",
+      "display_name": "Claude Code",
+      "adapter": "skills-only-plugin",
+      "artifact": "claude-code-plugin.zip",
+      "evidence": [
+        "https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/plugin-structure/SKILL.md",
+        "https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/skill-development/SKILL.md",
+        "https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/README.md"
+      ],
+      "matrix": {
+        "portable_format": "PASS_STATIC",
+        "discovery": "PASS_STATIC",
+        "activation": "DOCUMENTED",
+        "relative_resources": "PASS_STATIC",
+        "scripts": "PASS_STATIC",
+        "install_package": "PASS_STATIC",
+        "precedence_collision": "PARTIAL",
+        "reload_update": "PARTIAL",
+        "uninstall_disable": "PARTIAL",
+        "live_host_smoke": "NOT_RUN"
+      },
+      "notes": [
+        "Wrapper uses .claude-plugin/plugin.json with skills/ at plugin root.",
+        "Claude Code auto-discovers SKILL.md files under plugin skills/ directories.",
+        "Lifecycle/collision behavior is intentionally PARTIAL until live host tests are recorded."
+      ]
+    },
+    {
+      "id": "openai-plugins",
+      "display_name": "OpenAI ChatGPT / Codex Plugins",
+      "adapter": "portable-skills-only-plugin",
+      "artifact": "openai-portable-plugin.zip",
+      "evidence": [
+        "https://developers.openai.com/plugins/build/plugins",
+        "https://developers.openai.com/plugins/build/skills",
+        "https://help.openai.com/en/articles/20001256-plugins-in-chatgpt"
+      ],
+      "matrix": {
+        "portable_format": "PASS_STATIC",
+        "discovery": "PASS_STATIC",
+        "activation": "DOCUMENTED",
+        "relative_resources": "PASS_STATIC",
+        "scripts": "PASS_STATIC",
+        "install_package": "PASS_STATIC",
+        "precedence_collision": "NOT_VERIFIED",
+        "reload_update": "NOT_VERIFIED",
+        "uninstall_disable": "DOCUMENTED",
+        "live_host_smoke": "NOT_RUN"
+      },
+      "notes": [
+        "Portable Agent Plugins use root plugin.json with the Agent Plugins schema and root skills/ discovery.",
+        "OpenAI currently documents skill-only plugins; MCP/apps/hooks remain optional components.",
+        "Installation and availability vary by product surface/account/workspace, so lifecycle evidence must come from the tested host context."
+      ]
+    }
+  ]
+}
