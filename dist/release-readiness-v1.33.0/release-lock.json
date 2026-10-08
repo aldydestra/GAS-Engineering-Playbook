@@ -1,0 +1,57 @@
+{
+  "blockers": [
+    "live-validation v2 readiness is not GO",
+    "promotion status is BLOCKED, expected APPROVED"
+  ],
+  "candidate_digest": {
+    "algorithm": "sha256",
+    "scope": "repository_version + immutable package/host/eval/dual/live/cutover/promotion digests",
+    "value": "09d8c0306aa4444ad77f9a33d049e7c63e922963ac4b648107a70dbd569363a2"
+  },
+  "checks": {
+    "cutover_rehearsal": true,
+    "dual_distribution": true,
+    "evaluation": true,
+    "live_validation_go": false,
+    "package": true,
+    "promotion_status": "BLOCKED"
+  },
+  "errors": [],
+  "inputs": {
+    "cutover_rehearsal": {
+      "path": "dist/v2-cutover-rehearsal-v1.33.0/cutover-manifest.json",
+      "sha256": "feb5bbce6a94e588a9b12e5c510aa51607ef8a65d58d3a370c453c5f70b230ac"
+    },
+    "dual_release_index": {
+      "path": "dist/dual-distribution-v1.33.0/release-index.json",
+      "sha256": "bbdc98243cd074c98582ec6cd860c335c4283ee095baaf87af2e391abd1ce92c"
+    },
+    "evaluation_report": {
+      "path": "reports/agent-skill-evaluation-v1.33.0.json",
+      "sha256": "f3eb8cfa7077878cfbae4d518c066441fecb653cf77747b4741ed7b45eda7c17"
+    },
+    "host_manifest": {
+      "path": "dist/host-compat-v1.33.0/manifest.json",
+      "sha256": "a2dd604e0020ddf91fb10fa854840d6edced6453ff2e5a5991226031a376fdfd"
+    },
+    "live_manifest": {
+      "path": "dist/live-validation-v1.33.0/manifest.json",
+      "sha256": "c18aef26373958e8c4251672a7002f95653cf9bdfbeec123d83c7bcd66be262f"
+    },
+    "package_manifest": {
+      "path": "dist/agent-skills-v1.33.0/manifest.json",
+      "sha256": "9d1508571148a9f4965505cff121c7b7cdb46531f47a51372edaca2e8b4afa44"
+    },
+    "promotion_decision": {
+      "path": "dist/v2-promotion-v1.33.0/promotion.json",
+      "sha256": "18751f8bad46ef13ea6f4eb2954f1fe9df73cb328be6b99c5ee657d686c97909"
+    }
+  },
+  "policy": {
+    "fail_closed": true,
+    "required_promotion_status": "APPROVED"
+  },
+  "readiness_status": "BLOCKED",
+  "repository_version": "v1.33.0",
+  "schema_version": 2
+}

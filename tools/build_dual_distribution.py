@@ -268,7 +268,7 @@ def build(root: Path, config_path: Path) -> Path:
 
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/dual-distribution/dual-v1.32.0.json'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/dual-distribution/dual-v1.33.0.json'); args=ap.parse_args()
     root=Path(args.root).resolve(); build(root, root/args.config)
 
 if __name__=='__main__': main()

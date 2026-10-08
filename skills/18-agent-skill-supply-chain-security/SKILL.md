@@ -1,10 +1,10 @@
 ---
 name: agent-skill-supply-chain-security
 description: "Secure AI Agent Skills, plugins, MCP-integrated packages, and catalogs through pre-install scanning, prompt-injection/exfiltration detection, scripts/hooks/manifests, dependency provenance, MCP metadata/tool poisoning, permission parity, shadowing/precedence, SARIF/CI gates, fail-closed completeness, signing, admission, update, and revocation."
-skill_version: "1.10.0"
+skill_version: "1.11.0"
 repository_introduced: "v1.19.0"
 status: "evolving"
-last_repository_update: "v1.32.0"
+last_repository_update: "v1.33.0"
 tags:
   - agent-skills
   - supply-chain-security
@@ -3211,3 +3211,9 @@ Operational evidence used for release promotion is part of the software supply c
 - bind human approval to a promotion-context digest covering package + dual-distribution + live evidence;
 - freeze the approved release candidate with hashes of package, host, evaluation, dual-distribution, live-validation, and promotion artifacts;
 - reject stale, mismatched, manually elevated, or post-approval drift fail-closed.
+
+# Cutover-Rehearsal Integrity Boundary
+
+A package-first migration rehearsal is supply-chain evidence. Bind its manifest digest into promotion/release context, verify the shadow tree against the admitted generated package tree, and reject stale approval when the rehearsal output changes.
+
+The rehearsal must be generated, reversible, and side-effect free: it must not silently replace the canonical source tree or be reported as a production cutover.

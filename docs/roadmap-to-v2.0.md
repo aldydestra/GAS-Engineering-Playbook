@@ -312,6 +312,179 @@ v2 readiness                                   NO_GO
 
 ---
 
+## v1.31.0 — Operational Burn-In & Promotion Control
+
+Status: **implemented**
+
+Purpose:
+
+- make burn-in evidence tamper-evident and policy-driven;
+- require a minimum observation window before PASS;
+- introduce explicit operator-controlled v2 promotion.
+
+Implemented result:
+
+```text
+hash-chained burn-in journal          PASS_STATIC
+minimum session/window policy         PASS_STATIC
+operator promotion controller         PASS_STATIC
+live evidence                         NOT_RUN
+promotion                             BLOCKED
+```
+
+---
+
+## v1.32.0 — Promotion Context & Immutable Release Freeze
+
+Status: **implemented**
+
+Purpose:
+
+- bind operator approval to the complete package/static/live candidate;
+- detect stale approval after evidence drift;
+- freeze decisive release evidence into one immutable candidate digest.
+
+Implemented result:
+
+```text
+complete promotion-context digest     PASS
+post-approval drift detection         PASS
+release-freeze candidate digest       PASS
+READY_TO_TAG gate semantics           PASS_STATIC
+current live evidence                 NOT_RUN
+release readiness                     BLOCKED
+```
+
+---
+
+## v1.33.0 — Package-First Cutover Rehearsal
+
+Status: **implemented — static rehearsal PASS; production cutover not performed**
+
+Purpose:
+
+Prove that a v2 package-first repository can be generated from admitted package outputs **without mutating the canonical v1 authoring tree**.
+
+Implemented:
+
+- deterministic `shadow/skills/<package-name>/` package-first tree;
+- 19/19 generated-skill materialization;
+- byte-level tree digest comparison against admitted normalized package skills;
+- relative-reference integrity checks outside fenced/inline code;
+- one-to-one rollback map back to canonical v1 source folders;
+- cutover-rehearsal digest added to promotion context;
+- cutover-rehearsal digest added to immutable release-readiness freeze;
+- fail-closed stale-approval detection when rehearsal output changes.
+
+Exit gate:
+
+```text
+19/19 shadow skills                  PASS
+19/19 rollback mappings             PASS
+relative resources                  PASS
+deterministic rebuild               PASS
+production source mutation          NONE
+cutover rehearsal                   PASS_STATIC
+```
+
+Safety rule:
+
+`PASS_STATIC` means only that the target repository shape is reproducible and reversible. It is not a live-host PASS and does not authorize production cutover.
+
+---
+
+## v1.34.x — Release Ceremony & Signed-Attestation Closure
+
+Status: **planned**
+
+Goal:
+
+Turn `READY_TO_TAG` into a verifiable release ceremony rather than a manual tag action.
+
+Planned scope:
+
+- release-candidate receipt bound to the release-lock digest;
+- tag/version consistency verifier;
+- signed GitHub attestation verification receipt;
+- artifact upload inventory and checksum closure;
+- post-tag verification that no decisive input changed between freeze and publication;
+- rollback instructions bound to the exact published candidate.
+
+Exit gate:
+
+```text
+release-lock READY_TO_TAG
+signed attestation VERIFIED (when release workflow is available)
+published artifact inventory matches frozen candidate
+no post-freeze drift
+release receipt VERIFIED
+```
+
+If external signing/runtime is unavailable, the deterministic ceremony tooling may ship while the signed step remains explicitly `NOT_RUN`.
+
+---
+
+## v1.35.x — Real Host + Burn-In Evidence Closure
+
+Status: **planned / operational dependency**
+
+Goal:
+
+Close the remaining non-static blockers with real evidence.
+
+Required operational work:
+
+- successful install/activation/update/uninstall on at least one supported host;
+- real canonical/package dual-channel burn-in satisfying the configured session/window policy;
+- no blocking incident;
+- real rollback exercise where feasible;
+- signed attestation verification where the release environment supports it.
+
+Exit gate:
+
+```text
+live host lifecycle                  PASS
+consumer burn-in                     PASS
+blocking incidents                   0
+live-validation v2 readiness         GO
+```
+
+This stage cannot be satisfied by synthetic CI fixtures.
+
+---
+
+## v1.36.0 — v2 Shadow RC & Breaking-Change Freeze
+
+Status: **planned**
+
+Goal:
+
+Build the exact v2 repository candidate in shadow mode and freeze the breaking-change surface before v2.0.
+
+Planned scope:
+
+- package-first `skills/<package-name>/` shadow repository root;
+- final v1-path → v2-path migration table;
+- documentation/link rewrite audit;
+- compatibility/deprecation notice set;
+- consumer migration guide;
+- final parity/security/trust re-run against the v2 shadow root;
+- no new breaking changes after RC freeze except blocker fixes.
+
+Exit gate:
+
+```text
+v2 shadow tree                       PASS
+all internal references              PASS
+package/evaluation/security parity   PASS
+migration + rollback docs            COMPLETE
+live-validation                      GO
+promotion                            APPROVED
+release readiness                    READY_TO_TAG
+```
+
+---
+
 # v2.0.0 — Package-First Repository Only If Gates Pass
 
 v2 may then make breaking structural changes such as:

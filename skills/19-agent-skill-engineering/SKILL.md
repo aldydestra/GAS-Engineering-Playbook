@@ -4,10 +4,10 @@ description: "Author, package, validate, route, install, update, and maintain Ag
 license: Apache-2.0
 metadata:
   gas_playbook_display_name: "Agent Skill Engineering"
-  gas_playbook_skill_version: "1.9.0"
+  gas_playbook_skill_version: "1.10.0"
   gas_playbook_repository_introduced: "v1.23.0"
   gas_playbook_status: "evolving"
-  gas_playbook_last_repository_update: "v1.32.0"
+  gas_playbook_last_repository_update: "v1.33.0"
 ---
 
 # Agent Skill Engineering
@@ -474,6 +474,9 @@ v1.30.1 adds executable host-smoke/burn-in capture: blocked prerequisites stay d
 
 ## v1.31–v1.32 Promotion & Release Freeze
 Burn-in summaries are derived from tamper-evident journals. Approval binds the complete package/dual/live promotion context, then release readiness freezes all decisive artifacts into one candidate digest; any drift invalidates readiness. See [promotion and release-freeze patterns](references/promotion-release-freeze.md).
+
+## v1.33 Package-First Cutover Rehearsal
+Generate a package-first shadow tree from admitted packages, verify one-to-one rollback mappings and relative resources, then bind the rehearsal digest into promotion/readiness. `PASS_STATIC` proves deterministic cutover shape only; it never means production cutover occurred.
 
 ## References
 Read only as needed:

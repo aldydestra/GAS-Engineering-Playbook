@@ -1,0 +1,46 @@
+{
+  "blockers": [
+    "live-validation v2 readiness is not GO"
+  ],
+  "cutover_rehearsal": {
+    "manifest": "dist/v2-cutover-rehearsal-v1.33.0/cutover-manifest.json",
+    "sha256": "feb5bbce6a94e588a9b12e5c510aa51607ef8a65d58d3a370c453c5f70b230ac",
+    "status": "PASS_STATIC"
+  },
+  "dual_distribution": {
+    "release_index": "dist/dual-distribution-v1.33.0/release-index.json",
+    "sha256": "bbdc98243cd074c98582ec6cd860c335c4283ee095baaf87af2e391abd1ce92c"
+  },
+  "errors": [],
+  "live_validation": {
+    "manifest": "dist/live-validation-v1.33.0/manifest.json",
+    "sha256": "c18aef26373958e8c4251672a7002f95653cf9bdfbeec123d83c7bcd66be262f",
+    "status": "NO_GO"
+  },
+  "operator_approval": {
+    "binding": "promotion_context_sha256",
+    "decision": "NOT_REQUESTED",
+    "evidence": "evidence/live-validation/v1.33.0/v2-approval.json",
+    "sha256": "ef75a83288319087921860219e842bbc1c8cbb889309fd0b060a464271de85b2",
+    "valid": false
+  },
+  "package_distribution": {
+    "all_valid": true,
+    "manifest": "dist/agent-skills-v1.33.0/manifest.json",
+    "sha256": "9d1508571148a9f4965505cff121c7b7cdb46531f47a51372edaca2e8b4afa44"
+  },
+  "policy": {
+    "require_operator_approval": true
+  },
+  "promotion_context": {
+    "cutover_rehearsal_sha256": "feb5bbce6a94e588a9b12e5c510aa51607ef8a65d58d3a370c453c5f70b230ac",
+    "dual_release_index_sha256": "bbdc98243cd074c98582ec6cd860c335c4283ee095baaf87af2e391abd1ce92c",
+    "live_manifest_sha256": "c18aef26373958e8c4251672a7002f95653cf9bdfbeec123d83c7bcd66be262f",
+    "package_manifest_sha256": "9d1508571148a9f4965505cff121c7b7cdb46531f47a51372edaca2e8b4afa44",
+    "repository_version": "v1.33.0",
+    "sha256": "785c9c3d97e1d3503102e75f1a7195babab1ba25e13678ed7e8b626e12a719de"
+  },
+  "promotion_status": "BLOCKED",
+  "repository_version": "v1.33.0",
+  "schema_version": 3
+}

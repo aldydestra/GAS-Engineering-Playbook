@@ -1,0 +1,120 @@
+{
+  "entries": [
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/agent-skill-engineering",
+      "package_name": "agent-skill-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/19-agent-skill-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/agent-skill-supply-chain-security",
+      "package_name": "agent-skill-supply-chain-security",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/18-agent-skill-supply-chain-security"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/ai-agent-integration",
+      "package_name": "ai-agent-integration",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/13-ai-agent-integration"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/appsheet-migration",
+      "package_name": "appsheet-migration",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/02-appsheet-migration"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/database-engineering",
+      "package_name": "database-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/04-database-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/deployment-engineering",
+      "package_name": "deployment-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/10-deployment-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/documentation-engineering",
+      "package_name": "documentation-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/11-documentation-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/gas-core-engineering",
+      "package_name": "gas-core-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/01-gas-core-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/monitoring-observability",
+      "package_name": "monitoring-observability",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/09-monitoring-observability"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/performance-engineering",
+      "package_name": "performance-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/06-performance-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/postgresql-integration",
+      "package_name": "postgresql-integration",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/05-postgresql-integration"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/product-design-engineering",
+      "package_name": "product-design-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/15-product-design-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/security-engineering",
+      "package_name": "security-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/07-security-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/software-architecture",
+      "package_name": "software-architecture",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/03-software-architecture"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/testing-quality",
+      "package_name": "testing-quality",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/08-testing-quality"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/web-app-frontend-engineering",
+      "package_name": "web-app-frontend-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/12-web-app-frontend-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/workspace-addons-chat-engineering",
+      "package_name": "workspace-addons-chat-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/14-workspace-addons-chat-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/workspace-api-event-engineering",
+      "package_name": "workspace-api-event-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/16-workspace-api-event-engineering"
+    },
+    {
+      "from": "dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/workspace-governance-compliance-engineering",
+      "package_name": "workspace-governance-compliance-engineering",
+      "strategy": "restore canonical authoring source; regenerate distributions",
+      "to": "skills/17-workspace-governance-compliance-engineering"
+    }
+  ],
+  "repository_version": "v1.33.0",
+  "schema_version": 1
+}

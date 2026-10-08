@@ -61,7 +61,7 @@ def verify(root: Path, dist: Path) -> list[str]:
     return e
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--dist',default='dist/dual-distribution-v1.32.0'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--dist',default='dist/dual-distribution-v1.33.0'); args=ap.parse_args()
     root=Path(args.root).resolve(); errors=verify(root,root/args.dist)
     if errors:
         print('DUAL DISTRIBUTION VERIFY FAILED'); [print('-',x) for x in errors]; raise SystemExit(1)

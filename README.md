@@ -4,11 +4,11 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.32.0 Promotion Context & Immutable Release Freeze
+## v1.33.0 Package-First Cutover Rehearsal
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.32.0/` stays the parallel release-candidate package channel. v1.32.0 closes the post-approval drift gap: operator approval is now bound to a single promotion-context digest covering the package manifest, dual-distribution release index, and live-validation manifest. A new release-readiness layer then freezes package, host, evaluation, dual-distribution, live-validation, and promotion evidence into one candidate digest. Any artifact/evidence change after approval invalidates the candidate instead of silently inheriting stale authorization.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.33.0/` remains the normalized package channel. v1.33.0 adds a deterministic **package-first shadow repository rehearsal**: all 19 admitted package skills are materialized into `dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/<package-name>/`, checked for tree identity and relative-reference integrity, and paired with an explicit rollback map to the canonical v1 source tree.
 
-Current deterministic state remains intentionally fail-closed: static/package/evaluation/trust gates pass, but live host and consumer burn-in evidence are still absent, therefore v2 promotion is `BLOCKED` and release readiness is `BLOCKED` rather than `READY_TO_TAG`.
+The cutover-rehearsal digest is now part of both the v2 promotion context and immutable release-readiness freeze. A changed rehearsal invalidates stale approval. This still does **not** perform a production cutover: live host and consumer burn-in evidence remain absent, therefore v2 promotion and release readiness remain `BLOCKED`.
 
 ## Foundation Status
 
@@ -184,6 +184,7 @@ last_repository_update: "v1.13.0"
 | **v1.30.1** | **Live Execution Orchestrator: Gemini CLI runner, blocker taxonomy, evidence-log hashing/redaction, burn-in journal, first real execution attempt recorded as BLOCKED_NETWORK** |
 | **v1.31.0** | **Operational Burn-In & Promotion Control: hash-chained burn-in journal, minimum exposure policy, deterministic aggregate verification, and digest-bound operator approval gate** |
 | **v1.32.0** | **Promotion Context & Immutable Release Freeze: complete-context approval binding, post-approval drift detection, release-lock candidate digest, and READY_TO_TAG gate** |
+| **v1.33.0** | **Package-First Cutover Rehearsal: 19/19 generated shadow skills, rollback map, relative-reference checks, and rehearsal digest bound into promotion/readiness** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -672,7 +673,7 @@ If a future branch, private repository, skill file, or artifact cannot be retrie
 
 # Agent Skill Distribution Pipeline
 
-Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, v1.28.0 added the trust layer, v1.29.0 introduced dual-distribution RC operation, v1.30.0 added the fail-closed live-evidence gate, v1.31.0 added burn-in/promotion control, and v1.32.0 adds complete-context approval plus immutable release freezing:
+Starting with v1.24.0, the v1.x source tree remains canonical while installable packages are generated separately. v1.25.0 reached **19/19 package coverage**, v1.26.0 added deterministic evaluation parity, v1.27.0 added host adapters, v1.28.0 added the trust layer, v1.29.0 introduced dual-distribution RC operation, v1.30.0 added the fail-closed live-evidence gate, v1.31.0 added burn-in/promotion control, v1.32.0 added complete-context approval plus immutable release freezing, and v1.33.0 adds a package-first cutover rehearsal:
 
 ```text
 skills/ canonical source
@@ -691,6 +692,8 @@ dual-distribution migration + rollback evidence
 ↓
 live host executor + burn-in journal
 ↓
+package-first cutover rehearsal + rollback map
+↓
 promotion-context approval binding
 ↓
 immutable release-readiness freeze
@@ -707,11 +710,12 @@ See:
 - `docs/host-compatibility-audit-v1.27.0.md`
 - `docs/security-catalog-provenance-audit-v1.28.0.md`
 - `docs/agent-skill-provenance-v1.28.0.md`
-- `docs/dual-distribution-rc-v1.32.0.md`
-- `docs/live-validation-operational-burn-in-v1.32.0.md`
-- `docs/v2-go-no-go-v1.32.0.md`
-- `docs/v2-promotion-control-v1.32.0.md`
-- `docs/release-readiness-freeze-v1.32.0.md`
+- `docs/dual-distribution-rc-v1.33.0.md`
+- `docs/live-validation-operational-burn-in-v1.33.0.md`
+- `docs/v2-go-no-go-v1.33.0.md`
+- `docs/v2-cutover-rehearsal-v1.33.0.md`
+- `docs/v2-promotion-control-v1.33.0.md`
+- `docs/release-readiness-freeze-v1.33.0.md`
 - `docs/roadmap-to-v2.0.md`
 
 # Repository Structure
@@ -753,26 +757,28 @@ gas-engineering-playbook/
 │   ├── trust/
 │   ├── dual-distribution/
 │   ├── live-validation/
+│   ├── v2-cutover-rehearsal/
 │   ├── v2-promotion/
 │   └── release-readiness/
 ├── tools/
 ├── evals/
 │   └── agent-skills/
 ├── dist/
-│   ├── agent-skills-v1.32.0/
+│   ├── agent-skills-v1.33.0/
 │   │   ├── catalog.json
 │   │   ├── security-report.json
 │   │   ├── revocations.json
 │   │   ├── provenance-index.json
 │   │   └── provenance/
-│   ├── host-compat-v1.32.0/
-│   ├── dual-distribution-v1.32.0/
-│   ├── live-validation-v1.32.0/
-│   ├── v2-promotion-v1.32.0/
-│   └── release-readiness-v1.32.0/
+│   ├── host-compat-v1.33.0/
+│   ├── dual-distribution-v1.33.0/
+│   ├── live-validation-v1.33.0/
+│   ├── v2-cutover-rehearsal-v1.33.0/
+│   ├── v2-promotion-v1.33.0/
+│   └── release-readiness-v1.33.0/
 ├── reports/
-│   ├── agent-skill-evaluation-v1.32.0.json
-│   └── agent-skill-evaluation-v1.32.0.md
+│   ├── agent-skill-evaluation-v1.33.0.json
+│   └── agent-skill-evaluation-v1.33.0.md
 ├── examples/
 └── docs/
     ├── module-development-guide.md
@@ -799,11 +805,12 @@ gas-engineering-playbook/
     ├── host-compatibility-audit-v1.27.0.md
     ├── security-catalog-provenance-audit-v1.28.0.md
     ├── agent-skill-provenance-v1.28.0.md
-    ├── dual-distribution-rc-v1.32.0.md
-    ├── live-validation-operational-burn-in-v1.32.0.md
-    ├── v2-go-no-go-v1.32.0.md
-    ├── v2-promotion-control-v1.32.0.md
-    ├── release-readiness-freeze-v1.32.0.md
+    ├── dual-distribution-rc-v1.33.0.md
+    ├── live-validation-operational-burn-in-v1.33.0.md
+    ├── v2-go-no-go-v1.33.0.md
+    ├── v2-cutover-rehearsal-v1.33.0.md
+    ├── v2-promotion-control-v1.33.0.md
+    ├── release-readiness-freeze-v1.33.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md

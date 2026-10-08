@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import agent_skill_packager as packager
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = ROOT / 'packaging/agent-skills/full-v1.32.0.json'
+CONFIG = ROOT / 'packaging/agent-skills/full-v1.33.0.json'
 
 
 def digest(path: Path) -> str:
@@ -62,7 +62,7 @@ class AgentSkillPackagingTests(unittest.TestCase):
 
     def test_release_verifier_accepts_trust_enriched_checksums(self):
         subprocess.run(
-            ['python3', 'tools/verify_agent_skill_dist.py', '--dist', 'dist/agent-skills-v1.32.0'],
+            ['python3', 'tools/verify_agent_skill_dist.py', '--dist', 'dist/agent-skills-v1.33.0'],
             cwd=ROOT, check=True, capture_output=True, text=True
         )
 
@@ -75,8 +75,8 @@ class AgentSkillPackagingTests(unittest.TestCase):
                 if not path.is_file():
                     continue
                 rel=path.relative_to(out).as_posix()
-                longest=max(longest, len('dist/agent-skills-v1.32.0/') + len(rel))
-                self.assertLessEqual(len('dist/agent-skills-v1.32.0/') + len(rel), 120, rel)
+                longest=max(longest, len('dist/agent-skills-v1.33.0/') + len(rel))
+                self.assertLessEqual(len('dist/agent-skills-v1.33.0/') + len(rel), 120, rel)
                 for part in Path(rel).parts:
                     self.assertLessEqual(len(part), 80, part)
             self.assertLessEqual(longest, 120)

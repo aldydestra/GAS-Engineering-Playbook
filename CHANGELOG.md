@@ -3,6 +3,63 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.33.0] - 2026-10-08
+
+### Package-First Cutover Rehearsal
+
+Adds a deterministic rehearsal for the future v2 package-first repository shape without mutating or deprecating the canonical v1 source tree.
+
+### Added
+
+- `packaging/v2-cutover-rehearsal/rehearsal-v1.33.0.json`;
+- `tools/build_v2_cutover_rehearsal.py`;
+- `tools/verify_v2_cutover_rehearsal.py`;
+- `tools/test_v2_cutover_rehearsal.py`;
+- `dist/v2-cutover-rehearsal-v1.33.0/` with deterministic `shadow/skills/<package-name>/`;
+- 19/19 one-to-one rollback mappings to canonical v1 source folders;
+- relative-reference validation that ignores fenced/inline code false positives;
+- cutover-rehearsal evidence bound into v2 promotion context and immutable release readiness;
+- expanded roadmap covering v1.34.x release ceremony, v1.35.x real operational evidence closure, v1.36.0 v2 shadow RC, and v2.0.0.
+
+### Hardened
+
+- stale v2 approval is invalidated if cutover-rehearsal evidence changes;
+- `READY_TO_TAG` now additionally requires package-first cutover rehearsal `PASS_STATIC`;
+- rehearsal output explicitly records `production_cutover_performed=false`;
+- generated shadow trees must byte-match admitted normalized package skill trees;
+- rollback targets must exist and cover every rehearsed skill;
+- CI and release-attestation workflows now include cutover-rehearsal build/verify/evidence steps.
+
+### Updated Skills
+
+```text
+10 Deployment Engineering               1.9.0 → 1.10.0
+18 Agent Skill Supply-Chain Security    1.10.0 → 1.11.0
+19 Agent Skill Engineering              1.9.0 → 1.10.0
+```
+
+### Validation Result
+
+```text
+19/19 package validation                PASS
+evaluation parity                       PASS
+host static compatibility               PASS
+security/catalog/provenance             PASS
+dual-distribution static RC             PASS_STATIC
+live-validation harness                 HARNESS_READY
+live host lifecycle                     NOT_RUN
+consumer burn-in                        NOT_RUN
+v2 cutover rehearsal                    PASS_STATIC (19/19)
+v2 promotion                            BLOCKED
+release readiness                       BLOCKED
+repository unittest suite               40/40 PASS
+```
+
+The remaining blockers are operational, not structural: real live-host lifecycle and real dual-channel burn-in evidence are still required before v2 promotion can advance.
+
+---
+
+
 ## [v1.32.0] - 2026-10-07
 
 ### Promotion Context & Immutable Release Freeze

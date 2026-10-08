@@ -7,22 +7,25 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'evidence/live-validation/v1.32.0/**'
-      - 'dist/agent-skills-v1.32.0/**'
-      - 'dist/host-compat-v1.32.0/**'
-      - 'dist/dual-distribution-v1.32.0/**'
-      - 'dist/live-validation-v1.32.0/**'
-      - 'dist/v2-promotion-v1.32.0/**'
-      - 'dist/release-readiness-v1.32.0/**'
+      - 'evidence/live-validation/v1.33.0/**'
+      - 'dist/agent-skills-v1.33.0/**'
+      - 'dist/host-compat-v1.33.0/**'
+      - 'dist/dual-distribution-v1.33.0/**'
+      - 'dist/live-validation-v1.33.0/**'
+      - 'dist/v2-cutover-rehearsal-v1.33.0/**'
+      - 'dist/v2-promotion-v1.33.0/**'
+      - 'dist/release-readiness-v1.33.0/**'
+      - 'packaging/v2-cutover-rehearsal/**'
       - 'packaging/v2-promotion/**'
       - 'packaging/release-readiness/**'
-      - 'reports/agent-skill-evaluation-v1.32.0.*'
-      - 'docs/host-compatibility-matrix-v1.32.0.md'
-      - 'docs/dual-distribution-rc-v1.32.0.md'
-      - 'docs/live-validation-operational-burn-in-v1.32.0.md'
-      - 'docs/v2-go-no-go-v1.32.0.md'
-      - 'docs/v2-promotion-control-v1.32.0.md'
-      - 'docs/release-readiness-freeze-v1.32.0.md'
+      - 'reports/agent-skill-evaluation-v1.33.0.*'
+      - 'docs/host-compatibility-matrix-v1.33.0.md'
+      - 'docs/dual-distribution-rc-v1.33.0.md'
+      - 'docs/live-validation-operational-burn-in-v1.33.0.md'
+      - 'docs/v2-go-no-go-v1.33.0.md'
+      - 'docs/v2-cutover-rehearsal-v1.33.0.md'
+      - 'docs/v2-promotion-control-v1.33.0.md'
+      - 'docs/release-readiness-freeze-v1.33.0.md'
   push:
     branches: [main]
     paths:
@@ -30,22 +33,25 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'evidence/live-validation/v1.32.0/**'
-      - 'dist/agent-skills-v1.32.0/**'
-      - 'dist/host-compat-v1.32.0/**'
-      - 'dist/dual-distribution-v1.32.0/**'
-      - 'dist/live-validation-v1.32.0/**'
-      - 'dist/v2-promotion-v1.32.0/**'
-      - 'dist/release-readiness-v1.32.0/**'
+      - 'evidence/live-validation/v1.33.0/**'
+      - 'dist/agent-skills-v1.33.0/**'
+      - 'dist/host-compat-v1.33.0/**'
+      - 'dist/dual-distribution-v1.33.0/**'
+      - 'dist/live-validation-v1.33.0/**'
+      - 'dist/v2-cutover-rehearsal-v1.33.0/**'
+      - 'dist/v2-promotion-v1.33.0/**'
+      - 'dist/release-readiness-v1.33.0/**'
+      - 'packaging/v2-cutover-rehearsal/**'
       - 'packaging/v2-promotion/**'
       - 'packaging/release-readiness/**'
-      - 'reports/agent-skill-evaluation-v1.32.0.*'
-      - 'docs/host-compatibility-matrix-v1.32.0.md'
-      - 'docs/dual-distribution-rc-v1.32.0.md'
-      - 'docs/live-validation-operational-burn-in-v1.32.0.md'
-      - 'docs/v2-go-no-go-v1.32.0.md'
-      - 'docs/v2-promotion-control-v1.32.0.md'
-      - 'docs/release-readiness-freeze-v1.32.0.md'
+      - 'reports/agent-skill-evaluation-v1.33.0.*'
+      - 'docs/host-compatibility-matrix-v1.33.0.md'
+      - 'docs/dual-distribution-rc-v1.33.0.md'
+      - 'docs/live-validation-operational-burn-in-v1.33.0.md'
+      - 'docs/v2-go-no-go-v1.33.0.md'
+      - 'docs/v2-cutover-rehearsal-v1.33.0.md'
+      - 'docs/v2-promotion-control-v1.33.0.md'
+      - 'docs/release-readiness-freeze-v1.33.0.md'
 
 jobs:
   build-and-verify:
@@ -93,6 +99,12 @@ jobs:
         run: python tools/verify_live_validation.py
       - name: Test live-validation semantics
         run: python -m unittest tools/test_live_validation.py tools/test_live_execution.py -v
+      - name: Build package-first v2 cutover rehearsal
+        run: python tools/build_v2_cutover_rehearsal.py
+      - name: Verify package-first v2 cutover rehearsal
+        run: python tools/verify_v2_cutover_rehearsal.py
+      - name: Test package-first cutover rehearsal
+        run: python -m unittest tools/test_v2_cutover_rehearsal.py -v
       - name: Build v2 promotion control
         run: python tools/build_v2_promotion.py
       - name: Verify v2 promotion control
@@ -108,17 +120,19 @@ jobs:
       - name: Ensure generated distributions and reports are committed and reproducible
         run: >-
           git diff --exit-code --
-          dist/agent-skills-v1.32.0
-          dist/host-compat-v1.32.0
-          dist/dual-distribution-v1.32.0
-          dist/live-validation-v1.32.0
-          dist/v2-promotion-v1.32.0
-          dist/release-readiness-v1.32.0
-          reports/agent-skill-evaluation-v1.32.0.json
-          reports/agent-skill-evaluation-v1.32.0.md
-          docs/host-compatibility-matrix-v1.32.0.md
-          docs/dual-distribution-rc-v1.32.0.md
-          docs/live-validation-operational-burn-in-v1.32.0.md
-          docs/v2-go-no-go-v1.32.0.md
-          docs/v2-promotion-control-v1.32.0.md
-          docs/release-readiness-freeze-v1.32.0.md
+          dist/agent-skills-v1.33.0
+          dist/host-compat-v1.33.0
+          dist/dual-distribution-v1.33.0
+          dist/live-validation-v1.33.0
+          dist/v2-cutover-rehearsal-v1.33.0
+          dist/v2-promotion-v1.33.0
+          dist/release-readiness-v1.33.0
+          reports/agent-skill-evaluation-v1.33.0.json
+          reports/agent-skill-evaluation-v1.33.0.md
+          docs/host-compatibility-matrix-v1.33.0.md
+          docs/dual-distribution-rc-v1.33.0.md
+          docs/live-validation-operational-burn-in-v1.33.0.md
+          docs/v2-go-no-go-v1.33.0.md
+          docs/v2-cutover-rehearsal-v1.33.0.md
+          docs/v2-promotion-control-v1.33.0.md
+          docs/release-readiness-freeze-v1.33.0.md

@@ -1,0 +1,12 @@
+{
+  "schema_version": 3,
+  "repository_version": "v1.33.0",
+  "live_validation_distribution": "dist/live-validation-v1.33.0",
+  "package_distribution": "dist/agent-skills-v1.33.0",
+  "dual_distribution": "dist/dual-distribution-v1.33.0",
+  "approval_evidence": "evidence/live-validation/v1.33.0/v2-approval.json",
+  "output_distribution": "dist/v2-promotion-v1.33.0",
+  "require_operator_approval": true,
+  "approval_binding": "promotion_context_sha256",
+  "cutover_rehearsal_distribution": "dist/v2-cutover-rehearsal-v1.33.0"
+}

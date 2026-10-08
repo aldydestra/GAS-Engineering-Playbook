@@ -610,7 +610,7 @@ def build(root: Path, config_path: Path) -> Path:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.32.0.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.33.0.json")
     args = ap.parse_args()
     root = Path(args.root).resolve()
     build(root, root / args.config)

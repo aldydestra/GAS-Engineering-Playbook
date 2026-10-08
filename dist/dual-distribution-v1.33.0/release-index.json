@@ -1,0 +1,57 @@
+{
+  "canonical": {
+    "root": "skills",
+    "skill_count": 19,
+    "status": "ACTIVE_SUPPORTED",
+    "tree_sha256": "74f5474ef5bfbebdc91a6cad00a361513747c6ace94824611c21dba043fa56a6"
+  },
+  "consumer_feedback": "consumer-feedback.json",
+  "evidence_status": {
+    "live_host_smoke": {
+      "reason": "At least one real supported host must complete install/activation/update/uninstall smoke before v2.",
+      "status": "NOT_RUN"
+    },
+    "real_consumer_burn_in": {
+      "reason": "No real consumer burn-in or submitted production incident evidence is recorded by deterministic repository CI.",
+      "status": "NOT_RUN"
+    },
+    "signed_attestation": {
+      "reason": "Configured release workflow exists, but local deterministic build cannot claim cryptographic signer execution.",
+      "status": "NOT_RUN"
+    }
+  },
+  "gates": {
+    "checks": {
+      "evaluation_parity": "PASS",
+      "host_static_compatibility": "PASS",
+      "migration_map": "PASS",
+      "package_coverage": "PASS",
+      "rollback_drill": "PASS",
+      "security_catalog_provenance": "PASS",
+      "stable_unique_names": "PASS"
+    },
+    "dual_distribution_rc": "PASS_STATIC",
+    "v2_blockers": [
+      "No live host smoke PASS has been recorded.",
+      "No real consumer burn-in/feedback evidence has been recorded."
+    ],
+    "v2_readiness": "NO_GO"
+  },
+  "hosts": {
+    "live_host_smoke": "NOT_RUN",
+    "manifest_sha256": "a2dd604e0020ddf91fb10fa854840d6edced6453ff2e5a5991226031a376fdfd",
+    "root": "dist/host-compat-v1.33.0",
+    "static_status": "PASS_STATIC"
+  },
+  "migration_map": "migration-map.json",
+  "packages": {
+    "catalog_sha256": "164e3929fc524725388c83491a11db614ebae5fcee311213f313ef64791c7e8f",
+    "manifest_sha256": "9d1508571148a9f4965505cff121c7b7cdb46531f47a51372edaca2e8b4afa44",
+    "root": "dist/agent-skills-v1.33.0",
+    "skill_count": 19,
+    "status": "RELEASE_CANDIDATE"
+  },
+  "repository_version": "v1.33.0",
+  "rollback_drill": "rollback-drill.json",
+  "schema_version": 1
+}

@@ -1,224 +1,346 @@
 # Release Manifest
 
-Repository Version: **v1.32.0**
+Repository Version: **v1.33.0**
 
 ## Release Type
 
-- Promotion Context & Immutable Release Freeze
+- Package-First Cutover Rehearsal
 - Full repository snapshot
-- Canonical `skills/` source remains authoritative and supported
-- Generated Agent Skill packages remain the parallel release-candidate channel
-- v2 remains fail-closed until real live-host lifecycle + consumer burn-in evidence pass, operator approval matches the complete promotion context, and the release freeze reaches `READY_TO_TAG`
+- Canonical v1 `skills/` tree remains authoritative and supported
+- Generated Agent Skill packages remain the parallel normalized distribution channel
+- New v2 package-first shadow tree is **rehearsal-only** and generated from admitted package output
+- v2 remains fail-closed until live-host lifecycle, consumer burn-in, promotion approval, and final release gates pass
 
 ## Release Objective
 
-v1.31.0 introduced operator-controlled v2 promotion, but approval was bound only to the live-validation manifest. v1.32.0 closes the remaining time-of-check/time-of-use gap by binding approval to the complete package/static/live candidate and then freezing every decisive release input into one immutable candidate digest.
+v1.32.0 froze the decisive package/static/live/promotion evidence into one immutable candidate. The remaining structural question before a breaking v2 migration was whether the repository could actually be materialized in package-first form, with complete rollback coverage, **without editing the canonical v1 tree in place**.
 
-The intended chain is now:
+v1.33.0 answers that question with a deterministic cutover rehearsal.
+
+The release chain is now:
 
 ```text
-canonical source
-→ deterministic packages/evaluation/host/trust
+canonical v1 source
+→ deterministic normalized packages
+→ evaluation + host + trust gates
 → dual-distribution static RC
-→ real live lifecycle + burn-in
+→ live lifecycle + real burn-in
+→ deterministic package-first cutover rehearsal
 → complete promotion-context digest
 → explicit operator approval
-→ immutable release freeze
+→ immutable release-readiness freeze
 → READY_TO_TAG
+→ future signed/published release ceremony
 ```
 
-No earlier state is treated as equivalent to release authorization.
+The cutover rehearsal is intentionally inserted before approval/readiness so a stale approval cannot survive a change in the package-first migration shape.
 
-## Updated Skills
+## Roadmap
 
-| Skill | Previous Version | Current Version | v1.32.0 Addition |
-|---|---:|---:|---|
-| 10 — Deployment Engineering | 1.8.0 | **1.9.0** | Complete-context approval and post-approval release-freeze rules; stale candidate/tag prevention. |
-| 18 — Agent Skill Supply-Chain Security | 1.9.0 | **1.10.0** | Treats promotion approval and release freeze as supply-chain integrity boundaries; detects post-approval drift. |
-| 19 — Agent Skill Engineering | 1.8.0 | **1.9.0** | Adds promotion-context + release-freeze lifecycle guidance using progressive disclosure and a dedicated reference. |
+### v1.33.0 — Package-First Cutover Rehearsal — **implemented**
 
-Unchanged skills retain their v1.31.0 skill versions.
+- build package-first `shadow/skills/<package-name>/` from admitted packages;
+- verify 19/19 shadow skill tree integrity;
+- verify local reference integrity;
+- generate 19/19 rollback mappings;
+- bind rehearsal evidence into promotion and release readiness.
+
+### v1.34.x — Release Ceremony & Signed-Attestation Closure — **planned**
+
+- release receipt bound to release-lock digest;
+- tag/version consistency verifier;
+- signed GitHub attestation verification where release workflow is available;
+- published artifact inventory/checksum closure;
+- post-freeze/post-publication drift detection.
+
+### v1.35.x — Real Host + Burn-In Evidence Closure — **planned / operational dependency**
+
+- successful authenticated install/activation/update/uninstall on at least one supported host;
+- real canonical/package dual-channel burn-in meeting configured policy;
+- no blocking incident;
+- live validation moves from `NO_GO` to `GO` only from real evidence.
+
+### v1.36.0 — v2 Shadow RC & Breaking-Change Freeze — **planned**
+
+- generate exact v2 repository candidate in shadow mode;
+- final migration/deprecation/compatibility documentation;
+- re-run evaluation/security/trust against the v2 shadow root;
+- freeze the breaking-change surface before v2.0.
+
+### v2.0.0 — Package-First Repository — **conditional**
+
+v2 is allowed only after all static, live, migration, approval, release-readiness, rollback, and publication gates are satisfied. The version number is capability/evidence-driven, not calendar-driven.
+
+Full roadmap: `docs/roadmap-to-v2.0.md`.
 
 ## Main Additions
 
-### 1. Complete Promotion Context Binding
+### 1. v2 Cutover Rehearsal Configuration
 
-`tools/build_v2_promotion.py` moves the promotion decision to schema v2.
+New configuration:
 
-Operator approval is now bound to one `promotion_context_sha256` derived from:
+- `packaging/v2-cutover-rehearsal/rehearsal-v1.33.0.json`
+
+Policy includes:
+
+- expected skill count = 19;
+- complete migration-map requirement;
+- dual-distribution `PASS_STATIC` requirement;
+- rollback map requirement;
+- relative-resource integrity requirement;
+- generated shadow-only behavior.
+
+### 2. Deterministic Shadow Repository Builder
+
+New tool:
+
+- `tools/build_v2_cutover_rehearsal.py`
+
+Output:
+
+- `dist/v2-cutover-rehearsal-v1.33.0/cutover-manifest.json`;
+- `dist/v2-cutover-rehearsal-v1.33.0/rollback-map.json`;
+- `dist/v2-cutover-rehearsal-v1.33.0/CUTOVER_REHEARSAL.md`;
+- `dist/v2-cutover-rehearsal-v1.33.0/SHA256SUMS`;
+- `dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/*`;
+- `docs/v2-cutover-rehearsal-v1.33.0.md`.
+
+The builder copies normalized package skill trees rather than rewriting the canonical numbered source tree. This preserves a clean separation between source authoring and the future package-first layout.
+
+### 3. Shadow Tree Integrity Checks
+
+For each of the 19 skills the rehearsal verifies:
+
+- package name exists and is unique;
+- package-first name does not retain legacy numeric prefix;
+- generated normalized source exists;
+- shadow `SKILL.md` exists;
+- shadow tree digest exactly matches the generated normalized skill tree;
+- relative Markdown references resolve within the skill root;
+- fenced code and inline code are excluded from Markdown-link detection to avoid false positives such as JavaScript `runner[name](...args)`;
+- migration-map entry exists;
+- canonical rollback target exists.
+
+A failed structural check yields `INVALID_EVIDENCE`; an unsatisfied upstream static gate yields `BLOCKED`.
+
+### 4. Explicit Non-Cutover Safety Boundary
+
+The rehearsal manifest records:
+
+```text
+mode = GENERATED_SHADOW_ONLY
+production_cutover_performed = false
+```
+
+`PASS_STATIC` proves only that the target package-first layout can be generated deterministically and reversed. It does not claim:
+
+- production source migration;
+- live host compatibility;
+- consumer burn-in;
+- signed attestation;
+- operator approval;
+- release publication.
+
+### 5. One-to-One Rollback Map
+
+`rollback-map.json` contains 19 unique package mappings back to canonical v1 source directories.
+
+Rollback model:
+
+```text
+shadow/package-first candidate problem
+→ retain/restore canonical v1 authoring tree
+→ regenerate normalized package distributions
+→ rebuild cutover/promotion/readiness evidence
+```
+
+No in-place source rename is needed to rehearse or recover.
+
+### 6. Promotion Context Schema v3
+
+`tools/build_v2_promotion.py` now binds approval to:
 
 ```text
 repository version
 + package manifest SHA-256
 + dual-distribution release-index SHA-256
 + live-validation manifest SHA-256
++ cutover-rehearsal manifest SHA-256
 ```
 
-This replaces the narrower v1.31.0 approval rule that only bound approval to the live-validation manifest.
+The additional field is:
 
-A change to package output, dual-distribution evidence, or live evidence therefore invalidates the previous approval automatically.
+```text
+cutover_rehearsal_sha256
+```
 
-### 2. Immutable Release-Readiness Freeze
+A changed cutover rehearsal invalidates an old `APPROVED` evidence object even when package/live files are otherwise unchanged.
 
-New files:
+### 7. Release Readiness Schema v2
 
-- `packaging/release-readiness/release-v1.32.0.json`
-- `tools/build_release_readiness.py`
-- `tools/verify_release_readiness.py`
-- `tools/test_release_readiness.py`
-- `dist/release-readiness-v1.32.0/release-lock.json`
-- `dist/release-readiness-v1.32.0/RELEASE_LOCK.md`
-- `docs/release-readiness-freeze-v1.32.0.md`
+`tools/build_release_readiness.py` now freezes the cutover-rehearsal manifest together with:
 
-The release freeze binds the exact SHA-256 values of:
-
-- Agent Skill package manifest;
-- host-compatibility manifest;
-- deterministic evaluation report;
+- package manifest;
+- host manifest;
+- evaluation report;
 - dual-distribution release index;
 - live-validation manifest;
 - v2 promotion decision.
 
-These hashes are reduced into a single candidate digest. Any change to any bound artifact produces a new candidate digest and requires the release decision to be recomputed.
+`READY_TO_TAG` now requires:
 
-### 3. Explicit Release States
+1. package distribution valid/complete;
+2. evaluation parity PASS;
+3. dual-distribution `PASS_STATIC`;
+4. cutover rehearsal `PASS_STATIC`;
+5. live validation `GO`;
+6. promotion `APPROVED`;
+7. promotion context matches exact package/dual/live/cutover evidence.
 
-Release readiness now distinguishes:
+### 8. CI & Attestation Integration
 
-```text
-INVALID_EVIDENCE
-BLOCKED
-READY_TO_TAG
-```
+`.github/workflows/agent-skill-packaging.yml` now runs cutover rehearsal build, verification, and unit tests before v2 promotion/release readiness.
 
-`READY_TO_TAG` can be produced only when:
+`.github/workflows/agent-skill-attestation.yml` now targets the v1.33 release line and includes:
 
-1. package distribution is valid and complete;
-2. evaluation parity passes;
-3. dual-distribution static RC is `PASS_STATIC`;
-4. live validation is `GO`;
-5. v2 promotion is `APPROVED`;
-6. the promotion context hashes still match the exact frozen candidate inputs.
+- `cutover-manifest.json`;
+- `rollback-map.json`;
+- cutover `SHA256SUMS`;
+- existing package/host/dual/live/promotion/readiness evidence.
 
-### 4. Cross-Evidence Drift Detection
+The attestation workflow still does not manufacture external live evidence.
 
-The release-readiness verifier independently recomputes the candidate from current files instead of trusting the generated `release-lock.json`.
+## Updated Skills
 
-Detected fail-closed conditions include:
+| Skill | Previous Version | Current Version | v1.33.0 Addition |
+|---|---:|---:|---|
+| 10 — Deployment Engineering | 1.9.0 | **1.10.0** | Adds pre-breaking-change package-first cutover rehearsal, deterministic target generation, rollback coverage, side-effect-free rehearsal, and stale-candidate prevention. |
+| 18 — Agent Skill Supply-Chain Security | 1.10.0 | **1.11.0** | Treats cutover rehearsal as a supply-chain integrity boundary whose digest participates in promotion and release evidence. |
+| 19 — Agent Skill Engineering | 1.9.0 | **1.10.0** | Adds package-first shadow-tree rehearsal and explicit distinction between `PASS_STATIC` rehearsal and production cutover. |
 
-- missing release input;
-- repository-version mismatch;
-- package/static/live hash drift after approval;
-- promotion context not matching the frozen package/dual/live inputs;
-- evaluation or package gate regression;
-- manually edited release-lock output;
-- checksum mismatch in release-readiness distribution.
+All other skill versions remain unchanged from v1.32.0.
 
-### 5. CI / Attestation Integration
+## New / Updated Files
 
-`.github/workflows/agent-skill-packaging.yml` now builds, verifies, tests, and checks reproducibility of the release-readiness distribution.
-
-`.github/workflows/agent-skill-attestation.yml` now targets the v1.32 release line and uploads:
-
-- `release-lock.json`;
-- release-readiness `SHA256SUMS`;
-- the existing package/host/dual/live/promotion evidence set.
-
-The signed-attestation workflow still does not manufacture live evidence; it only signs/reports artifacts available in an eligible release environment.
-
-## Promotion Schema Change
-
-### v1.31.0
+### New
 
 ```text
-operator approval
-→ live-validation manifest SHA-256
+packaging/v2-cutover-rehearsal/rehearsal-v1.33.0.json
+tools/build_v2_cutover_rehearsal.py
+tools/verify_v2_cutover_rehearsal.py
+tools/test_v2_cutover_rehearsal.py
+docs/v2-cutover-rehearsal-v1.33.0.md
+dist/v2-cutover-rehearsal-v1.33.0/**
 ```
 
-### v1.32.0
+### Versioned configs/evidence added
 
 ```text
-operator approval
-→ promotion_context_sha256
-   ├── package manifest SHA-256
-   ├── dual-distribution index SHA-256
-   └── live-validation manifest SHA-256
+packaging/agent-skills/full-v1.33.0.json
+packaging/host-compat/hosts-v1.33.0.json
+packaging/trust/trust-v1.33.0.json
+packaging/dual-distribution/dual-v1.33.0.json
+packaging/live-validation/live-v1.33.0.json
+packaging/v2-promotion/promotion-v1.33.0.json
+packaging/release-readiness/release-v1.33.0.json
+evidence/live-validation/v1.33.0/**
 ```
 
-This prevents a valid live-evidence approval from being reused after package/static evidence changes.
+### Materially updated
 
-## Current Release Evidence
+```text
+tools/build_v2_promotion.py
+tools/build_release_readiness.py
+tools/test_v2_promotion.py
+tools/test_release_readiness.py
+.github/workflows/agent-skill-packaging.yml
+.github/workflows/agent-skill-attestation.yml
+docs/roadmap-to-v2.0.md
+README.md
+CHANGELOG.md
+GITHUB_RELEASE_NOTES.md
+RELEASE_MANIFEST.md
+skills/10-deployment-engineering/SKILL.md
+skills/18-agent-skill-supply-chain-security/SKILL.md
+skills/19-agent-skill-engineering/SKILL.md
+```
+
+## Current Evidence State
+
+```text
+19/19 package validation                PASS
+evaluation parity                       PASS
+host static compatibility               PASS
+security/catalog/provenance             PASS
+dual-distribution static RC             PASS_STATIC
+live-validation harness                 HARNESS_READY
+live host lifecycle                     NOT_RUN
+consumer burn-in                        NOT_RUN
+v2 cutover rehearsal                    PASS_STATIC
+shadow skill coverage                   19/19
+rollback mappings                       19/19
+v2 readiness                            NO_GO
+v2 promotion                            BLOCKED
+release readiness                       BLOCKED
+repository unittest suite               40/40 PASS
+```
+
+The remaining `BLOCKED` state is intentional: the package-first structure is now statically rehearsed, but real operational evidence is still absent.
+
+## Regression Coverage Added in v1.33.0
+
+New tests prove that:
+
+- current package-first rehearsal reaches `PASS_STATIC` with all 19 skills;
+- rollback map contains exactly 19 unique package mappings;
+- repeated rehearsal builds produce identical manifest and `SHA256SUMS` output;
+- modifying a shadow `SKILL.md` causes verification to fail;
+- live `GO` still requires operator approval;
+- changing cutover evidence after approval invalidates that approval;
+- a non-PASS cutover rehearsal blocks promotion;
+- release readiness requires cutover rehearsal `PASS_STATIC`;
+- promotion-context cutover digest drift becomes `INVALID_EVIDENCE`;
+- current repository stays correctly `BLOCKED` while real live evidence is absent.
+
+## Key Artifact Digests
+
+- Agent Skill manifest: `9d1508571148a9f4965505cff121c7b7cdb46531f47a51372edaca2e8b4afa44`
+- Host compatibility manifest: `a2dd604e0020ddf91fb10fa854840d6edced6453ff2e5a5991226031a376fdfd`
+- Evaluation report: `f3eb8cfa7077878cfbae4d518c066441fecb653cf77747b4741ed7b45eda7c17`
+- Dual-distribution release index: `bbdc98243cd074c98582ec6cd860c335c4283ee095baaf87af2e391abd1ce92c`
+- Live-validation manifest: `c18aef26373958e8c4251672a7002f95653cf9bdfbeec123d83c7bcd66be262f`
+- v2 cutover-rehearsal manifest: `feb5bbce6a94e588a9b12e5c510aa51607ef8a65d58d3a370c453c5f70b230ac`
+- v2 promotion decision: `18751f8bad46ef13ea6f4eb2954f1fe9df73cb328be6b99c5ee657d686c97909`
+- Release lock: `5771c7232bf76c1c39f550dfa62b536b6aefecbd481aed476c78794152fe154a`
 
 Promotion context SHA-256:
 
 ```text
-02fa85bae6c4482e8ec075045cf9dd4395ab5c0f765c4c281d1b7a515db4a18e
+785c9c3d97e1d3503102e75f1a7195babab1ba25e13678ed7e8b626e12a719de
 ```
 
 Release candidate digest:
 
 ```text
-c70f40a4c2acc3a8e537416792da2075df8b871fa88e509575f10c81f405b09b
+09d8c0306aa4444ad77f9a33d049e7c63e922963ac4b648107a70dbd569363a2
 ```
 
-These identify the current v1.32.0 candidate evidence set. The candidate is **not release-authorized** because live validation remains `NO_GO`.
-
-## Validation State
-
-```text
-19/19 package validation             PASS
-evaluation parity                    PASS
-host static compatibility            PASS
-security/catalog/provenance          PASS
-dual-distribution static RC          PASS_STATIC
-live-validation harness              HARNESS_READY
-live host lifecycle                  NOT_RUN
-consumer burn-in                     NOT_RUN
-v2 readiness                         NO_GO
-v2 promotion                         BLOCKED
-release readiness                    BLOCKED
-unittest regression suite            34/34 PASS
-trust/revocation integration check   PASS
-```
-
-The `BLOCKED` state is intentional and safe. It reflects missing real operational evidence rather than a static package or verifier failure.
-
-## Regression Coverage Added in v1.32.0
-
-New/expanded tests prove that:
-
-- complete-context approval can reach `APPROVED` only when package + dual + live hashes match;
-- modifying the package manifest after approval invalidates the previous approval;
-- malformed approval timestamps fail closed;
-- a complete synthetic approved candidate can reach `READY_TO_TAG` in unit tests;
-- an unapproved candidate remains `BLOCKED`;
-- promotion-context drift causes `INVALID_EVIDENCE`;
-- current repository evidence remains correctly `BLOCKED` rather than being promoted by synthetic fixtures.
-
-Synthetic fixtures are confined to verifier tests and are not written into release evidence.
-
-## Key Artifact Digests
-
-- Agent Skill manifest: `66f3cd8d420d317f7674ce763120fcf702b99f657a794b9f8bce927ea225a296`
-- Host compatibility manifest: `9e53c68bfb5cd5a42819b8f0eca9a23960040a1f1814cd4b21658607ceee1d90`
-- Evaluation report: `1e9c0e392071aeae1ccfb8da96562fd614e2550cb410e2cc14b5175efc47f0bf`
-- Dual-distribution release index: `811039e68be33b664c9ced92272952d6f303350f82e558686e677f86b3015143`
-- Live-validation manifest: `db6fe1d7b4c44aa1a30cb3375afcd0af651a447423874d07db005a645469da11`
-- v2 promotion decision: `9e5dbbde71fd969ef55e9c0ba28a988a9c20ba66471a72c5f5aabf2e95095705`
-- Release lock: `50d742010db56d800349bf3edea4797e1e72303b2227b4d123043e203c0166df`
+These digests identify the current v1.33.0 evidence set. They do not authorize v2 because live validation remains `NO_GO`.
 
 ## Known Operational Blockers
 
-The repository still has no real v1.32.0 host-smoke PASS and no real dual-channel burn-in observations. Therefore:
+Current real evidence remains:
 
 ```text
-live-validation = NO_GO
-promotion = BLOCKED
-release-readiness = BLOCKED
+live host lifecycle = NOT_RUN
+consumer burn-in    = NOT_RUN
+live validation     = NO_GO
+promotion           = BLOCKED
+release readiness   = BLOCKED
 ```
 
-The next operational milestone is to run a supported host lifecycle against the exact v1.32.0 artifact, record compliant canonical/package burn-in observations, rebuild live validation, approve the resulting promotion-context digest, and verify that the unchanged candidate reaches `READY_TO_TAG`.
+The next external action is to run the live executor in an environment with a supported host/runtime, network/authentication, then accumulate compliant dual-channel burn-in evidence. The deterministic v1.34 release-ceremony tooling can continue to be developed independently, but no tool may convert absent live evidence into PASS.
 
 ## Repository Snapshot
 
-Repository file count before ZIP packaging: **1213 files**.
+Repository file count before ZIP packaging: **1838 files**.

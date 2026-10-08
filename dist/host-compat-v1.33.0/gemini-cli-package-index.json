@@ -1,0 +1,100 @@
+{
+  "repository_version": "v1.33.0",
+  "skills": [
+    {
+      "name": "agent-skill-engineering",
+      "package": "../agent-skills-v1.33.0/packages/agent-skill-engineering.skill",
+      "sha256": "e6f2d987de073f83dc7bb97525a628777893d271603f29b65b1ec275c5697e91"
+    },
+    {
+      "name": "agent-skill-supply-chain-security",
+      "package": "../agent-skills-v1.33.0/packages/agent-skill-supply-chain-security.skill",
+      "sha256": "3522c4519bd8da899f6d559e90e1a0602a228ab5c952f2cfcca68a6dd99a2192"
+    },
+    {
+      "name": "ai-agent-integration",
+      "package": "../agent-skills-v1.33.0/packages/ai-agent-integration.skill",
+      "sha256": "28df9140fbfc61d6e2472968255dee17f2edadc3a03f96c5de559e5928f7ea66"
+    },
+    {
+      "name": "appsheet-migration",
+      "package": "../agent-skills-v1.33.0/packages/appsheet-migration.skill",
+      "sha256": "ff1cee1ca33a5441112433939c4cb5842cf50d2e27b4ab000bd498df7262aa13"
+    },
+    {
+      "name": "database-engineering",
+      "package": "../agent-skills-v1.33.0/packages/database-engineering.skill",
+      "sha256": "d606f82bb2eaffee0257419110c7d5e2b394d6dc28d815b087ebe6c17a0abbbf"
+    },
+    {
+      "name": "deployment-engineering",
+      "package": "../agent-skills-v1.33.0/packages/deployment-engineering.skill",
+      "sha256": "06209e76aea36d3857c2562ebbd8f5fd8cbd29941c6ac2bb239c8eb3ba0d4dee"
+    },
+    {
+      "name": "documentation-engineering",
+      "package": "../agent-skills-v1.33.0/packages/documentation-engineering.skill",
+      "sha256": "4df7d1afd977d57a02af60d71ef920d81469294dfe3babbe1779a2267b5f7c4a"
+    },
+    {
+      "name": "gas-core-engineering",
+      "package": "../agent-skills-v1.33.0/packages/gas-core-engineering.skill",
+      "sha256": "e989db857374047954dfbcb78a56541d619982510dbd107cf0d72ecb30dc97a9"
+    },
+    {
+      "name": "monitoring-observability",
+      "package": "../agent-skills-v1.33.0/packages/monitoring-observability.skill",
+      "sha256": "a45820a1ccae2a403b744e704ba6fc47f88f109403dfc0d174a2743f9a6992c4"
+    },
+    {
+      "name": "performance-engineering",
+      "package": "../agent-skills-v1.33.0/packages/performance-engineering.skill",
+      "sha256": "73d04cf874ba25aa59636c6ee299b7e0654718b45d3ea660d7fd763153c1cedb"
+    },
+    {
+      "name": "postgresql-integration",
+      "package": "../agent-skills-v1.33.0/packages/postgresql-integration.skill",
+      "sha256": "d8b5ee9910dd8eede3d67298f1c3df37f0eb04ef4e7b11d3cac3429fb1224e00"
+    },
+    {
+      "name": "product-design-engineering",
+      "package": "../agent-skills-v1.33.0/packages/product-design-engineering.skill",
+      "sha256": "14aa9338e49849ad693ae4e6b8622348c33561a0dd5f95b1c9455e9e8caafbcf"
+    },
+    {
+      "name": "security-engineering",
+      "package": "../agent-skills-v1.33.0/packages/security-engineering.skill",
+      "sha256": "e153b19a92c1ae9b5131d12b70ea7d305b9e2b72ae6779417638c570ca2f1c40"
+    },
+    {
+      "name": "software-architecture",
+      "package": "../agent-skills-v1.33.0/packages/software-architecture.skill",
+      "sha256": "71cfc995f2cb8bcd9c06dc295d057014b403e31ed176a6b5b2d48dd9f5719607"
+    },
+    {
+      "name": "testing-quality",
+      "package": "../agent-skills-v1.33.0/packages/testing-quality.skill",
+      "sha256": "1054340ced8021ffe8d7a664b1340f603437f3c391673d8e1d107adac8ce7dd0"
+    },
+    {
+      "name": "web-app-frontend-engineering",
+      "package": "../agent-skills-v1.33.0/packages/web-app-frontend-engineering.skill",
+      "sha256": "ba219b15a960ca55908f580a3c60596e80c218dab7f7e4861e2be5cbc5e5db53"
+    },
+    {
+      "name": "workspace-addons-chat-engineering",
+      "package": "../agent-skills-v1.33.0/packages/workspace-addons-chat-engineering.skill",
+      "sha256": "5217a95505a49b8756a46ac43c93839183cdc5b9d15a9a790596e58c4bdbb8d8"
+    },
+    {
+      "name": "workspace-api-event-engineering",
+      "package": "../agent-skills-v1.33.0/packages/workspace-api-event-engineering.skill",
+      "sha256": "c6a4942d84d3242c51b09d14edf9cea002b7609401da73f526cfeb8514a9a2fc"
+    },
+    {
+      "name": "workspace-governance-compliance-engineering",
+      "package": "../agent-skills-v1.33.0/packages/workspace-governance-compliance-engineering.skill",
+      "sha256": "109dab786a0e6d53588fca003b2d139b9d01561d67ddbf7c7c9ede59fee47455"
+    }
+  ]
+}
