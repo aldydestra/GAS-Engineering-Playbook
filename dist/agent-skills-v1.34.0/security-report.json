@@ -1,0 +1,496 @@
+{
+  "host_adapters": {
+    "complete": true,
+    "findings": [],
+    "status": "PASS_STATIC",
+    "surfaces": [
+      {
+        "active_execution_keys": [],
+        "artifact": "claude-code-plugin.zip",
+        "manifest": ".claude-plugin/plugin.json"
+      },
+      {
+        "active_execution_keys": [],
+        "artifact": "openai-portable-plugin.zip",
+        "manifest": "plugin.json"
+      }
+    ]
+  },
+  "policy": {
+    "max_critical": 0,
+    "max_high": 0,
+    "require_complete": true
+  },
+  "repository_version": "v1.34.0",
+  "scanner": {
+    "name": "gas-playbook-static-skill-security-gate",
+    "scope": "normalized Agent Skill packages + host adapter manifests/archives",
+    "script_sha256": "942caa23bd099966af62269d5928c735402674cb77814aed1c2c497e23cffff2",
+    "version": "1.0.0"
+  },
+  "skills": [
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 8,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 21,
+        "executable_files": 0,
+        "files": 8,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 14,
+        "text_files": 8
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "gas-core-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 9,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 3,
+        "executable_files": 0,
+        "files": 9,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 12,
+        "text_files": 9
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "appsheet-migration"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 11,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 12,
+        "executable_files": 0,
+        "files": 11,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 7,
+        "text_files": 11
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "software-architecture"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 11,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 0,
+        "executable_files": 0,
+        "files": 11,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 11,
+        "text_files": 11
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "database-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 10,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 12,
+        "executable_files": 0,
+        "files": 10,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 18,
+        "text_files": 10
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "postgresql-integration"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 12,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 26,
+        "executable_files": 0,
+        "files": 12,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 12,
+        "text_files": 12
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "performance-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 15,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 6,
+        "executable_files": 0,
+        "files": 15,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 19,
+        "text_files": 15
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "security-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 15,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 11,
+        "executable_files": 0,
+        "files": 15,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 7,
+        "text_files": 15
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "testing-quality"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 14,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 4,
+        "executable_files": 0,
+        "files": 14,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 9,
+        "text_files": 14
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "monitoring-observability"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 20,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 3,
+        "executable_files": 0,
+        "files": 20,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 16,
+        "text_files": 20
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "deployment-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 19,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 6,
+        "executable_files": 0,
+        "files": 19,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 12,
+        "text_files": 19
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "documentation-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 9,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 15,
+        "executable_files": 0,
+        "files": 9,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 8,
+        "text_files": 9
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "web-app-frontend-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 17,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 5,
+        "executable_files": 0,
+        "files": 17,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 15,
+        "text_files": 17
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "ai-agent-integration"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 14,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 6,
+        "executable_files": 0,
+        "files": 14,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 15,
+        "text_files": 14
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "workspace-addons-chat-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 16,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 0,
+        "executable_files": 0,
+        "files": 16,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 9,
+        "text_files": 16
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "product-design-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 18,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 6,
+        "executable_files": 0,
+        "files": 18,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 24,
+        "text_files": 18
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "workspace-api-event-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 15,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 0,
+        "executable_files": 0,
+        "files": 15,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 17,
+        "text_files": 15
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "workspace-governance-compliance-engineering"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 20,
+        "curl_pipe_shell_examples": 1,
+        "executable_code_fences": 0,
+        "executable_files": 0,
+        "files": 20,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 11,
+        "text_files": 20
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "agent-skill-supply-chain-security"
+    },
+    {
+      "admission": "PASS_STATIC",
+      "complete": true,
+      "findings": [],
+      "review_surface": {
+        "archive_entries": 10,
+        "curl_pipe_shell_examples": 0,
+        "executable_code_fences": 0,
+        "executable_files": 0,
+        "files": 10,
+        "opaque_files": 0,
+        "passive_binary_files": 0,
+        "remote_urls": 11,
+        "text_files": 10
+      },
+      "severity_counts": {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "INFO": 0,
+        "LOW": 0,
+        "MEDIUM": 0
+      },
+      "skill": "agent-skill-engineering"
+    }
+  ],
+  "summary": {
+    "complete": true,
+    "critical": 0,
+    "gate_pass": true,
+    "high": 0,
+    "skill_count": 19
+  }
+}

@@ -7,25 +7,32 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'evidence/live-validation/v1.33.0/**'
-      - 'dist/agent-skills-v1.33.0/**'
-      - 'dist/host-compat-v1.33.0/**'
-      - 'dist/dual-distribution-v1.33.0/**'
-      - 'dist/live-validation-v1.33.0/**'
-      - 'dist/v2-cutover-rehearsal-v1.33.0/**'
-      - 'dist/v2-promotion-v1.33.0/**'
-      - 'dist/release-readiness-v1.33.0/**'
+      - 'evidence/live-validation/v1.34.0/**'
+      - 'dist/agent-skills-v1.34.0/**'
+      - 'dist/host-compat-v1.34.0/**'
+      - 'dist/dual-distribution-v1.34.0/**'
+      - 'dist/live-validation-v1.34.0/**'
+      - 'dist/v2-cutover-rehearsal-v1.34.0/**'
+      - 'dist/v2-promotion-v1.34.0/**'
+      - 'dist/release-readiness-v1.34.0/**'
+      - 'dist/release-subjects-v1.34.0/**'
+      - 'dist/operational-release-closure-v1.34.0/**'
+      - 'evidence/operational-release/v1.34.0/**'
       - 'packaging/v2-cutover-rehearsal/**'
       - 'packaging/v2-promotion/**'
       - 'packaging/release-readiness/**'
-      - 'reports/agent-skill-evaluation-v1.33.0.*'
-      - 'docs/host-compatibility-matrix-v1.33.0.md'
-      - 'docs/dual-distribution-rc-v1.33.0.md'
-      - 'docs/live-validation-operational-burn-in-v1.33.0.md'
-      - 'docs/v2-go-no-go-v1.33.0.md'
-      - 'docs/v2-cutover-rehearsal-v1.33.0.md'
-      - 'docs/v2-promotion-control-v1.33.0.md'
-      - 'docs/release-readiness-freeze-v1.33.0.md'
+      - 'packaging/release-subject-inventory/**'
+      - 'packaging/operational-release-closure/**'
+      - 'reports/agent-skill-evaluation-v1.34.0.*'
+      - 'docs/host-compatibility-matrix-v1.34.0.md'
+      - 'docs/dual-distribution-rc-v1.34.0.md'
+      - 'docs/live-validation-operational-burn-in-v1.34.0.md'
+      - 'docs/v2-go-no-go-v1.34.0.md'
+      - 'docs/v2-cutover-rehearsal-v1.34.0.md'
+      - 'docs/v2-promotion-control-v1.34.0.md'
+      - 'docs/release-readiness-freeze-v1.34.0.md'
+      - 'docs/release-subject-inventory-v1.34.0.md'
+      - 'docs/operational-release-closure-v1.34.0.md'
   push:
     branches: [main]
     paths:
@@ -33,25 +40,32 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'evidence/live-validation/v1.33.0/**'
-      - 'dist/agent-skills-v1.33.0/**'
-      - 'dist/host-compat-v1.33.0/**'
-      - 'dist/dual-distribution-v1.33.0/**'
-      - 'dist/live-validation-v1.33.0/**'
-      - 'dist/v2-cutover-rehearsal-v1.33.0/**'
-      - 'dist/v2-promotion-v1.33.0/**'
-      - 'dist/release-readiness-v1.33.0/**'
+      - 'evidence/live-validation/v1.34.0/**'
+      - 'dist/agent-skills-v1.34.0/**'
+      - 'dist/host-compat-v1.34.0/**'
+      - 'dist/dual-distribution-v1.34.0/**'
+      - 'dist/live-validation-v1.34.0/**'
+      - 'dist/v2-cutover-rehearsal-v1.34.0/**'
+      - 'dist/v2-promotion-v1.34.0/**'
+      - 'dist/release-readiness-v1.34.0/**'
+      - 'dist/release-subjects-v1.34.0/**'
+      - 'dist/operational-release-closure-v1.34.0/**'
+      - 'evidence/operational-release/v1.34.0/**'
       - 'packaging/v2-cutover-rehearsal/**'
       - 'packaging/v2-promotion/**'
       - 'packaging/release-readiness/**'
-      - 'reports/agent-skill-evaluation-v1.33.0.*'
-      - 'docs/host-compatibility-matrix-v1.33.0.md'
-      - 'docs/dual-distribution-rc-v1.33.0.md'
-      - 'docs/live-validation-operational-burn-in-v1.33.0.md'
-      - 'docs/v2-go-no-go-v1.33.0.md'
-      - 'docs/v2-cutover-rehearsal-v1.33.0.md'
-      - 'docs/v2-promotion-control-v1.33.0.md'
-      - 'docs/release-readiness-freeze-v1.33.0.md'
+      - 'packaging/release-subject-inventory/**'
+      - 'packaging/operational-release-closure/**'
+      - 'reports/agent-skill-evaluation-v1.34.0.*'
+      - 'docs/host-compatibility-matrix-v1.34.0.md'
+      - 'docs/dual-distribution-rc-v1.34.0.md'
+      - 'docs/live-validation-operational-burn-in-v1.34.0.md'
+      - 'docs/v2-go-no-go-v1.34.0.md'
+      - 'docs/v2-cutover-rehearsal-v1.34.0.md'
+      - 'docs/v2-promotion-control-v1.34.0.md'
+      - 'docs/release-readiness-freeze-v1.34.0.md'
+      - 'docs/release-subject-inventory-v1.34.0.md'
+      - 'docs/operational-release-closure-v1.34.0.md'
 
 jobs:
   build-and-verify:
@@ -105,6 +119,12 @@ jobs:
         run: python tools/verify_v2_cutover_rehearsal.py
       - name: Test package-first cutover rehearsal
         run: python -m unittest tools/test_v2_cutover_rehearsal.py -v
+      - name: Build exact release subject inventory
+        run: python tools/build_release_subject_inventory.py
+      - name: Verify release subject inventory
+        run: python tools/verify_release_subject_inventory.py
+      - name: Test release subject inventory
+        run: python -m unittest tools/test_release_subject_inventory.py -v
       - name: Build v2 promotion control
         run: python tools/build_v2_promotion.py
       - name: Verify v2 promotion control
@@ -117,22 +137,32 @@ jobs:
         run: python tools/verify_release_readiness.py
       - name: Test release-readiness semantics
         run: python -m unittest tools/test_release_readiness.py -v
+      - name: Build merged operational release closure checkpoint
+        run: python tools/build_operational_release_closure.py
+      - name: Verify operational release closure evidence
+        run: python tools/verify_operational_release_closure.py
+      - name: Test operational release closure and ceremony preflight
+        run: python -m unittest tools/test_operational_release_closure.py tools/test_release_ceremony.py -v
       - name: Ensure generated distributions and reports are committed and reproducible
         run: >-
           git diff --exit-code --
-          dist/agent-skills-v1.33.0
-          dist/host-compat-v1.33.0
-          dist/dual-distribution-v1.33.0
-          dist/live-validation-v1.33.0
-          dist/v2-cutover-rehearsal-v1.33.0
-          dist/v2-promotion-v1.33.0
-          dist/release-readiness-v1.33.0
-          reports/agent-skill-evaluation-v1.33.0.json
-          reports/agent-skill-evaluation-v1.33.0.md
-          docs/host-compatibility-matrix-v1.33.0.md
-          docs/dual-distribution-rc-v1.33.0.md
-          docs/live-validation-operational-burn-in-v1.33.0.md
-          docs/v2-go-no-go-v1.33.0.md
-          docs/v2-cutover-rehearsal-v1.33.0.md
-          docs/v2-promotion-control-v1.33.0.md
-          docs/release-readiness-freeze-v1.33.0.md
+          dist/agent-skills-v1.34.0
+          dist/host-compat-v1.34.0
+          dist/dual-distribution-v1.34.0
+          dist/live-validation-v1.34.0
+          dist/v2-cutover-rehearsal-v1.34.0
+          dist/v2-promotion-v1.34.0
+          dist/release-readiness-v1.34.0
+          dist/release-subjects-v1.34.0
+          dist/operational-release-closure-v1.34.0
+          reports/agent-skill-evaluation-v1.34.0.json
+          reports/agent-skill-evaluation-v1.34.0.md
+          docs/host-compatibility-matrix-v1.34.0.md
+          docs/dual-distribution-rc-v1.34.0.md
+          docs/live-validation-operational-burn-in-v1.34.0.md
+          docs/v2-go-no-go-v1.34.0.md
+          docs/v2-cutover-rehearsal-v1.34.0.md
+          docs/v2-promotion-control-v1.34.0.md
+          docs/release-readiness-freeze-v1.34.0.md
+          docs/release-subject-inventory-v1.34.0.md
+          docs/operational-release-closure-v1.34.0.md

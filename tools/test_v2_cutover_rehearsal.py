@@ -2,7 +2,7 @@ from __future__ import annotations
 import hashlib, json, subprocess, unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-DIST=ROOT/'dist/v2-cutover-rehearsal-v1.33.0'
+DIST=ROOT/'dist/v2-cutover-rehearsal-v1.34.0'
 class CutoverRehearsalTests(unittest.TestCase):
     def setUp(self): subprocess.run(['python3','tools/build_v2_cutover_rehearsal.py'],cwd=ROOT,check=True,capture_output=True,text=True)
     def test_current_rehearsal_passes_static(self):

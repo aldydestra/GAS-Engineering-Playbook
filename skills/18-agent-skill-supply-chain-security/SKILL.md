@@ -1,10 +1,10 @@
 ---
 name: agent-skill-supply-chain-security
 description: "Secure AI Agent Skills, plugins, MCP-integrated packages, and catalogs through pre-install scanning, prompt-injection/exfiltration detection, scripts/hooks/manifests, dependency provenance, MCP metadata/tool poisoning, permission parity, shadowing/precedence, SARIF/CI gates, fail-closed completeness, signing, admission, update, and revocation."
-skill_version: "1.11.0"
+skill_version: "1.12.0"
 repository_introduced: "v1.19.0"
 status: "evolving"
-last_repository_update: "v1.33.0"
+last_repository_update: "v1.34.0"
 tags:
   - agent-skills
   - supply-chain-security
@@ -3217,3 +3217,21 @@ Operational evidence used for release promotion is part of the software supply c
 A package-first migration rehearsal is supply-chain evidence. Bind its manifest digest into promotion/release context, verify the shadow tree against the admitted generated package tree, and reject stale approval when the rehearsal output changes.
 
 The rehearsal must be generated, reversible, and side-effect free: it must not silently replace the canonical source tree or be reported as a production cutover.
+
+## Operational Release Closure Integrity (v1.34)
+
+Treat the release ceremony as the final supply-chain boundary, not as a cosmetic publication step.
+
+Require one exact subject inventory covering every distributable package/adapter that will be signed or published. Bind that inventory digest into promotion approval and release readiness. If subject membership or any digest changes, invalidate stale approval before tagging.
+
+For a completed ceremony, verify:
+- the tag equals the approved repository version;
+- the release is immutable when that policy is required;
+- signed release/build attestations verify against the expected repository/workflow identity;
+- published asset digests equal the frozen subject inventory;
+- every required asset passes post-publication verification;
+- verification logs are themselves persisted and hash-bound.
+
+A `PASS_STATIC` package/rehearsal state, a successful artifact upload, or an unsigned provenance statement must never be upgraded into cryptographic release closure.
+
+GitHub currently exposes immutable releases, signed release attestations, release-asset SHA-256 digests, and CLI verification commands such as `gh release verify`, `gh release verify-asset`, and `gh attestation verify`. Treat availability/permission failures as explicit operational blockers rather than bypassing the verification policy.

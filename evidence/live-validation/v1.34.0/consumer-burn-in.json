@@ -1,0 +1,28 @@
+{
+  "channels_observed": [],
+  "claimed_status": "NOT_RUN",
+  "consumers": 0,
+  "evidence_refs": [],
+  "feedback_items": [],
+  "incidents": [],
+  "journal_integrity": {
+    "errors": [],
+    "first_event_sha256": null,
+    "last_event_sha256": null,
+    "valid": true
+  },
+  "policy": {
+    "max_future_clock_skew_minutes": 10,
+    "min_sessions_per_channel": 2,
+    "min_total_sessions": 4,
+    "min_unique_consumers": 1,
+    "min_usage_window_hours": 24.0,
+    "require_hash_chain": true
+  },
+  "policy_checks": {},
+  "repository_version": "v1.34.0",
+  "schema_version": 2,
+  "sessions": 0,
+  "sessions_per_channel": {},
+  "usage_window": null
+}

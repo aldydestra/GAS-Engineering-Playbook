@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.34.0",
+  "live_validation_distribution": "dist/live-validation-v1.34.0",
+  "release_readiness_distribution": "dist/release-readiness-v1.34.0",
+  "release_subject_inventory_distribution": "dist/release-subjects-v1.34.0",
+  "ceremony_evidence": "evidence/operational-release/v1.34.0/ceremony.json",
+  "output_distribution": "dist/operational-release-closure-v1.34.0",
+  "required_live_status": "GO",
+  "required_readiness_status": "READY_TO_TAG",
+  "required_ceremony_status": "PASS",
+  "require_immutable_release": true,
+  "require_subject_attestations": true,
+  "require_release_attestation": true,
+  "require_asset_verification": true,
+  "require_exact_subject_inventory": true
+}

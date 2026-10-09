@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
 description: "Design observability for Apps Script and Workspace workflows using structured logs, correlation IDs, metrics, retries, synthetic probes, reconciliation, incident classification, business-outcome checks, completeness-aware reads, and alert deduplication. Use when diagnosing or monitoring runtime behavior."
-skill_version: "1.6.0"
+skill_version: "1.7.0"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.31.0"
+last_repository_update: "v1.34.0"
 tags:
   - google-apps-script
   - monitoring
@@ -1893,3 +1893,18 @@ For migration or release-candidate burn-in, treat observations as an append-only
 - require a minimum observation window and minimum sessions per channel before declaring PASS;
 - distinguish `IN_PROGRESS` from `FAIL`: insufficient exposure is not a defect, while a blocking incident is;
 - recompute the aggregate from the journal during verification so a hand-edited summary cannot authorize promotion.
+
+## Unified Operational Release Closure (v1.34)
+
+When live burn-in is a release gate, correlate operational observations with the exact release candidate that will be published. Preserve the burn-in journal, lifecycle evidence, release-subject inventory digest, tag, publication timestamp, and post-publication verification outcome as one traceable evidence chain.
+
+Do not collapse these states:
+
+```text
+IN_PROGRESS / NOT_RUN → insufficient operational exposure
+FAIL → observed blocking defect
+READY_FOR_CEREMONY → live gate and approval complete, publication not yet closed
+PASS → immutable release and asset verification completed for the same candidate
+```
+
+A release ceremony is an operational event. Monitor it like one: record retries, external dependency failures, permission blockers, immutable-release policy state, and verification results without reclassifying infrastructure blockers as product defects.

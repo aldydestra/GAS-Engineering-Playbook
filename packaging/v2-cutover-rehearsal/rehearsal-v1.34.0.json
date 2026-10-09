@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.34.0",
+  "canonical_root": "skills",
+  "package_distribution": "dist/agent-skills-v1.34.0",
+  "dual_distribution": "dist/dual-distribution-v1.34.0",
+  "output_distribution": "dist/v2-cutover-rehearsal-v1.34.0",
+  "shadow_skills_subdir": "shadow/skills",
+  "expected_skill_count": 19,
+  "require_dual_distribution_pass": true,
+  "require_complete_migration_map": true,
+  "require_rollback_map": true,
+  "require_relative_reference_integrity": true
+}

@@ -101,5 +101,5 @@ def build(root:Path,cfg:dict[str,Any])->dict[str,Any]:
     return r
 
 def main():
-    ap=argparse.ArgumentParser(description=__doc__); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-cutover-rehearsal/rehearsal-v1.33.0.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"v2 cutover rehearsal: {r['rehearsal_status']}")
+    ap=argparse.ArgumentParser(description=__doc__); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-cutover-rehearsal/rehearsal-v1.34.0.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"v2 cutover rehearsal: {r['rehearsal_status']}")
 if __name__=='__main__': main()

@@ -393,69 +393,67 @@ Safety rule:
 
 ---
 
-## v1.34.x — Release Ceremony & Signed-Attestation Closure
+## v1.34.0 — Operational Release Closure
 
-Status: **planned**
+Status: **implemented tooling — operational checkpoint currently BLOCKED until real live/burn-in evidence exists**
 
 Goal:
 
-Turn `READY_TO_TAG` into a verifiable release ceremony rather than a manual tag action.
+Merge the previously separate release-ceremony and real-operational-evidence stages into one fail-closed checkpoint. A release ceremony is meaningful only when the same candidate has already proven real host lifecycle and consumer burn-in, and publication evidence must in turn prove that the exact approved candidate was signed and released.
 
-Planned scope:
-
-- release-candidate receipt bound to the release-lock digest;
-- tag/version consistency verifier;
-- signed GitHub attestation verification receipt;
-- artifact upload inventory and checksum closure;
-- post-tag verification that no decisive input changed between freeze and publication;
-- rollback instructions bound to the exact published candidate.
-
-Exit gate:
+Implemented ordering:
 
 ```text
-release-lock READY_TO_TAG
-signed attestation VERIFIED (when release workflow is available)
-published artifact inventory matches frozen candidate
-no post-freeze drift
-release receipt VERIFIED
+real host lifecycle + canonical/package burn-in
+→ live-validation GO
+→ deterministic cutover rehearsal PASS_STATIC
+→ exact 21-subject release inventory PASS_STATIC
+→ promotion context + operator approval APPROVED
+→ immutable release-readiness freeze READY_TO_TAG
+→ immutable release publication
+→ signed release-attestation verification
+→ per-asset digest verification
+→ operational release closure PASS
 ```
 
-If external signing/runtime is unavailable, the deterministic ceremony tooling may ship while the signed step remains explicitly `NOT_RUN`.
+Implemented scope:
 
----
+- one deterministic release-subject inventory covering 19 `.skill` packages plus the Claude Code and OpenAI host-adapter ZIPs;
+- release-subject inventory digest bound into promotion context and release-readiness candidate digest;
+- stale approval/readiness invalidation on release subject membership or digest drift;
+- explicit operational release closure states: `BLOCKED`, `READY_FOR_CEREMONY`, `CEREMONY_FAILED`, `INVALID_EVIDENCE`, and `PASS`;
+- GitHub release ceremony runner with no-side-effect default preflight and explicit `--publish` mutation boundary;
+- immutable-release policy preflight before publication;
+- exact frozen-subject publication;
+- immutable release-attestation verification plus per-asset digest verification;
+- ceremony evidence bound back to the exact release-subject inventory SHA-256;
+- CI/verifier coverage without manufacturing external live or signing evidence.
 
-## v1.35.x — Real Host + Burn-In Evidence Closure
-
-Status: **planned / operational dependency**
-
-Goal:
-
-Close the remaining non-static blockers with real evidence.
-
-Required operational work:
-
-- successful install/activation/update/uninstall on at least one supported host;
-- real canonical/package dual-channel burn-in satisfying the configured session/window policy;
-- no blocking incident;
-- real rollback exercise where feasible;
-- signed attestation verification where the release environment supports it.
-
-Exit gate:
+Operational exit gate:
 
 ```text
 live host lifecycle                  PASS
 consumer burn-in                     PASS
 blocking incidents                   0
 live-validation v2 readiness         GO
+release subject inventory             PASS_STATIC (21/21)
+promotion                             APPROVED
+release readiness                     READY_TO_TAG
+immutable release                     VERIFIED
+signed release attestation            VERIFIED
+21/21 release assets                  VERIFIED
+operational release closure           PASS
 ```
 
-This stage cannot be satisfied by synthetic CI fixtures.
+Important boundary:
+
+The deterministic v1.34 tooling can be shipped while the checkpoint itself remains `BLOCKED`. Synthetic fixtures may test gate behavior, but only real authenticated host/burn-in evidence and a real immutable signed release can close this checkpoint.
 
 ---
 
-## v1.36.0 — v2 Shadow RC & Breaking-Change Freeze
+## v1.35.0 — v2 Shadow RC & Breaking-Change Freeze
 
-Status: **planned**
+Status: **planned — starts only after v1.34 operational release closure PASS**
 
 Goal:
 
@@ -469,19 +467,21 @@ Planned scope:
 - compatibility/deprecation notice set;
 - consumer migration guide;
 - final parity/security/trust re-run against the v2 shadow root;
+- verify the v2 RC derives from the exact operationally closed v1.34 candidate or a fully re-approved successor;
 - no new breaking changes after RC freeze except blocker fixes.
 
 Exit gate:
 
 ```text
-v2 shadow tree                       PASS
-all internal references              PASS
-package/evaluation/security parity   PASS
-migration + rollback docs            COMPLETE
-live-validation                      GO
-promotion                            APPROVED
-release readiness                    READY_TO_TAG
+v1.34 operational release closure    PASS
+v2 shadow tree                        PASS
+all internal references               PASS
+package/evaluation/security parity    PASS
+migration + rollback docs             COMPLETE
+breaking-change surface               FROZEN
 ```
+
+Any change to a decisive package, evidence, subject inventory, or migration input after the v1.34 closure requires recomputation/re-approval rather than carrying old trust forward.
 
 ---
 

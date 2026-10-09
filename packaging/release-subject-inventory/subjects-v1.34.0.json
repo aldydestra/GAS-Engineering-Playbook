@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.34.0",
+  "package_distribution": "dist/agent-skills-v1.34.0",
+  "host_distribution": "dist/host-compat-v1.34.0",
+  "output_distribution": "dist/release-subjects-v1.34.0",
+  "include_package_glob": "packages/*.skill",
+  "include_host_artifacts": [
+    "claude-code-plugin.zip",
+    "openai-portable-plugin.zip"
+  ],
+  "expected_package_subjects": 19,
+  "expected_host_subjects": 2,
+  "require_all_package_manifest_entries": true,
+  "require_host_manifest_digest_match": true
+}

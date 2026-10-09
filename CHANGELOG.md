@@ -3,6 +3,106 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.34.0] - 2026-10-09
+
+### Operational Release Closure
+
+Merges the previously separate release-ceremony/signed-attestation checkpoint and real host lifecycle/operational burn-in checkpoint into one ordered fail-closed release boundary. The deterministic tooling ships now; the operational checkpoint remains `BLOCKED` until real live evidence and a real immutable signed release are available.
+
+### Added
+
+- `packaging/release-subject-inventory/subjects-v1.34.0.json`;
+- `tools/build_release_subject_inventory.py`;
+- `tools/verify_release_subject_inventory.py`;
+- `tools/test_release_subject_inventory.py`;
+- deterministic `dist/release-subjects-v1.34.0/` covering 19 `.skill` packages plus 2 host-adapter ZIPs;
+- `SUBJECTS_SHA256SUMS` as the exact signed/published subject set;
+- `packaging/operational-release-closure/closure-v1.34.0.json`;
+- `tools/build_operational_release_closure.py`;
+- `tools/verify_operational_release_closure.py`;
+- `tools/test_operational_release_closure.py`;
+- `tools/run_release_ceremony.py` with side-effect-free default preflight and explicit `--publish`;
+- `tools/test_release_ceremony.py`;
+- operational ceremony evidence under `evidence/operational-release/v1.34.0/`;
+- merged roadmap checkpoint documented in `docs/roadmap-to-v2.0.md`.
+
+### Hardened
+
+- v2 promotion schema **v3 → v4**: approval now also binds the exact release-subject inventory digest;
+- release-readiness schema **v2 → v3**: candidate digest now freezes exact release-subject membership and digests;
+- stale approval/readiness is invalidated if any signed/published subject changes;
+- release ceremony refuses publication before `READY_TO_TAG`;
+- immutable-release repository policy is preflighted before publication;
+- existing releases are never mutated/replaced by the ceremony runner;
+- published release must match the exact 21-subject inventory;
+- all 21 frozen subjects must pass repository artifact-attestation verification before publication;
+- signed immutable-release attestation must verify after publication;
+- each published asset must pass digest/asset verification;
+- ceremony evidence is cryptographically rebound to the current subject-inventory SHA-256;
+- closure remains fail-closed when live validation, readiness, immutable publication, signing, or asset verification is absent.
+
+### Workflow Changes
+
+- packaging CI now builds/verifies/tests release-subject inventory and operational release closure;
+- signed-attestation workflow now requires `READY_TO_TAG` before signing;
+- `actions/attest@v4` signs the exact `SUBJECTS_SHA256SUMS` boundary rather than an implicit artifact glob;
+- operational publication remains an explicit operator action rather than an automatic CI side effect;
+- the ceremony runner verifies the signed subject attestations before creating the immutable release, then independently verifies release attestation/assets afterward.
+
+### Updated Skills
+
+```text
+09 Monitoring & Observability             1.6.0 → 1.7.0
+10 Deployment Engineering                 1.10.0 → 1.11.0
+18 Agent Skill Supply-Chain Security      1.11.0 → 1.12.0
+19 Agent Skill Engineering                1.10.0 → 1.11.0
+```
+
+### Roadmap Consolidation
+
+The old separate checkpoints:
+
+```text
+v1.34.x release ceremony / signed-attestation closure
+v1.35.x real host / burn-in evidence closure
+v1.36.0 v2 shadow RC
+```
+
+are consolidated to:
+
+```text
+v1.34.0 operational release closure
+  = live host + burn-in + approval + freeze + immutable signed publication
+v1.35.0 v2 shadow RC & breaking-change freeze
+v2.0.0 conditional package-first cutover
+```
+
+### Validation Expectation
+
+The structural/deterministic layers can pass in CI while the combined operational checkpoint remains `BLOCKED`. No synthetic test or unsigned local artifact is allowed to convert real host lifecycle, real burn-in, or signed immutable publication into `PASS`.
+
+### Validation Result
+
+```text
+19/19 package validation                PASS
+evaluation parity                       PASS
+host static compatibility               PASS
+security/catalog/provenance             PASS
+dual-distribution static RC             PASS_STATIC
+v2 cutover rehearsal                    PASS_STATIC (19/19)
+release subject inventory               PASS_STATIC (21/21)
+live host lifecycle                     NOT_RUN
+consumer burn-in                        NOT_RUN
+v2 promotion                            BLOCKED
+release readiness                       BLOCKED
+release ceremony                        NOT_RUN
+operational release closure             BLOCKED
+repository unittest suite               54/54 PASS
+```
+
+---
+
+
 ## [v1.33.0] - 2026-10-08
 
 ### Package-First Cutover Rehearsal

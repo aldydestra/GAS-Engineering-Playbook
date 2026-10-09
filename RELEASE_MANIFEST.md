@@ -1,346 +1,430 @@
 # Release Manifest
 
-Repository Version: **v1.33.0**
+Repository Version: **v1.34.0**
+
+Release Date: **2026-10-09**
 
 ## Release Type
 
-- Package-First Cutover Rehearsal
+- Operational Release Closure tooling and policy release
 - Full repository snapshot
 - Canonical v1 `skills/` tree remains authoritative and supported
-- Generated Agent Skill packages remain the parallel normalized distribution channel
-- New v2 package-first shadow tree is **rehearsal-only** and generated from admitted package output
-- v2 remains fail-closed until live-host lifecycle, consumer burn-in, promotion approval, and final release gates pass
+- 19 normalized Agent Skill packages remain the installable package channel
+- Package-first cutover remains rehearsal-only
+- Release subject set is frozen explicitly as 21 distributable artifacts
+- Operational checkpoint remains fail-closed until real live/burn-in + signed immutable-publication evidence exists
 
 ## Release Objective
 
-v1.32.0 froze the decisive package/static/live/promotion evidence into one immutable candidate. The remaining structural question before a breaking v2 migration was whether the repository could actually be materialized in package-first form, with complete rollback coverage, **without editing the canonical v1 tree in place**.
+v1.33.0 proved that the package-first target shape can be generated and rolled back deterministically. v1.34.0 answers the next release-engineering question: **can operational evidence, explicit approval, exact artifact identity, signing, immutable publication, and post-publication verification be treated as one continuous trust boundary?**
 
-v1.33.0 answers that question with a deterministic cutover rehearsal.
-
-The release chain is now:
+The answer is implemented as one merged checkpoint:
 
 ```text
-canonical v1 source
-→ deterministic normalized packages
-→ evaluation + host + trust gates
-→ dual-distribution static RC
-→ live lifecycle + real burn-in
-→ deterministic package-first cutover rehearsal
-→ complete promotion-context digest
-→ explicit operator approval
-→ immutable release-readiness freeze
-→ READY_TO_TAG
-→ future signed/published release ceremony
+real host lifecycle + operational burn-in
+→ live-validation GO
+→ exact 21-subject inventory
+→ promotion approval bound to all decisive evidence
+→ immutable candidate freeze READY_TO_TAG
+→ signed subject attestations verified
+→ immutable release publication
+→ immutable-release attestation verified
+→ 21/21 release assets verified
+→ operational release closure PASS
 ```
 
-The cutover rehearsal is intentionally inserted before approval/readiness so a stale approval cannot survive a change in the package-first migration shape.
+The current snapshot intentionally stops before the external operational steps and therefore records `BLOCKED`, not a fabricated PASS.
 
-## Roadmap
+## Roadmap Consolidation
 
-### v1.33.0 — Package-First Cutover Rehearsal — **implemented**
-
-- build package-first `shadow/skills/<package-name>/` from admitted packages;
-- verify 19/19 shadow skill tree integrity;
-- verify local reference integrity;
-- generate 19/19 rollback mappings;
-- bind rehearsal evidence into promotion and release readiness.
-
-### v1.34.x — Release Ceremony & Signed-Attestation Closure — **planned**
-
-- release receipt bound to release-lock digest;
-- tag/version consistency verifier;
-- signed GitHub attestation verification where release workflow is available;
-- published artifact inventory/checksum closure;
-- post-freeze/post-publication drift detection.
-
-### v1.35.x — Real Host + Burn-In Evidence Closure — **planned / operational dependency**
-
-- successful authenticated install/activation/update/uninstall on at least one supported host;
-- real canonical/package dual-channel burn-in meeting configured policy;
-- no blocking incident;
-- live validation moves from `NO_GO` to `GO` only from real evidence.
-
-### v1.36.0 — v2 Shadow RC & Breaking-Change Freeze — **planned**
-
-- generate exact v2 repository candidate in shadow mode;
-- final migration/deprecation/compatibility documentation;
-- re-run evaluation/security/trust against the v2 shadow root;
-- freeze the breaking-change surface before v2.0.
-
-### v2.0.0 — Package-First Repository — **conditional**
-
-v2 is allowed only after all static, live, migration, approval, release-readiness, rollback, and publication gates are satisfied. The version number is capability/evidence-driven, not calendar-driven.
-
-Full roadmap: `docs/roadmap-to-v2.0.md`.
-
-## Main Additions
-
-### 1. v2 Cutover Rehearsal Configuration
-
-New configuration:
-
-- `packaging/v2-cutover-rehearsal/rehearsal-v1.33.0.json`
-
-Policy includes:
-
-- expected skill count = 19;
-- complete migration-map requirement;
-- dual-distribution `PASS_STATIC` requirement;
-- rollback map requirement;
-- relative-resource integrity requirement;
-- generated shadow-only behavior.
-
-### 2. Deterministic Shadow Repository Builder
-
-New tool:
-
-- `tools/build_v2_cutover_rehearsal.py`
-
-Output:
-
-- `dist/v2-cutover-rehearsal-v1.33.0/cutover-manifest.json`;
-- `dist/v2-cutover-rehearsal-v1.33.0/rollback-map.json`;
-- `dist/v2-cutover-rehearsal-v1.33.0/CUTOVER_REHEARSAL.md`;
-- `dist/v2-cutover-rehearsal-v1.33.0/SHA256SUMS`;
-- `dist/v2-cutover-rehearsal-v1.33.0/shadow/skills/*`;
-- `docs/v2-cutover-rehearsal-v1.33.0.md`.
-
-The builder copies normalized package skill trees rather than rewriting the canonical numbered source tree. This preserves a clean separation between source authoring and the future package-first layout.
-
-### 3. Shadow Tree Integrity Checks
-
-For each of the 19 skills the rehearsal verifies:
-
-- package name exists and is unique;
-- package-first name does not retain legacy numeric prefix;
-- generated normalized source exists;
-- shadow `SKILL.md` exists;
-- shadow tree digest exactly matches the generated normalized skill tree;
-- relative Markdown references resolve within the skill root;
-- fenced code and inline code are excluded from Markdown-link detection to avoid false positives such as JavaScript `runner[name](...args)`;
-- migration-map entry exists;
-- canonical rollback target exists.
-
-A failed structural check yields `INVALID_EVIDENCE`; an unsatisfied upstream static gate yields `BLOCKED`.
-
-### 4. Explicit Non-Cutover Safety Boundary
-
-The rehearsal manifest records:
+Previous plan:
 
 ```text
-mode = GENERATED_SHADOW_ONLY
-production_cutover_performed = false
+v1.34.x release ceremony / signed-attestation closure
+v1.35.x real host / burn-in closure
+v1.36.0 v2 Shadow RC
 ```
 
-`PASS_STATIC` proves only that the target package-first layout can be generated deterministically and reversed. It does not claim:
-
-- production source migration;
-- live host compatibility;
-- consumer burn-in;
-- signed attestation;
-- operator approval;
-- release publication.
-
-### 5. One-to-One Rollback Map
-
-`rollback-map.json` contains 19 unique package mappings back to canonical v1 source directories.
-
-Rollback model:
+Current plan:
 
 ```text
-shadow/package-first candidate problem
-→ retain/restore canonical v1 authoring tree
-→ regenerate normalized package distributions
-→ rebuild cutover/promotion/readiness evidence
+v1.34.0 Operational Release Closure
+v1.35.0 v2 Shadow RC & Breaking-Change Freeze
+v2.0.0 conditional package-first repository cutover
 ```
 
-No in-place source rename is needed to rehearse or recover.
+This removes an artificial separation between “operationally proven” and “cryptographically published”. The two remain ordered sub-gates but are evaluated as one checkpoint.
 
-### 6. Promotion Context Schema v3
+## New Components
 
-`tools/build_v2_promotion.py` now binds approval to:
+### Release Subject Inventory
+
+Configuration:
+
+- `packaging/release-subject-inventory/subjects-v1.34.0.json`
+
+Tools:
+
+- `tools/build_release_subject_inventory.py`
+- `tools/verify_release_subject_inventory.py`
+- `tools/test_release_subject_inventory.py`
+
+Generated artifacts:
+
+- `dist/release-subjects-v1.34.0/inventory.json`
+- `dist/release-subjects-v1.34.0/RELEASE_SUBJECTS.md`
+- `dist/release-subjects-v1.34.0/SUBJECTS_SHA256SUMS`
+- `dist/release-subjects-v1.34.0/SHA256SUMS`
+- `docs/release-subject-inventory-v1.34.0.md`
+
+Policy:
 
 ```text
-repository version
-+ package manifest SHA-256
-+ dual-distribution release-index SHA-256
-+ live-validation manifest SHA-256
-+ cutover-rehearsal manifest SHA-256
+19 package subjects
++ 2 host-adapter subjects
+= 21 exact release subjects
 ```
 
-The additional field is:
+The inventory verifies each package against the package manifest and each host artifact against the host manifest. Duplicate paths, missing subjects, unexpected counts, or digest mismatch fail closed.
+
+### Promotion Context v4
+
+Changed files:
+
+- `packaging/v2-promotion/promotion-v1.34.0.json`
+- `tools/build_v2_promotion.py`
+- `tools/test_v2_promotion.py`
+
+New binding field:
 
 ```text
-cutover_rehearsal_sha256
+release_subject_inventory_sha256
 ```
 
-A changed cutover rehearsal invalidates an old `APPROVED` evidence object even when package/live files are otherwise unchanged.
+The approval context now includes package, dual-distribution, live-validation, cutover-rehearsal, and exact release-subject evidence. An old approval cannot survive subject membership/digest drift.
 
-### 7. Release Readiness Schema v2
+Current promotion-context SHA-256:
 
-`tools/build_release_readiness.py` now freezes the cutover-rehearsal manifest together with:
+```text
+b5178e1f9e35f1c67a9d0a6b08a91fecb6064ad0526b0240b66868674c289a48
+```
 
-- package manifest;
-- host manifest;
-- evaluation report;
-- dual-distribution release index;
-- live-validation manifest;
-- v2 promotion decision.
+### Release Readiness v3
 
-`READY_TO_TAG` now requires:
+Changed files:
 
-1. package distribution valid/complete;
-2. evaluation parity PASS;
-3. dual-distribution `PASS_STATIC`;
-4. cutover rehearsal `PASS_STATIC`;
-5. live validation `GO`;
-6. promotion `APPROVED`;
-7. promotion context matches exact package/dual/live/cutover evidence.
+- `packaging/release-readiness/release-v1.34.0.json`
+- `tools/build_release_readiness.py`
+- `tools/test_release_readiness.py`
 
-### 8. CI & Attestation Integration
+The frozen candidate now includes the release-subject inventory.
 
-`.github/workflows/agent-skill-packaging.yml` now runs cutover rehearsal build, verification, and unit tests before v2 promotion/release readiness.
+Current candidate digest:
 
-`.github/workflows/agent-skill-attestation.yml` now targets the v1.33 release line and includes:
+```text
+48f24379912feb06c4531ffd4599010195c4453e295df7b765d9a7ebcc9da4b2
+```
 
-- `cutover-manifest.json`;
-- `rollback-map.json`;
-- cutover `SHA256SUMS`;
-- existing package/host/dual/live/promotion/readiness evidence.
+`READY_TO_TAG` therefore represents an exact candidate rather than a loose set of package/static/live states.
 
-The attestation workflow still does not manufacture external live evidence.
+### Operational Release Closure
 
-## Updated Skills
+Configuration:
 
-| Skill | Previous Version | Current Version | v1.33.0 Addition |
+- `packaging/operational-release-closure/closure-v1.34.0.json`
+
+Tools:
+
+- `tools/build_operational_release_closure.py`
+- `tools/verify_operational_release_closure.py`
+- `tools/test_operational_release_closure.py`
+- `tools/run_release_ceremony.py`
+- `tools/test_release_ceremony.py`
+
+Evidence:
+
+- `evidence/operational-release/v1.34.0/ceremony.json`
+- `evidence/operational-release/v1.34.0/attempts/` when a real preflight/ceremony is executed
+- subject-attestation verification receipt when publication is attempted
+- immutable-release verification receipt when publication succeeds
+- per-asset verification receipts when publication succeeds
+
+Generated output:
+
+- `dist/operational-release-closure-v1.34.0/closure.json`
+- `dist/operational-release-closure-v1.34.0/OPERATIONAL_RELEASE_CLOSURE.md`
+- `dist/operational-release-closure-v1.34.0/SHA256SUMS`
+- `docs/operational-release-closure-v1.34.0.md`
+
+## Release Ceremony Safety Model
+
+`run_release_ceremony.py` separates read-only diagnosis from side effects.
+
+### Default mode
+
+Without `--publish`:
+
+- verify prerequisites;
+- verify readiness/subject binding;
+- verify subject files have not drifted;
+- verify GitHub runtime/auth/repository visibility;
+- verify immutable-release policy;
+- record an attempt;
+- **do not create a release**.
+
+### Publication mode
+
+With `--publish`, after preflight:
+
+1. refuse to mutate an existing release;
+2. verify repository artifact attestations for all 21 frozen subjects;
+3. abort before publication if any subject attestation fails;
+4. create the release from the existing approved tag and exact frozen subject paths;
+5. resolve the tag to a valid commit SHA;
+6. verify the immutable release attestation;
+7. verify each published release asset digest;
+8. verify every local release asset against the release;
+9. persist hash-bound verification receipts;
+10. write ceremony evidence only from observed results.
+
+The runner never auto-enables immutable releases and never replaces an existing release. Missing permissions or policy are blockers requiring an operator/admin decision.
+
+## Signed Evidence Layers
+
+The v1.34 policy deliberately requires two cryptographic layers:
+
+### 1. Subject artifact attestations
+
+Generated by the signed-attestation workflow from the exact `SUBJECTS_SHA256SUMS` boundary and verified before publication.
+
+Purpose:
+
+```text
+prove the exact distributable subject has trusted repository build/signing evidence
+```
+
+### 2. Immutable release attestation
+
+Verified after publication.
+
+Purpose:
+
+```text
+prove the immutable published tag/release/assets define the release that consumers receive
+```
+
+The two attestations are complementary and neither replaces live lifecycle/burn-in evidence.
+
+## Anti-Drift / TOCTOU Controls
+
+The following transitions fail closed:
+
+| Drift/failure | Result |
+|---|---|
+| Subject inventory changes after approval | Approval context mismatch / invalid |
+| Subject inventory changes after release freeze | Readiness binding stale / blocked |
+| Subject file changes after inventory generation | Ceremony preflight blocked |
+| Required artifact attestation missing/invalid | Publication blocked before release creation |
+| Tag commit cannot resolve to valid commit ID | Ceremony failed |
+| Release not immutable | Ceremony/closure fails |
+| Immutable-release attestation missing/invalid | Ceremony/closure fails |
+| Release asset set differs from inventory | Closure invalid |
+| Release asset digest differs from inventory | Closure invalid |
+| Verification receipt changed after capture | Closure invalid |
+
+## Workflow Changes
+
+### `.github/workflows/agent-skill-packaging.yml`
+
+Added build/verify/test coverage for:
+
+- release subject inventory;
+- subject-bound v2 promotion;
+- subject-bound release readiness;
+- operational release closure;
+- release ceremony semantics.
+
+Current v1.34 output paths are included in drift checking.
+
+### `.github/workflows/agent-skill-attestation.yml`
+
+Updated to:
+
+- tag pattern `v1.34.*`;
+- rebuild all decisive evidence;
+- enforce `READY_TO_TAG`;
+- use `actions/attest@v4`;
+- sign the exact subjects listed in `dist/release-subjects-v1.34.0/SUBJECTS_SHA256SUMS`;
+- upload release-subject and operational-closure evidence.
+
+The workflow intentionally does not auto-publish the release. Publication remains operator-controlled through the ceremony runner.
+
+## Skill Version Changes
+
+| Skill | Previous version | v1.34.0 version | Update |
 |---|---:|---:|---|
-| 10 — Deployment Engineering | 1.9.0 | **1.10.0** | Adds pre-breaking-change package-first cutover rehearsal, deterministic target generation, rollback coverage, side-effect-free rehearsal, and stale-candidate prevention. |
-| 18 — Agent Skill Supply-Chain Security | 1.10.0 | **1.11.0** | Treats cutover rehearsal as a supply-chain integrity boundary whose digest participates in promotion and release evidence. |
-| 19 — Agent Skill Engineering | 1.9.0 | **1.10.0** | Adds package-first shadow-tree rehearsal and explicit distinction between `PASS_STATIC` rehearsal and production cutover. |
+| 09 — Monitoring & Observability | 1.6.0 | **1.7.0** | Unified live/ceremony observability, checkpoint state semantics, ceremony dependency/permission telemetry. |
+| 10 — Deployment Engineering | 1.10.0 | **1.11.0** | Operational release ordering, exact subject freeze, pre-publication subject attestation, immutable publication, post-publication verification. |
+| 18 — Agent Skill Supply-Chain Security | 1.11.0 | **1.12.0** | Exact subject integrity boundary, signed release/build attestations, asset verification, stale-authorization invalidation. |
+| 19 — Agent Skill Engineering | 1.10.0 | **1.11.0** | Concise operational release closure activation guidance and new progressive reference. |
 
-All other skill versions remain unchanged from v1.32.0.
+All remaining skill versions are unchanged from v1.33.0.
 
-## New / Updated Files
+## Skill 19 Progressive-Disclosure Guardrail
 
-### New
+The v1.34 addition initially pushed normalized Skill 19 above the `<500` activation-file target. The section was compacted and detailed logic moved to:
 
-```text
-packaging/v2-cutover-rehearsal/rehearsal-v1.33.0.json
-tools/build_v2_cutover_rehearsal.py
-tools/verify_v2_cutover_rehearsal.py
-tools/test_v2_cutover_rehearsal.py
-docs/v2-cutover-rehearsal-v1.33.0.md
-dist/v2-cutover-rehearsal-v1.33.0/**
-```
+- `skills/19-agent-skill-engineering/references/operational-release-closure.md`
 
-### Versioned configs/evidence added
+Final canonical Skill 19 activation file: **495 lines** before package normalization, with generated package verification passing the `<500` target.
+
+## Validation Results
 
 ```text
-packaging/agent-skills/full-v1.33.0.json
-packaging/host-compat/hosts-v1.33.0.json
-packaging/trust/trust-v1.33.0.json
-packaging/dual-distribution/dual-v1.33.0.json
-packaging/live-validation/live-v1.33.0.json
-packaging/v2-promotion/promotion-v1.33.0.json
-packaging/release-readiness/release-v1.33.0.json
-evidence/live-validation/v1.33.0/**
-```
-
-### Materially updated
-
-```text
-tools/build_v2_promotion.py
-tools/build_release_readiness.py
-tools/test_v2_promotion.py
-tools/test_release_readiness.py
-.github/workflows/agent-skill-packaging.yml
-.github/workflows/agent-skill-attestation.yml
-docs/roadmap-to-v2.0.md
-README.md
-CHANGELOG.md
-GITHUB_RELEASE_NOTES.md
-RELEASE_MANIFEST.md
-skills/10-deployment-engineering/SKILL.md
-skills/18-agent-skill-supply-chain-security/SKILL.md
-skills/19-agent-skill-engineering/SKILL.md
-```
-
-## Current Evidence State
-
-```text
-19/19 package validation                PASS
+canonical skills                        19
+generated packages                      19
+package validation                      19/19 PASS
+knowledge/package coverage              19/19 PASS
 evaluation parity                       PASS
-host static compatibility               PASS
-security/catalog/provenance             PASS
-dual-distribution static RC             PASS_STATIC
+positive top-3 static recall            96.71%
+explicit-negative specificity           100%
+capability assertions                   38/38 PASS
+host adapter structures                 3/3 PASS
+skills represented per adapter          19/19
+security/catalog/provenance             PASS_STATIC
+provenance statements                   19 verified unsigned SLSA/in-toto
+dual-distribution mapping               19/19 PASS_STATIC
+rollback drill                          PASS_STATIC
+v2 cutover rehearsal                    19/19 PASS_STATIC
+release subject inventory               21/21 PASS_STATIC
+repository unittest suite               54/54 PASS
+```
+
+Operational state:
+
+```text
 live-validation harness                 HARNESS_READY
 live host lifecycle                     NOT_RUN
 consumer burn-in                        NOT_RUN
-v2 cutover rehearsal                    PASS_STATIC
-shadow skill coverage                   19/19
-rollback mappings                       19/19
-v2 readiness                            NO_GO
+live-validation v2 readiness            NO_GO
+operator approval                       NOT_REQUESTED
 v2 promotion                            BLOCKED
 release readiness                       BLOCKED
-repository unittest suite               40/40 PASS
+release ceremony                        NOT_RUN
+operational release closure             BLOCKED
 ```
 
-The remaining `BLOCKED` state is intentional: the package-first structure is now statically rehearsed, but real operational evidence is still absent.
+This state is expected and correct. Real external evidence is not fabricated by deterministic CI.
 
-## Regression Coverage Added in v1.33.0
+## Critical Evidence Digests
 
-New tests prove that:
+| Evidence | Path | SHA-256 |
+|---|---|---|
+| Package manifest | `dist/agent-skills-v1.34.0/manifest.json` | `287ada65a03ac28fdfcb19ae32e76a880b0c615dc489186b62e58e34c21de620` |
+| Evaluation report | `reports/agent-skill-evaluation-v1.34.0.json` | `26031f2fddb411d4badd77e8779138575473e21eb9ab7320bf889d71af9b5534` |
+| Host manifest | `dist/host-compat-v1.34.0/manifest.json` | `baae71419467ffc5549e3e77f1ba785c26d4307d35d4df1854a3ec9908bdc406` |
+| Security report | `dist/agent-skills-v1.34.0/security-report.json` | `b1813c1f3096cdda5f1d17a102f7ce7d6e8f59339d7b5cd5e5f25ff589f28bfb` |
+| Dual-distribution index | `dist/dual-distribution-v1.34.0/release-index.json` | `8c2a8f7675c5815c0cd67c7a936f673ffeb92386a43065b82161b763858bf6ab` |
+| Live-validation manifest | `dist/live-validation-v1.34.0/manifest.json` | `7c20db858d54d9b18e525eeb8ad606949ee13a231bdb8357f4366a083818ee14` |
+| Cutover rehearsal manifest | `dist/v2-cutover-rehearsal-v1.34.0/cutover-manifest.json` | `2bc1ff0ae95f2b8d108ffa7dec9457fbad3e4c6233850886b0945d3cb2b03c95` |
+| Release subject inventory | `dist/release-subjects-v1.34.0/inventory.json` | `0b11987b4cac5d8d9d71015745e97c4902fb45d0c3dda30911fc119844be7d00` |
+| Promotion decision | `dist/v2-promotion-v1.34.0/promotion.json` | `ea797baa34e8a356d9b4e9471bd37359c905d39daab2ce8cf646dd5b4e453a4e` |
+| Release readiness lock | `dist/release-readiness-v1.34.0/release-lock.json` | `30598bb1a07499c24796ba7e1d199293ce9e47f890326d70f460447e7257fcf2` |
+| Operational closure | `dist/operational-release-closure-v1.34.0/closure.json` | `2c26af30b2f1aeb0c8254b5e7107e44911c3d6761d1f80d49cda11b88272236f` |
 
-- current package-first rehearsal reaches `PASS_STATIC` with all 19 skills;
-- rollback map contains exactly 19 unique package mappings;
-- repeated rehearsal builds produce identical manifest and `SHA256SUMS` output;
-- modifying a shadow `SKILL.md` causes verification to fail;
-- live `GO` still requires operator approval;
-- changing cutover evidence after approval invalidates that approval;
-- a non-PASS cutover rehearsal blocks promotion;
-- release readiness requires cutover rehearsal `PASS_STATIC`;
-- promotion-context cutover digest drift becomes `INVALID_EVIDENCE`;
-- current repository stays correctly `BLOCKED` while real live evidence is absent.
+## Exact Release Subject Inventory
 
-## Key Artifact Digests
+| Kind | Subject | SHA-256 |
+|---|---|---|
+| `agent-skill-package` | `agent-skill-engineering.skill` | `2e0ff0aa4f5ae9ae4c64875f8fc679d51fd5f1d00cdada3615541434150684cd` |
+| `agent-skill-package` | `agent-skill-supply-chain-security.skill` | `767d7f0db0381add78ad9f31fd950b24afa783998a517871d3e5c2c7b9e3d9a6` |
+| `agent-skill-package` | `ai-agent-integration.skill` | `cb747bc376940065d3fc00d7a7ebb088c0781adee0a4ef38f8350af3ddba6020` |
+| `agent-skill-package` | `appsheet-migration.skill` | `8169e3efb699c83336619184763ac1e7c8b639509a0008253316be57b08efbdb` |
+| `agent-skill-package` | `database-engineering.skill` | `c9cca20aeb7eb0e3cb98c467f3f2a5bf2c1c054b0a2649ca56568efd9df5d724` |
+| `agent-skill-package` | `deployment-engineering.skill` | `6d35dde35338102c225a0fcf193688967792304597078943969101f200141d95` |
+| `agent-skill-package` | `documentation-engineering.skill` | `1633c546a9e2c3a754d9ced9efc79d7bf74520855131c7dce4fa617d22eef08d` |
+| `agent-skill-package` | `gas-core-engineering.skill` | `d4744ddae53c407e3dd2bd9f46157300be57db79ac61c7a1e77a62863613d6b0` |
+| `agent-skill-package` | `monitoring-observability.skill` | `6e5956ccad6d8eeeabbfa7a413c9ec5f9e98511f0eb648876c835b710690086b` |
+| `agent-skill-package` | `performance-engineering.skill` | `74c006e942bdac497b823aa11f1e83629bd44db5a169513f644407d4d7d0d256` |
+| `agent-skill-package` | `postgresql-integration.skill` | `f84c6f4d35338bb706ae95038baa4018b3f453b83d79fca0c41079d6e9f8a8ba` |
+| `agent-skill-package` | `product-design-engineering.skill` | `e9b8a85478a2cda6c0c286ed427cf174d73c5c3d2eec74cf208118c1e43a680d` |
+| `agent-skill-package` | `security-engineering.skill` | `08cde98d6ad4531fa079578fb1c80884094d56529c0b25928abc838cbbe74b7b` |
+| `agent-skill-package` | `software-architecture.skill` | `4c76abfc76566fbbba45a1214fc445587a7f0d4af057da3ff13ae44cbc9d7a0b` |
+| `agent-skill-package` | `testing-quality.skill` | `3e9d5e0b05a9c2270b8b9cccbbc850d224376d7ac31a86b1e6b2e1646f185807` |
+| `agent-skill-package` | `web-app-frontend-engineering.skill` | `594277e774fd8b8c11861cac483d87d3c5ecf3aa3f66d105c4337573b3136ce7` |
+| `agent-skill-package` | `workspace-addons-chat-engineering.skill` | `cf4dfad9bf2fda6a54817454df909d254ce228db5d71f296f756d38c7e08c8e9` |
+| `agent-skill-package` | `workspace-api-event-engineering.skill` | `cb3d4bf7250f660b71af89a77b9c04b62d14d72c6cc6cb0c29cc8c3b24b52af5` |
+| `agent-skill-package` | `workspace-governance-compliance-engineering.skill` | `506bd31242039ce11667ccbe495728ad04d770549d856c85119e04da731d6715` |
+| `host-adapter` | `claude-code-plugin.zip` | `94946e682a92cee814047a1b8a34a9e4270ecc2ff0a8dd6c45da1da48e3d1516` |
+| `host-adapter` | `openai-portable-plugin.zip` | `df343f5ca1ad5da6b12a7c1f64d077e2f00c8c482847979dd7eb014436cfea4d` |
 
-- Agent Skill manifest: `9d1508571148a9f4965505cff121c7b7cdb46531f47a51372edaca2e8b4afa44`
-- Host compatibility manifest: `a2dd604e0020ddf91fb10fa854840d6edced6453ff2e5a5991226031a376fdfd`
-- Evaluation report: `f3eb8cfa7077878cfbae4d518c066441fecb653cf77747b4741ed7b45eda7c17`
-- Dual-distribution release index: `bbdc98243cd074c98582ec6cd860c335c4283ee095baaf87af2e391abd1ce92c`
-- Live-validation manifest: `c18aef26373958e8c4251672a7002f95653cf9bdfbeec123d83c7bcd66be262f`
-- v2 cutover-rehearsal manifest: `feb5bbce6a94e588a9b12e5c510aa51607ef8a65d58d3a370c453c5f70b230ac`
-- v2 promotion decision: `18751f8bad46ef13ea6f4eb2954f1fe9df73cb328be6b99c5ee657d686c97909`
-- Release lock: `5771c7232bf76c1c39f550dfa62b536b6aefecbd481aed476c78794152fe154a`
-
-Promotion context SHA-256:
+Inventory SHA-256 used in promotion/readiness:
 
 ```text
-785c9c3d97e1d3503102e75f1a7195babab1ba25e13678ed7e8b626e12a719de
+0b11987b4cac5d8d9d71015745e97c4902fb45d0c3dda30911fc119844be7d00
 ```
 
-Release candidate digest:
+## Current Blockers
+
+The current `BLOCKED` state is caused by:
+
+1. live host lifecycle evidence is `NOT_RUN`;
+2. consumer burn-in is `NOT_RUN`;
+3. therefore live validation is `NO_GO`;
+4. promotion cannot request/accept final approval yet;
+5. release readiness cannot become `READY_TO_TAG`;
+6. signed subject verification and immutable publication ceremony have not run.
+
+These are operational dependencies, not static package/rehearsal failures.
+
+## Required Operational Completion Sequence
 
 ```text
-09d8c0306aa4444ad77f9a33d049e7c63e922963ac4b648107a70dbd569363a2
+A. Execute real host lifecycle smoke
+   install → discovery → activation → refresh/update → disable/uninstall
+
+B. Accumulate real canonical + package burn-in
+   configured window/session/channel policy must pass
+
+C. Rebuild live validation
+   expected v2_readiness = GO
+
+D. Rebuild promotion context
+   capture exact promotion_context.sha256
+
+E. Record explicit operator approval
+   approval must bind that exact promotion context
+
+F. Rebuild promotion + release readiness
+   expected APPROVED → READY_TO_TAG
+
+G. Create/push approved v1.34.0 tag
+   signed-attestation workflow must complete for 21 subjects
+
+H. Run ceremony preflight
+   python tools/run_release_ceremony.py
+
+I. Publish only after preflight success
+   python tools/run_release_ceremony.py --publish
+
+J. Rebuild operational closure
+   expected closure_status = PASS
 ```
 
-These digests identify the current v1.33.0 evidence set. They do not authorize v2 because live validation remains `NO_GO`.
+Only then should v1.35.0 Shadow RC work use this candidate as its trust base.
 
-## Known Operational Blockers
+## Roadmap
 
-Current real evidence remains:
+### v1.34.0 — Operational Release Closure — **tooling implemented / operational BLOCKED**
 
-```text
-live host lifecycle = NOT_RUN
-consumer burn-in    = NOT_RUN
-live validation     = NO_GO
-promotion           = BLOCKED
-release readiness   = BLOCKED
-```
+Exit requires all live, approval, signed-subject, immutable-publication, and per-asset verification gates to pass for the exact same candidate.
 
-The next external action is to run the live executor in an environment with a supported host/runtime, network/authentication, then accumulate compliant dual-channel burn-in evidence. The deterministic v1.34 release-ceremony tooling can continue to be developed independently, but no tool may convert absent live evidence into PASS.
+### v1.35.0 — v2 Shadow RC & Breaking-Change Freeze — **planned**
 
-## Repository Snapshot
+Starts only after operational release closure PASS. It will build the exact v2 candidate, complete migration/deprecation documentation, rerun parity/security/trust against the shadow root, and freeze the breaking-change surface.
 
-Repository file count before ZIP packaging: **1838 files**.
+### v2.0.0 — Package-First Repository — **conditional**
+
+Only after all structural, operational, migration, rollback, signing, publication, and final RC gates pass.
+
+Full roadmap: `docs/roadmap-to-v2.0.md`.

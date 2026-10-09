@@ -7,7 +7,7 @@ import build_v2_cutover_rehearsal as b
 
 def sha(p:Path)->str: return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-cutover-rehearsal/rehearsal-v1.33.0.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=json.loads((root/a.config).read_text()); out=root/cfg['output_distribution']; errors=[]
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-cutover-rehearsal/rehearsal-v1.34.0.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=json.loads((root/a.config).read_text()); out=root/cfg['output_distribution']; errors=[]
     manifest=out/'cutover-manifest.json'; rollback=out/'rollback-map.json'; sums=out/'SHA256SUMS'
     if not manifest.exists(): errors.append('cutover-manifest.json missing')
     if not rollback.exists(): errors.append('rollback-map.json missing')

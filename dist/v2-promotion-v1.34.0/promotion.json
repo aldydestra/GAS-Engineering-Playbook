@@ -1,0 +1,53 @@
+{
+  "blockers": [
+    "live-validation v2 readiness is not GO"
+  ],
+  "cutover_rehearsal": {
+    "manifest": "dist/v2-cutover-rehearsal-v1.34.0/cutover-manifest.json",
+    "sha256": "2bc1ff0ae95f2b8d108ffa7dec9457fbad3e4c6233850886b0945d3cb2b03c95",
+    "status": "PASS_STATIC"
+  },
+  "dual_distribution": {
+    "release_index": "dist/dual-distribution-v1.34.0/release-index.json",
+    "sha256": "8c2a8f7675c5815c0cd67c7a936f673ffeb92386a43065b82161b763858bf6ab"
+  },
+  "errors": [],
+  "live_validation": {
+    "manifest": "dist/live-validation-v1.34.0/manifest.json",
+    "sha256": "7c20db858d54d9b18e525eeb8ad606949ee13a231bdb8357f4366a083818ee14",
+    "status": "NO_GO"
+  },
+  "operator_approval": {
+    "binding": "promotion_context_sha256",
+    "decision": "NOT_REQUESTED",
+    "evidence": "evidence/live-validation/v1.34.0/v2-approval.json",
+    "sha256": "bf4e36f22c9cbb57a7b724f1e2326cf3e40351a00553ac54ab8a1bbe0cb9470b",
+    "valid": false
+  },
+  "package_distribution": {
+    "all_valid": true,
+    "manifest": "dist/agent-skills-v1.34.0/manifest.json",
+    "sha256": "287ada65a03ac28fdfcb19ae32e76a880b0c615dc489186b62e58e34c21de620"
+  },
+  "policy": {
+    "require_operator_approval": true
+  },
+  "promotion_context": {
+    "cutover_rehearsal_sha256": "2bc1ff0ae95f2b8d108ffa7dec9457fbad3e4c6233850886b0945d3cb2b03c95",
+    "dual_release_index_sha256": "8c2a8f7675c5815c0cd67c7a936f673ffeb92386a43065b82161b763858bf6ab",
+    "live_manifest_sha256": "7c20db858d54d9b18e525eeb8ad606949ee13a231bdb8357f4366a083818ee14",
+    "package_manifest_sha256": "287ada65a03ac28fdfcb19ae32e76a880b0c615dc489186b62e58e34c21de620",
+    "release_subject_inventory_sha256": "0b11987b4cac5d8d9d71015745e97c4902fb45d0c3dda30911fc119844be7d00",
+    "repository_version": "v1.34.0",
+    "sha256": "b5178e1f9e35f1c67a9d0a6b08a91fecb6064ad0526b0240b66868674c289a48"
+  },
+  "promotion_status": "BLOCKED",
+  "release_subject_inventory": {
+    "manifest": "dist/release-subjects-v1.34.0/inventory.json",
+    "sha256": "0b11987b4cac5d8d9d71015745e97c4902fb45d0c3dda30911fc119844be7d00",
+    "status": "PASS_STATIC",
+    "subject_count": 21
+  },
+  "repository_version": "v1.34.0",
+  "schema_version": 4
+}

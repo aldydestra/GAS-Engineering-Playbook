@@ -1,0 +1,240 @@
+{
+  "blockers": [],
+  "errors": [],
+  "inputs": {
+    "dual_release_index": {
+      "path": "dist/dual-distribution-v1.34.0/release-index.json",
+      "sha256": "8c2a8f7675c5815c0cd67c7a936f673ffeb92386a43065b82161b763858bf6ab"
+    },
+    "migration_map": {
+      "path": "dist/dual-distribution-v1.34.0/migration-map.json",
+      "sha256": "93473bd1396b1a607ddcd8a38543007a024735989129a06010db1485ede5dc65"
+    },
+    "package_manifest": {
+      "path": "dist/agent-skills-v1.34.0/manifest.json",
+      "sha256": "287ada65a03ac28fdfcb19ae32e76a880b0c615dc489186b62e58e34c21de620"
+    }
+  },
+  "mode": "GENERATED_SHADOW_ONLY",
+  "production_cutover_performed": false,
+  "rehearsal_status": "PASS_STATIC",
+  "repository_version": "v1.34.0",
+  "schema_version": 1,
+  "skills": [
+    {
+      "canonical_source": "skills/19-agent-skill-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/agent-skill-engineering",
+      "generated_tree_sha256": "861f1d73a45e5e7776c2e6e45ec6fa2026216f38f2c50e3273a6c53340183a05",
+      "package_name": "agent-skill-engineering",
+      "package_sha256": "2e0ff0aa4f5ae9ae4c64875f8fc679d51fd5f1d00cdada3615541434150684cd",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/agent-skill-engineering",
+      "shadow_tree_sha256": "861f1d73a45e5e7776c2e6e45ec6fa2026216f38f2c50e3273a6c53340183a05",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/18-agent-skill-supply-chain-security",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/agent-skill-supply-chain-security",
+      "generated_tree_sha256": "f345321ec7894b84f968f9aabcd9f60d9159c820f09a8a78aab97c12571fdff5",
+      "package_name": "agent-skill-supply-chain-security",
+      "package_sha256": "767d7f0db0381add78ad9f31fd950b24afa783998a517871d3e5c2c7b9e3d9a6",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/agent-skill-supply-chain-security",
+      "shadow_tree_sha256": "f345321ec7894b84f968f9aabcd9f60d9159c820f09a8a78aab97c12571fdff5",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/13-ai-agent-integration",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/ai-agent-integration",
+      "generated_tree_sha256": "ae0b31e289b53af5e32db9815b37706da9ea5681a3274a6b4da1dea620791bb6",
+      "package_name": "ai-agent-integration",
+      "package_sha256": "cb747bc376940065d3fc00d7a7ebb088c0781adee0a4ef38f8350af3ddba6020",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/ai-agent-integration",
+      "shadow_tree_sha256": "ae0b31e289b53af5e32db9815b37706da9ea5681a3274a6b4da1dea620791bb6",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/02-appsheet-migration",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/appsheet-migration",
+      "generated_tree_sha256": "4bb346f32a3d87917368916411381ca2a6edb4938cb9d30d646f6676eef6c1e6",
+      "package_name": "appsheet-migration",
+      "package_sha256": "8169e3efb699c83336619184763ac1e7c8b639509a0008253316be57b08efbdb",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/appsheet-migration",
+      "shadow_tree_sha256": "4bb346f32a3d87917368916411381ca2a6edb4938cb9d30d646f6676eef6c1e6",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/04-database-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/database-engineering",
+      "generated_tree_sha256": "3d8536270b5ac9dc39d1258a4c1500e12830db6c005c841fbfb8aa7da5c5201d",
+      "package_name": "database-engineering",
+      "package_sha256": "c9cca20aeb7eb0e3cb98c467f3f2a5bf2c1c054b0a2649ca56568efd9df5d724",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/database-engineering",
+      "shadow_tree_sha256": "3d8536270b5ac9dc39d1258a4c1500e12830db6c005c841fbfb8aa7da5c5201d",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/10-deployment-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/deployment-engineering",
+      "generated_tree_sha256": "1b8bd1adcbb967c01c1c829950e6833babe83ee605faa5fdc68ef1a3cbeb4530",
+      "package_name": "deployment-engineering",
+      "package_sha256": "6d35dde35338102c225a0fcf193688967792304597078943969101f200141d95",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/deployment-engineering",
+      "shadow_tree_sha256": "1b8bd1adcbb967c01c1c829950e6833babe83ee605faa5fdc68ef1a3cbeb4530",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/11-documentation-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/documentation-engineering",
+      "generated_tree_sha256": "d75fa96869edb834ba868f8ade16f0292dfbcdd88eeff63fd0cf2222708cbfae",
+      "package_name": "documentation-engineering",
+      "package_sha256": "1633c546a9e2c3a754d9ced9efc79d7bf74520855131c7dce4fa617d22eef08d",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/documentation-engineering",
+      "shadow_tree_sha256": "d75fa96869edb834ba868f8ade16f0292dfbcdd88eeff63fd0cf2222708cbfae",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/01-gas-core-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/gas-core-engineering",
+      "generated_tree_sha256": "4087ef50cb6ef950fdf2250ff423382cad1e471f567a5df8b53dbbf38be7c55a",
+      "package_name": "gas-core-engineering",
+      "package_sha256": "d4744ddae53c407e3dd2bd9f46157300be57db79ac61c7a1e77a62863613d6b0",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/gas-core-engineering",
+      "shadow_tree_sha256": "4087ef50cb6ef950fdf2250ff423382cad1e471f567a5df8b53dbbf38be7c55a",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/09-monitoring-observability",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/monitoring-observability",
+      "generated_tree_sha256": "c117ede30f9c4d7f2fbe6840e6f72c8626d857f3ffc51864df38b9dda1a3664a",
+      "package_name": "monitoring-observability",
+      "package_sha256": "6e5956ccad6d8eeeabbfa7a413c9ec5f9e98511f0eb648876c835b710690086b",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/monitoring-observability",
+      "shadow_tree_sha256": "c117ede30f9c4d7f2fbe6840e6f72c8626d857f3ffc51864df38b9dda1a3664a",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/06-performance-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/performance-engineering",
+      "generated_tree_sha256": "3ef68f7aa94715e7c5bc1b381954dad8789351bd5e3a334bac39f6fba996b605",
+      "package_name": "performance-engineering",
+      "package_sha256": "74c006e942bdac497b823aa11f1e83629bd44db5a169513f644407d4d7d0d256",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/performance-engineering",
+      "shadow_tree_sha256": "3ef68f7aa94715e7c5bc1b381954dad8789351bd5e3a334bac39f6fba996b605",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/05-postgresql-integration",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/postgresql-integration",
+      "generated_tree_sha256": "54f5ac368e57801de0d2c7860401447b22ecce74d064b1f69dec0833b5067931",
+      "package_name": "postgresql-integration",
+      "package_sha256": "f84c6f4d35338bb706ae95038baa4018b3f453b83d79fca0c41079d6e9f8a8ba",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/postgresql-integration",
+      "shadow_tree_sha256": "54f5ac368e57801de0d2c7860401447b22ecce74d064b1f69dec0833b5067931",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/15-product-design-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/product-design-engineering",
+      "generated_tree_sha256": "b11fd4b45155b6b62c671a71707bc77cd44caacb557f07762627b5ff94633dea",
+      "package_name": "product-design-engineering",
+      "package_sha256": "e9b8a85478a2cda6c0c286ed427cf174d73c5c3d2eec74cf208118c1e43a680d",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/product-design-engineering",
+      "shadow_tree_sha256": "b11fd4b45155b6b62c671a71707bc77cd44caacb557f07762627b5ff94633dea",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/07-security-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/security-engineering",
+      "generated_tree_sha256": "53289db15f279bed90ac66db2a234fbe1dcbd537a27ff10b58546018da30cec3",
+      "package_name": "security-engineering",
+      "package_sha256": "08cde98d6ad4531fa079578fb1c80884094d56529c0b25928abc838cbbe74b7b",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/security-engineering",
+      "shadow_tree_sha256": "53289db15f279bed90ac66db2a234fbe1dcbd537a27ff10b58546018da30cec3",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/03-software-architecture",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/software-architecture",
+      "generated_tree_sha256": "4aaa29cb9bc216a97d572731790322a6c10a7f83a109a5eccb6bb907e8c7ac9a",
+      "package_name": "software-architecture",
+      "package_sha256": "4c76abfc76566fbbba45a1214fc445587a7f0d4af057da3ff13ae44cbc9d7a0b",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/software-architecture",
+      "shadow_tree_sha256": "4aaa29cb9bc216a97d572731790322a6c10a7f83a109a5eccb6bb907e8c7ac9a",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/08-testing-quality",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/testing-quality",
+      "generated_tree_sha256": "a34887784b7fd950e8c2053de873377e6bbf724a8bb1890c2f5fdc4ffa2569ab",
+      "package_name": "testing-quality",
+      "package_sha256": "3e9d5e0b05a9c2270b8b9cccbbc850d224376d7ac31a86b1e6b2e1646f185807",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/testing-quality",
+      "shadow_tree_sha256": "a34887784b7fd950e8c2053de873377e6bbf724a8bb1890c2f5fdc4ffa2569ab",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/12-web-app-frontend-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/web-app-frontend-engineering",
+      "generated_tree_sha256": "0817e58ad6ebe87aa77eea7b94efac8ccdd7d0a5774e78a1fbb11c36814320a2",
+      "package_name": "web-app-frontend-engineering",
+      "package_sha256": "594277e774fd8b8c11861cac483d87d3c5ecf3aa3f66d105c4337573b3136ce7",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/web-app-frontend-engineering",
+      "shadow_tree_sha256": "0817e58ad6ebe87aa77eea7b94efac8ccdd7d0a5774e78a1fbb11c36814320a2",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/14-workspace-addons-chat-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/workspace-addons-chat-engineering",
+      "generated_tree_sha256": "d06448ae1012b4fe5718f2d46085c618b3680e11b06ba9e8b1ffa641e4307cc6",
+      "package_name": "workspace-addons-chat-engineering",
+      "package_sha256": "cf4dfad9bf2fda6a54817454df909d254ce228db5d71f296f756d38c7e08c8e9",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/workspace-addons-chat-engineering",
+      "shadow_tree_sha256": "d06448ae1012b4fe5718f2d46085c618b3680e11b06ba9e8b1ffa641e4307cc6",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/16-workspace-api-event-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/workspace-api-event-engineering",
+      "generated_tree_sha256": "83b450a6f158cdc846bb4c95226edcc66dfcb0b9083b098579372cc32bdfb962",
+      "package_name": "workspace-api-event-engineering",
+      "package_sha256": "cb3d4bf7250f660b71af89a77b9c04b62d14d72c6cc6cb0c29cc8c3b24b52af5",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/workspace-api-event-engineering",
+      "shadow_tree_sha256": "83b450a6f158cdc846bb4c95226edcc66dfcb0b9083b098579372cc32bdfb962",
+      "valid": true
+    },
+    {
+      "canonical_source": "skills/17-workspace-governance-compliance-engineering",
+      "errors": [],
+      "generated_source": "dist/agent-skills-v1.34.0/skills/workspace-governance-compliance-engineering",
+      "generated_tree_sha256": "53e8dd6129ab16c52e56143745f79a94b1b1c7520d0e8cfec51c728d55dcffed",
+      "package_name": "workspace-governance-compliance-engineering",
+      "package_sha256": "506bd31242039ce11667ccbe495728ad04d770549d856c85119e04da731d6715",
+      "shadow_path": "dist/v2-cutover-rehearsal-v1.34.0/shadow/skills/workspace-governance-compliance-engineering",
+      "shadow_tree_sha256": "53e8dd6129ab16c52e56143745f79a94b1b1c7520d0e8cfec51c728d55dcffed",
+      "valid": true
+    }
+  ],
+  "summary": {
+    "expected_skills": 19,
+    "rehearsed_skills": 19,
+    "rollback_entries": 19,
+    "valid_skills": 19
+  }
+}

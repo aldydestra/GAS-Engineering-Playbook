@@ -9,7 +9,7 @@ def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def main() -> None:
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-promotion/promotion-v1.33.0.json'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-promotion/promotion-v1.34.0.json'); args=ap.parse_args()
     root=Path(args.root).resolve(); cfg=json.loads((root/args.config).read_text()); out=root/cfg['output_distribution']
     errors=[]
     if not (out/'promotion.json').exists(): errors.append('promotion.json missing')

@@ -1,0 +1,38 @@
+{
+  "hosts": [
+    {
+      "adapter": "direct-skill",
+      "artifact": "agent-skills-v1.34.0/packages/*.skill",
+      "display_name": "Gemini CLI",
+      "host": "gemini-cli",
+      "skill_count": 19,
+      "static_validation": "PASS"
+    },
+    {
+      "adapter": "skills-only-plugin",
+      "artifact": "claude-code-plugin.zip",
+      "display_name": "Claude Code",
+      "host": "claude-code",
+      "max_internal_path": 81,
+      "sha256": "94946e682a92cee814047a1b8a34a9e4270ecc2ff0a8dd6c45da1da48e3d1516",
+      "skill_count": 19,
+      "static_validation": "PASS"
+    },
+    {
+      "adapter": "portable-skills-only-plugin",
+      "artifact": "openai-portable-plugin.zip",
+      "display_name": "OpenAI ChatGPT / Codex Plugins",
+      "host": "openai-plugins",
+      "max_internal_path": 81,
+      "sha256": "df343f5ca1ad5da6b12a7c1f64d077e2f00c8c482847979dd7eb014436cfea4d",
+      "skill_count": 19,
+      "static_validation": "PASS"
+    }
+  ],
+  "live_host_smoke": {
+    "reason": "No actual Gemini CLI, Claude Code, or Codex/ChatGPT host runner is configured in deterministic repository CI.",
+    "status": "NOT_RUN"
+  },
+  "repository_version": "v1.34.0",
+  "source_distribution": "dist/agent-skills-v1.34.0"
+}

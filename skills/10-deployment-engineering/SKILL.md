@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.10.0"
+skill_version: "1.11.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.33.0"
+last_repository_update: "v1.34.0"
 tags:
   - google-apps-script
   - deployment
@@ -2244,3 +2244,26 @@ Require the rehearsal to prove:
 - promotion approval invalidation if the rehearsed candidate changes.
 
 Treat a successful rehearsal as static release evidence only. It does not replace live-host validation, burn-in, signed attestation, or operator approval.
+
+# Operational Release Closure (v1.34)
+
+For high-assurance package-first migration, combine live evidence closure and release ceremony into one checkpoint while preserving strict ordering:
+
+```text
+live host lifecycle + dual-channel burn-in
+→ digest-bound promotion approval
+→ exact release-subject inventory
+→ READY_TO_TAG
+→ signed/immutable release ceremony
+→ per-asset verification
+→ operational closure PASS
+```
+
+Never sign or publish before `READY_TO_TAG`. Freeze the exact release subject set and bind its digest into approval/readiness so a changed artifact invalidates stale authorization.
+
+For GitHub releases, prefer immutable releases when available. Preflight repository immutability before publication, verify the frozen subjects already have the required artifact attestations, then verify the resulting immutable-release attestation and every local release asset after publication. A successful upload without both pre-publication subject verification and post-publication release verification is not ceremony closure.
+
+Current GitHub references:
+- immutable releases: https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases
+- verify release integrity: https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/verify-release-integrity
+- artifact attestations: https://docs.github.com/en/actions/concepts/security/artifact-attestations

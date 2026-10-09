@@ -1,0 +1,25 @@
+{
+  "repository_version": "v1.34.0",
+  "skill_distribution": "dist/agent-skills-v1.34.0",
+  "host_distribution": "dist/host-compat-v1.34.0",
+  "evaluation_report": "reports/agent-skill-evaluation-v1.34.0.json",
+  "security_policy": {
+    "require_complete": true,
+    "max_critical": 0,
+    "max_high": 0
+  },
+  "provenance": {
+    "statement_type": "https://in-toto.io/Statement/v1",
+    "predicate_type": "https://slsa.dev/provenance/v1",
+    "build_type": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+    "builder_id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+    "signed_attestation_local_status": "NOT_RUN"
+  },
+  "revocation": {
+    "match_by": [
+      "name",
+      "sha256"
+    ],
+    "effect": "DENY"
+  }
+}
