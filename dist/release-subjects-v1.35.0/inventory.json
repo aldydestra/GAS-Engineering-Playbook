@@ -1,0 +1,145 @@
+{
+  "errors": [],
+  "host_manifest": {
+    "path": "dist/host-compat-v1.35.0/manifest.json",
+    "sha256": "8a05032ae3afeac1b89cbbf85a1253a451c62164b59d5f2a0a45f7e5d821843a"
+  },
+  "host_subject_count": 2,
+  "inventory_status": "PASS_STATIC",
+  "package_manifest": {
+    "path": "dist/agent-skills-v1.35.0/manifest.json",
+    "sha256": "b1c1dea08d2e15c4cf5cbede05bb0ab00374015ed63ab46b32aa000c3c51ec91"
+  },
+  "package_subject_count": 19,
+  "repository_version": "v1.35.0",
+  "schema_version": 1,
+  "subject_count": 21,
+  "subjects": [
+    {
+      "kind": "agent-skill-package",
+      "name": "agent-skill-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/agent-skill-engineering.skill",
+      "sha256": "a12c0621e0f44c969f4901b0a92a8818762acd2857028ac89def572d22f25cdf"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "agent-skill-supply-chain-security.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/agent-skill-supply-chain-security.skill",
+      "sha256": "7d75b1e3e62d922c71e5a79c8303a782313e1e65a662d180a519ac9f5ef6cf33"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "ai-agent-integration.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/ai-agent-integration.skill",
+      "sha256": "3f7563b2aed4ed23d4f3d0ad1dc714fdbd8ec20286e91a128f8d15926a47e466"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "appsheet-migration.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/appsheet-migration.skill",
+      "sha256": "c08693c329959b080f3056e73507c3a8b91519005d82f1e4184cb6b73c7334a0"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "database-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/database-engineering.skill",
+      "sha256": "e4896371b3b3f4b4cab269560a9a1c865494142aced2c9caf17b2652b3ffc22b"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "deployment-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/deployment-engineering.skill",
+      "sha256": "4fa2fac647c515de9beddf7713446ace132fdce3a8022ff9dfde28143f733849"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "documentation-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/documentation-engineering.skill",
+      "sha256": "744f0036185baab7d2df5bbe884508ffaac24465351c8aab7b2fbb28eb54f225"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "gas-core-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/gas-core-engineering.skill",
+      "sha256": "6eb0cd9652b926beb14c8031e45e6c5594e657114f16138337e19a80a16f48a9"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "monitoring-observability.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/monitoring-observability.skill",
+      "sha256": "99b047356ad63f0ebc60c5a8881d64a67d61bebdd31a5c8e0eba4d838dfbcd4a"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "performance-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/performance-engineering.skill",
+      "sha256": "d6240b34e9a4c322aa694f55f3dc49451946c31c03e12f510186cdbd9293b93e"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "postgresql-integration.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/postgresql-integration.skill",
+      "sha256": "473b5369e1a198f369cd5d2bc3b4bcacddd26e74744bc8154ab8efa0567982a1"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "product-design-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/product-design-engineering.skill",
+      "sha256": "ac4e18b754abfc9b344a5d66c53c3965abc849eabf01413b916810c93c9dc17e"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "security-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/security-engineering.skill",
+      "sha256": "7bcdd30c0b57b024bbfe3b0f6e101da520fb996895af5b43a337c9dba726c337"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "software-architecture.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/software-architecture.skill",
+      "sha256": "c9126905702f7b09a5f6f889d49d812fe4796b9a9c7d2acfbf9bb3aa5548f422"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "testing-quality.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/testing-quality.skill",
+      "sha256": "529732541790418cd75a5c739cc186acb4332badb40168aa677d72ea06445f3d"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "web-app-frontend-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/web-app-frontend-engineering.skill",
+      "sha256": "d8eb13c8dd2f28aba27b8f924fcb910a06bdc9baafbe7f03fffe649afc878166"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "workspace-addons-chat-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/workspace-addons-chat-engineering.skill",
+      "sha256": "6259d439e761a39363f43c6a3b498f7f36cf1c8b7bb1db07f87f7b2f32886ebb"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "workspace-api-event-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/workspace-api-event-engineering.skill",
+      "sha256": "d376feab7b0b7a518a584b17ced21f40743982f143aacaab47de5a8cca1a632c"
+    },
+    {
+      "kind": "agent-skill-package",
+      "name": "workspace-governance-compliance-engineering.skill",
+      "path": "dist/agent-skills-v1.35.0/packages/workspace-governance-compliance-engineering.skill",
+      "sha256": "b2450e5195c6766644ac5fce9f998738083442cafcb0d5e40888f56bbb759431"
+    },
+    {
+      "kind": "host-adapter",
+      "name": "claude-code-plugin.zip",
+      "path": "dist/host-compat-v1.35.0/claude-code-plugin.zip",
+      "sha256": "688285011a2c98dfacf70c6a7cc7c348f7b0338a60ea5e551f4e450d612db009"
+    },
+    {
+      "kind": "host-adapter",
+      "name": "openai-portable-plugin.zip",
+      "path": "dist/host-compat-v1.35.0/openai-portable-plugin.zip",
+      "sha256": "08a2384571b59f74fc7be8e3c83ffe5aa8caad4500d3d8ff1994ca5be0d138e9"
+    }
+  ]
+}

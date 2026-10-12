@@ -1,10 +1,10 @@
 ---
 name: security-engineering
 description: "Secure Apps Script, Workspace, and adjacent agent integrations: authentication, authorization, least privilege, OAuth scopes, secrets, XSS/input validation, prompt injection, server-side permission checks, filtered/partial read semantics, and safe logging. Use for application/runtime trust boundaries rather than skill-package scanning. Use for threat modeling public/web endpoints and access-control failures as well as OAuth and prompt-injection risks."
-skill_version: "1.6.1"
+skill_version: "1.7.0"
 repository_introduced: "v1.8.0"
 status: "evolving"
-last_repository_update: "v1.26.0"
+last_repository_update: "v1.35.0"
 tags:
   - google-apps-script
   - security
@@ -1987,3 +1987,27 @@ Cross-reference Skills 08, 09, 14, 16, and 17.
   https://www.reddit.com/r/GoogleAppsScript/
 
 Community sources are used to identify recurring confusion and operational edge cases. Current official documentation defines current Apps Script behavior.
+
+---
+
+## GAS Authorization & Manifest Refresh — v1.35.0
+
+### Granular OAuth Can Break Background Workflows
+
+Users can selectively deny requested scopes on supported authorization surfaces. Background executions such as installable triggers cannot display a consent dialog; if required authorization is absent, the execution fails rather than prompting.
+
+Therefore every trigger-backed workflow that depends on privileged services needs:
+
+- an explicit authorization/setup path;
+- detection or classification of missing-scope failures where practical;
+- a re-authorization runbook;
+- release review when new scopes are introduced.
+
+A previously authorized installation is not proof that newly added scopes are granted.
+
+### URL Allowlists Are a Deployment Control
+
+For Apps Script / Workspace add-on manifests, URL allowlists used for external fetches or external links are part of the release contract. Current guidance distinguishes test deployments from versioned deployments: allowlists may be optional during testing but become required for versioned deployment where the relevant manifest fields apply.
+
+Do not solve a deployment failure by broadening an allowlist to `*`-like coverage. Keep prefixes as narrow as the product contract allows and review them alongside OAuth scopes.
+

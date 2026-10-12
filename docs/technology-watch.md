@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-10-02**
+Last audit: **2026-10-12**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -32,6 +32,26 @@ Statuses:
 - **WATCH** — interesting/current but not yet a generic rule.
 - **TOOL SNAPSHOT** — version/tooling fact; re-check before use.
 - **NO ACTION** — not currently relevant to playbook guidance.
+
+---
+
+
+## v1.35.0 GAS Re-Center Audit — 2026-10-12
+
+Status: **ADOPTED**
+
+The v1.35 audit deliberately shifted attention back to Google Apps Script runtime, performance, authorization, testing, observability, deployment, and Workspace add-on constraints. Seven GAS-focused skills were updated; Agent Skill 18/19 were not version-bumped solely for Shadow RC tooling.
+
+Primary adopted findings:
+
+- Apps Script runtime remains 6 minutes per execution for Consumer and Workspace accounts;
+- current `clasp` guide requires Node.js 20+ and documents Git/CI/CD plus multi-environment patterns;
+- granular OAuth can cause background/trigger authorization failures without an interactive prompt;
+- Editor add-on test deployments do not exercise installable triggers and can share Properties state;
+- versioned deployment URL allowlists are part of the release contract where applicable;
+- Workspace add-on cards have 100-widget / 100-section limits and mobile surfaces are not full desktop parity.
+
+Detailed audit: `docs/gas-platform-refresh-v1.35.0.md`.
 
 ---
 

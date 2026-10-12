@@ -7,32 +7,36 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'evidence/live-validation/v1.34.0/**'
-      - 'dist/agent-skills-v1.34.0/**'
-      - 'dist/host-compat-v1.34.0/**'
-      - 'dist/dual-distribution-v1.34.0/**'
-      - 'dist/live-validation-v1.34.0/**'
-      - 'dist/v2-cutover-rehearsal-v1.34.0/**'
-      - 'dist/v2-promotion-v1.34.0/**'
-      - 'dist/release-readiness-v1.34.0/**'
-      - 'dist/release-subjects-v1.34.0/**'
-      - 'dist/operational-release-closure-v1.34.0/**'
-      - 'evidence/operational-release/v1.34.0/**'
+      - 'evidence/live-validation/v1.35.0/**'
+      - 'dist/agent-skills-v1.35.0/**'
+      - 'dist/host-compat-v1.35.0/**'
+      - 'dist/dual-distribution-v1.35.0/**'
+      - 'dist/live-validation-v1.35.0/**'
+      - 'dist/v2-cutover-rehearsal-v1.35.0/**'
+      - 'dist/v2-shadow-rc-v1.35.0/**'
+      - 'dist/v2-promotion-v1.35.0/**'
+      - 'dist/release-readiness-v1.35.0/**'
+      - 'dist/release-subjects-v1.35.0/**'
+      - 'dist/operational-release-closure-v1.35.0/**'
+      - 'evidence/operational-release/v1.35.0/**'
       - 'packaging/v2-cutover-rehearsal/**'
+      - 'packaging/v2-shadow-rc/**'
       - 'packaging/v2-promotion/**'
       - 'packaging/release-readiness/**'
       - 'packaging/release-subject-inventory/**'
       - 'packaging/operational-release-closure/**'
-      - 'reports/agent-skill-evaluation-v1.34.0.*'
-      - 'docs/host-compatibility-matrix-v1.34.0.md'
-      - 'docs/dual-distribution-rc-v1.34.0.md'
-      - 'docs/live-validation-operational-burn-in-v1.34.0.md'
-      - 'docs/v2-go-no-go-v1.34.0.md'
-      - 'docs/v2-cutover-rehearsal-v1.34.0.md'
-      - 'docs/v2-promotion-control-v1.34.0.md'
-      - 'docs/release-readiness-freeze-v1.34.0.md'
-      - 'docs/release-subject-inventory-v1.34.0.md'
-      - 'docs/operational-release-closure-v1.34.0.md'
+      - 'reports/agent-skill-evaluation-v1.35.0.*'
+      - 'docs/host-compatibility-matrix-v1.35.0.md'
+      - 'docs/dual-distribution-rc-v1.35.0.md'
+      - 'docs/live-validation-operational-burn-in-v1.35.0.md'
+      - 'docs/v2-go-no-go-v1.35.0.md'
+      - 'docs/v2-cutover-rehearsal-v1.35.0.md'
+      - 'docs/v2-shadow-rc-breaking-change-freeze-v1.35.0.md'
+      - 'docs/gas-platform-refresh-v1.35.0.md'
+      - 'docs/v2-promotion-control-v1.35.0.md'
+      - 'docs/release-readiness-freeze-v1.35.0.md'
+      - 'docs/release-subject-inventory-v1.35.0.md'
+      - 'docs/operational-release-closure-v1.35.0.md'
   push:
     branches: [main]
     paths:
@@ -40,32 +44,36 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'evidence/live-validation/v1.34.0/**'
-      - 'dist/agent-skills-v1.34.0/**'
-      - 'dist/host-compat-v1.34.0/**'
-      - 'dist/dual-distribution-v1.34.0/**'
-      - 'dist/live-validation-v1.34.0/**'
-      - 'dist/v2-cutover-rehearsal-v1.34.0/**'
-      - 'dist/v2-promotion-v1.34.0/**'
-      - 'dist/release-readiness-v1.34.0/**'
-      - 'dist/release-subjects-v1.34.0/**'
-      - 'dist/operational-release-closure-v1.34.0/**'
-      - 'evidence/operational-release/v1.34.0/**'
+      - 'evidence/live-validation/v1.35.0/**'
+      - 'dist/agent-skills-v1.35.0/**'
+      - 'dist/host-compat-v1.35.0/**'
+      - 'dist/dual-distribution-v1.35.0/**'
+      - 'dist/live-validation-v1.35.0/**'
+      - 'dist/v2-cutover-rehearsal-v1.35.0/**'
+      - 'dist/v2-shadow-rc-v1.35.0/**'
+      - 'dist/v2-promotion-v1.35.0/**'
+      - 'dist/release-readiness-v1.35.0/**'
+      - 'dist/release-subjects-v1.35.0/**'
+      - 'dist/operational-release-closure-v1.35.0/**'
+      - 'evidence/operational-release/v1.35.0/**'
       - 'packaging/v2-cutover-rehearsal/**'
+      - 'packaging/v2-shadow-rc/**'
       - 'packaging/v2-promotion/**'
       - 'packaging/release-readiness/**'
       - 'packaging/release-subject-inventory/**'
       - 'packaging/operational-release-closure/**'
-      - 'reports/agent-skill-evaluation-v1.34.0.*'
-      - 'docs/host-compatibility-matrix-v1.34.0.md'
-      - 'docs/dual-distribution-rc-v1.34.0.md'
-      - 'docs/live-validation-operational-burn-in-v1.34.0.md'
-      - 'docs/v2-go-no-go-v1.34.0.md'
-      - 'docs/v2-cutover-rehearsal-v1.34.0.md'
-      - 'docs/v2-promotion-control-v1.34.0.md'
-      - 'docs/release-readiness-freeze-v1.34.0.md'
-      - 'docs/release-subject-inventory-v1.34.0.md'
-      - 'docs/operational-release-closure-v1.34.0.md'
+      - 'reports/agent-skill-evaluation-v1.35.0.*'
+      - 'docs/host-compatibility-matrix-v1.35.0.md'
+      - 'docs/dual-distribution-rc-v1.35.0.md'
+      - 'docs/live-validation-operational-burn-in-v1.35.0.md'
+      - 'docs/v2-go-no-go-v1.35.0.md'
+      - 'docs/v2-cutover-rehearsal-v1.35.0.md'
+      - 'docs/v2-shadow-rc-breaking-change-freeze-v1.35.0.md'
+      - 'docs/gas-platform-refresh-v1.35.0.md'
+      - 'docs/v2-promotion-control-v1.35.0.md'
+      - 'docs/release-readiness-freeze-v1.35.0.md'
+      - 'docs/release-subject-inventory-v1.35.0.md'
+      - 'docs/operational-release-closure-v1.35.0.md'
 
 jobs:
   build-and-verify:
@@ -119,6 +127,12 @@ jobs:
         run: python tools/verify_v2_cutover_rehearsal.py
       - name: Test package-first cutover rehearsal
         run: python -m unittest tools/test_v2_cutover_rehearsal.py -v
+      - name: Build v2 Shadow RC and breaking-change freeze
+        run: python tools/build_v2_shadow_rc.py
+      - name: Verify v2 Shadow RC and breaking-change freeze
+        run: python tools/verify_v2_shadow_rc.py
+      - name: Test v2 Shadow RC freeze semantics
+        run: python -m unittest tools/test_v2_shadow_rc.py -v
       - name: Build exact release subject inventory
         run: python tools/build_release_subject_inventory.py
       - name: Verify release subject inventory
@@ -146,23 +160,26 @@ jobs:
       - name: Ensure generated distributions and reports are committed and reproducible
         run: >-
           git diff --exit-code --
-          dist/agent-skills-v1.34.0
-          dist/host-compat-v1.34.0
-          dist/dual-distribution-v1.34.0
-          dist/live-validation-v1.34.0
-          dist/v2-cutover-rehearsal-v1.34.0
-          dist/v2-promotion-v1.34.0
-          dist/release-readiness-v1.34.0
-          dist/release-subjects-v1.34.0
-          dist/operational-release-closure-v1.34.0
-          reports/agent-skill-evaluation-v1.34.0.json
-          reports/agent-skill-evaluation-v1.34.0.md
-          docs/host-compatibility-matrix-v1.34.0.md
-          docs/dual-distribution-rc-v1.34.0.md
-          docs/live-validation-operational-burn-in-v1.34.0.md
-          docs/v2-go-no-go-v1.34.0.md
-          docs/v2-cutover-rehearsal-v1.34.0.md
-          docs/v2-promotion-control-v1.34.0.md
-          docs/release-readiness-freeze-v1.34.0.md
-          docs/release-subject-inventory-v1.34.0.md
-          docs/operational-release-closure-v1.34.0.md
+          dist/agent-skills-v1.35.0
+          dist/host-compat-v1.35.0
+          dist/dual-distribution-v1.35.0
+          dist/live-validation-v1.35.0
+          dist/v2-cutover-rehearsal-v1.35.0
+          dist/v2-shadow-rc-v1.35.0
+          dist/v2-promotion-v1.35.0
+          dist/release-readiness-v1.35.0
+          dist/release-subjects-v1.35.0
+          dist/operational-release-closure-v1.35.0
+          reports/agent-skill-evaluation-v1.35.0.json
+          reports/agent-skill-evaluation-v1.35.0.md
+          docs/host-compatibility-matrix-v1.35.0.md
+          docs/dual-distribution-rc-v1.35.0.md
+          docs/live-validation-operational-burn-in-v1.35.0.md
+          docs/v2-go-no-go-v1.35.0.md
+          docs/v2-cutover-rehearsal-v1.35.0.md
+          docs/v2-shadow-rc-breaking-change-freeze-v1.35.0.md
+          docs/gas-platform-refresh-v1.35.0.md
+          docs/v2-promotion-control-v1.35.0.md
+          docs/release-readiness-freeze-v1.35.0.md
+          docs/release-subject-inventory-v1.35.0.md
+          docs/operational-release-closure-v1.35.0.md

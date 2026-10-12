@@ -3,6 +3,81 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.35.0] - 2026-10-12
+
+### v2 Shadow RC & Breaking-Change Freeze
+
+Adds a static v2 Shadow RC checkpoint that freezes the package-first compatibility surface without pretending that unfinished live operational evidence has passed.
+
+### Added
+
+- `packaging/v2-shadow-rc/shadow-v1.35.0.json`;
+- `tools/build_v2_shadow_rc.py`;
+- `tools/verify_v2_shadow_rc.py`;
+- `tools/test_v2_shadow_rc.py`;
+- `dist/v2-shadow-rc-v1.35.0/` with `shadow-rc.json`, `contract-freeze.json`, `BREAKING_CHANGE_FREEZE.md`, and checksums;
+- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.0.md`;
+- `docs/gas-platform-refresh-v1.35.0.md` with first-party GAS source review and adoption decisions.
+
+### Breaking-Change Freeze
+
+The v1.35 contract is compared against v1.34.0 and fails closed on:
+
+- package rename/removal/addition;
+- canonical rollback-path remapping;
+- host adapter identity/contract changes;
+- skill major-version changes.
+
+Minor/patch skill updates and non-breaking content improvements remain allowed. `production_cutover_performed` remains `false`.
+
+### Promotion / Readiness Hardening
+
+- v2 promotion schema **v4 → v5** and now binds `shadow_rc_sha256`;
+- release-readiness schema **v3 → v4** and now freezes the Shadow RC evidence digest;
+- changing Shadow RC evidence invalidates stale approval/readiness;
+- CI and attestation workflows now rebuild and verify Shadow RC evidence before promotion/readiness.
+
+### GAS Platform Refresh
+
+v1.35 deliberately re-centers playbook development on Google Apps Script. Seven GAS-focused skills received evidence-backed updates from current Google documentation:
+
+```text
+01 GAS Core Engineering                    1.3.1  → 1.4.0
+06 Performance Engineering                 1.3.1  → 1.4.0
+07 Security Engineering                    1.6.1  → 1.7.0
+08 Testing & Quality                       1.5.0  → 1.6.0
+09 Monitoring & Observability              1.7.0  → 1.8.0
+10 Deployment Engineering                  1.11.0 → 1.12.0
+14 Workspace Add-ons & Chat Engineering   1.3.1  → 1.4.0
+```
+
+Material additions include current Apps Script quota/runtime contracts, large-Sheets escalation guidance, granular OAuth/trigger failure handling, add-on test-deployment limitations and state persistence, quota/log observability, current `clasp` Node.js 20+/CI/multi-environment guidance, version-vs-deployment semantics, and Workspace add-on runtime/UI constraints.
+
+Agent Skill 18/19 were intentionally not bumped solely for release-tooling changes.
+
+### Validation Result
+
+```text
+19/19 package validation                PASS
+evaluation parity                       PASS
+host static compatibility               PASS
+security/catalog/provenance             PASS
+dual-distribution static RC             PASS_STATIC
+live-validation harness                 HARNESS_READY
+live host lifecycle                     NOT_RUN
+consumer burn-in                        NOT_RUN
+v2 cutover rehearsal                    PASS_STATIC
+v2 Shadow RC                            PASS_STATIC
+v2 promotion                            BLOCKED
+release readiness                       BLOCKED
+operational release closure             BLOCKED
+repository unittest suite               59/59 PASS
+```
+
+v2.0 remains intentionally blocked by missing real operational evidence rather than by structural/package incompatibility.
+
+---
+
 ## [v1.34.0] - 2026-10-09
 
 ### Operational Release Closure

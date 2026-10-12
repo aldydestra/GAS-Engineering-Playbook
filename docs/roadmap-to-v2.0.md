@@ -453,35 +453,56 @@ The deterministic v1.34 tooling can be shipped while the checkpoint itself remai
 
 ## v1.35.0 — v2 Shadow RC & Breaking-Change Freeze
 
-Status: **planned — starts only after v1.34 operational release closure PASS**
+Status: **implemented — static Shadow RC PASS; v2 production cutover remains blocked by operational closure**
 
 Goal:
 
-Build the exact v2 repository candidate in shadow mode and freeze the breaking-change surface before v2.0.
+Freeze the v2 package-first breaking-change surface without pretending that unfinished live/burn-in/release evidence has passed. v1.35.0 may improve non-breaking skill content while package identities, rollback mappings, and host contracts remain frozen.
 
-Planned scope:
+Implemented scope:
 
-- package-first `skills/<package-name>/` shadow repository root;
-- final v1-path → v2-path migration table;
-- documentation/link rewrite audit;
-- compatibility/deprecation notice set;
-- consumer migration guide;
-- final parity/security/trust re-run against the v2 shadow root;
-- verify the v2 RC derives from the exact operationally closed v1.34 candidate or a fully re-approved successor;
-- no new breaking changes after RC freeze except blocker fixes.
+- `dist/v2-shadow-rc-v1.35.0/` with machine-readable Shadow RC evidence;
+- contract digest covering all 19 package names, canonical rollback mappings, host adapter identities, and skill major-version boundaries;
+- baseline comparison against v1.34.0;
+- fail-closed detection for package rename/removal/addition, canonical-path remap, host-adapter contract drift, or skill major-version drift;
+- non-breaking minor/patch skill improvements remain allowed;
+- Shadow RC digest is bound into v2 promotion context and immutable release-readiness freeze;
+- stale promotion approval becomes invalid if Shadow RC evidence changes;
+- GAS-first platform refresh across seven skills without changing the frozen package identity set.
 
-Exit gate:
+Implemented result:
 
 ```text
-v1.34 operational release closure    PASS
-v2 shadow tree                        PASS
-all internal references               PASS
-package/evaluation/security parity    PASS
-migration + rollback docs             COMPLETE
-breaking-change surface               FROZEN
+package identity set                  PASS_STATIC (19/19)
+canonical rollback mapping            PASS_STATIC (19/19)
+host adapter contract                 PASS_STATIC
+skill major-version freeze            PASS_STATIC
+v2 cutover rehearsal                  PASS_STATIC
+v2 Shadow RC                          PASS_STATIC
+production cutover                    NOT_PERFORMED
+live host / burn-in closure           NOT_RUN
+v2 promotion                          BLOCKED
+release readiness                     BLOCKED
 ```
 
-Any change to a decisive package, evidence, subject inventory, or migration input after the v1.34 closure requires recomputation/re-approval rather than carrying old trust forward.
+Breaking-change policy:
+
+```text
+allowed during v1.35.x:
+- skill content corrections;
+- new GAS operational guidance;
+- minor/patch skill-version increments;
+- tests and non-breaking tooling fixes.
+
+requires explicit freeze break + new approval context:
+- package rename/removal/addition;
+- canonical rollback mapping change;
+- host adapter identity/contract change;
+- skill major-version change;
+- production package-first cutover.
+```
+
+The earlier roadmap required v1.34 operational closure to PASS before Shadow RC work could begin. v1.35 refines that rule: **static Shadow RC preparation is allowed while operational closure is blocked**, but v2.0 publication/cutover is still prohibited until the operational checkpoint reaches PASS.
 
 ---
 
@@ -517,10 +538,13 @@ Do **not** release v2 until all are true:
 - [ ] Trigger/effectiveness parity is acceptable.
 - [ ] Security gate is complete.
 - [ ] Distribution artifacts are reproducible.
+- [ ] v2 Shadow RC is `PASS_STATIC` and the breaking-change contract remains frozen.
 - [ ] At least one supported host is fully smoke-tested; all claimed hosts are tested.
 - [ ] Naming/path migration map exists.
 - [ ] Rollback/compatibility strategy exists.
 - [ ] Real usage of dual distribution has not exposed a blocking architectural flaw.
+- [ ] Promotion approval is bound to the exact current Shadow RC/evidence context.
+- [ ] Operational release closure, signed attestation, and immutable asset verification are `PASS`.
 
 If these gates are not met, continue the v1.x line rather than forcing v2 by calendar/version pressure.
 

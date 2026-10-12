@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.11.0"
+skill_version: "1.12.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.34.0"
+last_repository_update: "v1.35.0"
 tags:
   - google-apps-script
   - deployment
@@ -2267,3 +2267,46 @@ Current GitHub references:
 - immutable releases: https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases
 - verify release integrity: https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/verify-release-integrity
 - artifact attestations: https://docs.github.com/en/actions/concepts/security/artifact-attestations
+
+---
+
+## GAS Deployment Toolchain Refresh — v1.35.0
+
+### Current `clasp` Baseline
+
+The current official Apps Script `clasp` guide requires **Node.js 20 or later** and documents local development, immutable project versions, deployment creation/update, and Git-based CI/CD.
+
+For automated delivery, treat the repository as the source of truth only after that operating model is explicit. `clasp push --force` can overwrite remote editor changes; it is appropriate only when remote manual editing is intentionally prohibited or reconciled first.
+
+### CI Authentication Is a Release Secret
+
+The official CI/CD pattern uses serialized clasp credentials/configuration in CI secrets. Treat refresh tokens as high-value credentials:
+
+- never commit `.clasprc.json`;
+- rotate leaked or stale refresh tokens;
+- keep `.clasp.json` / target identity explicit per environment;
+- validate the target Script ID before a destructive push.
+
+### Multi-Environment GAS Deployments Need Distinct Targets
+
+For dev/staging/production, use distinct Apps Script projects or otherwise explicit target identities. Never let branch selection implicitly reuse the same `.clasp.json` without a target assertion.
+
+Recommended deployment invariant:
+
+```text
+source commit
+→ expected environment
+→ expected scriptId
+→ clasp status / diff review
+→ push
+→ immutable Apps Script version
+→ deploy/redeploy that version
+→ smoke test deployment ID
+```
+
+### Versions and Deployments Are Different Assets
+
+An Apps Script version is an immutable snapshot; a deployment points users at a version. Updating production should create a new version and move/redeploy the deployment deliberately.
+
+Versioned deployment ownership also deserves operational review during account/domain ownership changes; deployment ownership does not simply follow every project ownership transfer.
+

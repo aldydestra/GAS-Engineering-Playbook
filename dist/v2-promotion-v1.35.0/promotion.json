@@ -1,0 +1,60 @@
+{
+  "blockers": [
+    "live-validation v2 readiness is not GO"
+  ],
+  "cutover_rehearsal": {
+    "manifest": "dist/v2-cutover-rehearsal-v1.35.0/cutover-manifest.json",
+    "sha256": "a470242394fcf3fb204cd734a64e2236c6c274ff8f782d65b1f94dfb1107b4c7",
+    "status": "PASS_STATIC"
+  },
+  "dual_distribution": {
+    "release_index": "dist/dual-distribution-v1.35.0/release-index.json",
+    "sha256": "7fbbd243c2e740aed30d96297d82e65a83d7c4371cf225d205dd1e457e665308"
+  },
+  "errors": [],
+  "live_validation": {
+    "manifest": "dist/live-validation-v1.35.0/manifest.json",
+    "sha256": "df2c6651cc1c83757ab499667ab1f685881b170cf14f263c0fd15646b6e81fa5",
+    "status": "NO_GO"
+  },
+  "operator_approval": {
+    "binding": "promotion_context_sha256",
+    "decision": "NOT_REQUESTED",
+    "evidence": "evidence/live-validation/v1.35.0/v2-approval.json",
+    "sha256": "3b59eeee96d970a840cd9f46ea3bef56e954a4cf6badf8404cbf1a423db1cf5c",
+    "valid": false
+  },
+  "package_distribution": {
+    "all_valid": true,
+    "manifest": "dist/agent-skills-v1.35.0/manifest.json",
+    "sha256": "b1c1dea08d2e15c4cf5cbede05bb0ab00374015ed63ab46b32aa000c3c51ec91"
+  },
+  "policy": {
+    "require_operator_approval": true
+  },
+  "promotion_context": {
+    "cutover_rehearsal_sha256": "a470242394fcf3fb204cd734a64e2236c6c274ff8f782d65b1f94dfb1107b4c7",
+    "dual_release_index_sha256": "7fbbd243c2e740aed30d96297d82e65a83d7c4371cf225d205dd1e457e665308",
+    "live_manifest_sha256": "df2c6651cc1c83757ab499667ab1f685881b170cf14f263c0fd15646b6e81fa5",
+    "package_manifest_sha256": "b1c1dea08d2e15c4cf5cbede05bb0ab00374015ed63ab46b32aa000c3c51ec91",
+    "release_subject_inventory_sha256": "6067c7b6b4467c2700bcb011253f8c21b2dbd10da2c98ded4c6827f2722ee85d",
+    "repository_version": "v1.35.0",
+    "sha256": "0f92ebf2db7c5a27787371b39c1888e9fea7de239409d4bb359f200f5accfb49",
+    "shadow_rc_sha256": "603bdeca373313ee2475ae8c37f3330bf616da07488247ab3facb7d159dff85b"
+  },
+  "promotion_status": "BLOCKED",
+  "release_subject_inventory": {
+    "manifest": "dist/release-subjects-v1.35.0/inventory.json",
+    "sha256": "6067c7b6b4467c2700bcb011253f8c21b2dbd10da2c98ded4c6827f2722ee85d",
+    "status": "PASS_STATIC",
+    "subject_count": 21
+  },
+  "repository_version": "v1.35.0",
+  "schema_version": 5,
+  "shadow_rc": {
+    "contract_sha256": "4072c716a2f30b8e5197043499beb48c5f2726ab983dbb5ee1d4c5d7e4ac2eea",
+    "manifest": "dist/v2-shadow-rc-v1.35.0/shadow-rc.json",
+    "sha256": "603bdeca373313ee2475ae8c37f3330bf616da07488247ab3facb7d159dff85b",
+    "status": "PASS_STATIC"
+  }
+}

@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
 description: "Design observability for Apps Script and Workspace workflows using structured logs, correlation IDs, metrics, retries, synthetic probes, reconciliation, incident classification, business-outcome checks, completeness-aware reads, and alert deduplication. Use when diagnosing or monitoring runtime behavior."
-skill_version: "1.7.0"
+skill_version: "1.8.0"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.34.0"
+last_repository_update: "v1.35.0"
 tags:
   - google-apps-script
   - monitoring
@@ -1908,3 +1908,24 @@ PASS → immutable release and asset verification completed for the same candida
 ```
 
 A release ceremony is an operational event. Monitor it like one: record retries, external dependency failures, permission blockers, immutable-release policy state, and verification results without reclassifying infrastructure blockers as product defects.
+
+---
+
+## GAS Observability Refresh — v1.35.0
+
+### Monitor Both Execution Health and Quota Pressure
+
+Current Apps Script guidance exposes different operational surfaces:
+
+- Apps Script dashboard / My Executions for execution state and concurrent runs;
+- Google Cloud console for API/service quotas when using a standard Cloud project;
+- service-specific runtime signals such as `MailApp.getRemainingDailyQuota()` where available.
+
+Do not collapse all quota incidents into a generic `FAILED` status. Distinguish daily quota exhaustion, short-term rate limiting, simultaneous-execution pressure, authorization failures, and platform/server errors because their remediation differs.
+
+### Data Regions Can Change Logging Visibility
+
+For some older scripts under advanced Data Regions settings, Cloud Logging visibility can be suppressed to satisfy regionalization requirements. Absence of Cloud log entries is therefore not always evidence that a job never executed.
+
+Keep reconciliation/business-outcome telemetry and Apps Script execution history as independent evidence paths.
+

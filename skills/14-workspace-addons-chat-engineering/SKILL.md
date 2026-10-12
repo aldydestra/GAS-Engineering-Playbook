@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
 description: "Build Google Workspace Add-ons, Google Chat apps, and Workspace Studio extensions using CardService, host manifests, contextual/homepage cards, navigation/actions, Chat responses, workflow steps/starters, workflowTriggers, lifecycle callbacks, OAuth, and membership-visibility UI states. Use for Workspace-native add-on/chat/studio UX."
-skill_version: "1.3.1"
+skill_version: "1.4.0"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.26.0"
+last_repository_update: "v1.35.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1626,3 +1626,24 @@ Cross-reference Skills 07, 09, 16, and 17.
 
 - A2UI agent quickstart  
   https://developers.google.com/workspace/add-ons/chat/quickstart-a2ui-agent
+
+---
+
+## Workspace Add-on Runtime Refresh — v1.35.0
+
+### Test Deployment Boundaries
+
+Editor add-on test deployments are useful for authorization and UI iteration, but they do not support installable triggers. Trigger-backed behavior needs a separate integration path before release.
+
+Properties can persist between test deployments that share the same add-on and document, so test state must be reset or namespaced.
+
+### Workspace Add-on UI Limits Are Product Constraints
+
+Current Workspace add-on guidance limits a card to at most 100 widgets or 100 card sections. Treat this as an information-architecture constraint: paginate, drill down, or summarize rather than constructing unbounded cards.
+
+Workspace add-ons also cannot use Apps Script simple triggers; use manifest triggers and supported installable-trigger patterns according to the host model.
+
+### Mobile Capability Is Not Desktop Parity
+
+Do not assume every add-on surface is available on mobile. Contextual Gmail behavior has mobile support, while some non-contextual homepages and other surfaces remain desktop-oriented. Include host/surface capability in acceptance tests.
+

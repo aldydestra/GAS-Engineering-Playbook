@@ -1,10 +1,10 @@
 ---
 name: gas-core-engineering
 description: "Core Google Apps Script runtime engineering for triggers, LockService/concurrency, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, checkpoints, long-running jobs, and external HTTP calls. Use when the primary problem is GAS runtime behavior or core service usage."
-skill_version: "1.3.1"
+skill_version: "1.4.0"
 repository_introduced: "v1.2.0"
 status: "evolving"
-last_repository_update: "v1.26.0"
+last_repository_update: "v1.35.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1230,3 +1230,36 @@ Cross-reference Skill 17.
 
 - gas-fakes  
   https://github.com/brucemcpherson/gas-fakes
+
+---
+
+## GAS Platform Refresh — v1.35.0
+
+### Treat Quotas as Runtime Contracts, Not Folklore
+
+The current Apps Script quota documentation lists a **6 minute per-execution script runtime** for both consumer and Google Workspace accounts. It also lists 30 seconds for custom functions, 30 simultaneous executions per user, 1,000 simultaneous executions per script, and 20 triggers per user per script.
+
+These values are operational inputs, not constants to scatter through application code. Quotas can change without notice.
+
+For long-running jobs:
+
+```text
+estimate work remaining
+→ stop before the hard runtime ceiling
+→ persist a durable checkpoint
+→ schedule/resume idempotently
+→ reconcile completion
+```
+
+Do not build designs around a presumed 30-minute normal Apps Script execution window.
+
+### V8 Is the Only Current Runtime Baseline
+
+Rhino is historical. New or maintained GAS work should assume V8 and explicitly test legacy projects during migration rather than preserving Rhino-only behavior.
+
+For organizations enforcing Workspace Data Regions, V8 is also the required runtime baseline for strict regionalization support.
+
+### Apps Script as a Workspace Core Service
+
+Apps Script is now a Google Workspace core service. Treat this as an enterprise-operability change, not permission to weaken application controls: least privilege, authorization checks, data-boundary review, monitoring, and deployment discipline still apply.
+

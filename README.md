@@ -4,13 +4,15 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.34.0 Operational Release Closure
+## v1.35.0 v2 Shadow RC & GAS Platform Refresh
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.34.0/` remains the normalized package channel. v1.34.0 merges the previously separate **release ceremony / signed-attestation closure** and **real host lifecycle / operational burn-in closure** into one ordered, fail-closed checkpoint.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.0/` remains the normalized package channel. v1.35.0 introduces the **v2 Shadow RC & Breaking-Change Freeze** without forcing a production v2 cutover, and deliberately re-centers skill evolution on **Google Apps Script engineering**.
 
-The release candidate now has an exact subject boundary: **19 `.skill` packages + 2 host-adapter ZIPs = 21 signed/published subjects**. That inventory is bound into promotion approval and the immutable release-readiness digest. Publication tooling refuses to proceed before `READY_TO_TAG`, checks immutable-release policy, rejects subject drift, verifies signed artifact attestations for all 21 frozen subjects before publication, publishes only that subject set, then records immutable-release attestation plus per-asset verification evidence.
+The new Shadow RC freezes the distribution contract against v1.34.0: all 19 package identities, canonical rollback mappings, host-adapter identities, and skill major-version boundaries must remain stable. Non-breaking skill-content improvements are allowed, but package rename/removal/addition, canonical remapping, host contract drift, or major-version changes fail closed. The Shadow RC digest is bound into v2 promotion and immutable release readiness, so stale approval cannot survive a freeze change.
 
-The deterministic tooling is implemented, but the operational checkpoint remains **`BLOCKED`** until real host lifecycle and real dual-channel burn-in evidence move live validation to `GO`; no synthetic fixture can satisfy that requirement.
+At the same time, seven GAS-focused skills were updated from current first-party Google documentation: **GAS Core, Performance, Security, Testing, Monitoring, Deployment, and Workspace Add-ons**. This release intentionally does **not** bump Agent Skill 18/19 merely because Shadow RC tooling changed.
+
+Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, cutover rehearsal PASS_STATIC, v2 Shadow RC PASS_STATIC, and **59/59 tests PASS**. v2 remains blocked until the real live-host/burn-in and operational release-closure gates are completed.
 
 ## Foundation Status
 
@@ -188,6 +190,7 @@ last_repository_update: "v1.13.0"
 | **v1.32.0** | **Promotion Context & Immutable Release Freeze: complete-context approval binding, post-approval drift detection, release-lock candidate digest, and READY_TO_TAG gate** |
 | **v1.33.0** | **Package-First Cutover Rehearsal: 19/19 generated shadow skills, rollback map, relative-reference checks, and rehearsal digest bound into promotion/readiness** |
 | **v1.34.0** | **Operational Release Closure: merged live/burn-in + release-ceremony checkpoint, exact 21-subject freeze, signed immutable-release verification, and anti-drift approval/readiness binding** |
+| **v1.35.0** | **v2 Shadow RC & GAS Platform Refresh: breaking-change contract freeze, Shadow RC digest binding, 7 GAS-focused skill refreshes, and 59/59 regression tests** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 
@@ -719,14 +722,14 @@ See:
 - `docs/host-compatibility-audit-v1.27.0.md`
 - `docs/security-catalog-provenance-audit-v1.28.0.md`
 - `docs/agent-skill-provenance-v1.28.0.md`
-- `docs/dual-distribution-rc-v1.34.0.md`
-- `docs/live-validation-operational-burn-in-v1.34.0.md`
-- `docs/v2-go-no-go-v1.34.0.md`
-- `docs/v2-cutover-rehearsal-v1.34.0.md`
-- `docs/v2-promotion-control-v1.34.0.md`
-- `docs/release-readiness-freeze-v1.34.0.md`
-- `docs/release-subject-inventory-v1.34.0.md`
-- `docs/operational-release-closure-v1.34.0.md`
+- `docs/host-compatibility-matrix-v1.35.0.md`
+- `docs/v2-cutover-rehearsal-v1.35.0.md`
+- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.0.md`
+- `docs/v2-promotion-control-v1.35.0.md`
+- `docs/release-readiness-freeze-v1.35.0.md`
+- `docs/release-subject-inventory-v1.35.0.md`
+- `docs/operational-release-closure-v1.35.0.md`
+- `docs/gas-platform-refresh-v1.35.0.md`
 - `docs/roadmap-to-v2.0.md`
 
 # Repository Structure
@@ -769,6 +772,7 @@ gas-engineering-playbook/
 │   ├── dual-distribution/
 │   ├── live-validation/
 │   ├── v2-cutover-rehearsal/
+│   ├── v2-shadow-rc/
 │   ├── v2-promotion/
 │   ├── release-readiness/
 │   ├── release-subject-inventory/
@@ -777,23 +781,24 @@ gas-engineering-playbook/
 ├── evals/
 │   └── agent-skills/
 ├── dist/
-│   ├── agent-skills-v1.34.0/
+│   ├── agent-skills-v1.35.0/
 │   │   ├── catalog.json
 │   │   ├── security-report.json
 │   │   ├── revocations.json
 │   │   ├── provenance-index.json
 │   │   └── provenance/
-│   ├── host-compat-v1.34.0/
-│   ├── dual-distribution-v1.34.0/
-│   ├── live-validation-v1.34.0/
-│   ├── v2-cutover-rehearsal-v1.34.0/
-│   ├── v2-promotion-v1.34.0/
-│   ├── release-readiness-v1.34.0/
-│   ├── release-subjects-v1.34.0/
-│   └── operational-release-closure-v1.34.0/
+│   ├── host-compat-v1.35.0/
+│   ├── dual-distribution-v1.35.0/
+│   ├── live-validation-v1.35.0/
+│   ├── v2-cutover-rehearsal-v1.35.0/
+│   ├── v2-shadow-rc-v1.35.0/
+│   ├── v2-promotion-v1.35.0/
+│   ├── release-readiness-v1.35.0/
+│   ├── release-subjects-v1.35.0/
+│   └── operational-release-closure-v1.35.0/
 ├── reports/
-│   ├── agent-skill-evaluation-v1.34.0.json
-│   └── agent-skill-evaluation-v1.34.0.md
+│   ├── agent-skill-evaluation-v1.35.0.json
+│   └── agent-skill-evaluation-v1.35.0.md
 ├── examples/
 └── docs/
     ├── module-development-guide.md
@@ -820,14 +825,14 @@ gas-engineering-playbook/
     ├── host-compatibility-audit-v1.27.0.md
     ├── security-catalog-provenance-audit-v1.28.0.md
     ├── agent-skill-provenance-v1.28.0.md
-    ├── dual-distribution-rc-v1.34.0.md
-    ├── live-validation-operational-burn-in-v1.34.0.md
-    ├── v2-go-no-go-v1.34.0.md
-    ├── v2-cutover-rehearsal-v1.34.0.md
-    ├── v2-promotion-control-v1.34.0.md
-    ├── release-readiness-freeze-v1.34.0.md
-    ├── release-subject-inventory-v1.34.0.md
-    ├── operational-release-closure-v1.34.0.md
+    ├── host-compatibility-matrix-v1.35.0.md
+    ├── v2-cutover-rehearsal-v1.35.0.md
+    ├── v2-shadow-rc-breaking-change-freeze-v1.35.0.md
+    ├── v2-promotion-control-v1.35.0.md
+    ├── release-readiness-freeze-v1.35.0.md
+    ├── release-subject-inventory-v1.35.0.md
+    ├── operational-release-closure-v1.35.0.md
+    ├── gas-platform-refresh-v1.35.0.md
     ├── skill-authoring-guide.md
     ├── testing-strategy-template.md
     ├── observability-runbook-template.md
