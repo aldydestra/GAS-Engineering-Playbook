@@ -504,6 +504,46 @@ requires explicit freeze break + new approval context:
 
 The earlier roadmap required v1.34 operational closure to PASS before Shadow RC work could begin. v1.35 refines that rule: **static Shadow RC preparation is allowed while operational closure is blocked**, but v2.0 publication/cutover is still prohibited until the operational checkpoint reaches PASS.
 
+### v1.35.1 — Operational Evidence Handoff & GAS Production Guardrails
+
+Status: **implemented — HANDOFF_READY; operational closure remains blocked by real-world execution**
+
+This patch does not alter the frozen package/host/major-version contract. It makes the remaining external checkpoint executable on another machine without accepting stale or manually copied evidence.
+
+Implemented scope:
+
+- candidate-bound operational handoff lock;
+- deterministic evidence collection bundle;
+- fail-closed evidence import restricted to the two approved evidence roots;
+- candidate/hash/path/unlisted-payload validation;
+- automatic bootstrap of new patch-version `NOT_RUN` evidence so missing placeholders do not masquerade as corruption;
+- GAS production preflight for retired Rhino, retired Maps client-ID authentication, and versioned-deployment URL allowlists;
+- five GAS skill patch updates with no Agent Skill release-only version bump.
+
+Current patch gate:
+
+```text
+v2 Shadow RC                          PASS_STATIC
+operational handoff                   HANDOFF_READY
+live host lifecycle                   NOT_RUN
+consumer burn-in                      NOT_RUN
+v2 promotion                          BLOCKED
+operational release closure           BLOCKED
+```
+
+The next version is still capability-driven:
+
+```text
+if real evidence can be completed with the frozen v1.35 contract
+→ close v1.35.x operational gate and prepare v2.0.0
+
+if defects are found while executing the handoff
+→ repair within v1.35.x and rebuild the handoff lock
+
+if package/host/major contract must change
+→ declare Shadow RC freeze break and remain on v1.x
+```
+
 ---
 
 # v2.0.0 — Package-First Repository Only If Gates Pass

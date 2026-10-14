@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
 description: "Build Google Workspace Add-ons, Google Chat apps, and Workspace Studio extensions using CardService, host manifests, contextual/homepage cards, navigation/actions, Chat responses, workflow steps/starters, workflowTriggers, lifecycle callbacks, OAuth, and membership-visibility UI states. Use for Workspace-native add-on/chat/studio UX."
-skill_version: "1.4.0"
+skill_version: "1.4.1"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.35.0"
+last_repository_update: "v1.35.1"
 tags:
   - google-apps-script
   - google-workspace
@@ -1646,4 +1646,10 @@ Workspace add-ons also cannot use Apps Script simple triggers; use manifest trig
 ### Mobile Capability Is Not Desktop Parity
 
 Do not assume every add-on surface is available on mobile. Contextual Gmail behavior has mobile support, while some non-contextual homepages and other surfaces remain desktop-oriented. Include host/surface capability in acceptance tests.
+
+## Workspace Add-on Production Manifest Preflight — v1.35.1
+
+Before a versioned add-on deployment, distinguish editor/test permissiveness from production requirements. External `UrlFetchApp` destinations must be represented in `urlFetchWhitelist`, and external links opened by the add-on must be covered by `addOns.common.openLinkUrlPrefixes`.
+
+Treat missing allowlists as a deployment blocker even when a test deployment appears functional. Test deployments are also insufficient for installable-trigger coverage, so production acceptance requires a separate trigger/integration path plus authorization testing for granular OAuth behavior.
 

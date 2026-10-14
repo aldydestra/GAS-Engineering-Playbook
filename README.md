@@ -4,15 +4,22 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.35.0 v2 Shadow RC & GAS Platform Refresh
+## v1.35.1 Operational Evidence Handoff & GAS Production Guardrails
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.0/` remains the normalized package channel. v1.35.0 introduces the **v2 Shadow RC & Breaking-Change Freeze** without forcing a production v2 cutover, and deliberately re-centers skill evolution on **Google Apps Script engineering**.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.1/` is the normalized installable package channel. v1.35.1 keeps the **v2 Shadow RC & Breaking-Change Freeze** intact and focuses on the remaining practical blocker: live host/burn-in/release evidence must be produced outside deterministic CI without accepting evidence from a different or modified candidate.
 
-The new Shadow RC freezes the distribution contract against v1.34.0: all 19 package identities, canonical rollback mappings, host-adapter identities, and skill major-version boundaries must remain stable. Non-breaking skill-content improvements are allowed, but package rename/removal/addition, canonical remapping, host contract drift, or major-version changes fail closed. The Shadow RC digest is bound into v2 promotion and immutable release readiness, so stale approval cannot survive a freeze change.
+The new **candidate-bound operational handoff** freezes the current Shadow RC, exact 21-subject inventory, live-validation policy, and operational runner tool digests into one handoff candidate SHA-256. External evidence can be collected into a deterministic ZIP and imported only if repository version, candidate digest, handoff lock, every evidence checksum, allowed evidence path, and bundle inventory all match. ZIP traversal, unlisted payloads, and stale-candidate evidence fail closed.
 
-At the same time, seven GAS-focused skills were updated from current first-party Google documentation: **GAS Core, Performance, Security, Testing, Monitoring, Deployment, and Workspace Add-ons**. This release intentionally does **not** bump Agent Skill 18/19 merely because Shadow RC tooling changed.
+v1.35.1 also converts current Google Apps Script production retirement rules into an executable project preflight. `tools/audit_gas_project.py` detects retired Rhino/`DEPRECATED_ES5`, retired `Maps.setAuthentication(clientId, signingKey)`, and missing production URL allowlists where external fetch/open-link behavior applies. Five GAS skills receive patch updates; Agent Skill 18/19 remain unchanged because the frozen distribution contract did not require content changes.
 
-Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, cutover rehearsal PASS_STATIC, v2 Shadow RC PASS_STATIC, and **59/59 tests PASS**. v2 remains blocked until the real live-host/burn-in and operational release-closure gates are completed.
+Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, cutover rehearsal PASS_STATIC, v2 Shadow RC PASS_STATIC, operational handoff **HANDOFF_READY**, and **70/70 tests PASS**. v2 remains `NO_GO` until real live-host lifecycle, 24+ hour dual-channel burn-in, approval, `READY_TO_TAG`, and signed immutable operational release closure complete.
+
+Detailed release references:
+
+- `docs/gas-platform-refresh-v1.35.1.md`
+- `docs/operational-evidence-handoff-v1.35.1.md`
+- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.1.md`
+- `docs/roadmap-to-v2.0.md`
 
 ## Foundation Status
 
@@ -191,6 +198,7 @@ last_repository_update: "v1.13.0"
 | **v1.33.0** | **Package-First Cutover Rehearsal: 19/19 generated shadow skills, rollback map, relative-reference checks, and rehearsal digest bound into promotion/readiness** |
 | **v1.34.0** | **Operational Release Closure: merged live/burn-in + release-ceremony checkpoint, exact 21-subject freeze, signed immutable-release verification, and anti-drift approval/readiness binding** |
 | **v1.35.0** | **v2 Shadow RC & GAS Platform Refresh: breaking-change contract freeze, Shadow RC digest binding, 7 GAS-focused skill refreshes, and 59/59 regression tests** |
+| **v1.35.1** | **Operational Evidence Handoff & GAS Production Guardrails: candidate-bound external evidence portability, safe import, patch evidence bootstrap, GAS production auditor, and 70/70 regression tests** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 

@@ -3817,3 +3817,18 @@ signed GitHub attestation = NOT_RUN locally
 ```
 
 Status: **ADOPTED AS RC EVIDENCE MODEL**
+
+---
+
+## v1.35.1 Operational Handoff & GAS Production Guardrail Audit — 2026-10-14
+
+Rechecked current first-party Apps Script sources. No Apps Script-specific release-note entry newer than the September 14, 2026 Data Regions GA announcement was found on this audit date. The October 1 Workspace developer update concerns the Docs API/MCP surface rather than Apps Script.
+
+Material production guardrails reinforced in this patch:
+
+- Rhino/`DEPRECATED_ES5` is a release blocker; pin V8 for maintained production projects.
+- Current Maps class reference exposes API-key authentication and marks `setAuthentication(clientId, signingKey)` deprecated/retired for the old client-ID model.
+- versioned Apps Script/Workspace add-on deployments require applicable outbound URL allowlists even when test deployment is permissive.
+- external live evidence should be candidate-bound, hash verified, path constrained, and imported fail-closed instead of copied manually.
+
+Executable checks are provided by `tools/audit_gas_project.py` and the operational evidence handoff/import toolchain.

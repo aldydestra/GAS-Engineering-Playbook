@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.12.0"
+skill_version: "1.12.1"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.35.0"
+last_repository_update: "v1.35.1"
 tags:
   - google-apps-script
   - deployment
@@ -2309,4 +2309,26 @@ source commit
 An Apps Script version is an immutable snapshot; a deployment points users at a version. Updating production should create a new version and move/redeploy the deployment deliberately.
 
 Versioned deployment ownership also deserves operational review during account/domain ownership changes; deployment ownership does not simply follow every project ownership transfer.
+
+## GAS Production Preflight & External Evidence Handoff — v1.35.1
+
+### Gate Production on Manifest/Retirement Checks
+
+Before `clasp push`, version creation, or deployment promotion, run a deterministic preflight over the project manifest and source. Release-blocking examples include retired Rhino configuration, retired Maps client-ID authentication, and missing external-URL allowlists for versioned deployments.
+
+The playbook now ships `tools/audit_gas_project.py` for these checks. Keep target Script ID assertion and repository/source-of-truth checks ahead of any destructive push.
+
+### Candidate-Bound Operational Handoff
+
+When live host or release ceremony execution must occur on another machine, export/import evidence only through a candidate-bound handoff. The handoff must bind the exact Shadow RC contract, release-subject inventory, live-validation configuration, and runner tool digests.
+
+Evidence imported from another environment must be rejected if:
+
+- repository version differs;
+- candidate digest differs;
+- a bundled evidence checksum fails;
+- an evidence path escapes the approved evidence roots;
+- the bundle contains unlisted payloads.
+
+This makes external execution portable without turning external evidence into an untrusted manual JSON copy.
 

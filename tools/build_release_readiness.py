@@ -71,5 +71,5 @@ def build(root:Path,cfg:dict[str,Any])->dict[str,Any]:
     r=evaluate(root,cfg); out=root/cfg['output_distribution']; out.mkdir(parents=True,exist_ok=True); (out/'release-lock.json').write_text(json.dumps(r,indent=2,sort_keys=True)+'\n'); md=render(r); (out/'RELEASE_LOCK.md').write_text(md); (root/'docs'/f"release-readiness-freeze-{cfg['repository_version']}.md").write_text(md); (out/'SHA256SUMS').write_text('\n'.join(f"{sha256_file(out/n)}  {n}" for n in ('release-lock.json','RELEASE_LOCK.md'))+'\n'); return r
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/release-readiness/release-v1.35.0.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"release readiness: {r['readiness_status']}")
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/release-readiness/release-v1.35.1.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"release readiness: {r['readiness_status']}")
 if __name__=='__main__': main()

@@ -1,300 +1,269 @@
-# Release Manifest
+# Release Manifest — v1.35.1
 
-Repository Version: **v1.35.0**
+## Release identity
 
-Release Date: **2026-10-12**
+- **Version:** `v1.35.1`
+- **Release name:** Operational Evidence Handoff & GAS Production Guardrails
+- **Release line:** v1.35.x Shadow RC stabilization
+- **Release intent:** close the remaining operational-evidence portability gap without forcing a v2 cutover, while continuing to strengthen Google Apps Script production engineering guidance.
+- **v2 decision:** `NO_GO` until real live-host lifecycle evidence, real burn-in, promotion approval, release readiness, and operational release closure all pass.
 
-## Release Name
+This is a **patch release on top of v1.35.0**. It deliberately preserves the v2 Shadow RC contract and package identities. The primary change is a candidate-bound handoff/import mechanism for operational evidence plus executable GAS production preflight checks.
 
-**v2 Shadow RC & GAS Platform Refresh**
+---
 
-## Release Type
+## 1. What changed
 
-- full repository snapshot;
-- static v2 Shadow RC / breaking-change-freeze release;
-- GAS-first skill refresh;
-- canonical v1 `skills/` authoring tree remains authoritative;
-- 19 normalized `.skill` packages remain the installable package channel;
-- no production package-first cutover is performed;
-- operational v2 gate remains fail-closed.
+### 1.1 Candidate-bound operational evidence handoff
 
-## Release Objectives
+v1.35.0 had a healthy static Shadow RC, but the remaining gate depended on runtime evidence that may need to be collected on another machine. v1.35.1 introduces a controlled handoff instead of permitting arbitrary JSON evidence to be copied back into the repository.
 
-v1.35.0 answers two questions.
+New flow:
 
-### 1. Is the repository structurally ready to freeze the v2 package-first contract?
+1. build and verify the current Shadow RC;
+2. build and verify the exact 21-subject release inventory;
+3. generate `handoff-lock.json` bound to those exact artifacts and the operational toolchain;
+4. run host lifecycle/burn-in on an external execution environment;
+5. collect evidence into a deterministic bundle;
+6. dry-run the import against the authoritative local handoff lock;
+7. apply only if candidate identity, paths, hashes, and payload inventory all match;
+8. rebuild live-validation, promotion, release-readiness, and operational-closure gates.
 
-Yes, statically. The v1.35 Shadow RC proves that all 19 package identities, canonical rollback mappings, host adapter identities, and skill major-version boundaries remain stable relative to v1.34.0.
+The handoff is fail-closed. It rejects:
 
-### 2. Are we still improving the actual Google Apps Script engineering knowledge?
+- candidate drift;
+- Shadow RC or contract-freeze drift;
+- release-subject inventory drift;
+- handoff-lock mismatch;
+- checksum or file-size mismatch;
+- ZIP path traversal/unsafe paths;
+- unlisted payloads;
+- evidence outside explicitly allowed version-scoped roots.
 
-Yes. Seven GAS-focused skills receive first-party-evidence-backed updates. Agent Skill distribution/security skills are not bumped merely to maintain a release cadence.
+Current handoff status: **`HANDOFF_READY`**.
 
-## v2 Shadow RC & Breaking-Change Freeze
+### 1.2 GAS production preflight auditor
 
-Configuration:
+A new static auditor, `tools/audit_gas_project.py`, turns several Google Apps Script platform guardrails into executable pre-deployment checks.
 
-- `packaging/v2-shadow-rc/shadow-v1.35.0.json`
+It currently detects or warns about:
 
-Tools:
+- missing `appsscript.json` for production validation;
+- Rhino / `DEPRECATED_ES5` runtime configuration;
+- runtime not explicitly pinned to V8;
+- retired Maps client-ID/signing-key authentication patterns;
+- production `UrlFetchApp.fetch()` / `fetchAll()` usage without `urlFetchWhitelist`;
+- Workspace Add-on external-open behavior without `addOns.common.openLinkUrlPrefixes`;
+- add-on manifests relying on implicit OAuth scopes;
+- test-deployment mode where selected production-only checks are downgraded to warnings rather than silently ignored.
 
-- `tools/build_v2_shadow_rc.py`
-- `tools/verify_v2_shadow_rc.py`
-- `tools/test_v2_shadow_rc.py`
+This auditor is a **static preflight**, not a substitute for live deployment/runtime verification.
 
-Generated artifacts:
+### 1.3 Clean patch-version evidence bootstrap
 
-- `dist/v2-shadow-rc-v1.35.0/shadow-rc.json`
-- `dist/v2-shadow-rc-v1.35.0/contract-freeze.json`
-- `dist/v2-shadow-rc-v1.35.0/BREAKING_CHANGE_FREEZE.md`
-- `dist/v2-shadow-rc-v1.35.0/SHA256SUMS`
-- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.0.md`
+The v1.35.1 development cycle exposed a lifecycle issue: starting a new patch version without version-specific evidence placeholders could be interpreted as corrupted/invalid evidence instead of the correct initial state `NOT_RUN` / `BLOCKED`.
 
-Freeze baseline:
+The following builders were hardened:
 
-```text
-v1.34.0
-```
-
-Frozen contract dimensions:
-
-```text
-19 package names
-19 canonical rollback mappings
-3 host adapter identities/contracts
-19 skill major-version boundaries
-```
-
-Current result:
-
-```text
-Shadow RC status                 PASS_STATIC
-production cutover performed    false
-removed packages                0
-added packages                  0
-canonical mapping drifts        0
-host contract changed           false
-skill major-version drifts      0
-```
-
-Contract SHA-256:
-
-```text
-4072c716a2f30b8e5197043499beb48c5f2726ab983dbb5ee1d4c5d7e4ac2eea
-```
-
-## Breaking-Change Policy
-
-The following are frozen for the v1.35.x line unless an explicit freeze break is declared and all dependent evidence is recomputed:
-
-- package identity/name set;
-- canonical rollback mapping;
-- host adapter identity/contract;
-- skill major-version boundary;
-- production package-first cutover state.
-
-The following remain allowed as non-breaking work:
-
-- factual/corrective GAS guidance;
-- new GAS runtime/performance/security/testing/operations knowledge;
-- minor/patch skill-version updates;
-- tests and deterministic tooling hardening;
-- documentation improvements.
-
-## Promotion Context v5
-
-Changed:
-
-- `packaging/v2-promotion/promotion-v1.35.0.json`
+- `tools/build_live_validation.py`
+- `tools/verify_live_validation.py`
 - `tools/build_v2_promotion.py`
-- `tools/test_v2_promotion.py`
+- `tools/build_operational_release_closure.py`
 
-New approval binding:
+A fresh patch version now starts with valid fail-closed placeholders and reports the correct semantic state:
 
-```text
-shadow_rc_sha256
-```
+- live host: `NOT_RUN`;
+- burn-in: `NOT_RUN`;
+- promotion: `BLOCKED`;
+- release readiness: `BLOCKED`;
+- operational release closure: `BLOCKED`.
 
-Promotion approval now binds the exact package, dual-distribution, live-validation, cutover-rehearsal, Shadow RC, and release-subject evidence set.
+Invalid/partial manifests are also diagnosed without verifier crashes.
 
-Current promotion context SHA-256:
+### 1.4 CI/release workflow repair
 
-```text
-0f92ebf2db7c5a27787371b39c1888e9fea7de239409d4bb359f200f5accfb49
-```
+The repository workflows were advanced to the v1.35.1 active release line.
 
-Current status: **BLOCKED** because live-validation readiness remains `NO_GO`.
+Changes include:
 
-## Release Readiness v4
+- packaging workflow builds/verifies the operational handoff;
+- operational-handoff tests and GAS auditor tests are part of CI;
+- reproducibility checks include operational-handoff output;
+- attestation workflow tag trigger is corrected from stale `v1.34.*` to `v1.35.*`;
+- attestation rebuild verifies the handoff artifacts;
+- operational handoff is **not** silently added to the frozen 21 release subjects—the signed release boundary remains explicit and unchanged.
 
-Changed:
+---
 
-- `packaging/release-readiness/release-v1.35.0.json`
-- `tools/build_release_readiness.py`
-- `tools/test_release_readiness.py`
+## 2. Skill updates
 
-The immutable candidate digest now additionally freezes the Shadow RC evidence.
+Only skills materially affected by the GAS/runtime/deployment changes were version-bumped. Agent Skill supply-chain/distribution skills were intentionally left unchanged because this patch does not alter their public contract.
 
-Current candidate digest:
-
-```text
-e5bcbbf1fb1356ac77d1f028a56626b3c08dcffe056476210643cef9b69f6d9c
-```
-
-Current status: **BLOCKED** because the required operational evidence and operator approval have not completed.
-
-## GAS Platform Refresh
-
-Detailed audit:
-
-- `docs/gas-platform-refresh-v1.35.0.md`
-- `docs/technology-watch.md` (audit date updated to 2026-10-12)
-
-Primary first-party source families reviewed:
-
-- Apps Script release notes;
-- Apps Script quotas/current limitations;
-- V8 migration/runtime documentation;
-- Apps Script best practices;
-- `clasp` command-line/CI/CD guide;
-- Apps Script troubleshooting/authorization guidance;
-- Workspace add-on testing and restrictions;
-- manifest URL allowlists;
-- Apps Script deployment semantics.
-
-### Updated skill versions
-
-| Skill | Previous | Current | Repository update |
+| Skill | v1.35.0 | v1.35.1 | Change |
 |---|---:|---:|---|
-| 01 GAS Core Engineering | 1.3.1 | **1.4.0** | v1.35.0 |
-| 06 Performance Engineering | 1.3.1 | **1.4.0** | v1.35.0 |
-| 07 Security Engineering | 1.6.1 | **1.7.0** | v1.35.0 |
-| 08 Testing & Quality | 1.5.0 | **1.6.0** | v1.35.0 |
-| 09 Monitoring & Observability | 1.7.0 | **1.8.0** | v1.35.0 |
-| 10 Deployment Engineering | 1.11.0 | **1.12.0** | v1.35.0 |
-| 14 Workspace Add-ons & Chat Engineering | 1.3.1 | **1.4.0** | v1.35.0 |
+| 01 — GAS Core Engineering | 1.4.0 | **1.4.1** | V8 production retirement guardrail; retired Maps client-ID auth guidance; current API-key auth direction |
+| 07 — Security Engineering | 1.7.0 | **1.7.1** | production URL allowlists; test deployment is not a security waiver; old Maps authentication blocked |
+| 08 — Testing & Quality | 1.6.0 | **1.6.1** | GAS static production preflight and explicit live-validation boundary |
+| 10 — Deployment Engineering | 1.12.0 | **1.12.1** | candidate-bound operational handoff/import and GAS deployment preflight |
+| 14 — Workspace Add-ons & Chat Engineering | 1.4.0 | **1.4.1** | versioned deployment allowlist checks and add-on trigger/test boundary |
+| 18 — Agent Skill Supply-Chain Security | 1.12.0 | 1.12.0 | no version bump; contract unchanged |
+| 19 — Agent Skill Engineering | 1.11.0 | 1.11.0 | no version bump; Shadow RC/distribution contract unchanged |
 
-### Reviewed but unchanged
+No skill name/package identity was changed.
 
-- 12 Web App & Frontend Engineering — no material missing rule found in this audit;
-- 16 Workspace API & Event Engineering — existing guidance already covers current Apps Script API/service-account constraints;
-- 17 Workspace Governance & Compliance Engineering — existing guidance already covers September 2026 Apps Script Data Regions and V8/Rhino implications;
-- 18 Agent Skill Supply-Chain Security — no release-only bump;
-- 19 Agent Skill Engineering — no release-only bump.
+---
 
-## GAS Guidance Added
+## 3. New files and tools
 
-### GAS Core
+### Operational evidence handoff
 
-- current runtime/quota limits are operational contracts and must be rechecked rather than hard-coded as folklore;
-- normal script execution is 6 minutes for both Consumer and Workspace accounts in current quota guidance;
-- V8 is the current runtime baseline;
-- Apps Script core-service status does not replace application-level security controls.
+- `packaging/operational-handoff/handoff-v1.35.1.json`
+- `tools/build_operational_handoff.py`
+- `tools/verify_operational_handoff.py`
+- `tools/collect_operational_evidence.py`
+- `tools/import_operational_evidence.py`
+- `tools/test_operational_handoff.py`
+- `docs/operational-evidence-handoff-v1.35.1.md`
+- generated `dist/operational-handoff-v1.35.1/`
 
-### Performance
+### GAS production guardrails
 
-- large/complex Sheets workloads should be evaluated for Cloud SQL/BigQuery or another backend before spreadsheet constraints become operational failures;
-- formula fan-out and repeated remote imports are part of performance triage;
-- UI-heavy apps should minimize library startup and many tiny `google.script.run` round-trips.
+- `tools/audit_gas_project.py`
+- `tools/test_gas_project_audit.py`
+- `docs/gas-platform-refresh-v1.35.1.md`
 
-### Security
+### Updated release/config surfaces
 
-- granular OAuth denial is an operational failure mode;
-- background triggers cannot prompt for authorization;
-- reauthorization must be designed explicitly;
-- URL allowlists are part of versioned-deployment security/release review.
+- v1.35.1 configs for package, host, dual distribution, live validation, cutover rehearsal, promotion, readiness, release-subject inventory, operational closure, trust, and Shadow RC;
+- `.github/workflows/agent-skill-packaging.yml`;
+- `.github/workflows/agent-skill-attestation.yml`;
+- `README.md`;
+- `CHANGELOG.md`;
+- `GITHUB_RELEASE_NOTES.md`;
+- `docs/roadmap-to-v2.0.md`;
+- `docs/technology-watch.md`;
+- this `RELEASE_MANIFEST.md`.
 
-### Testing
+---
 
-- Editor add-on test deployments do not support installable triggers;
-- Properties can persist between test deployments using the same add-on/document;
-- consent-path tests should deliberately reset authorization state where appropriate;
-- runtime-budget/checkpoint behavior should be tested, not only happy-path completion.
+## 4. Operational handoff contract
 
-### Monitoring
+The generated lock is:
 
-- separate daily quota exhaustion, short-term rate limiting, concurrency pressure, authorization errors, and server/platform errors;
-- use Apps Script execution history, Cloud quota surfaces, and service-specific runtime counters where available;
-- Data Regions can change Cloud Logging visibility for some older projects, so reconciliation/outcome telemetry remains necessary.
+- path: `dist/operational-handoff-v1.35.1/handoff-lock.json`
+- status: **`HANDOFF_READY`**
+- release-subject count: **21**
+- handoff candidate digest: `412d0456f30ec688354977b2752d8108eeb3a0020c75a09b08a9c2ed5bf81aee`
+- handoff-lock SHA-256: `1b5cba54dab4cf371f3d965350dd2e3f9f31bf6863f08755ffcbe4e35db4e033`
+- frozen Shadow RC contract digest: `4072c716a2f30b8e5197043499beb48c5f2726ab983dbb5ee1d4c5d7e4ac2eea`
 
-### Deployment
+Allowed evidence roots are restricted to:
 
-- current `clasp` guide requires Node.js 20+;
-- CI credentials are release secrets;
-- dev/staging/prod must have explicit target identities;
-- `clasp push --force` is appropriate only under an explicit repository-source-of-truth model;
-- Apps Script versions are immutable snapshots while deployments are mutable pointers to versions;
-- deployment ownership must be considered during owner/domain migration.
+- `evidence/live-validation/v1.35.1/`
+- `evidence/operational-release/v1.35.1/`
 
-### Workspace Add-ons
+The handoff lock also pins the exact SHA-256 of the operational toolchain used to collect and validate evidence.
 
-- test deployment does not prove installable-trigger behavior;
-- add-on test state can persist through Properties;
-- Workspace add-ons cannot use simple triggers;
-- cards are constrained to 100 widgets / 100 sections;
-- mobile support is not full desktop surface parity.
+---
 
-## Deterministic Validation Result
+## 5. Validation and regression results
 
-```text
-canonical skills                         19
-normalized packages                      19
-package validation                       PASS (19/19)
-knowledge coverage                       PASS (19/19)
-evaluation gate                          PASS
-positive top-3 routing recall            96.71%
-explicit-negative specificity            100%
-source/package classification parity     100%
-host static compatibility                PASS
-security/catalog/provenance              PASS_STATIC
-dual-distribution RC                     PASS_STATIC
-live-validation harness                  HARNESS_READY
-live host lifecycle                      NOT_RUN
-consumer burn-in                         NOT_RUN
-v2 cutover rehearsal                     PASS_STATIC
-release subject inventory                PASS_STATIC (21/21)
-v2 Shadow RC                             PASS_STATIC
-v2 promotion                             BLOCKED
-release readiness                        BLOCKED
-operational release closure              BLOCKED
-repository unittest suite                59/59 PASS
-```
+### Repository tests
 
-## Why v2.0 Is Still NO_GO
+- **70/70 unit/regression tests PASS**
+- final release chain was rebuilt after the test suite to prevent fixture/test state from contaminating `dist/`.
 
-The structural side is now Shadow-RC-ready, but the operational trust chain is not closed.
+### Package and evaluation gates
 
-Still required:
+- packaged skills: **19/19 valid**
+- package coverage: **complete**
+- description parity: **19/19**
+- positive top-3 recall: **96.71%**
+- negative specificity: **100%**
+- source/package classification parity: **100%**
+- capability assertions: **38/38 source PASS, 38/38 package PASS**
+- deterministic evaluation gate: **PASS**
+- live host trigger evaluation: `NOT_RUN` (correctly excluded from deterministic CI claims)
 
-```text
-real supported-host lifecycle PASS
-+ real canonical/package burn-in PASS
-+ zero blocking incidents
-+ live-validation GO
-+ approval bound to the current v1.35 context
-+ READY_TO_TAG
-+ signed immutable release ceremony PASS
-```
+### Distribution and release gates
 
-No static tooling or synthetic fixture is allowed to substitute for those external observations.
+| Gate | Final v1.35.1 state |
+|---|---|
+| Package validation | **PASS — 19/19** |
+| Evaluation parity | **PASS** |
+| Host static compatibility | **PASS_STATIC** |
+| Dual distribution RC | **PASS_STATIC** |
+| Cutover rehearsal | **PASS_STATIC** |
+| v2 Shadow RC | **PASS_STATIC** |
+| Breaking-change freeze | **PASS** |
+| Release-subject inventory | **PASS_STATIC — 21 subjects** |
+| Operational handoff | **HANDOFF_READY** |
+| Live host lifecycle | `NOT_RUN` |
+| Real consumer burn-in | `NOT_RUN` |
+| v2 promotion | `BLOCKED` |
+| Release readiness | `BLOCKED` |
+| Operational release closure | `BLOCKED` |
+| Final v2 readiness | **`NO_GO`** |
 
-## Roadmap After v1.35.0
+The blocked states are expected and are **not static regressions**. They require evidence from a real supported execution environment.
 
-There is no need to invent another minor release only to move the number forward.
+---
 
-Decision rule:
+## 6. Final evidence digests
 
-```text
-if operational blockers remain or defects are found
-→ fix/recompute within v1.35.x
+These hashes identify the final deterministic release state before the outer repository ZIP is created.
 
-if operational release closure reaches PASS with the frozen contract intact
-→ prepare v2.0.0 package-first cutover
+| Artifact | SHA-256 |
+|---|---|
+| Package manifest | `020ccf3e87dc71cd1bc7bae4f3e422a01edd1d390a01a07be6d46d16895bb22c` |
+| Host compatibility manifest | `e63bab4498e111493ab6413cc675b308296a460b71e0cbf61983ade913a0fc8f` |
+| Evaluation report | `db453ccf85c903836e159faf63a6c264bd63e169bb71f9c5641918e45ab67da3` |
+| Dual-distribution release index | `9d5b9ccf1202695396ac1f8532ae8e2316e2d79f04ceaae850bdc7e7347a1dbd` |
+| Live-validation manifest | `9145b8332467653a81c87355a679913faff486f9b57d3b3ceb51c5e6c99ea9fb` |
+| Cutover rehearsal manifest | `8cc155ada832f396561454f089fc595ca7328b836b1c65eb8244cc335559599f` |
+| v2 Shadow RC | `bb04674f4ff66ad20e7e4c5c9d7cdefce8c659ba90b9ff5a77744aed1df1a8d8` |
+| Release-subject inventory | `adeab21cd66f61511e45fff37bfe1bad5e6c8d2dfc42ccbdf41db64e323d0dc9` |
+| Operational handoff lock | `1b5cba54dab4cf371f3d965350dd2e3f9f31bf6863f08755ffcbe4e35db4e033` |
+| v2 promotion manifest | `399e8d09e9f5076d16442bf0c8acc93a6b168e2eb4d2eb5404438fe308a1cf16` |
+| Release-readiness lock | `20920291b23b25d534e78b5f81629495fce252115061e9650d9ffa860c0f1c0a` |
+| Operational release closure | `55ff54a1b581dd43d9947ba9153ab92149092dd92a12350ccaedf7b3340f9b0d` |
 
-if a breaking contract change becomes necessary
-→ explicitly break/recompute the Shadow RC and stay on v1.x until proven again
-```
+Additional candidate identities:
 
-## Release Integrity
+- operational handoff candidate: `412d0456f30ec688354977b2752d8108eeb3a0020c75a09b08a9c2ed5bf81aee`
+- promotion context: `d7a37a68a72ea5727b65ef6fab95825d17c4779704000d7ac79b68421b1efb53`
+- release-readiness candidate: `7c77415498f2ca86400e0bc538efdf06c1dfa7a7f355f2a0657bee6f3383165b`
 
-Final ZIP SHA-256 is generated after all deterministic builds, regression tests, documentation, and final hygiene checks complete. See the delivery message accompanying this snapshot.
+---
+
+## 7. Remaining blocker and operator procedure
+
+v1.35.1 does **not** claim v2 readiness. The next work is operational rather than another static redesign.
+
+Recommended sequence on an execution-capable environment:
+
+1. start from this exact v1.35.1 snapshot;
+2. verify `dist/operational-handoff-v1.35.1/handoff-lock.json`;
+3. execute the supported live-host lifecycle using the pinned tools;
+4. record real canonical/package burn-in observations until the configured threshold is satisfied;
+5. collect a candidate-bound evidence bundle;
+6. import with dry-run first;
+7. apply the bundle only if every binding/hash/path check passes;
+8. rebuild live validation and confirm `GO` prerequisites;
+9. obtain promotion approval bound to the current promotion context;
+10. rebuild release-readiness and complete the signed operational release ceremony;
+11. only after operational closure passes should a v2.0 cutover be considered.
+
+Current burn-in policy remains fail-closed: at least **4 sessions**, **2 per channel**, **1+ real consumer**, **24+ hour observation window**, valid hash chain, and no blocking incident.
+
+---
+
+## 8. Roadmap decision
+
+The v1.35.x line remains the stabilization line until operational evidence closes.
+
+- **v1.35.1:** operational evidence handoff/import + GAS production guardrails — complete.
+- **next v1.35.x patch:** only if external execution uncovers a defect, schema gap, host incompatibility, or GAS rule requiring correction.
+- **v2.0.0:** eligible only after live lifecycle, real burn-in, promotion, readiness, signed-attestation ceremony, and operational closure all pass against the same frozen candidate.
+
+There is intentionally no schedule-based promotion to v2 and no synthetic substitution for missing real-world evidence.

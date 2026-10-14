@@ -1,10 +1,10 @@
 ---
 name: testing-quality
 description: "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality."
-skill_version: "1.6.0"
+skill_version: "1.6.1"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.35.0"
+last_repository_update: "v1.35.1"
 tags:
   - google-apps-script
   - testing
@@ -1903,4 +1903,16 @@ When testing granular OAuth behavior, invalidate existing authorization where ap
 ### Quota-Sensitive Tests Need Contract Assertions
 
 For runtime-bound code, test the soft budget and checkpoint logic—not only the happy path. A six-minute platform ceiling should produce an earlier application checkpoint threshold with enough margin for persistence and cleanup.
+
+## GAS Production Preflight Tests — v1.35.1
+
+Add a static preflight before live deployment tests. At minimum it should detect:
+
+- retired Rhino / `DEPRECATED_ES5`;
+- retired Maps client-ID authentication;
+- missing `urlFetchWhitelist` when a versioned deployment performs external fetches;
+- missing Workspace add-on open-link prefixes when external links are rendered;
+- implicit or changed OAuth scope assumptions that need a granular-consent test.
+
+Use the repository `tools/audit_gas_project.py` as a baseline preflight, then keep runtime/integration tests for trigger behavior, authorization, data-region policy, and actual deployment IDs. Static PASS never replaces live GAS execution.
 

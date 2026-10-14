@@ -51,7 +51,7 @@ def verify(root: Path, config_path: Path, dist_override: Path | None = None) -> 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.0.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.1.json")
     ap.add_argument("--dist")
     args = ap.parse_args()
     root = Path(args.root).resolve()
@@ -65,9 +65,9 @@ def main() -> None:
     result = json.loads(((dist or root / json.loads((root / args.config).read_text())["output_distribution"]) / "manifest.json").read_text())
     print("LIVE VALIDATION VERIFY PASSED")
     print("harness:", result["harness_status"])
-    print("live host:", result["host_smoke"]["status"])
-    print("consumer burn-in:", result["consumer_burn_in"]["status"])
-    print("v2 readiness:", result["v2_readiness"])
+    print("live host:", result.get("host_smoke", {}).get("status", "UNKNOWN"))
+    print("consumer burn-in:", result.get("consumer_burn_in", {}).get("status", "UNKNOWN"))
+    print("v2 readiness:", result.get("v2_readiness", "NO_GO"))
 
 
 if __name__ == "__main__":

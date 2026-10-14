@@ -1,10 +1,10 @@
 ---
 name: security-engineering
 description: "Secure Apps Script, Workspace, and adjacent agent integrations: authentication, authorization, least privilege, OAuth scopes, secrets, XSS/input validation, prompt injection, server-side permission checks, filtered/partial read semantics, and safe logging. Use for application/runtime trust boundaries rather than skill-package scanning. Use for threat modeling public/web endpoints and access-control failures as well as OAuth and prompt-injection risks."
-skill_version: "1.7.0"
+skill_version: "1.7.1"
 repository_introduced: "v1.8.0"
 status: "evolving"
-last_repository_update: "v1.35.0"
+last_repository_update: "v1.35.1"
 tags:
   - google-apps-script
   - security
@@ -2010,4 +2010,16 @@ A previously authorized installation is not proof that newly added scopes are gr
 For Apps Script / Workspace add-on manifests, URL allowlists used for external fetches or external links are part of the release contract. Current guidance distinguishes test deployments from versioned deployments: allowlists may be optional during testing but become required for versioned deployment where the relevant manifest fields apply.
 
 Do not solve a deployment failure by broadening an allowlist to `*`-like coverage. Keep prefixes as narrow as the product contract allows and review them alongside OAuth scopes.
+
+## GAS Production Manifest Guardrails — v1.35.1
+
+### Test Deployment Success Is Not a Security Waiver
+
+Apps Script URL allowlists can be optional during test deployment but are required for versioned deployment where external fetch/open-link behavior applies. Treat both `urlFetchWhitelist` and Workspace add-on `addOns.common.openLinkUrlPrefixes` as release-reviewed security controls, not editor conveniences.
+
+A test deployment that works without these controls is not evidence that the production manifest is complete. Keep prefixes narrow, HTTPS-only, and aligned with the actual outbound contract.
+
+### Reject Retired Maps Client-ID Authentication
+
+Flag `Maps.setAuthentication(clientId, signingKey)` during security review. Client-ID authentication is no longer a viable production compatibility path after the Maps client-ID sunset; use the current API-key authentication mechanism and protect the key as a production credential.
 

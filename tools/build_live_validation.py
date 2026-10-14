@@ -590,8 +590,31 @@ Do not copy synthetic unit-test fixtures into the live evidence directory. Tests
 '''
 
 
+def bootstrap_empty_evidence(root: Path, cfg: dict[str, Any]) -> None:
+    """Create valid NOT_RUN evidence only when a new repository patch has no evidence yet."""
+    evidence_root = root / cfg["evidence_root"]
+    evidence_root.mkdir(parents=True, exist_ok=True)
+    defaults = {
+        "host-smoke.json": {"schema_version": 1, "repository_version": cfg["repository_version"], "records": []},
+        "signed-attestation.json": {"schema_version": 1, "repository_version": cfg["repository_version"], "claimed_status": "NOT_RUN"},
+        "live-rollback.json": {"schema_version": 1, "repository_version": cfg["repository_version"], "claimed_status": "NOT_RUN"},
+    }
+    for name, obj in defaults.items():
+        path = evidence_root / name
+        if not path.exists():
+            path.write_text(json.dumps(obj, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    burn = evidence_root / "consumer-burn-in.json"
+    if not burn.exists():
+        empty = burnin.aggregate(
+            cfg["repository_version"], [], cfg.get("required_burn_in_channels", []),
+            burnin.policy_from_config(cfg)
+        )
+        burn.write_text(json.dumps(empty, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def build(root: Path, config_path: Path) -> Path:
     cfg = load_json(config_path)
+    bootstrap_empty_evidence(root, cfg)
     result = evaluate(root, cfg)
     out = root / cfg["output_distribution"]
     if out.exists():
@@ -610,7 +633,7 @@ def build(root: Path, config_path: Path) -> Path:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.0.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.1.json")
     args = ap.parse_args()
     root = Path(args.root).resolve()
     build(root, root / args.config)

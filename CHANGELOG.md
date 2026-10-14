@@ -3,6 +3,109 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.35.1] - 2026-10-14
+
+### Operational Evidence Handoff & GAS Production Guardrails
+
+Patch release within the frozen v1.35 Shadow RC line. The package/host/major-version breaking-change contract remains unchanged; this release makes the remaining real-world operational gate portable and adds executable GAS production retirement checks.
+
+### Added — Candidate-Bound Operational Handoff
+
+- `packaging/operational-handoff/handoff-v1.35.1.json`;
+- `tools/build_operational_handoff.py`;
+- `tools/verify_operational_handoff.py`;
+- `tools/collect_operational_evidence.py`;
+- `tools/import_operational_evidence.py`;
+- `tools/test_operational_handoff.py`;
+- `dist/operational-handoff-v1.35.1/`;
+- `docs/operational-evidence-handoff-v1.35.1.md`.
+
+The handoff lock binds the exact v1.35.1 Shadow RC, breaking-change contract freeze, 21-subject release inventory, live-validation config, and operational runner tool digests. Evidence ZIP import rejects version/candidate drift, handoff-lock drift, checksum mismatch, unsafe ZIP paths, payloads outside approved evidence roots, and unlisted payloads.
+
+### Added — Executable GAS Production Preflight
+
+- `tools/audit_gas_project.py`;
+- `tools/test_gas_project_audit.py`;
+- `docs/gas-platform-refresh-v1.35.1.md`.
+
+Current checks:
+
+- retired Rhino / `runtimeVersion: DEPRECATED_ES5`;
+- unpinned V8 warning;
+- retired `Maps.setAuthentication(clientId, signingKey)`;
+- missing production `urlFetchWhitelist` when `UrlFetchApp` is used;
+- missing Workspace add-on `addOns.common.openLinkUrlPrefixes` for external links;
+- implicit/unreviewed Workspace add-on OAuth scope warning.
+
+### Fixed — Patch-Version Evidence Bootstrap
+
+New v1.35.x patch snapshots now bootstrap valid `NOT_RUN` evidence files instead of being reported as corrupted merely because a new version-specific evidence directory is empty.
+
+Changed:
+
+- `tools/build_live_validation.py` — creates valid empty host/burn-in/optional evidence only when missing;
+- `tools/verify_live_validation.py` — remains diagnostic instead of crashing on malformed/partial manifests;
+- `tools/build_v2_promotion.py` — creates `NOT_REQUESTED` approval placeholder when a new patch has none;
+- `tools/build_operational_release_closure.py` — creates `NOT_RUN` ceremony placeholder when absent.
+
+Resulting initial state is correctly fail-closed:
+
+```text
+live host lifecycle              NOT_RUN
+consumer burn-in                 NOT_RUN
+v2 promotion                     BLOCKED
+release readiness                BLOCKED
+operational release closure      BLOCKED
+```
+
+### Fixed — Release Workflow Drift
+
+- updated active CI/release references from v1.35.0 to v1.35.1;
+- corrected signed-attestation tag trigger from stale `v1.34.*` to `v1.35.*`;
+- added operational-handoff build/verify/tests to CI;
+- added GAS production-auditor tests to CI;
+- included handoff lock/report in uploaded release evidence without adding it to the frozen 21 release subjects.
+
+### GAS Skill Version Updates
+
+| Skill | Previous | v1.35.1 |
+|---|---:|---:|
+| 01 GAS Core Engineering | 1.4.0 | **1.4.1** |
+| 07 Security Engineering | 1.7.0 | **1.7.1** |
+| 08 Testing & Quality | 1.6.0 | **1.6.1** |
+| 10 Deployment Engineering | 1.12.0 | **1.12.1** |
+| 14 Workspace Add-ons & Chat Engineering | 1.4.0 | **1.4.1** |
+
+Agent Skill 18/19 are intentionally unchanged. The v2 Shadow RC contract remains frozen and no release-only skill bump is performed.
+
+### Validation
+
+```text
+canonical skills                         19
+normalized packages                      19
+package validation                       PASS (19/19)
+evaluation gate                          PASS
+host static compatibility                PASS
+security/catalog/provenance              PASS_STATIC
+dual-distribution RC                     PASS_STATIC
+v2 cutover rehearsal                     PASS_STATIC
+v2 Shadow RC                             PASS_STATIC
+release subject inventory                PASS_STATIC (21/21)
+operational handoff                      HANDOFF_READY
+live-validation harness                  HARNESS_READY
+live host lifecycle                      NOT_RUN
+consumer burn-in                         NOT_RUN
+v2 promotion                             BLOCKED
+release readiness                        BLOCKED
+operational release closure              BLOCKED
+repository unittest suite                70/70 PASS
+```
+
+### v2 Decision
+
+Still **NO_GO**. The patch removes portability/friction from the remaining operational checkpoint but does not fabricate real host lifecycle, consumer burn-in, approval, signing, or immutable publication evidence.
+
+
 ## [v1.35.0] - 2026-10-12
 
 ### v2 Shadow RC & Breaking-Change Freeze

@@ -1,10 +1,10 @@
 ---
 name: gas-core-engineering
 description: "Core Google Apps Script runtime engineering for triggers, LockService/concurrency, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, checkpoints, long-running jobs, and external HTTP calls. Use when the primary problem is GAS runtime behavior or core service usage."
-skill_version: "1.4.0"
+skill_version: "1.4.1"
 repository_introduced: "v1.2.0"
 status: "evolving"
-last_repository_update: "v1.35.0"
+last_repository_update: "v1.35.1"
 tags:
   - google-apps-script
   - google-workspace
@@ -1262,4 +1262,14 @@ For organizations enforcing Workspace Data Regions, V8 is also the required runt
 ### Apps Script as a Workspace Core Service
 
 Apps Script is now a Google Workspace core service. Treat this as an enterprise-operability change, not permission to weaken application controls: least privilege, authorization checks, data-boundary review, monitoring, and deployment discipline still apply.
+
+## GAS Production Retirement Guardrails — v1.35.1
+
+### Treat Retired Runtime and Authentication Paths as Release Blockers
+
+Production review should reject `runtimeVersion: "DEPRECATED_ES5"`. Rhino stopped executing after January 31, 2026; maintained projects should use V8 and explicitly test migration-sensitive behavior.
+
+The Maps service client-ID method `Maps.setAuthentication(clientId, signingKey)` is also retired for current production use. Current Maps reference documentation exposes API-key authentication as `Maps.setAuthenticationByApiKey(...)` and `resetAuthenticationApiKey()`. Do not preserve a client-ID path simply because an older script still contains it.
+
+Because some Apps Script documentation pages can lag platform retirement notices, resolve conflicts in this order for a release decision: current service reference + current release notes + migration/sunset guidance, then test the actual project.
 

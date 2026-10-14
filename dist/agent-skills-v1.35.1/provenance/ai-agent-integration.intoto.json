@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-manual",
+        "packageName": "ai-agent-integration",
+        "profile": "full-v1.35.1",
+        "repositoryVersion": "v1.35.1",
+        "sourcePath": "skills/13-ai-agent-integration"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "05a0eae42c72a6b56d163514491a5c8cfad572bf38b43c1c5d01363c498c70af"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/13-ai-agent-integration"
+        },
+        {
+          "digest": {
+            "sha256": "153e32be62b6f93d062b4fced168bc7d100d2336a20dff35e94dde24406f90d4"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.35.1.json"
+        },
+        {
+          "digest": {
+            "sha256": "9efd677964985720dbc763d910cb68d75c77061f37446861bbad686f37c931a3"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "9efd677964985720dbc763d910cb68d75c77061f37446861bbad686f37c931a3",
+          "repository": "v1.35.1"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "faf0196b681a6bbf29da59f5dd1796e2333e6a2326c60792ffcc89c7168c276d"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.35.1/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "ba9a3faf4b210b27554cc9c57cfdd44b0e186e293d9094a6368136f89f595576"
+      },
+      "name": "ai-agent-integration.skill"
+    }
+  ]
+}

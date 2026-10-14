@@ -1,0 +1,85 @@
+{
+  "allowed_evidence_prefixes": [
+    "evidence/live-validation/v1.35.1/",
+    "evidence/operational-release/v1.35.1/"
+  ],
+  "candidate": {
+    "inputs": {
+      "contract_freeze": {
+        "path": "dist/v2-shadow-rc-v1.35.1/contract-freeze.json",
+        "sha256": "a88b0b28829b86c5be5fa90f3a6c01c4d1e870358ac49635bed9d3720b7628c5"
+      },
+      "live_validation_config": {
+        "path": "packaging/live-validation/live-v1.35.1.json",
+        "sha256": "e1c12542c0d35432f00d2222d9b3b4df367fffbe5606cad130d55197c14d6289"
+      },
+      "release_subject_inventory": {
+        "path": "dist/release-subjects-v1.35.1/inventory.json",
+        "sha256": "adeab21cd66f61511e45fff37bfe1bad5e6c8d2dfc42ccbdf41db64e323d0dc9"
+      },
+      "shadow_rc": {
+        "path": "dist/v2-shadow-rc-v1.35.1/shadow-rc.json",
+        "sha256": "bb04674f4ff66ad20e7e4c5c9d7cdefce8c659ba90b9ff5a77744aed1df1a8d8"
+      },
+      "tools": [
+        {
+          "path": "tools/run_live_host_smoke.py",
+          "sha256": "65354ad509de2ba11a9d53f12018792c82d3cb80b25137161a1660ab09bbee4d"
+        },
+        {
+          "path": "tools/record_burn_in.py",
+          "sha256": "7c19e121c4d7b3174ca6fd4feb54775f23622a3cd7ecb9c8fbdc4305590e6fab"
+        },
+        {
+          "path": "tools/build_live_validation.py",
+          "sha256": "2ff2552db3d23309dbbecc07898fd5d676c37c6f20de2aedaaba3ba1a2580cf2"
+        },
+        {
+          "path": "tools/verify_live_validation.py",
+          "sha256": "98d5edae9ba04292485ecdedafa4e966e987eedb2f18b6445f569694afa06ce8"
+        },
+        {
+          "path": "tools/build_v2_promotion.py",
+          "sha256": "60ec43c0c8e6fbbc3553600d7aaa4dc8e84ce78f98486eefbf26e450c9ec96c2"
+        },
+        {
+          "path": "tools/build_release_readiness.py",
+          "sha256": "2ce96c13dd0ebde32815e261b4d75c21918eaae474986b3ec1d592b9feacb456"
+        },
+        {
+          "path": "tools/run_release_ceremony.py",
+          "sha256": "2859f0a224f5661d42489574bb5f3285c3982bc083fcf82fa7719bec4801721a"
+        },
+        {
+          "path": "tools/build_operational_release_closure.py",
+          "sha256": "131175a4458228d0042f9d3395a73795cd3dd3df0bbd44330b2163f136a57463"
+        },
+        {
+          "path": "tools/build_operational_handoff.py",
+          "sha256": "35a60b86d8225717575c49d9f2f346b4efce6580da9e1b71c8e434eb0bb68083"
+        },
+        {
+          "path": "tools/verify_operational_handoff.py",
+          "sha256": "e365ab9fde8f343a1d7110f4b49fa360a031978090033b84316c2d791b9118c8"
+        },
+        {
+          "path": "tools/collect_operational_evidence.py",
+          "sha256": "1c165d4d8de3e7f16f51d457a7c09cf08adf4942e11aa357ddbe7d898db59368"
+        },
+        {
+          "path": "tools/import_operational_evidence.py",
+          "sha256": "b9d9bd66e6ffcbd9b477c62131a75a97cee3842d135c7eb85eeccc64147f81e8"
+        }
+      ]
+    },
+    "repository_version": "v1.35.1",
+    "shadow_contract_digest": "4072c716a2f30b8e5197043499beb48c5f2726ab983dbb5ee1d4c5d7e4ac2eea",
+    "subject_count": 21,
+    "subject_inventory_sha256": "adeab21cd66f61511e45fff37bfe1bad5e6c8d2dfc42ccbdf41db64e323d0dc9"
+  },
+  "candidate_digest": "412d0456f30ec688354977b2752d8108eeb3a0020c75a09b08a9c2ed5bf81aee",
+  "errors": [],
+  "handoff_status": "HANDOFF_READY",
+  "repository_version": "v1.35.1",
+  "schema_version": 1
+}

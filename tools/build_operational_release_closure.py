@@ -114,11 +114,15 @@ def render(r:dict[str,Any])->str:
     return '\n'.join(lines)
 
 def build(root:Path,cfg:dict[str,Any])->dict[str,Any]:
+    ceremony=root/cfg['ceremony_evidence']
+    if not ceremony.exists():
+        ceremony.parent.mkdir(parents=True,exist_ok=True)
+        ceremony.write_text(json.dumps({'schema_version':1,'repository_version':cfg['repository_version'],'claimed_status':'NOT_RUN'},indent=2,sort_keys=True)+'\n')
     r=evaluate(root,cfg); out=root/cfg['output_distribution']; out.mkdir(parents=True,exist_ok=True)
     (out/'closure.json').write_text(json.dumps(r,indent=2,sort_keys=True)+'\n'); md=render(r); (out/'OPERATIONAL_RELEASE_CLOSURE.md').write_text(md); (root/'docs'/f"operational-release-closure-{cfg['repository_version']}.md").write_text(md)
     (out/'SHA256SUMS').write_text(''.join(f"{sha256_file(out/n)}  {n}\n" for n in ('closure.json','OPERATIONAL_RELEASE_CLOSURE.md')))
     return r
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-release-closure/closure-v1.35.0.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"operational release closure: {r['closure_status']}")
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-release-closure/closure-v1.35.1.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"operational release closure: {r['closure_status']}")
 if __name__=='__main__': main()

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.35.1",
+  "shadow_rc_distribution": "dist/v2-shadow-rc-v1.35.1",
+  "release_subject_inventory_distribution": "dist/release-subjects-v1.35.1",
+  "live_validation_config": "packaging/live-validation/live-v1.35.1.json",
+  "output_distribution": "dist/operational-handoff-v1.35.1",
+  "bundle_filename": "operational-evidence-handoff-v1.35.1.zip",
+  "allowed_evidence_prefixes": [
+    "evidence/live-validation/v1.35.1/",
+    "evidence/operational-release/v1.35.1/"
+  ],
+  "required_tools": [
+    "tools/run_live_host_smoke.py",
+    "tools/record_burn_in.py",
+    "tools/build_live_validation.py",
+    "tools/verify_live_validation.py",
+    "tools/build_v2_promotion.py",
+    "tools/build_release_readiness.py",
+    "tools/run_release_ceremony.py",
+    "tools/build_operational_release_closure.py",
+    "tools/build_operational_handoff.py",
+    "tools/verify_operational_handoff.py",
+    "tools/collect_operational_evidence.py",
+    "tools/import_operational_evidence.py"
+  ]
+}
