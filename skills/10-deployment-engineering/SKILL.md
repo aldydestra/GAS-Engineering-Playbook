@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.12.1"
+skill_version: "1.12.2"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.35.1"
+last_repository_update: "v1.35.2"
 tags:
   - google-apps-script
   - deployment
@@ -2332,3 +2332,34 @@ Evidence imported from another environment must be rejected if:
 
 This makes external execution portable without turning external evidence into an untrusted manual JSON copy.
 
+
+## Portable Operator Kit & clasp 3.4.x Release Baseline — v1.35.2
+
+### Portable Operational Evidence Kit
+
+When live host/burn-in execution must happen away from the authoritative repository, prefer a minimal candidate-bound operator kit over copying the entire repository ad hoc.
+
+The kit should contain:
+
+- the exact candidate handoff lock;
+- the exact release artifact used by the host smoke test;
+- the live-validation/handoff configuration;
+- hashed operational tools required by the candidate lock;
+- the minimum static manifests needed to validate the execution context;
+- its own deterministic file manifest and verifier.
+
+Verify the kit **before** execution. After evidence is collected, return only the allowlisted evidence bundle and import it through the authoritative fail-closed importer. Promotion approval and release publication remain authoritative-side operations.
+
+### Current clasp Snapshot
+
+As of the v1.35.2 audit, the latest Google-maintained stable release is `clasp` **3.4.1** (2026-08-28). The 3.4 line includes path/deletion hardening, symlink handling, credential-file protections, OAuth PKCE work, and dependency compatibility fixes.
+
+Do not convert that snapshot into a permanent version pin. Re-check the current release before changing CI. The reusable deployment rules are:
+
+- keep `rootDir` and ordered source paths inside the intended repository boundary;
+- review symlink behavior explicitly;
+- protect OAuth credential files as user/CI secrets;
+- keep destructive delete/push behavior bounded to the expected source tree;
+- validate the target Script ID/environment before push or deploy.
+
+`tools/audit_gas_project.py` provides static checks for the repository-side subset of these rules.

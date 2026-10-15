@@ -1,113 +1,69 @@
-# GAS Engineering Playbook v1.35.1
+# GAS Engineering Playbook v1.35.2
 
-**Operational Evidence Handoff & GAS Production Guardrails**
+**Portable Evidence Operator Kit & GAS/clasp Hardening**
 
-v1.35.1 is a patch release inside the frozen v1.35 Shadow RC line. It does not change the v2 package-first breaking-change contract. Instead, it makes the remaining real operational validation portable across machines and converts several current GAS production-retirement rules into executable preflight checks.
+v1.35.2 is a patch release inside the frozen v1.35 Shadow RC line. It keeps the v2 package-first contract stable while making external operational evidence collection easier to execute and strengthening Google Apps Script deployment/security checks.
 
 ## Highlights
 
-### Candidate-bound operational evidence handoff
+### Portable operational evidence operator kit
 
-New toolchain:
-
-```text
-packaging/operational-handoff/handoff-v1.35.1.json
-tools/build_operational_handoff.py
-tools/verify_operational_handoff.py
-tools/collect_operational_evidence.py
-tools/import_operational_evidence.py
-tools/test_operational_handoff.py
-```
-
-The handoff lock freezes the exact:
-
-- v2 Shadow RC evidence;
-- breaking-change contract freeze;
-- 21 release-subject inventory;
-- live-validation configuration;
-- operational execution/build tool digests.
-
-External evidence can be imported only when the repository version and candidate digest still match the authoritative candidate. Import also verifies the exact handoff lock, every payload hash/size, safe ZIP paths, approved evidence roots, and the complete bundle inventory.
-
-`HANDOFF_READY` means the candidate is safe to execute elsewhere. It does **not** mean live host/burn-in passed.
-
-### GAS production auditor
-
-New:
+The v1.35.1 handoff still required the external operator to carry the full repository snapshot. v1.35.2 now generates:
 
 ```text
-tools/audit_gas_project.py
+dist/operational-handoff-v1.35.2/
+├── handoff-lock.json
+├── operator-kit-manifest.json
+├── operational-evidence-operator-kit-v1.35.2.zip
+├── OPERATIONS.md
+└── SHA256SUMS
 ```
 
-Production preflight now detects:
+The kit contains the exact candidate inputs required for verification and evidence execution, including the tested release `.skill`, live/handoff config, relevant static manifests, and candidate-bound operational tools.
 
-- retired Rhino / `runtimeVersion: "DEPRECATED_ES5"`;
-- unpinned V8 as a warning;
-- retired `Maps.setAuthentication(clientId, signingKey)`;
-- external `UrlFetchApp` use without `urlFetchWhitelist` for a production/versioned deployment;
-- Workspace add-on external OpenLink behavior without `addOns.common.openLinkUrlPrefixes`;
-- implicit Workspace add-on OAuth scopes as a review warning.
+`tools/verify_operator_kit.py` checks every kit payload hash/size, candidate digest, embedded handoff lock, bound candidate inputs, and handoff policy before execution.
 
-Example:
+The kit is **not release authority**. It can collect host/burn-in evidence; promotion approval and release ceremony remain on the authoritative repository after fail-closed evidence import.
 
-```bash
-python3 tools/audit_gas_project.py /path/to/apps-script-project
-```
+### GAS/clasp production preflight schema v2
 
-### Correct patch-version evidence semantics
+`tools/audit_gas_project.py` now also checks:
 
-A new patch no longer becomes `INVALID_EVIDENCE` simply because version-specific evidence placeholders have not been created yet.
+- `.clasp.json` `rootDir` parent/absolute path escape;
+- unsafe `filePushOrder` entries;
+- `.clasprc.json` accidentally shipped inside the project;
+- source symlinks that require explicit review;
+- missing clasp `scriptId` warning;
+- public/anonymous and deployer-identity web-app combinations.
 
-The builders now bootstrap honest empty states:
+These extend the existing V8/Rhino, Maps auth, URL allowlist, add-on allowlist, and OAuth review checks.
 
-```text
-host smoke          NOT_RUN
-burn-in             NOT_RUN
-approval            NOT_REQUESTED
-ceremony            NOT_RUN
-```
+### Current Google/clasp refresh
 
-The downstream gate therefore starts as `BLOCKED`, not falsely corrupted.
+The 2026-10-15 source audit found:
 
-### CI/release workflow repair
+- no Apps Script-specific release note newer than Data Regions GA on 2026-09-14;
+- Google-maintained `clasp` stable **v3.4.1** as the latest observed release;
+- the 3.4 line includes security hardening around path boundaries, symlinks, credentials, deletion, and OAuth;
+- Google Workspace Add-ons extending Chat support **App Home GA** (2026-09-30), with Apps Script `onAppHome` as a supported callback surface.
 
-- active release references updated to v1.35.1;
-- signed-attestation tag trigger corrected from stale `v1.34.*` to `v1.35.*`;
-- handoff build/verify/test added to CI;
-- GAS auditor test suite added to CI;
-- handoff evidence uploaded with release evidence but excluded from the frozen 21 release subjects.
+See `docs/gas-platform-refresh-v1.35.2.md`.
 
 ## Skill updates
 
-| Skill | v1.35.0 | v1.35.1 |
+| Skill | v1.35.1 | v1.35.2 |
 |---|---:|---:|
-| 01 GAS Core Engineering | 1.4.0 | **1.4.1** |
-| 07 Security Engineering | 1.7.0 | **1.7.1** |
-| 08 Testing & Quality | 1.6.0 | **1.6.1** |
-| 10 Deployment Engineering | 1.12.0 | **1.12.1** |
-| 14 Workspace Add-ons & Chat Engineering | 1.4.0 | **1.4.1** |
+| 07 Security Engineering | 1.7.1 | **1.7.2** |
+| 08 Testing & Quality | 1.6.1 | **1.6.2** |
+| 10 Deployment Engineering | 1.12.1 | **1.12.2** |
+| 12 Web App & Frontend Engineering | 1.1.1 | **1.2.0** |
+| 14 Workspace Add-ons & Chat Engineering | 1.4.1 | **1.5.0** |
 
-Skills 18 and 19 remain unchanged. This patch intentionally keeps GAS work primary and avoids release-only Agent Skill version increments.
-
-## Google Apps Script source refresh
-
-The 2026-10-14 audit rechecked first-party Google material. The latest Apps Script-specific release-note entry remains the September 14, 2026 Data Regions GA announcement.
-
-Production rules reinforced here include:
-
-- Rhino execution retirement after January 31, 2026;
-- strict Data Region policies requiring V8;
-- Maps client-ID authentication no longer viable after May 31, 2026;
-- current Maps class reference using API-key authentication;
-- URL allowlists as versioned-deployment controls;
-- background/trigger authorization paths needing explicit handling under granular OAuth.
-
-See `docs/gas-platform-refresh-v1.35.1.md`.
+Skills 18 and 19 remain unchanged. The release continues to prioritize GAS engineering rather than bumping Agent Skill versions for repository cadence alone.
 
 ## Validation
 
 ```text
-19/19 canonical skills packaged
 19/19 package validation PASS
 evaluation parity PASS
 host compatibility PASS_STATIC
@@ -115,27 +71,27 @@ trust/catalog/provenance PASS_STATIC
 dual-distribution RC PASS_STATIC
 v2 cutover rehearsal PASS_STATIC
 v2 Shadow RC PASS_STATIC
+breaking-change freeze PASS
 release subject inventory PASS_STATIC (21/21)
 operational handoff HANDOFF_READY
+portable operator kit PASS
 live-validation harness HARNESS_READY
 live host lifecycle NOT_RUN
 consumer burn-in NOT_RUN
 v2 promotion BLOCKED
 release readiness BLOCKED
 operational release closure BLOCKED
-70/70 repository tests PASS
+77/77 repository tests PASS
 ```
 
-## Why this is not v2.0
+## Why this is still not v2.0
 
-The deterministic/frozen contract is ready, but the external trust chain is not closed. v2 still requires real host lifecycle PASS, real dual-channel burn-in PASS across the configured exposure window, zero blocking incidents, live-validation `GO`, current-context approval, `READY_TO_TAG`, and signed immutable operational release closure.
-
-If external execution exposes defects, fix them in v1.35.x and rebuild the candidate/handoff lock rather than forcing v2.
+The static/frozen candidate remains healthy, but production promotion still depends on real external evidence. The v1.35.x line remains the correct place for fixes until live host lifecycle, dual-channel burn-in, approval, release readiness, signed immutable publication, and operational closure all pass.
 
 ## Detailed documentation
 
 - `RELEASE_MANIFEST.md`
-- `docs/operational-evidence-handoff-v1.35.1.md`
-- `docs/gas-platform-refresh-v1.35.1.md`
-- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.1.md`
+- `docs/operational-evidence-handoff-v1.35.2.md`
+- `docs/gas-platform-refresh-v1.35.2.md`
+- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.2.md`
 - `docs/roadmap-to-v2.0.md`

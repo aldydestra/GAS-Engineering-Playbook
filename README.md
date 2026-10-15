@@ -4,21 +4,21 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.35.1 Operational Evidence Handoff & GAS Production Guardrails
+## v1.35.2 Portable Evidence Operator Kit & GAS/clasp Hardening
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.1/` is the normalized installable package channel. v1.35.1 keeps the **v2 Shadow RC & Breaking-Change Freeze** intact and focuses on the remaining practical blocker: live host/burn-in/release evidence must be produced outside deterministic CI without accepting evidence from a different or modified candidate.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.2/` is the normalized installable package channel. v1.35.2 stays inside the frozen **v2 Shadow RC & Breaking-Change Freeze** line: package identity, canonical rollback mapping, host-adapter identity, and skill major-version boundaries remain unchanged.
 
-The new **candidate-bound operational handoff** freezes the current Shadow RC, exact 21-subject inventory, live-validation policy, and operational runner tool digests into one handoff candidate SHA-256. External evidence can be collected into a deterministic ZIP and imported only if repository version, candidate digest, handoff lock, every evidence checksum, allowed evidence path, and bundle inventory all match. ZIP traversal, unlisted payloads, and stale-candidate evidence fail closed.
+The operational handoff now produces a deterministic **portable operator kit** instead of requiring an ad-hoc full repository copy. The kit contains the exact candidate lock, tested `.skill`, required static manifests/configuration, the candidate-bound toolchain, its own manifest, and a verifier. A modified tool/artifact fails before live evidence collection; returned evidence still passes the existing authoritative fail-closed importer.
 
-v1.35.1 also converts current Google Apps Script production retirement rules into an executable project preflight. `tools/audit_gas_project.py` detects retired Rhino/`DEPRECATED_ES5`, retired `Maps.setAuthentication(clientId, signingKey)`, and missing production URL allowlists where external fetch/open-link behavior applies. Five GAS skills receive patch updates; Agent Skill 18/19 remain unchanged because the frozen distribution contract did not require content changes.
+The GAS preflight advances to schema v2 and adds clasp/repository safety checks: unsafe `rootDir` / `filePushOrder`, repository-embedded `.clasprc.json`, symlink review, and web-app `access`/`executeAs` warnings. The source refresh also adopts Google Chat **App Home GA** for Workspace Add-ons and refreshes the current Google-maintained `clasp` snapshot to **3.4.1**.
 
-Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, cutover rehearsal PASS_STATIC, v2 Shadow RC PASS_STATIC, operational handoff **HANDOFF_READY**, and **70/70 tests PASS**. v2 remains `NO_GO` until real live-host lifecycle, 24+ hour dual-channel burn-in, approval, `READY_TO_TAG`, and signed immutable operational release closure complete.
+Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, cutover rehearsal PASS_STATIC, v2 Shadow RC PASS_STATIC, release subjects 21/21 PASS_STATIC, operational handoff **HANDOFF_READY**, portable operator kit **PASS**, and **77/77 tests PASS**. v2 remains `NO_GO` until real live-host lifecycle, required dual-channel burn-in, approval, `READY_TO_TAG`, and signed immutable operational release closure complete.
 
 Detailed release references:
 
-- `docs/gas-platform-refresh-v1.35.1.md`
-- `docs/operational-evidence-handoff-v1.35.1.md`
-- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.1.md`
+- `docs/gas-platform-refresh-v1.35.2.md`
+- `docs/operational-evidence-handoff-v1.35.2.md`
+- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.2.md`
 - `docs/roadmap-to-v2.0.md`
 
 ## Foundation Status
@@ -199,6 +199,7 @@ last_repository_update: "v1.13.0"
 | **v1.34.0** | **Operational Release Closure: merged live/burn-in + release-ceremony checkpoint, exact 21-subject freeze, signed immutable-release verification, and anti-drift approval/readiness binding** |
 | **v1.35.0** | **v2 Shadow RC & GAS Platform Refresh: breaking-change contract freeze, Shadow RC digest binding, 7 GAS-focused skill refreshes, and 59/59 regression tests** |
 | **v1.35.1** | **Operational Evidence Handoff & GAS Production Guardrails: candidate-bound external evidence portability, safe import, patch evidence bootstrap, GAS production auditor, and 70/70 regression tests** |
+| **v1.35.2** | **Portable Evidence Operator Kit & GAS/clasp Hardening: minimal candidate-bound execution kit, clasp path/credential/symlink preflight, web-app identity review, Chat App Home GA, and 77/77 regression tests** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 

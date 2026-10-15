@@ -1,10 +1,10 @@
 ---
 name: testing-quality
 description: "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality."
-skill_version: "1.6.1"
+skill_version: "1.6.2"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.35.1"
+last_repository_update: "v1.35.2"
 tags:
   - google-apps-script
   - testing
@@ -1916,3 +1916,19 @@ Add a static preflight before live deployment tests. At minimum it should detect
 
 Use the repository `tools/audit_gas_project.py` as a baseline preflight, then keep runtime/integration tests for trigger behavior, authorization, data-region policy, and actual deployment IDs. Static PASS never replaces live GAS execution.
 
+
+## GAS Release Preflight Expansion — v1.35.2
+
+A production test plan should include deployment-configuration assertions, not only application logic tests.
+
+The static GAS preflight now covers:
+
+- unsafe `.clasp.json` root/file-order traversal;
+- accidental clasp credential files inside the project tree;
+- symlinked source paths that require explicit release review;
+- anonymous/public web-app execution identity warnings;
+- the existing V8, retired Maps authentication, URL allowlist, and add-on allowlist rules.
+
+Treat warnings as review requirements rather than automatic failures. For example, a public anonymous web app can be intentional, while a path traversal or embedded credential file is a release blocker.
+
+For operational evidence, verify the portable operator kit before running a host lifecycle. The kit must be candidate-bound, contain the exact hashed execution inputs, and produce evidence that still passes authoritative import validation.

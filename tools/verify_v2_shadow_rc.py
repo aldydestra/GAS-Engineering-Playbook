@@ -7,7 +7,7 @@ import build_v2_shadow_rc as b
 
 def sha(p:Path)->str: return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-shadow-rc/shadow-v1.35.1.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=json.loads((root/a.config).read_text()); out=root/cfg['output_distribution']; errors=[]
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-shadow-rc/shadow-v1.35.2.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=json.loads((root/a.config).read_text()); out=root/cfg['output_distribution']; errors=[]
     p=out/'shadow-rc.json'; f=out/'contract-freeze.json'; sums=out/'SHA256SUMS'
     if not p.exists(): errors.append('shadow-rc.json missing')
     if not f.exists(): errors.append('contract-freeze.json missing')

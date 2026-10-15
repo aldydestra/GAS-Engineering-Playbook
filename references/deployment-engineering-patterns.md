@@ -241,3 +241,9 @@ A static RC can be releasable while the breaking migration remains `NO_GO`.
 # Live Validation Harness — v1.30.0
 
 Treat `HARNESS_READY`, `NOT_RUN`, and live `PASS` as different release states. A host PASS must bind install, activation/use, update/reload, and uninstall/disable observations to the exact tested artifact digest and durable evidence. Real dual-distribution burn-in must exercise both canonical and package channels. Incomplete self-declared PASS evidence fails closed.
+
+## v1.35.2 — Portable Evidence Kit and clasp 3.4.x
+
+For external operational testing, prefer a candidate-bound minimal execution kit over an ad-hoc full repository copy. Bind the release artifact, policy/config, tool hashes, and relevant static manifests; verify before execution; return only allowlisted evidence.
+
+Current clasp 3.4.x hardening reinforces these generic deployment invariants: path containment, explicit symlink policy, protected credential storage, bounded deletion, target Script ID assertion, and repository/source-of-truth discipline.

@@ -206,3 +206,7 @@ error
 ```
 
 instead of treating every successful empty list as "no members".
+
+## v1.35.2 — Chat App Home
+
+Treat Google Chat App Home as a distinct Workspace Add-on surface. Configure its trigger, implement/test `onAppHome` for Apps Script runtimes, return supported `RenderActions`, and test first-run, returning-user, authorization, navigation, and stale-state behavior independently of message actions.

@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "product-design-engineering",
+        "profile": "full-v1.35.2",
+        "repositoryVersion": "v1.35.2",
+        "sourcePath": "skills/15-product-design-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "cd869cfa605a5e456b89ae2fc4585e213b5b46558aebe6e673961c2ea43e6ce0"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/15-product-design-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "4bf4fa75aae2e8f564a8eef1aa8e149d97b314a10c64a31ebb9b40ff97a20b1a"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.35.2.json"
+        },
+        {
+          "digest": {
+            "sha256": "db5a8b651baae745291153fa81c3169b64125613a398b8fe5645c2e99ddad193"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "db5a8b651baae745291153fa81c3169b64125613a398b8fe5645c2e99ddad193",
+          "repository": "v1.35.2"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "ee7be14adce287eeb3cd3743c229ef1abc9d49fe36be9f280be06188c61af1c2"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.35.2/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "ba1911c0908a5e5edb585c61b3de61b4fb5ca61a93e55138ff323dba87531be3"
+      },
+      "name": "product-design-engineering.skill"
+    }
+  ]
+}

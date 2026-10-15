@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-10-12**
+Last audit: **2026-10-15**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -191,9 +191,9 @@ https://github.com/google/clasp/releases
 
 Evidence class: **Google-maintained open source**
 
-Last checked: **2026-09-07**
+Last checked: **2026-10-15**
 
-### Latest indexed stable snapshot: v3.3.0
+### Latest observed stable snapshot: v3.4.1
 
 Release date: **2026-03-11**
 
@@ -203,11 +203,16 @@ Repository `package.json` currently indicates:
 Node.js >=20
 ```
 
-v3.3.0 release notes include:
+The v3.4.x line adds/reinforces:
 
-- timestamp on push success,
-- explicit project / clasp / extra login scopes,
-- push/auth/config fixes.
+- explicit symlink handling;
+- stricter deletion/path boundaries;
+- credential-file permission and symlink protection;
+- OAuth PKCE/CSRF hardening;
+- atomic/local filesystem safety improvements;
+- compatibility fixes for newer Node.js versions.
+
+The v3.4.1 patch fixes `rootDir` double application during pull/clone/create.
 
 Status: **TOOL SNAPSHOT**
 
@@ -3832,3 +3837,19 @@ Material production guardrails reinforced in this patch:
 - external live evidence should be candidate-bound, hash verified, path constrained, and imported fail-closed instead of copied manually.
 
 Executable checks are provided by `tools/audit_gas_project.py` and the operational evidence handoff/import toolchain.
+
+---
+
+## v1.35.2 Portable Operator Kit & GAS/clasp Hardening Audit — 2026-10-15
+
+Status: **ADOPTED**
+
+Current source review found no Apps Script-specific release-note entry newer than the **2026-09-14 Data Regions GA** announcement. The patch therefore does not manufacture a new Apps Script platform feature. Instead it adopts two adjacent, directly relevant updates:
+
+1. Google-maintained `clasp` latest stable observed: **v3.4.1 (2026-08-28)**. The 3.4 series materially hardens path traversal, symlink behavior, deletion boundaries, credential files, and OAuth flows. Reusable rules were added to Security/Testing/Deployment and to the executable GAS project auditor.
+2. Google Workspace Add-ons release notes: **2026-09-30 Chat App Home GA**. Workspace Add-ons extending Chat can expose a Home tab surface; Apps Script implementations can use `onAppHome`. This was adopted by Skill 14 as a distinct lifecycle/test surface.
+
+Operationally, v1.35.2 also replaces the full-repository external handoff assumption with a deterministic candidate-bound operator kit and pre-execution kit verification.
+
+No Agent Skill package identity/host contract/major-version change was required.
+

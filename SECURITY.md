@@ -55,3 +55,17 @@ A revocation can invalidate catalog admission even when an old artifact remains 
 
 Do not publish live secrets or malicious payloads unnecessarily when reporting the incident.
 
+
+## v1.35.2 Operational Handoff and clasp Security Boundary
+
+For operational-evidence transfer, treat the **whole operator-kit ZIP digest** in the authoritative handoff `SHA256SUMS` as the first trust boundary. Do not rely only on a verifier stored inside the same archive. After the outer archive hash is trusted, run the operator-kit verifier to validate the internal candidate/tool inventory before executing live evidence collection.
+
+For Apps Script projects managed with `clasp`:
+
+- never commit or ship `.clasprc.json` credential material with the project;
+- keep `rootDir` and `filePushOrder` contained inside the intended project boundary;
+- review source symlinks explicitly before push/deploy;
+- treat destructive sync/deletion as a bounded deployment operation;
+- review anonymous web apps that execute as the deployer as a privileged public trust boundary.
+
+`tools/audit_gas_project.py` provides static checks for these conditions, but it does not replace organization policy, real OAuth/admin state, or live deployment verification.

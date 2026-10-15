@@ -154,3 +154,7 @@ backend integrations
 ↓
 HtmlService / external frontend / hybrid
 ```
+
+## v1.35.2 — Web-App Identity Is Part of Frontend Acceptance
+
+Review Apps Script web-app `access` and `executeAs` as part of frontend/server boundary acceptance. Anonymous access with deployer execution is a privileged public endpoint and needs server-side authorization, object-level permission checks, input validation, and data-minimization controls.

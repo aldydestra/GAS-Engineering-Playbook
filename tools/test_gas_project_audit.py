@@ -1,5 +1,5 @@
 from __future__ import annotations
-import json,tempfile,unittest
+import json,tempfile,unittest,os
 from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'tools'))
@@ -26,4 +26,25 @@ class GasProjectAuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             p=self.project(td,{'runtimeVersion':'V8','addOns':{'common':{}},'oauthScopes':['https://www.googleapis.com/auth/script.external_request']},"function x(){ return CardService.newOpenLink().setUrl('https://example.com/a'); }")
             r=audit.audit(p,True); self.assertEqual(r['status'],'FAIL'); self.assertIn('OPENLINK_ALLOWLIST_MISSING',{x['code'] for x in r['findings']})
+    def test_clasp_root_traversal_is_blocker(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=self.project(td,{'runtimeVersion':'V8'}); (p/'.clasp.json').write_text(json.dumps({'scriptId':'abc','rootDir':'../outside'}))
+            r=audit.audit(p); self.assertEqual(r['status'],'FAIL'); self.assertIn('CLASP_ROOTDIR_UNSAFE',{x['code'] for x in r['findings']})
+    def test_clasp_file_push_order_traversal_is_blocker(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=self.project(td,{'runtimeVersion':'V8'}); (p/'.clasp.json').write_text(json.dumps({'scriptId':'abc','filePushOrder':['Code.gs','../secret.js']}))
+            r=audit.audit(p); self.assertEqual(r['status'],'FAIL'); self.assertIn('CLASP_FILEPUSHORDER_UNSAFE',{x['code'] for x in r['findings']})
+    def test_clasp_credentials_inside_project_are_blocker(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=self.project(td,{'runtimeVersion':'V8'}); (p/'.clasprc.json').write_text('{"token":"secret"}')
+            r=audit.audit(p); self.assertEqual(r['status'],'FAIL'); self.assertIn('CLASP_CREDENTIAL_FILE_IN_PROJECT',{x['code'] for x in r['findings']})
+    def test_public_webapp_deployer_identity_warns_not_fails(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=self.project(td,{'runtimeVersion':'V8','webapp':{'access':'ANYONE_ANONYMOUS','executeAs':'USER_DEPLOYING'}})
+            r=audit.audit(p); self.assertEqual(r['status'],'PASS'); self.assertIn('PUBLIC_WEBAPP_DEPLOYER_IDENTITY',{x['code'] for x in r['findings']})
+    @unittest.skipIf(not hasattr(os,'symlink'),'symlink unsupported')
+    def test_symlink_requires_review(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=self.project(td,{'runtimeVersion':'V8'}); target=p/'Target.gs'; target.write_text('function y(){}'); os.symlink(target,p/'Linked.gs')
+            r=audit.audit(p); self.assertEqual(r['status'],'PASS'); self.assertIn('CLASP_SYMLINK_REVIEW',{x['code'] for x in r['findings']})
 if __name__=='__main__': unittest.main()

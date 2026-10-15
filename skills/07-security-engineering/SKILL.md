@@ -1,10 +1,10 @@
 ---
 name: security-engineering
 description: "Secure Apps Script, Workspace, and adjacent agent integrations: authentication, authorization, least privilege, OAuth scopes, secrets, XSS/input validation, prompt injection, server-side permission checks, filtered/partial read semantics, and safe logging. Use for application/runtime trust boundaries rather than skill-package scanning. Use for threat modeling public/web endpoints and access-control failures as well as OAuth and prompt-injection risks."
-skill_version: "1.7.1"
+skill_version: "1.7.2"
 repository_introduced: "v1.8.0"
 status: "evolving"
-last_repository_update: "v1.35.1"
+last_repository_update: "v1.35.2"
 tags:
   - google-apps-script
   - security
@@ -2023,3 +2023,19 @@ A test deployment that works without these controls is not evidence that the pro
 
 Flag `Maps.setAuthentication(clientId, signingKey)` during security review. Client-ID authentication is no longer a viable production compatibility path after the Maps client-ID sunset; use the current API-key authentication mechanism and protect the key as a production credential.
 
+
+## clasp 3.4 Security Boundary & Local Sync Hardening — v1.35.2
+
+Current Google-maintained `clasp` 3.4.x releases harden local file traversal, credential-file handling, OAuth flows, symlink behavior, and deletion boundaries. Treat the local sync tree as part of the deployment trust boundary, not as an inert developer convenience.
+
+Production rules:
+
+- never place `.clasprc.json` or equivalent OAuth credential material inside the repository/project tree;
+- reject `.clasp.json` `rootDir` or `filePushOrder` values that escape the intended project boundary;
+- review symlinked files explicitly before allowing them into a push path;
+- preserve a deterministic source root and target Script ID before destructive synchronization;
+- re-check current `clasp` behavior before depending on deletion or path-following semantics.
+
+The playbook GAS preflight reports these conditions. A static PASS does not replace credential rotation, repository permissions, or CI-secret controls.
+
+For web apps, `ANYONE_ANONYMOUS` combined with `USER_DEPLOYING` is a high-risk trust boundary because unauthenticated callers can cause code to execute with deployer identity. It can be valid, but only with explicit server-side authorization, data minimization, abuse controls, and threat review.

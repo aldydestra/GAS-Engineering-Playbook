@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.35.2",
+  "baseline_repository_version": "v1.34.0",
+  "package_distribution": "dist/agent-skills-v1.35.2",
+  "dual_distribution": "dist/dual-distribution-v1.35.2",
+  "host_distribution": "dist/host-compat-v1.35.2",
+  "cutover_rehearsal_distribution": "dist/v2-cutover-rehearsal-v1.35.2",
+  "baseline_package_manifest": "dist/agent-skills-v1.34.0/manifest.json",
+  "baseline_migration_map": "dist/dual-distribution-v1.34.0/migration-map.json",
+  "baseline_host_manifest": "dist/host-compat-v1.34.0/manifest.json",
+  "output_distribution": "dist/v2-shadow-rc-v1.35.2",
+  "expected_skill_count": 19,
+  "require_exact_package_name_set": true,
+  "require_canonical_mapping_stability": true,
+  "require_host_contract_stability": true,
+  "forbid_skill_major_bump": true,
+  "require_cutover_rehearsal_pass": true
+}

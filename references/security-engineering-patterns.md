@@ -232,3 +232,7 @@ empty list = resource empty
 ```
 
 unless the caller's visibility is known to be complete.
+
+## v1.35.2 — Local Deployment Tooling Is a Trust Boundary
+
+Treat `.clasp.json`, source-root paths, symlinks, and local OAuth credential files as deployment security inputs. Reject path escape and repository-embedded credentials. Public Apps Script web apps that execute as the deployer require explicit authorization and abuse/data-exposure review.

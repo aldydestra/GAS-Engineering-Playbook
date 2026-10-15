@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools'))
 import build_release_readiness as rr
 import build_v2_promotion as promo
-CFG=json.loads((ROOT/'packaging/release-readiness/release-v1.35.1.json').read_text()); V=CFG['repository_version']
+CFG=json.loads((ROOT/'packaging/release-readiness/release-v1.35.2.json').read_text()); V=CFG['repository_version']
 class ReleaseReadinessTests(unittest.TestCase):
     def fixture(self, td:str, promotion='APPROVED', live='GO', cutover='PASS_STATIC'):
         base=Path(td); cfg=copy.deepcopy(CFG); cfg.update({'package_distribution':'pkg','host_distribution':'host','dual_distribution':'dual','live_validation_distribution':'live','cutover_rehearsal_distribution':'cutover','release_subject_inventory_distribution':'subjects','shadow_rc_distribution':'shadow','promotion_distribution':'promo','evaluation_report':'eval.json','output_distribution':'out'})

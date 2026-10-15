@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
 description: "Build Google Workspace Add-ons, Google Chat apps, and Workspace Studio extensions using CardService, host manifests, contextual/homepage cards, navigation/actions, Chat responses, workflow steps/starters, workflowTriggers, lifecycle callbacks, OAuth, and membership-visibility UI states. Use for Workspace-native add-on/chat/studio UX."
-skill_version: "1.4.1"
+skill_version: "1.5.0"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.35.1"
+last_repository_update: "v1.35.2"
 tags:
   - google-apps-script
   - google-workspace
@@ -1653,3 +1653,18 @@ Before a versioned add-on deployment, distinguish editor/test permissiveness fro
 
 Treat missing allowlists as a deployment blocker even when a test deployment appears functional. Test deployments are also insufficient for installable-trigger coverage, so production acceptance requires a separate trigger/integration path plus authorization testing for granular OAuth behavior.
 
+
+## Google Chat App Home GA — v1.35.2
+
+Google Workspace Add-ons that extend Google Chat now support **App Home** as a generally available surface. App Home provides a custom homepage card in the Home tab of a 1:1 direct message with the Chat app.
+
+For Apps Script implementations:
+
+- configure the App Home trigger in the Google Cloud console for the Chat app;
+- implement the Apps Script `onAppHome` callback when using the Apps Script runtime;
+- return a supported `RenderActions` response such as `pushCard` or `updateCard`;
+- treat App Home as a persistent/home surface, not as a message-event substitute;
+- test empty/first-run, returning-user, authorization-required, and stale-state behavior;
+- keep navigation/state rules consistent with other add-on home/contextual surfaces.
+
+Do not assume that an existing Chat message action or add-to-space callback automatically covers App Home. It is a distinct interaction surface and should have its own acceptance tests and lifecycle handling.

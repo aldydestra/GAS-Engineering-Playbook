@@ -3,6 +3,94 @@
 All notable repository and skill changes are documented here.
 
 
+## [v1.35.2] - 2026-10-15
+
+### Portable Evidence Operator Kit & GAS/clasp Hardening
+
+Patch release inside the frozen v1.35 Shadow RC line. v1.35.2 preserves the v2 package/host/major-version contract while making external live-evidence execution materially easier to operate and expanding executable Google Apps Script deployment/security guardrails.
+
+### Added — Portable Candidate-Bound Operator Kit
+
+Operational handoff schema advances **v1 → v2**.
+
+New/expanded components:
+
+- `tools/verify_operator_kit.py`;
+- deterministic `dist/operational-handoff-v1.35.2/operational-evidence-operator-kit-v1.35.2.zip`;
+- `operator-kit-manifest.json` with exact path/hash/size inventory;
+- handoff policy digest bound into the candidate digest;
+- candidate-bound support files for the tested `.skill`, host manifest, and dual-distribution release index;
+- pre-execution verification of every candidate input inside the kit;
+- updated `docs/operational-evidence-handoff-v1.35.2.md`.
+
+The operator kit is intentionally evidence-only. It can run host lifecycle and burn-in collection, but promotion approval and release publication remain authoritative-repository operations after safe import.
+
+### Hardened — GAS/clasp Production Preflight
+
+`tools/audit_gas_project.py` advances to schema v2.
+
+New checks:
+
+- unsafe `.clasp.json` `rootDir` path escape → **ERROR**;
+- unsafe `filePushOrder` path escape → **ERROR**;
+- `.clasprc.json` credential material inside the project tree → **ERROR**;
+- source symlinks → **WARN / explicit review**;
+- missing `scriptId` in an existing `.clasp.json` → **WARN**;
+- anonymous/deployer-identity Apps Script web apps → **WARN / threat review**.
+
+Existing V8/Rhino, Maps authentication, URL allowlist, add-on allowlist, and OAuth-scope checks remain active.
+
+### Google Platform / Tooling Refresh
+
+Current audit findings adopted:
+
+- latest Apps Script-specific release-note item remains Data Regions GA (2026-09-14);
+- latest Google-maintained stable `clasp` observed is **v3.4.1** (2026-08-28);
+- `clasp` 3.4.x reinforces path/deletion, credential-file, symlink, and OAuth hardening;
+- Google Workspace Add-ons extending Chat now support **App Home GA** (2026-09-30), including Apps Script `onAppHome` handling.
+
+### GAS Skill Version Updates
+
+| Skill | v1.35.1 | v1.35.2 | Change |
+|---|---:|---:|---|
+| 07 Security Engineering | 1.7.1 | **1.7.2** | clasp trust boundary + public/deployer web-app review |
+| 08 Testing & Quality | 1.6.1 | **1.6.2** | deployment-config assertions + operator-kit verification |
+| 10 Deployment Engineering | 1.12.1 | **1.12.2** | portable operator kit + clasp 3.4.x deployment baseline |
+| 12 Web App & Frontend Engineering | 1.1.1 | **1.2.0** | web-app access/execution-identity acceptance model |
+| 14 Workspace Add-ons & Chat Engineering | 1.4.1 | **1.5.0** | Chat App Home GA / `onAppHome` lifecycle |
+
+Agent Skill 18/19 remain unchanged because the frozen distribution contract itself did not require new Agent Skill guidance.
+
+### Validation
+
+```text
+canonical skills                         19
+normalized packages                      19
+package validation                       PASS (19/19)
+evaluation gate                          PASS
+host static compatibility                PASS_STATIC
+security/catalog/provenance              PASS_STATIC
+dual-distribution RC                     PASS_STATIC
+v2 cutover rehearsal                     PASS_STATIC
+v2 Shadow RC                             PASS_STATIC
+breaking-change freeze                   PASS
+release subject inventory                PASS_STATIC (21/21)
+operational handoff                      HANDOFF_READY
+portable operator kit                    PASS
+live-validation harness                  HARNESS_READY
+live host lifecycle                      NOT_RUN
+consumer burn-in                         NOT_RUN
+v2 promotion                             BLOCKED
+release readiness                        BLOCKED
+operational release closure              BLOCKED
+repository unittest suite                77/77 PASS
+```
+
+### v2 Decision
+
+Still **NO_GO**. v1.35.2 removes another practical execution-friction point and improves GAS deployment safety, but it does not manufacture external runtime/burn-in/signing evidence.
+
+
 ## [v1.35.1] - 2026-10-14
 
 ### Operational Evidence Handoff & GAS Production Guardrails

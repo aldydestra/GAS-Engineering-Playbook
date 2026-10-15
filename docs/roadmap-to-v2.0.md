@@ -546,6 +546,54 @@ if package/host/major contract must change
 
 ---
 
+### v1.35.2 — Portable Evidence Operator Kit & GAS/clasp Hardening
+
+Status: **implemented — HANDOFF_READY + operator-kit PASS; operational closure still requires real execution**
+
+This patch keeps the v1.35 breaking-change freeze intact and improves the path from static Shadow RC to real-world execution.
+
+Implemented scope:
+
+- deterministic portable operator kit instead of requiring an ad-hoc full repository copy;
+- operator-kit manifest with exact path/hash/size inventory;
+- pre-execution verifier that proves the embedded handoff lock, candidate digest, bound inputs, and handoff policy;
+- external kit remains evidence-only: promotion approval and release ceremony are retained on the authoritative repository;
+- GAS project preflight schema v2 with `.clasp.json` path-boundary, credential-file, symlink, and web-app execution-identity checks;
+- current `clasp` 3.4.x security lessons adopted as reusable deployment rules;
+- Google Chat App Home GA added to Workspace Add-on guidance;
+- five GAS-focused skills updated without changing any package identity or skill major version.
+
+Current patch gate:
+
+```text
+v2 Shadow RC                          PASS_STATIC
+breaking-change freeze                PASS
+release subjects                      PASS_STATIC (21/21)
+operational handoff                   HANDOFF_READY
+portable operator kit                 PASS
+live host lifecycle                   NOT_RUN
+consumer burn-in                      NOT_RUN
+v2 promotion                          BLOCKED
+release readiness                     BLOCKED
+operational release closure           BLOCKED
+```
+
+Next decision remains evidence-driven:
+
+```text
+operator kit executes successfully + burn-in policy completes
+→ import evidence, rebuild gates, request current-context approval
+
+external execution reveals non-breaking defect
+→ fix in v1.35.x, regenerate Shadow RC/handoff kit
+
+external execution requires frozen contract change
+→ break Shadow RC explicitly and remain on v1.x
+
+all operational gates PASS
+→ prepare v2.0.0 cutover
+```
+
 # v2.0.0 — Package-First Repository Only If Gates Pass
 
 v2 may then make breaking structural changes such as:

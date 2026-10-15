@@ -189,3 +189,7 @@ Use explicit states:
 ```text
 PASS / FAIL / NOT_RUN / INCOMPLETE
 ```
+
+## v1.35.2 — Test Deployment Configuration, Not Only Code
+
+Add static assertions for deployment-path containment, secret-file absence, symlink review, web-app execution identity, V8 runtime, URL allowlists, and retired APIs. Verify portable evidence kits before running real host tests and verify imported evidence again in the authoritative repository.
