@@ -241,6 +241,39 @@ def upsert_host_record(path: Path, repository_version: str, record: dict[str, An
     dump_json(path, data)
 
 
+def validate_environment_preflight(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
+    policy = cfg.get("environment_preflight") or {}
+    if not policy.get("required"):
+        return {"required": False, "valid": True, "errors": []}
+    errors: list[str] = []
+    receipt = root / str(policy.get("receipt", ""))
+    lockp = root / str(policy.get("handoff_lock", ""))
+    data: dict[str, Any] = {}
+    lock: dict[str, Any] = {}
+    if not receipt.exists(): errors.append("environment preflight receipt missing")
+    else:
+        try: data = load_json(receipt)
+        except Exception as exc: errors.append(f"environment preflight receipt invalid: {type(exc).__name__}: {exc}")
+    if not lockp.exists(): errors.append("operational handoff lock missing")
+    else:
+        try: lock = load_json(lockp)
+        except Exception as exc: errors.append(f"operational handoff lock invalid: {type(exc).__name__}: {exc}")
+    if data:
+        if data.get("repository_version") != cfg.get("repository_version"): errors.append("preflight repository version mismatch")
+        if data.get("status") != "READY": errors.append(f"preflight status is {data.get('status')}, not READY")
+        if data.get("host_id") != "gemini-cli": errors.append("preflight host does not match gemini-cli")
+    if data and lock and policy.get("candidate_digest_required", True):
+        if data.get("candidate_digest") != lock.get("candidate_digest"): errors.append("preflight candidate digest does not match current handoff lock")
+        if data.get("handoff_lock_sha256") != sha256_file(lockp): errors.append("preflight handoff lock hash is stale")
+    return {
+        "required": True, "valid": not errors, "errors": errors,
+        "receipt_ref": rel(root, receipt) if receipt.exists() else None,
+        "receipt_sha256": sha256_file(receipt) if receipt.exists() else None,
+        "candidate_digest": data.get("candidate_digest") if data else None,
+        "launcher": data.get("launcher") if data else None,
+    }
+
+
 def execute_gemini(
     root: Path,
     cfg: dict[str, Any],
@@ -282,6 +315,16 @@ def execute_gemini(
         "lifecycle": {},
         "runtime_isolation": "inherit-home" if inherit_home else "isolated-home",
     }
+    preflight = validate_environment_preflight(root, cfg)
+    attempt["environment_preflight"] = preflight
+    if not preflight.get("valid"):
+        attempt.update({
+            "finished_at": utc_now(),
+            "outcome": "BLOCKED_PREREQUISITE",
+            "blocker": "; ".join(preflight.get("errors", []))[:1000],
+        })
+        dump_json(attempt_path, attempt)
+        return attempt
     dump_json(attempt_path, attempt)
 
     exe = shutil.which(binary)
@@ -299,9 +342,11 @@ def execute_gemini(
             })
             dump_json(attempt_path, attempt)
             return attempt
-        launcher = [npx, "-y", "@google/gemini-cli@latest"]
+        runtime_policy = (cfg.get("host_runtime") or {}).get("gemini-cli", {})
+        npm_spec = str(runtime_policy.get("npm_spec") or "@google/gemini-cli@latest")
+        launcher = [npx, "-y", npm_spec]
         bootstrap_mode = True
-        attempt["runtime_bootstrap"] = "npx:@google/gemini-cli@latest"
+        attempt["runtime_bootstrap"] = f"npx:{npm_spec}"
     else:
         attempt.update({
             "finished_at": utc_now(),
@@ -344,6 +389,13 @@ def execute_gemini(
         ver_res, ver_out, ver_err = do("00-version", ["--version"])
         if ver_res.passed:
             host_version = (ver_out or ver_err).strip().splitlines()[0][:200] or "unknown"
+            runtime_policy = (cfg.get("host_runtime") or {}).get("gemini-cli", {})
+            expected = str(runtime_policy.get("expected_version") or "").lstrip("v")
+            observed_match = re.search(r"(\d+(?:\.\d+){1,3})", host_version)
+            observed = observed_match.group(1) if observed_match else None
+            if expected and runtime_policy.get("require_exact_version") and observed != expected:
+                attempt["runtime_version_drift"] = {"expected": expected, "observed": observed or host_version}
+                blocker = "BLOCKED_PREREQUISITE"
         else:
             blocker = classify_blocker(ver_out + "\n" + ver_err)
             if blocker is None:
@@ -420,7 +472,7 @@ def execute_gemini(
         complete = all(step in lifecycle for step in all_steps)
         all_pass = complete and all(lifecycle[step].get("status") == "PASS" for step in all_steps)
 
-        if blocker in {"BLOCKED_AUTH", "BLOCKED_NETWORK", "BLOCKED_RUNTIME"}:
+        if blocker in {"BLOCKED_AUTH", "BLOCKED_NETWORK", "BLOCKED_RUNTIME", "BLOCKED_PREREQUISITE"}:
             outcome = blocker
         elif all_pass:
             outcome = "PASS"
@@ -442,6 +494,9 @@ def execute_gemini(
 
         if outcome in {"PASS", "FAIL"} and complete:
             refs = sorted({item["evidence_ref"] for item in lifecycle.values() if item.get("evidence_ref")})
+            if preflight.get("receipt_ref"):
+                refs.append(preflight["receipt_ref"])
+            refs = sorted(set(refs))
             record = {
                 "run_id": run_id,
                 "host_id": "gemini-cli",
@@ -474,7 +529,7 @@ def execute_gemini(
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.2.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.3.json")
     ap.add_argument("--host", default="gemini-cli", choices=["gemini-cli"])
     ap.add_argument("--artifact", help="Release .skill path or package filename")
     ap.add_argument("--tester", default=os.environ.get("USER") or os.environ.get("USERNAME") or "live-runner")

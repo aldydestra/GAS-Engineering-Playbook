@@ -594,6 +594,55 @@ all operational gates PASS
 → prepare v2.0.0 cutover
 ```
 
+### v1.35.3 — Operational Environment Preflight & GAS Deployment Drift Guard
+
+Status: **implemented — Shadow RC PASS_STATIC, handoff HANDOFF_READY, live operational closure still pending**
+
+This patch keeps the frozen v1.35 contract intact while reducing ambiguity in the final external execution stage and re-centering another part of release safety on Google Apps Script production state.
+
+Implemented scope:
+
+- candidate-bound external environment receipt before host lifecycle execution;
+- exact handoff-lock/candidate-digest validation;
+- stable host runtime pin for release evidence (`@google/gemini-cli@0.64.0`);
+- runtime-version drift rejection between preflight and lifecycle;
+- Apps Script deployment/version inventory auditor;
+- protected deployment/version drift policy;
+- 200-version history pressure warning;
+- three GAS-focused skill updates without package/major-version contract changes.
+
+Current gate:
+
+```text
+v2 Shadow RC                          PASS_STATIC
+breaking-change freeze                PASS
+release subjects                      PASS_STATIC (21/21)
+operational handoff                   HANDOFF_READY
+portable operator kit                 PASS
+environment preflight semantics       PASS_STATIC / tested
+live host lifecycle                   NOT_RUN
+consumer burn-in                      NOT_RUN
+v2 promotion                          BLOCKED
+release readiness                     BLOCKED
+operational release closure           BLOCKED
+```
+
+Next decision remains unchanged:
+
+```text
+real operator preflight READY + live lifecycle PASS + burn-in PASS
+→ import evidence and rebuild the current candidate gates
+
+non-breaking defect found during external execution
+→ repair inside v1.35.x and regenerate the candidate/handoff
+
+frozen contract change required
+→ explicitly break the Shadow RC and remain on v1.x
+
+all operational gates PASS
+→ prepare v2.0.0 cutover
+```
+
 # v2.0.0 — Package-First Repository Only If Gates Pass
 
 v2 may then make breaking structural changes such as:

@@ -4,7 +4,7 @@ from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'tools'))
 import build_operational_release_closure as c
-CFG=json.loads((ROOT/'packaging/operational-release-closure/closure-v1.35.2.json').read_text()); V=CFG['repository_version']
+CFG=json.loads((ROOT/'packaging/operational-release-closure/closure-v1.35.3.json').read_text()); V=CFG['repository_version']
 class OperationalClosureTests(unittest.TestCase):
     def fixture(self,td,ceremony='NOT_RUN'):
         base=Path(td); cfg=copy.deepcopy(CFG); cfg.update({'live_validation_distribution':'live','release_readiness_distribution':'ready','release_subject_inventory_distribution':'subjects','ceremony_evidence':'ceremony.json','output_distribution':'out'})

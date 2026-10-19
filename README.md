@@ -4,21 +4,19 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.35.2 Portable Evidence Operator Kit & GAS/clasp Hardening
+## v1.35.3 Operational Environment Preflight & GAS Deployment Drift Guard
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.2/` is the normalized installable package channel. v1.35.2 stays inside the frozen **v2 Shadow RC & Breaking-Change Freeze** line: package identity, canonical rollback mapping, host-adapter identity, and skill major-version boundaries remain unchanged.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.3/` is the normalized installable package channel. v1.35.3 remains inside the frozen **v2 Shadow RC & Breaking-Change Freeze** line; package names, canonical rollback mappings, host-adapter identities, release-subject membership, and skill major-version boundaries remain unchanged.
 
-The operational handoff now produces a deterministic **portable operator kit** instead of requiring an ad-hoc full repository copy. The kit contains the exact candidate lock, tested `.skill`, required static manifests/configuration, the candidate-bound toolchain, its own manifest, and a verifier. A modified tool/artifact fails before live evidence collection; returned evidence still passes the existing authoritative fail-closed importer.
+This patch closes two practical gaps. First, external live evidence now requires a **candidate-bound environment preflight** before lifecycle execution. The operator receipt binds the current handoff lock and verifies the reviewed host runtime. The `npx` fallback no longer resolves `@latest`; v1.35.3 pins the release-evidence bootstrap to Gemini CLI **v0.64.0** and the lifecycle runner rejects runtime drift after preflight. Second, GAS production engineering gains `tools/audit_gas_deployment_state.py`, a read-only auditor for Apps Script deployment/version inventory drift, protected deployment/version expectations, missing referenced versions, unpinned deployments, and version-history pressure.
 
-The GAS preflight advances to schema v2 and adds clasp/repository safety checks: unsafe `rootDir` / `filePushOrder`, repository-embedded `.clasprc.json`, symlink review, and web-app `access`/`executeAs` warnings. The source refresh also adopts Google Chat **App Home GA** for Workspace Add-ons and refreshes the current Google-maintained `clasp` snapshot to **3.4.1**.
-
-Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, cutover rehearsal PASS_STATIC, v2 Shadow RC PASS_STATIC, release subjects 21/21 PASS_STATIC, operational handoff **HANDOFF_READY**, portable operator kit **PASS**, and **77/77 tests PASS**. v2 remains `NO_GO` until real live-host lifecycle, required dual-channel burn-in, approval, `READY_TO_TAG`, and signed immutable operational release closure complete.
+Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, v2 Shadow RC PASS_STATIC, release subjects 21/21 PASS_STATIC, operational handoff **HANDOFF_READY**, portable operator kit PASS, and **90/90 tests PASS**. v2 remains `NO_GO` until real live-host lifecycle, required dual-channel burn-in, promotion approval, `READY_TO_TAG`, and signed immutable operational release closure complete.
 
 Detailed release references:
 
-- `docs/gas-platform-refresh-v1.35.2.md`
-- `docs/operational-evidence-handoff-v1.35.2.md`
-- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.2.md`
+- `docs/gas-platform-refresh-v1.35.3.md`
+- `docs/operational-evidence-handoff-v1.35.3.md`
+- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.3.md`
 - `docs/roadmap-to-v2.0.md`
 
 ## Foundation Status

@@ -49,5 +49,5 @@ def collect(root:Path,cfg:dict[str,Any],output:Path|None=None)->dict[str,Any]:
     return result
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.2.json'); ap.add_argument('--output'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=collect(root,cfg,Path(a.output).resolve() if a.output else None); print(json.dumps(r,indent=2))
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.3.json'); ap.add_argument('--output'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=collect(root,cfg,Path(a.output).resolve() if a.output else None); print(json.dumps(r,indent=2))
 if __name__=='__main__': main()

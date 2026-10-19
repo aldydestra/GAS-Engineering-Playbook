@@ -31,10 +31,11 @@ After the outer digest matches, extract the kit, preserve its directory structur
 python3 tools/verify_operator_kit.py {kit_name}
 ```
 
-Then run real evidence collection only:
+Then prove the external runtime against the frozen candidate before any lifecycle evidence is accepted:
 
 ```bash
-python3 tools/run_live_host_smoke.py --host gemini-cli
+python3 tools/preflight_operational_environment.py --allow-npx-bootstrap --probe-host
+python3 tools/run_live_host_smoke.py --host gemini-cli --npx-bootstrap
 python3 tools/record_burn_in.py record --channel canonical --consumer <alias> --summary <summary> --evidence-ref <ref>
 python3 tools/record_burn_in.py record --channel package --consumer <alias> --summary <summary> --evidence-ref <ref>
 python3 tools/record_burn_in.py finalize
@@ -127,7 +128,7 @@ Status: **{result['handoff_status']}**
 
 Candidate digest: `{candidate_digest or 'N/A'}`
 
-The handoff now ships a portable operator kit. The external machine does not need the full repository for host lifecycle and burn-in evidence collection.
+The handoff now ships a portable operator kit. The external machine does not need the full repository for host lifecycle and burn-in evidence collection. The v1.35.3 kit also requires a candidate-bound environment preflight before the live runner proceeds.
 
 ## Authoritative side
 
@@ -140,7 +141,18 @@ Transfer `{cfg.get('operator_kit_filename','operator-kit.zip')}` and verify its 
 
 ## External operator sequence
 
-Verify the kit, extract it, run the real host lifecycle and burn-in, then collect an evidence bundle. Promotion approval and release ceremony remain authoritative-side operations after safe import.
+After the outer ZIP digest and internal kit verification pass:
+
+```bash
+python3 tools/preflight_operational_environment.py --allow-npx-bootstrap --probe-host
+python3 tools/run_live_host_smoke.py --host gemini-cli --npx-bootstrap
+python3 tools/record_burn_in.py record --channel canonical --consumer <alias> --summary <summary> --evidence-ref <ref>
+python3 tools/record_burn_in.py record --channel package --consumer <alias> --summary <summary> --evidence-ref <ref>
+python3 tools/record_burn_in.py finalize
+python3 tools/collect_operational_evidence.py
+```
+
+Promotion approval and release ceremony remain authoritative-side operations after safe import. Authentication remains unverified until the live lifecycle itself succeeds.
 """
     (out/'OPERATIONS.md').write_text(guide)
     kit_info=None
@@ -159,7 +171,7 @@ Verify the kit, extract it, run the real host lifecycle and burn-in, then collec
     return result
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.2.json'); a=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.3.json'); a=ap.parse_args()
     root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"operational handoff: {r['handoff_status']}")
     if r['handoff_status']!='HANDOFF_READY': raise SystemExit(2)
 if __name__=='__main__': main()

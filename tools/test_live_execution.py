@@ -15,8 +15,8 @@ import run_live_host_smoke as runner
 import record_burn_in as burn
 import build_live_validation as builder
 
-CFG = json.loads((ROOT / "packaging/live-validation/live-v1.35.2.json").read_text())
-ARTIFACT = ROOT / "dist/agent-skills-v1.35.2/packages/agent-skill-engineering.skill"
+CFG = json.loads((ROOT / "packaging/live-validation/live-v1.35.3.json").read_text())
+ARTIFACT = ROOT / "dist/agent-skills-v1.35.3/packages/agent-skill-engineering.skill"
 
 
 def make_fake_gemini(path: Path, mode: str = "pass") -> None:
@@ -27,7 +27,7 @@ marker=pathlib.Path.cwd()/'.fake-installed'
 skill='agent-skill-engineering'
 mode={mode!r}
 if args == ['--version']:
-    print('9.9.9-test')
+    print('0.64.0')
     raise SystemExit(0)
 if len(args)>=2 and args[0:2]==['skills','install']:
     marker.write_text(skill)
@@ -62,9 +62,10 @@ class LiveExecutionTests(unittest.TestCase):
     def cfg_with_evidence(self, td: str) -> dict:
         cfg = copy.deepcopy(CFG)
         cfg["evidence_root"] = str(Path(td) / "evidence")
+        cfg["environment_preflight"] = {"required": False}
         er = Path(cfg["evidence_root"])
         er.mkdir(parents=True)
-        (er / "host-smoke.json").write_text(json.dumps({"schema_version":1,"repository_version":"v1.35.2","records":[]})+"\n")
+        (er / "host-smoke.json").write_text(json.dumps({"schema_version":1,"repository_version":"v1.35.3","records":[]})+"\n")
         return cfg
 
     def test_missing_runtime_is_blocked_and_not_promoted(self):
@@ -75,6 +76,22 @@ class LiveExecutionTests(unittest.TestCase):
             self.assertFalse(result["promoted_to_host_smoke"])
             host = json.loads((Path(cfg["evidence_root"]) / "host-smoke.json").read_text())
             self.assertEqual(host["records"], [])
+
+    def test_required_preflight_missing_blocks_before_lifecycle(self):
+        with tempfile.TemporaryDirectory() as td:
+            cfg = self.cfg_with_evidence(td)
+            cfg["environment_preflight"] = {
+                "required": True,
+                "receipt": str(Path(td) / "missing-preflight.json"),
+                "handoff_lock": str(Path(td) / "missing-lock.json"),
+                "candidate_digest_required": True,
+            }
+            fake = Path(td) / "gemini"
+            make_fake_gemini(fake, "pass")
+            result = runner.execute_gemini(ROOT, cfg, ARTIFACT, "unit-test", str(fake), 5, None, False, False)
+            self.assertEqual(result["outcome"], "BLOCKED_PREREQUISITE")
+            self.assertFalse(result["promoted_to_host_smoke"])
+            self.assertEqual(result["commands"], [])
 
     def test_fake_complete_lifecycle_promotes_pass(self):
         with tempfile.TemporaryDirectory() as td:
@@ -102,10 +119,10 @@ class LiveExecutionTests(unittest.TestCase):
 
     def test_burn_in_aggregate_requires_both_channels(self):
         events = [
-            {"schema_version":2,"repository_version":"v1.35.2","event_id":"legacy-a","observed_at":"2026-10-05T01:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok canonical","evidence_ref":"issue://1","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test"},
-            {"schema_version":2,"repository_version":"v1.35.2","event_id":"legacy-b","observed_at":"2026-10-05T02:00:00+00:00","channel":"package","consumer":"a","summary":"ok package","evidence_ref":"issue://2","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test"},
+            {"schema_version":2,"repository_version":"v1.35.3","event_id":"legacy-a","observed_at":"2026-10-05T01:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok canonical","evidence_ref":"issue://1","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test"},
+            {"schema_version":2,"repository_version":"v1.35.3","event_id":"legacy-b","observed_at":"2026-10-05T02:00:00+00:00","channel":"package","consumer":"a","summary":"ok package","evidence_ref":"issue://2","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test"},
         ]
-        result = burn.aggregate("v1.35.2", events, ["canonical", "package"], now_value=datetime.fromisoformat("2026-10-06T00:00:00+00:00"))
+        result = burn.aggregate("v1.35.3", events, ["canonical", "package"], now_value=datetime.fromisoformat("2026-10-06T00:00:00+00:00"))
         self.assertEqual(result["claimed_status"], "PASS")
         self.assertEqual(result["sessions"], 2)
         self.assertEqual(result["consumers"], 1)
@@ -135,18 +152,18 @@ class LiveExecutionTests(unittest.TestCase):
             ("2026-10-02T01:01:00+00:00", "package"),
         ]
         for idx, (at, channel) in enumerate(rows):
-            event = {"schema_version":2,"repository_version":"v1.35.2","event_id":f"e{idx}","observed_at":at,"channel":channel,"consumer":"a","summary":"ok","evidence_ref":f"fixture://{idx}","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","prev_event_sha256":previous}
+            event = {"schema_version":2,"repository_version":"v1.35.3","event_id":f"e{idx}","observed_at":at,"channel":channel,"consumer":"a","summary":"ok","evidence_ref":f"fixture://{idx}","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","prev_event_sha256":previous}
             event["event_sha256"] = burn.event_digest(event); previous = event["event_sha256"]; events.append(event)
-        result = burn.aggregate("v1.35.2", events, ["canonical","package"], policy, datetime.fromisoformat("2026-10-03T00:00:00+00:00"))
+        result = burn.aggregate("v1.35.3", events, ["canonical","package"], policy, datetime.fromisoformat("2026-10-03T00:00:00+00:00"))
         self.assertEqual(result["claimed_status"], "PASS")
         self.assertTrue(result["journal_integrity"]["valid"])
 
     def test_burn_in_chain_tamper_is_invalid(self):
         policy = burn.policy_from_config(CFG)
-        event = {"schema_version":2,"repository_version":"v1.35.2","event_id":"e1","observed_at":"2026-10-01T00:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok","evidence_ref":"fixture://1","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","prev_event_sha256":None}
+        event = {"schema_version":2,"repository_version":"v1.35.3","event_id":"e1","observed_at":"2026-10-01T00:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok","evidence_ref":"fixture://1","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","prev_event_sha256":None}
         event["event_sha256"] = burn.event_digest(event)
         event["summary"] = "tampered"
-        result = burn.aggregate("v1.35.2", [event], ["canonical","package"], policy, datetime.fromisoformat("2026-10-03T00:00:00+00:00"))
+        result = burn.aggregate("v1.35.3", [event], ["canonical","package"], policy, datetime.fromisoformat("2026-10-03T00:00:00+00:00"))
         self.assertEqual(result["claimed_status"], "INVALID_EVIDENCE")
 
 

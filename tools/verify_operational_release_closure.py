@@ -6,7 +6,7 @@ import build_operational_release_closure as b
 
 def sha(p:Path)->str:return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-release-closure/closure-v1.35.2.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=json.loads((root/a.config).read_text()); out=root/cfg['output_distribution']; errors=[]
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-release-closure/closure-v1.35.3.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=json.loads((root/a.config).read_text()); out=root/cfg['output_distribution']; errors=[]
     expected=b.evaluate(root,cfg); p=out/'closure.json'
     if not p.exists(): errors.append('missing closure.json')
     elif json.loads(p.read_text())!=expected: errors.append('closure.json does not match recomputed closure')

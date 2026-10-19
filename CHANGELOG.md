@@ -2,6 +2,91 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.35.3] - 2026-10-19
+
+### Operational Environment Preflight & GAS Deployment Drift Guard
+
+Patch release inside the frozen v1.35 Shadow RC line. v1.35.3 keeps the package/host/major-version contract unchanged while strengthening the last external execution path and adding a production-facing Apps Script deployment inventory guard.
+
+### Added — Candidate-Bound Environment Preflight
+
+- new `tools/preflight_operational_environment.py`;
+- candidate digest + handoff-lock SHA-256 recorded before live lifecycle;
+- Python/runtime availability checks;
+- exact host-version verification;
+- explicit `auth_status: UNVERIFIED` until real lifecycle authentication;
+- preflight receipt added to successful host evidence references;
+- live runner blocks stale/missing preflight and candidate drift.
+
+### Hardened — Reproducible Host Runtime
+
+The external `npx` fallback no longer resolves `@google/gemini-cli@latest` during release evidence collection. v1.35.3 pins the reviewed stable runtime to `@google/gemini-cli@0.64.0`. A host version change after preflight is treated as a prerequisite drift and cannot produce promoted host-smoke evidence.
+
+### Added — GAS Deployment/Version Drift Auditor
+
+New `tools/audit_gas_deployment_state.py` provides read-only checks for snapshots from Apps Script deployment/version inventory:
+
+- script ID mismatch;
+- missing protected deployment;
+- protected deployment version drift;
+- deployment referencing a missing version;
+- unpinned deployment;
+- duplicate deployment/version identity;
+- version-history pressure before the 200-version ceiling;
+- unreferenced versions surfaced only as review candidates.
+
+Examples:
+
+- `examples/gas-deployment-inventory.example.json`;
+- `examples/gas-deployment-policy.example.json`.
+
+### Skill Version Updates
+
+| Skill | v1.35.2 | v1.35.3 | Change |
+|---|---:|---:|---|
+| 08 Testing & Quality | 1.6.2 | **1.6.3** | candidate-bound runtime and deployment-state contract tests |
+| 09 Monitoring & Observability | 1.8.0 | **1.9.0** | deployment/version drift as operational telemetry |
+| 10 Deployment Engineering | 1.12.2 | **1.13.0** | exact runtime preflight and Apps Script deployment reconciliation |
+
+Agent Skill 18/19 remain unchanged because the frozen distribution contract itself did not require new Agent Skill semantics.
+
+### Current Platform Audit
+
+- latest Apps Script-specific release note remains Data Regions GA on 2026-09-14;
+- latest Google-maintained stable `clasp` observed remains v3.4.1;
+- Gemini CLI stable v0.64.0 (2026-10-13) is the reviewed host runtime for this candidate's external lifecycle evidence;
+- newer preview/nightly channels are intentionally not used for the frozen release-evidence baseline.
+
+### Validation
+
+```text
+canonical skills                         19
+normalized packages                      19
+package validation                       PASS (19/19)
+evaluation gate                          PASS
+host static compatibility                PASS_STATIC
+security/catalog/provenance              PASS_STATIC
+dual-distribution RC                     PASS_STATIC
+v2 cutover rehearsal                     PASS_STATIC
+v2 Shadow RC                             PASS_STATIC
+breaking-change freeze                   PASS
+release subject inventory                PASS_STATIC (21/21)
+operational handoff                      HANDOFF_READY
+portable operator kit                    PASS
+environment preflight semantics          PASS_STATIC / tested
+live host lifecycle                      NOT_RUN
+consumer burn-in                         NOT_RUN
+v2 promotion                             BLOCKED
+release readiness                        BLOCKED
+operational release closure              BLOCKED
+repository unittest suite                90/90 PASS
+```
+
+### v2 Decision
+
+Still **NO_GO**. v1.35.3 reduces external execution ambiguity and adds GAS deployment-state protection, but real authenticated lifecycle/burn-in/signing evidence still has to be produced outside deterministic CI.
+
+
 
 ## [v1.35.2] - 2026-10-15
 

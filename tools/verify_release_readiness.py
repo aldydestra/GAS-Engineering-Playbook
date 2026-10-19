@@ -8,7 +8,7 @@ import build_release_readiness as builder
 def sha(p:Path)->str: return hashlib.sha256(p.read_bytes()).hexdigest()
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/release-readiness/release-v1.35.2.json'); args=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/release-readiness/release-v1.35.3.json'); args=ap.parse_args()
     root=Path(args.root).resolve(); cfg=json.loads((root/args.config).read_text()); out=root/cfg['output_distribution']; errors=[]
     lock=out/'release-lock.json'
     if not lock.exists(): errors.append('release-lock.json missing')

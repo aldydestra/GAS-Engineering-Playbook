@@ -117,6 +117,6 @@ def execute(root:Path,cfg:dict[str,Any],repo:str|None,gh_bin:str,publish:bool,ti
     rec['outcome']=claimed; rec['release_url']=ceremony['release_url']; rec['finished_at']=now(); write_attempt(root,cfg,rec); return rec
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-release-closure/closure-v1.35.2.json'); ap.add_argument('--repo'); ap.add_argument('--gh-bin',default='gh'); ap.add_argument('--publish',action='store_true'); ap.add_argument('--timeout',type=int,default=300); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=execute(root,cfg,a.repo,a.gh_bin,a.publish,a.timeout); print(json.dumps(r,indent=2));
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-release-closure/closure-v1.35.3.json'); ap.add_argument('--repo'); ap.add_argument('--gh-bin',default='gh'); ap.add_argument('--publish',action='store_true'); ap.add_argument('--timeout',type=int,default=300); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=execute(root,cfg,a.repo,a.gh_bin,a.publish,a.timeout); print(json.dumps(r,indent=2));
     if r['outcome'] not in {'PRECHECK_PASS','PASS'}: raise SystemExit(2)
 if __name__=='__main__': main()

@@ -75,5 +75,5 @@ def build(root:Path,cfg:dict[str,Any])->dict[str,Any]:
     r=evaluate(root,cfg); out=root/cfg['output_distribution']; out.mkdir(parents=True,exist_ok=True); (out/'promotion.json').write_text(json.dumps(r,indent=2,sort_keys=True)+'\n'); md=render(r); (out/'PROMOTION.md').write_text(md); (root/'docs'/f"v2-promotion-control-{cfg['repository_version']}.md").write_text(md); (out/'SHA256SUMS').write_text('\n'.join(f"{sha256_file(out/n)}  {n}" for n in ('promotion.json','PROMOTION.md'))+'\n'); return r
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-promotion/promotion-v1.35.2.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load_json(root/a.config); r=build(root,cfg); print(f"v2 promotion: {r['promotion_status']}")
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-promotion/promotion-v1.35.3.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load_json(root/a.config); r=build(root,cfg); print(f"v2 promotion: {r['promotion_status']}")
 if __name__=='__main__': main()

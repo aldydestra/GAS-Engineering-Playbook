@@ -51,51 +51,51 @@ jobs:
         run: |
           python - <<'PY'
           import json
-          r=json.load(open('dist/release-readiness-v1.35.2/release-lock.json'))
+          r=json.load(open('dist/release-readiness-v1.35.3/release-lock.json'))
           if r.get('readiness_status') != 'READY_TO_TAG':
               raise SystemExit(f"release readiness is {r.get('readiness_status')}, expected READY_TO_TAG")
           PY
       - name: Generate signed GitHub artifact attestations
         uses: actions/attest@v4
         with:
-          subject-checksums: dist/release-subjects-v1.35.2/SUBJECTS_SHA256SUMS
+          subject-checksums: dist/release-subjects-v1.35.3/SUBJECTS_SHA256SUMS
       - name: Upload release evidence
         uses: actions/upload-artifact@v4
         with:
-          name: agent-skill-v1.35.2-evidence
+          name: agent-skill-v1.35.3-evidence
           path: |
-            dist/agent-skills-v1.35.2/catalog.json
-            dist/agent-skills-v1.35.2/security-report.json
-            dist/agent-skills-v1.35.2/provenance-index.json
-            dist/agent-skills-v1.35.2/provenance/
-            dist/agent-skills-v1.35.2/revocations.json
-            dist/agent-skills-v1.35.2/SHA256SUMS
-            dist/host-compat-v1.35.2/SHA256SUMS
-            dist/dual-distribution-v1.35.2/release-index.json
-            dist/dual-distribution-v1.35.2/migration-map.json
-            dist/dual-distribution-v1.35.2/rollback-drill.json
-            dist/dual-distribution-v1.35.2/SHA256SUMS
-            dist/live-validation-v1.35.2/manifest.json
-            dist/live-validation-v1.35.2/SHA256SUMS
-            dist/v2-cutover-rehearsal-v1.35.2/cutover-manifest.json
-            dist/v2-cutover-rehearsal-v1.35.2/rollback-map.json
-            dist/v2-cutover-rehearsal-v1.35.2/SHA256SUMS
-            dist/v2-shadow-rc-v1.35.2/shadow-rc.json
-            dist/v2-shadow-rc-v1.35.2/contract-freeze.json
-            dist/v2-shadow-rc-v1.35.2/SHA256SUMS
-            dist/v2-promotion-v1.35.2/promotion.json
-            dist/v2-promotion-v1.35.2/SHA256SUMS
-            dist/release-readiness-v1.35.2/release-lock.json
-            dist/release-readiness-v1.35.2/SHA256SUMS
-            dist/release-subjects-v1.35.2/inventory.json
-            dist/release-subjects-v1.35.2/SUBJECTS_SHA256SUMS
-            dist/release-subjects-v1.35.2/SHA256SUMS
-            dist/operational-handoff-v1.35.2/handoff-lock.json
-            dist/operational-handoff-v1.35.2/operator-kit-manifest.json
-            dist/operational-handoff-v1.35.2/operational-evidence-operator-kit-v1.35.2.zip
-            dist/operational-handoff-v1.35.2/OPERATIONS.md
-            dist/operational-handoff-v1.35.2/SHA256SUMS
-            dist/operational-release-closure-v1.35.2/closure.json
-            dist/operational-release-closure-v1.35.2/SHA256SUMS
-            evidence/live-validation/v1.35.2/
-            evidence/operational-release/v1.35.2/
+            dist/agent-skills-v1.35.3/catalog.json
+            dist/agent-skills-v1.35.3/security-report.json
+            dist/agent-skills-v1.35.3/provenance-index.json
+            dist/agent-skills-v1.35.3/provenance/
+            dist/agent-skills-v1.35.3/revocations.json
+            dist/agent-skills-v1.35.3/SHA256SUMS
+            dist/host-compat-v1.35.3/SHA256SUMS
+            dist/dual-distribution-v1.35.3/release-index.json
+            dist/dual-distribution-v1.35.3/migration-map.json
+            dist/dual-distribution-v1.35.3/rollback-drill.json
+            dist/dual-distribution-v1.35.3/SHA256SUMS
+            dist/live-validation-v1.35.3/manifest.json
+            dist/live-validation-v1.35.3/SHA256SUMS
+            dist/v2-cutover-rehearsal-v1.35.3/cutover-manifest.json
+            dist/v2-cutover-rehearsal-v1.35.3/rollback-map.json
+            dist/v2-cutover-rehearsal-v1.35.3/SHA256SUMS
+            dist/v2-shadow-rc-v1.35.3/shadow-rc.json
+            dist/v2-shadow-rc-v1.35.3/contract-freeze.json
+            dist/v2-shadow-rc-v1.35.3/SHA256SUMS
+            dist/v2-promotion-v1.35.3/promotion.json
+            dist/v2-promotion-v1.35.3/SHA256SUMS
+            dist/release-readiness-v1.35.3/release-lock.json
+            dist/release-readiness-v1.35.3/SHA256SUMS
+            dist/release-subjects-v1.35.3/inventory.json
+            dist/release-subjects-v1.35.3/SUBJECTS_SHA256SUMS
+            dist/release-subjects-v1.35.3/SHA256SUMS
+            dist/operational-handoff-v1.35.3/handoff-lock.json
+            dist/operational-handoff-v1.35.3/operator-kit-manifest.json
+            dist/operational-handoff-v1.35.3/operational-evidence-operator-kit-v1.35.3.zip
+            dist/operational-handoff-v1.35.3/OPERATIONS.md
+            dist/operational-handoff-v1.35.3/SHA256SUMS
+            dist/operational-release-closure-v1.35.3/closure.json
+            dist/operational-release-closure-v1.35.3/SHA256SUMS
+            evidence/live-validation/v1.35.3/
+            evidence/operational-release/v1.35.3/

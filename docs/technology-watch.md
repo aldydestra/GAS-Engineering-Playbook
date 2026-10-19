@@ -1,6 +1,6 @@
 # Technology Watch
 
-Last audit: **2026-10-15**
+Last audit: **2026-10-19**
 
 This document is a lightweight watchlist for technology that can affect the GAS Engineering Playbook.
 
@@ -35,6 +35,28 @@ Statuses:
 
 ---
 
+
+## v1.35.3 Operational/GAS Audit — 2026-10-19
+
+Status: **ADOPTED**
+
+Findings adopted in v1.35.3:
+
+- Apps Script-specific release notes still have no item newer than **Data Regions GA — 2026-09-14**;
+- Google-maintained `clasp` stable remains **v3.4.1**;
+- Apps Script deployment and version APIs reinforce the distinction between immutable code versions and externally consumed deployments; destructive deployment deletion can break dependent applications;
+- Apps Script project version history remains capped at 200 versions, so version pressure should be monitored before release operations are blocked;
+- Gemini CLI latest stable observed is **v0.64.0 (2026-10-13)**, while preview/nightly releases continue to move. The v1.35.3 release-evidence runtime is therefore pinned to stable v0.64.0 rather than `@latest`.
+
+Affected skills:
+
+- 08 Testing & Quality;
+- 09 Monitoring & Observability;
+- 10 Deployment Engineering.
+
+Detailed audits: `docs/gas-platform-refresh-v1.35.3.md` and `docs/operational-evidence-handoff-v1.35.3.md`.
+
+---
 
 ## v1.35.0 GAS Re-Center Audit — 2026-10-12
 

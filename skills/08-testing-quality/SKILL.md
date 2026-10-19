@@ -1,10 +1,10 @@
 ---
 name: testing-quality
 description: "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality."
-skill_version: "1.6.2"
+skill_version: "1.6.3"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.35.2"
+last_repository_update: "v1.35.3"
 tags:
   - google-apps-script
   - testing
@@ -1932,3 +1932,17 @@ The static GAS preflight now covers:
 Treat warnings as review requirements rather than automatic failures. For example, a public anonymous web app can be intentional, while a path traversal or embedded credential file is a release blocker.
 
 For operational evidence, verify the portable operator kit before running a host lifecycle. The kit must be candidate-bound, contain the exact hashed execution inputs, and produce evidence that still passes authoritative import validation.
+
+## Candidate-Bound Runtime & Deployment-State Tests — v1.35.3
+
+Treat the external operator runtime as part of release evidence, not an invisible prerequisite. Before a live host lifecycle test, assert that the environment receipt is bound to the current candidate and that the observed host runtime matches the pinned release-test version. A successful lifecycle produced after runtime drift must not silently inherit an older approval context.
+
+For Apps Script production releases, add a deployment-state contract test in addition to source/manifest tests. Given a snapshot of `projects.deployments.list` and `projects.versions.list`, assert that:
+
+- each protected production deployment still exists;
+- it points to the expected immutable version;
+- every deployment-referenced version is present in the supplied version inventory;
+- no release path relies on an unpinned/head deployment where an immutable production deployment is required;
+- version-count pressure is surfaced before the project reaches the platform history ceiling.
+
+`tools/audit_gas_deployment_state.py` provides a deterministic baseline for these checks. It consumes snapshots rather than mutating Apps Script state.
