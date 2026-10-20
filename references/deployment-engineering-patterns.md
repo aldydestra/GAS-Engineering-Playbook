@@ -247,3 +247,8 @@ Treat `HARNESS_READY`, `NOT_RUN`, and live `PASS` as different release states. A
 For external operational testing, prefer a candidate-bound minimal execution kit over an ad-hoc full repository copy. Bind the release artifact, policy/config, tool hashes, and relevant static manifests; verify before execution; return only allowlisted evidence.
 
 Current clasp 3.4.x hardening reinforces these generic deployment invariants: path containment, explicit symlink policy, protected credential storage, bounded deletion, target Script ID assertion, and repository/source-of-truth discipline.
+
+# Candidate-Bound Evidence & Add-on Release-State Pattern — v1.35.4
+
+Bind executed operational evidence to the current candidate digest, handoff-lock hash, and preflight receipt hash; reject stale evidence even when the repository version matches. For Workspace Add-ons, reconcile manifest host products with Marketplace App Integrations and block required hosts left `UNSAVED`; separately confirm Chat App Home trigger and Workspace Studio smoke evidence when those surfaces are declared.
+

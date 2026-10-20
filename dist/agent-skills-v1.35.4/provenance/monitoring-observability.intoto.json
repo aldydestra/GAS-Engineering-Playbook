@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "monitoring-observability",
+        "profile": "full-v1.35.4",
+        "repositoryVersion": "v1.35.4",
+        "sourcePath": "skills/09-monitoring-observability"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "c4cd1a46012597538347cddd70c59746a662024d3140320d6194dd7d79da84f0"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/09-monitoring-observability"
+        },
+        {
+          "digest": {
+            "sha256": "af218af3597b637251970794175a5508095ff90a5f98b0bc574f69e594ab8869"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.35.4.json"
+        },
+        {
+          "digest": {
+            "sha256": "8b715f0a1a7652ac110c835be7ab2e0844f2d60ae229eedd8eadd24f57f5457d"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "8b715f0a1a7652ac110c835be7ab2e0844f2d60ae229eedd8eadd24f57f5457d",
+          "repository": "v1.35.4"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "6fa6acc44fb2114d22ce208cf79a918b65ca488fe56b5d6185589c8b2e3a1778"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.35.4/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "b4003524cf99c19eb791c2e4d706b783f68d044c8cd2709079d973bc9ae1a9f3"
+      },
+      "name": "monitoring-observability.skill"
+    }
+  ]
+}

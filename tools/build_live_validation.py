@@ -62,7 +62,7 @@ def resolve_artifact(root: Path, cfg: dict[str, Any], host_id: str, artifact: st
     return None
 
 
-def evaluate_host_record(root: Path, cfg: dict[str, Any], record: dict[str, Any], known_hosts: set[str]) -> dict[str, Any]:
+def evaluate_host_record(root: Path, cfg: dict[str, Any], record: dict[str, Any], known_hosts: set[str], binding: dict[str, Any] | None = None) -> dict[str, Any]:
     errors: list[str] = []
     host_id = record.get("host_id")
     claimed = record.get("claimed_status", "PASS")
@@ -80,6 +80,16 @@ def evaluate_host_record(root: Path, cfg: dict[str, Any], record: dict[str, Any]
         errors.append("artifact_sha256 is not a SHA-256 hex digest")
     if not nonempty_strings(record.get("evidence_refs")):
         errors.append("evidence_refs must contain at least one durable reference")
+    if binding and binding.get("required"):
+        if not binding.get("valid"):
+            errors.extend(f"current evidence binding invalid: {e}" for e in binding.get("errors", []))
+        for field in ("candidate_digest", "handoff_lock_sha256", "environment_preflight_sha256"):
+            expected = binding.get(field)
+            if isinstance(expected, str) and expected:
+                if record.get(field) != expected:
+                    errors.append(f"{field} does not match current candidate binding")
+            else:
+                errors.append(f"current evidence binding missing {field}")
 
     artifact_path = None
     if isinstance(record.get("artifact"), str) and record["artifact"].strip():
@@ -141,7 +151,8 @@ def evaluate_hosts(root: Path, cfg: dict[str, Any], host_input: dict[str, Any], 
     if not isinstance(records, list):
         return {"status": "INVALID_EVIDENCE", "records": [], "pass_count": 0, "errors": ["records must be a list"]}
     known_hosts = {h["host"] for h in host_manifest.get("hosts", [])}
-    evaluated = [evaluate_host_record(root, cfg, r, known_hosts) for r in records if isinstance(r, dict)]
+    binding = burnin.current_binding(root, cfg) if records and (cfg.get("evidence_binding") or {}).get("required") else None
+    evaluated = [evaluate_host_record(root, cfg, r, known_hosts, binding) for r in records if isinstance(r, dict)]
     if len(evaluated) != len(records):
         return {"status": "INVALID_EVIDENCE", "records": evaluated, "pass_count": 0, "errors": ["every host record must be an object"]}
     pass_count = sum(r["derived_status"] == "PASS" for r in evaluated)
@@ -161,11 +172,13 @@ def evaluate_burn_in(root: Path, cfg: dict[str, Any], data: dict[str, Any], evid
     journal = evidence_root / "burn-in-events.jsonl"
     try:
         events = burnin.read_events(journal)
+        binding = burnin.current_binding(root, cfg) if events and (cfg.get("evidence_binding") or {}).get("required") else None
         expected = burnin.aggregate(
             cfg["repository_version"],
             events,
             cfg.get("required_burn_in_channels", []),
             burnin.policy_from_config(cfg),
+            binding=binding,
         )
     except (ValueError, json.JSONDecodeError) as exc:
         return {
@@ -633,7 +646,7 @@ def build(root: Path, config_path: Path) -> Path:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.3.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.4.json")
     args = ap.parse_args()
     root = Path(args.root).resolve()
     build(root, root / args.config)

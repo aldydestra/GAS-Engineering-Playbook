@@ -16,6 +16,32 @@ def safe(name:str)->bool:
     p=PurePosixPath(name); return bool(name) and not p.is_absolute() and '..' not in p.parts and '\\' not in name
 def under_allowed(path:str,prefixes:list[str])->bool: return any(path.startswith(x) for x in prefixes)
 
+def validate_semantic_binding(payloads:dict[str,bytes],candidate_digest:str)->list[str]:
+    errors=[]
+    for path,b in payloads.items():
+        try:
+            if path.endswith('/environment-preflight.json'):
+                obj=json.loads(b)
+                if obj.get('candidate_digest')!=candidate_digest: errors.append(f'preflight candidate binding mismatch: {path}')
+            elif path.endswith('/host-smoke.json'):
+                obj=json.loads(b)
+                for idx,record in enumerate(obj.get('records',[]) if isinstance(obj.get('records'),list) else []):
+                    if record.get('candidate_digest')!=candidate_digest: errors.append(f'host-smoke record[{idx}] candidate binding mismatch')
+            elif path.endswith('/burn-in-events.jsonl'):
+                for idx,line in enumerate(b.decode('utf-8').splitlines()):
+                    if not line.strip(): continue
+                    event=json.loads(line)
+                    if event.get('candidate_digest')!=candidate_digest: errors.append(f'burn-in event[{idx}] candidate binding mismatch')
+            elif path.endswith('/consumer-burn-in.json'):
+                obj=json.loads(b)
+                if obj.get('claimed_status') not in {'NOT_RUN',None}:
+                    binding=obj.get('candidate_binding')
+                    if not isinstance(binding,dict) or binding.get('candidate_digest')!=candidate_digest:
+                        errors.append('consumer burn-in candidate binding mismatch')
+        except (UnicodeDecodeError,json.JSONDecodeError,TypeError) as exc:
+            errors.append(f'semantic evidence parse error {path}: {type(exc).__name__}: {exc}')
+    return errors
+
 def validate(root:Path,cfg:dict[str,Any],bundle:Path)->tuple[dict[str,Any],dict[str,bytes]]:
     errors=[]; payloads={}; out=root/cfg['output_distribution']; lockp=out/'handoff-lock.json'
     if not lockp.exists(): return {'status':'INVALID_EVIDENCE','errors':['local handoff lock missing']},payloads
@@ -48,6 +74,8 @@ def validate(root:Path,cfg:dict[str,Any],bundle:Path)->tuple[dict[str,Any],dict[
                 payloads[p]=b
             extra=[n for n in names if n not in {'bundle-manifest.json','handoff-lock.json'} and n not in listed]
             if extra: errors.append('unlisted ZIP payloads: '+', '.join(extra[:5]))
+            if not errors:
+                errors.extend(validate_semantic_binding(payloads,str(local_lock.get('candidate_digest') or '')))
     except (zipfile.BadZipFile,json.JSONDecodeError,KeyError,TypeError,ValueError) as exc: errors.append(f'{type(exc).__name__}: {exc}')
     return {'status':'PASS' if not errors else 'INVALID_EVIDENCE','errors':errors,'evidence_count':len(payloads),'candidate_digest':local_lock.get('candidate_digest')},payloads
 
@@ -56,7 +84,7 @@ def apply(root:Path,payloads:dict[str,bytes])->None:
         p=(root/rp).resolve(); p.relative_to(root.resolve()); p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(b)
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('bundle'); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.3.json'); ap.add_argument('--apply',action='store_true'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); result,payloads=validate(root,cfg,Path(a.bundle).resolve())
+    ap=argparse.ArgumentParser(); ap.add_argument('bundle'); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.4.json'); ap.add_argument('--apply',action='store_true'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); result,payloads=validate(root,cfg,Path(a.bundle).resolve())
     if result['status']=='PASS' and a.apply: apply(root,payloads); result['applied']=True
     else: result['applied']=False
     print(json.dumps(result,indent=2));

@@ -76,5 +76,5 @@ def build(root:Path,cfg:dict[str,Any])->dict[str,Any]:
     return r
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/release-subject-inventory/subjects-v1.35.3.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"release subject inventory: {r['inventory_status']} ({r.get('subject_count',0)} subjects)")
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/release-subject-inventory/subjects-v1.35.4.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"release subject inventory: {r['inventory_status']} ({r.get('subject_count',0)} subjects)")
 if __name__=='__main__': main()

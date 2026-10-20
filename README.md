@@ -4,19 +4,19 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.35.3 Operational Environment Preflight & GAS Deployment Drift Guard
+## v1.35.4 Candidate-Bound Evidence Chain & Workspace Add-on Release Drift Guard
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.3/` is the normalized installable package channel. v1.35.3 remains inside the frozen **v2 Shadow RC & Breaking-Change Freeze** line; package names, canonical rollback mappings, host-adapter identities, release-subject membership, and skill major-version boundaries remain unchanged.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.4/` is the normalized installable package channel. v1.35.4 remains inside the frozen **v2 Shadow RC & Breaking-Change Freeze** line; package names, canonical rollback mappings, host-adapter identities, release-subject membership, and skill major-version boundaries remain unchanged.
 
-This patch closes two practical gaps. First, external live evidence now requires a **candidate-bound environment preflight** before lifecycle execution. The operator receipt binds the current handoff lock and verifies the reviewed host runtime. The `npx` fallback no longer resolves `@latest`; v1.35.3 pins the release-evidence bootstrap to Gemini CLI **v0.64.0** and the lifecycle runner rejects runtime drift after preflight. Second, GAS production engineering gains `tools/audit_gas_deployment_state.py`, a read-only auditor for Apps Script deployment/version inventory drift, protected deployment/version expectations, missing referenced versions, unpinned deployments, and version-history pressure.
+This patch closes a subtle operational evidence gap: live host and burn-in observations are now bound to the **exact candidate digest**, not only the repository version. Every executed record can be checked against the current handoff-lock SHA-256 and environment-preflight SHA-256, and both operator-side collection and authoritative import reject stale candidate evidence. The GAS/Workspace side adds `tools/audit_workspace_addon_release_state.py`, a read-only release-state auditor for Marketplace host synchronization, `UNSAVED` App Integrations, Chat App Home trigger confirmation, Workspace Studio enablement, and required smoke evidence.
 
-Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, v2 Shadow RC PASS_STATIC, release subjects 21/21 PASS_STATIC, operational handoff **HANDOFF_READY**, portable operator kit PASS, and **90/90 tests PASS**. v2 remains `NO_GO` until real live-host lifecycle, required dual-channel burn-in, promotion approval, `READY_TO_TAG`, and signed immutable operational release closure complete.
+Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, v2 Shadow RC PASS_STATIC, release subjects 21/21 PASS_STATIC, operational handoff **HANDOFF_READY**, portable operator kit PASS, and **97/97 tests PASS**. v2 remains `NO_GO` until real live-host lifecycle, required dual-channel burn-in, promotion approval, `READY_TO_TAG`, and signed immutable operational release closure complete.
 
 Detailed release references:
 
-- `docs/gas-platform-refresh-v1.35.3.md`
-- `docs/operational-evidence-handoff-v1.35.3.md`
-- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.3.md`
+- `docs/gas-platform-refresh-v1.35.4.md`
+- `docs/operational-evidence-handoff-v1.35.4.md`
+- `docs/v2-shadow-rc-breaking-change-freeze-v1.35.4.md`
 - `docs/roadmap-to-v2.0.md`
 
 ## Foundation Status
@@ -198,6 +198,8 @@ last_repository_update: "v1.13.0"
 | **v1.35.0** | **v2 Shadow RC & GAS Platform Refresh: breaking-change contract freeze, Shadow RC digest binding, 7 GAS-focused skill refreshes, and 59/59 regression tests** |
 | **v1.35.1** | **Operational Evidence Handoff & GAS Production Guardrails: candidate-bound external evidence portability, safe import, patch evidence bootstrap, GAS production auditor, and 70/70 regression tests** |
 | **v1.35.2** | **Portable Evidence Operator Kit & GAS/clasp Hardening: minimal candidate-bound execution kit, clasp path/credential/symlink preflight, web-app identity review, Chat App Home GA, and 77/77 regression tests** |
+| **v1.35.3** | **Operational Environment Preflight & GAS Deployment Drift Guard: exact host-runtime preflight, deployment/version reconciliation, and 90/90 regression tests** |
+| **v1.35.4** | **Candidate-Bound Evidence Chain & Workspace Add-on Release Drift Guard: exact-candidate live evidence binding, Marketplace/App Home/Studio release-state auditor, and 97/97 regression tests** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 

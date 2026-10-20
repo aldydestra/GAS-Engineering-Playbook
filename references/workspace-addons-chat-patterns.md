@@ -210,3 +210,8 @@ instead of treating every successful empty list as "no members".
 ## v1.35.2 — Chat App Home
 
 Treat Google Chat App Home as a distinct Workspace Add-on surface. Configure its trigger, implement/test `onAppHome` for Apps Script runtimes, return supported `RenderActions`, and test first-run, returning-user, authorization, navigation, and stale-state behavior independently of message actions.
+
+## v1.35.4 — Release-State Convergence
+
+Model Apps Script deployment, Marketplace App Configuration, Chat App Home configuration, and Workspace Studio enablement as separate control-plane states. Production readiness requires the required host products to exist in Marketplace, no required integration to remain `UNSAVED`, policy-required draft/review steps to be complete, and surface-specific trigger/smoke evidence to be present.
+

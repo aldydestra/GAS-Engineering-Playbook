@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.13.0"
+skill_version: "1.14.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.35.3"
+last_repository_update: "v1.35.4"
 tags:
   - google-apps-script
   - deployment
@@ -2399,3 +2399,34 @@ Fail the release when:
 Warn before version-history capacity becomes an emergency. Unreferenced versions may be cleanup candidates, but deletion must remain a deliberate action because deleting a deployment/version relationship can break consumers and rollback plans.
 
 Use `tools/audit_gas_deployment_state.py` for deterministic snapshot checks and keep destructive deployment mutation outside the auditor.
+
+## Candidate-Bound Evidence Chain & Workspace Add-on Release Drift — v1.35.4
+
+### Bind Every Live Observation to the Frozen Candidate
+
+A release version string is not a sufficient evidence boundary. Multiple candidate rebuilds can exist under the same patch version while hashes change. For live host and burn-in evidence, bind every executed record to:
+
+```text
+candidate_digest
++ handoff_lock_sha256
++ environment_preflight_sha256
+```
+
+Reject collection/import when any executed host-smoke record or burn-in event points at a different candidate. This closes stale-evidence reuse inside the same repository version and keeps operational evidence aligned with the exact Shadow RC candidate.
+
+The v1.35.4 toolchain enforces this through `record_burn_in.py`, `run_live_host_smoke.py`, `build_live_validation.py`, `collect_operational_evidence.py`, and `import_operational_evidence.py`.
+
+### Reconcile Marketplace/App Configuration Before Add-on Publication
+
+When an add-on deployment changes host products, publication is not complete merely because the Apps Script deployment exists. The Marketplace SDK/App Configuration can surface newly added or removed hosts as **Unsaved** until draft changes are saved and submitted through the listing workflow.
+
+Before publication, reconcile a normalized release snapshot covering:
+
+- manifest host products versus Marketplace App Integrations;
+- `SAVED` versus `UNSAVED` integration state;
+- Marketplace draft/review state required by policy;
+- Chat App Home trigger configuration when App Home is declared;
+- Workspace Studio extension state and durable smoke evidence when `workflowTriggers` are used.
+
+Use `tools/audit_workspace_addon_release_state.py` as a read-only gate. It does not mutate Marketplace or Cloud Console configuration.
+

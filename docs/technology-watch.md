@@ -10,6 +10,21 @@ A watched change becomes a skill rule only after it is evaluated through `refere
 
 ---
 
+
+## v1.35.4 Operational/GAS Audit — 2026-10-20
+
+Findings adopted in v1.35.4:
+
+- Apps Script-specific release notes still top out at Data Regions GA (2026-09-14); no new GAS runtime/API item requires a new compatibility contract.
+- Marketplace SDK release notes (2026-09-15) make host-product draft synchronization an explicit release-state concern: newly added/removed hosts can remain `Unsaved` until App Configuration is saved as a draft.
+- Workspace Add-ons Chat App Home remains GA as of 2026-09-30 and requires its own trigger/configuration lifecycle.
+- Workspace Studio add-on starters remain GA and need independent smoke evidence when included in a production release.
+- `clasp` stable remains v3.4.1 in the reviewed release channel.
+- Gemini CLI stable v0.64.0 remains the frozen live-evidence runtime for this Shadow RC; moving preview/nightly releases are not adopted mid-candidate.
+- Operational evidence now binds to the exact candidate digest plus handoff/preflight hashes, closing stale evidence reuse within the same repository version.
+
+Detailed audits: `docs/gas-platform-refresh-v1.35.4.md` and `docs/operational-evidence-handoff-v1.35.4.md`.
+
 ## Watch Workflow
 
 ```text

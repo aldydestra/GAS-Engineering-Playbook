@@ -69,3 +69,10 @@ For Apps Script projects managed with `clasp`:
 - review anonymous web apps that execute as the deployer as a privileged public trust boundary.
 
 `tools/audit_gas_project.py` provides static checks for these conditions, but it does not replace organization policy, real OAuth/admin state, or live deployment verification.
+
+## v1.35.4 Exact-Candidate Evidence Boundary
+
+Operational evidence must be bound to the exact frozen candidate, not only the human-readable repository version. Executed host-smoke and burn-in evidence should carry the current candidate digest, handoff-lock SHA-256, and environment-preflight SHA-256. Collection/import must reject stale candidate binding before evidence can affect promotion/readiness.
+
+For Workspace Add-on publication, treat Apps Script deployment, Marketplace App Configuration, Chat App Home configuration, and Workspace Studio enablement as separate release-state surfaces. A host integration left `UNSAVED` or a declared surface without its required trigger/smoke evidence is a release-state defect, not merely a documentation warning.
+

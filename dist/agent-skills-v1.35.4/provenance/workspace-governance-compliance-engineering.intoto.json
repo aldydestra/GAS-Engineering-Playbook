@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "workspace-governance-compliance-engineering",
+        "profile": "full-v1.35.4",
+        "repositoryVersion": "v1.35.4",
+        "sourcePath": "skills/17-workspace-governance-compliance-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "1a3163471a9b68839aa575fa8f900ead3874f82b44e4bc41efe46346274bd635"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/17-workspace-governance-compliance-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "af218af3597b637251970794175a5508095ff90a5f98b0bc574f69e594ab8869"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.35.4.json"
+        },
+        {
+          "digest": {
+            "sha256": "8b715f0a1a7652ac110c835be7ab2e0844f2d60ae229eedd8eadd24f57f5457d"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "8b715f0a1a7652ac110c835be7ab2e0844f2d60ae229eedd8eadd24f57f5457d",
+          "repository": "v1.35.4"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "6fa6acc44fb2114d22ce208cf79a918b65ca488fe56b5d6185589c8b2e3a1778"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.35.4/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "0b4f6f2a76a460ef01f74f63090ac4ae10869200f9ab40f3320c22398c8fa678"
+      },
+      "name": "workspace-governance-compliance-engineering.skill"
+    }
+  ]
+}

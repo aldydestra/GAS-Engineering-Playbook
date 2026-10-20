@@ -270,6 +270,7 @@ def validate_environment_preflight(root: Path, cfg: dict[str, Any]) -> dict[str,
         "receipt_ref": rel(root, receipt) if receipt.exists() else None,
         "receipt_sha256": sha256_file(receipt) if receipt.exists() else None,
         "candidate_digest": data.get("candidate_digest") if data else None,
+        "handoff_lock_sha256": sha256_file(lockp) if lockp.exists() else None,
         "launcher": data.get("launcher") if data else None,
     }
 
@@ -507,6 +508,9 @@ def execute_gemini(
                 "tested_at": attempt["finished_at"],
                 "artifact": rel(root, artifact),
                 "artifact_sha256": digest,
+                "candidate_digest": preflight.get("candidate_digest"),
+                "handoff_lock_sha256": preflight.get("handoff_lock_sha256"),
+                "environment_preflight_sha256": preflight.get("receipt_sha256"),
                 "lifecycle": lifecycle,
                 "evidence_refs": refs + [rel(root, attempt_path)],
             }
@@ -529,7 +533,7 @@ def execute_gemini(
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.3.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.4.json")
     ap.add_argument("--host", default="gemini-cli", choices=["gemini-cli"])
     ap.add_argument("--artifact", help="Release .skill path or package filename")
     ap.add_argument("--tester", default=os.environ.get("USER") or os.environ.get("USERNAME") or "live-runner")

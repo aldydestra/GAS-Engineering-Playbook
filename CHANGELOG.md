@@ -2,6 +2,81 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.35.4] - 2026-10-20
+
+### Candidate-Bound Evidence Chain & Workspace Add-on Release Drift Guard
+
+Patch release inside the frozen v1.35 Shadow RC line. v1.35.4 does not change package identity, rollback identity, host-adapter identity, signed subject membership, or skill major-version boundaries. It closes stale-evidence reuse inside the same SemVer candidate and turns current Workspace Add-on release-state behavior into an executable GAS/Workspace deployment guard.
+
+### Hardened — Exact Candidate Binding for Live Evidence
+
+- `record_burn_in.py` now requires a ready handoff/preflight binding before recording real observations.
+- Burn-in events carry `candidate_digest`, `handoff_lock_sha256`, and `environment_preflight_sha256`.
+- `run_live_host_smoke.py` promotes the same exact-candidate binding into host-smoke records.
+- `build_live_validation.py` rejects host/burn-in evidence that belongs to a stale candidate even when `repository_version` matches.
+- `collect_operational_evidence.py` rejects stale candidate evidence before packaging.
+- `import_operational_evidence.py` repeats semantic candidate-binding checks before authoritative `--apply`.
+- Hash-chain, ZIP/path/checksum, artifact SHA-256, preflight, and blocker taxonomy controls remain active.
+
+### Added — Workspace Add-on Release-State Auditor
+
+New:
+
+- `tools/audit_workspace_addon_release_state.py`;
+- `tools/test_workspace_addon_release_state.py`;
+- `examples/workspace-addon-release-state.example.json`;
+- `examples/workspace-addon-release-policy.example.json`.
+
+The read-only auditor can block release when required Marketplace host products are missing or `UNSAVED`, draft/review state is incomplete, Chat App Home lacks its configured trigger, or Workspace Studio `workflowTriggers` lack enabled/smoke-evidence state.
+
+### Skill Version Updates
+
+| Skill | v1.35.3 | v1.35.4 | Change |
+|---|---:|---:|---|
+| 08 Testing & Quality | 1.6.3 | **1.6.4** | exact-candidate evidence and Workspace Add-on release-state regression contracts |
+| 10 Deployment Engineering | 1.13.0 | **1.14.0** | candidate evidence chain + Marketplace/App Configuration reconciliation |
+| 14 Workspace Add-ons & Chat | 1.5.0 | **1.6.0** | executable Marketplace/App Home/Studio release-state convergence guard |
+
+Agent Skill 18/19 remain unchanged.
+
+### Platform Audit
+
+- Apps Script-specific release notes still top out at Data Regions GA (2026-09-14).
+- Marketplace SDK host-product draft synchronization (2026-09-15) is now an executable release-state concern.
+- Chat App Home remains GA (2026-09-30); Workspace Studio add-on starters remain GA.
+- `clasp` stable remains v3.4.1 in the reviewed channel.
+- Gemini CLI stable v0.64.0 remains the frozen release-evidence runtime for this Shadow RC.
+
+### Validation
+
+```text
+canonical skills                         19
+normalized packages                      19
+package validation                       PASS (19/19)
+evaluation gate                          PASS
+host static compatibility                PASS_STATIC
+security/catalog/provenance              PASS_STATIC
+dual-distribution RC                     PASS_STATIC
+v2 cutover rehearsal                     PASS_STATIC
+v2 Shadow RC                             PASS_STATIC
+breaking-change freeze                   PASS
+release subject inventory                PASS_STATIC (21/21)
+operational handoff                      HANDOFF_READY
+portable operator kit                    PASS
+live-validation harness                  HARNESS_READY
+live host lifecycle                      NOT_RUN
+consumer burn-in                         NOT_RUN
+v2 promotion                             BLOCKED
+release readiness                        BLOCKED
+operational release closure              BLOCKED
+repository unittest suite                97/97 PASS
+```
+
+### v2 Decision
+
+Still **NO_GO**. v1.35.4 improves evidence integrity and Workspace release safety but does not manufacture authenticated live lifecycle/burn-in/signing evidence.
+
+
 ## [v1.35.3] - 2026-10-19
 
 ### Operational Environment Preflight & GAS Deployment Drift Guard

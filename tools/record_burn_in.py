@@ -37,6 +37,60 @@ def dump_json(path: Path, obj: Any) -> None:
     path.write_text(json.dumps(obj, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def current_binding(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
+    policy = cfg.get("evidence_binding") or {}
+    if not policy.get("required"):
+        return {"required": False, "valid": True, "errors": []}
+    errors: list[str] = []
+    lock_path = root / str(policy.get("handoff_lock", ""))
+    preflight_path = root / str(policy.get("environment_preflight", ""))
+    lock: dict[str, Any] = {}
+    preflight: dict[str, Any] = {}
+    if not lock_path.exists():
+        errors.append("operational handoff lock missing")
+    else:
+        try:
+            lock = load_json(lock_path)
+        except Exception as exc:
+            errors.append(f"operational handoff lock invalid: {type(exc).__name__}: {exc}")
+    if not preflight_path.exists():
+        errors.append("environment preflight receipt missing")
+    else:
+        try:
+            preflight = load_json(preflight_path)
+        except Exception as exc:
+            errors.append(f"environment preflight receipt invalid: {type(exc).__name__}: {exc}")
+    if lock and lock.get("repository_version") != cfg.get("repository_version"):
+        errors.append("handoff lock repository version mismatch")
+    if preflight:
+        if preflight.get("repository_version") != cfg.get("repository_version"):
+            errors.append("preflight repository version mismatch")
+        if preflight.get("status") != "READY":
+            errors.append(f"preflight status is {preflight.get('status')}, not READY")
+    candidate = lock.get("candidate_digest") if lock else None
+    if lock and preflight and preflight.get("candidate_digest") != candidate:
+        errors.append("preflight candidate digest does not match handoff lock")
+    lock_sha = sha256_file(lock_path) if lock_path.exists() else None
+    if preflight and lock_sha and preflight.get("handoff_lock_sha256") != lock_sha:
+        errors.append("preflight handoff lock hash is stale")
+    return {
+        "required": True,
+        "valid": not errors,
+        "errors": errors,
+        "candidate_digest": candidate,
+        "handoff_lock_sha256": lock_sha,
+        "environment_preflight_sha256": sha256_file(preflight_path) if preflight_path.exists() else None,
+    }
+
+
 def canonical_json(obj: Any) -> bytes:
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
@@ -84,6 +138,7 @@ def validate_events(
     required_channels: list[str],
     policy: dict[str, Any],
     now_value: datetime | None = None,
+    binding: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     errors: list[str] = []
     seen_ids: set[str] = set()
@@ -105,6 +160,13 @@ def validate_events(
 
         if event.get("repository_version") != repository_version:
             errors.append(f"{prefix} repository_version mismatch")
+        if binding and binding.get("required"):
+            for field in ("candidate_digest", "handoff_lock_sha256", "environment_preflight_sha256"):
+                expected = binding.get(field)
+                if not isinstance(expected, str) or not expected:
+                    errors.append(f"{prefix} current evidence binding missing {field}")
+                elif event.get(field) != expected:
+                    errors.append(f"{prefix} {field} mismatch")
         channel = event.get("channel")
         if channel not in required:
             errors.append(f"{prefix} invalid channel")
@@ -153,6 +215,7 @@ def aggregate(
     required_channels: list[str],
     policy: dict[str, Any] | None = None,
     now_value: datetime | None = None,
+    binding: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     policy = policy or {
         "min_total_sessions": 1,
@@ -180,7 +243,7 @@ def aggregate(
             "policy_checks": {},
         }
 
-    integrity = validate_events(repository_version, events, required_channels, policy, now_value)
+    integrity = validate_events(repository_version, events, required_channels, policy, now_value, binding)
     timestamps = [parse_time(x.get("observed_at")) for x in events]
     valid_times = [x for x in timestamps if x is not None]
     channels = sorted({str(x.get("channel")) for x in events if x.get("channel")})
@@ -247,6 +310,11 @@ def aggregate(
             "first_event_sha256": integrity["first_event_sha256"],
             "last_event_sha256": integrity["last_event_sha256"],
         },
+        "candidate_binding": {
+            "candidate_digest": binding.get("candidate_digest"),
+            "handoff_lock_sha256": binding.get("handoff_lock_sha256"),
+            "environment_preflight_sha256": binding.get("environment_preflight_sha256"),
+        } if binding and binding.get("required") else None,
         "policy": policy,
         "policy_checks": checks,
     }
@@ -255,7 +323,7 @@ def aggregate(
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.3.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.4.json")
     sub = ap.add_subparsers(dest="command", required=True)
 
     rec = sub.add_parser("record", help="Append one real usage observation to the hash-chained journal")
@@ -280,8 +348,11 @@ def main() -> None:
     evidence_root = root / cfg["evidence_root"]
     journal = evidence_root / "burn-in-events.jsonl"
     output = evidence_root / "consumer-burn-in.json"
+    binding = current_binding(root, cfg)
 
     if args.command == "record":
+        if binding.get("required") and not binding.get("valid"):
+            raise SystemExit("candidate evidence binding is not ready: " + "; ".join(binding.get("errors", [])))
         if args.channel not in required_channels:
             raise SystemExit(f"channel must be one of: {', '.join(required_channels)}")
         observed = args.observed_at or now()
@@ -304,6 +375,9 @@ def main() -> None:
             "incident_summary": args.incident_summary.strip(),
             "blocking": bool(args.blocking),
             "recorded_by": os.environ.get("USER") or os.environ.get("USERNAME") or "burn-in-recorder",
+            "candidate_digest": binding.get("candidate_digest") if binding.get("required") else None,
+            "handoff_lock_sha256": binding.get("handoff_lock_sha256") if binding.get("required") else None,
+            "environment_preflight_sha256": binding.get("environment_preflight_sha256") if binding.get("required") else None,
             "prev_event_sha256": prev,
         }
         event["event_sha256"] = event_digest(event)
@@ -312,7 +386,7 @@ def main() -> None:
         return
 
     events = read_events(journal)
-    result = aggregate(cfg["repository_version"], events, required_channels, policy)
+    result = aggregate(cfg["repository_version"], events, required_channels, policy, binding=binding if events else None)
     if args.command == "finalize":
         dump_json(output, result)
     print(json.dumps(result, indent=2))

@@ -8,8 +8,8 @@ import build_dual_distribution as builder
 import verify_dual_distribution as verifier
 
 ROOT=Path(__file__).resolve().parents[1]
-CONFIG=ROOT/'packaging/dual-distribution/dual-v1.35.3.json'
-DIST=ROOT/'dist/dual-distribution-v1.35.3'
+CONFIG=ROOT/'packaging/dual-distribution/dual-v1.35.4.json'
+DIST=ROOT/'dist/dual-distribution-v1.35.4'
 
 def digest(p: Path)->str: return hashlib.sha256(p.read_bytes()).hexdigest()
 

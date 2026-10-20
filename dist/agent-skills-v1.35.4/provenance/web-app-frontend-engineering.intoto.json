@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "web-app-frontend-engineering",
+        "profile": "full-v1.35.4",
+        "repositoryVersion": "v1.35.4",
+        "sourcePath": "skills/12-web-app-frontend-engineering"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "6ebbb031cbe047f0daaadead20f99e9143886c19b44cc357bba909e9a641ef81"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/12-web-app-frontend-engineering"
+        },
+        {
+          "digest": {
+            "sha256": "af218af3597b637251970794175a5508095ff90a5f98b0bc574f69e594ab8869"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.35.4.json"
+        },
+        {
+          "digest": {
+            "sha256": "8b715f0a1a7652ac110c835be7ab2e0844f2d60ae229eedd8eadd24f57f5457d"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "8b715f0a1a7652ac110c835be7ab2e0844f2d60ae229eedd8eadd24f57f5457d",
+          "repository": "v1.35.4"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "6fa6acc44fb2114d22ce208cf79a918b65ca488fe56b5d6185589c8b2e3a1778"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.35.4/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "e7e53ab6c274a7e5a25164446e3789a3d13e5c185a249df1668b994382e1d608"
+      },
+      "name": "web-app-frontend-engineering.skill"
+    }
+  ]
+}

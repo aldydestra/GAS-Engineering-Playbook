@@ -700,3 +700,14 @@ meaningful capability / correction
 research only / no-change watch
 → no release required
 ```
+
+### v1.35.4 — Candidate-Bound Evidence Chain & Workspace Add-on Release Drift Guard
+
+Status: **implemented / Shadow RC remains PASS_STATIC**.
+
+- bind host-smoke and burn-in evidence to candidate digest + handoff-lock hash + preflight hash;
+- reject stale candidate evidence during collection, import, and live-validation rebuild;
+- add executable Workspace Add-on release-state reconciliation for Marketplace host states, Chat App Home, and Workspace Studio;
+- keep Agent Skill distribution identities and v2 breaking-change contract frozen;
+- remain `NO_GO` until authenticated live lifecycle, required burn-in, promotion approval, release readiness, and signed operational closure pass.
+

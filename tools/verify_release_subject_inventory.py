@@ -6,7 +6,7 @@ import build_release_subject_inventory as b
 
 def sha(p:Path)->str: return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/release-subject-inventory/subjects-v1.35.3.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=json.loads((root/a.config).read_text()); out=root/cfg['output_distribution']; errors=[]
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/release-subject-inventory/subjects-v1.35.4.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=json.loads((root/a.config).read_text()); out=root/cfg['output_distribution']; errors=[]
     expected=b.evaluate(root,cfg); p=out/'inventory.json'
     if not p.exists(): errors.append('missing inventory.json')
     else:

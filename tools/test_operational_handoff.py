@@ -7,7 +7,7 @@ import build_operational_handoff as builder
 import collect_operational_evidence as collector
 import import_operational_evidence as importer
 import verify_operator_kit as kitverify
-CFG=json.loads((ROOT/'packaging/operational-handoff/handoff-v1.35.3.json').read_text())
+CFG=json.loads((ROOT/'packaging/operational-handoff/handoff-v1.35.4.json').read_text())
 
 class OperationalHandoffTests(unittest.TestCase):
     def test_real_candidate_builds_handoff_ready(self):
@@ -57,7 +57,7 @@ class OperationalHandoffTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/'evil.zip'
             lock=(ROOT/CFG['output_distribution']/'handoff-lock.json').read_bytes()
-            manifest={'repository_version':'v1.35.3','candidate_digest':json.loads(lock)['candidate_digest'],'handoff_lock_sha256':__import__('hashlib').sha256(lock).hexdigest(),'evidence_count':0,'evidence':[]}
+            manifest={'repository_version':'v1.35.4','candidate_digest':json.loads(lock)['candidate_digest'],'handoff_lock_sha256':__import__('hashlib').sha256(lock).hexdigest(),'evidence_count':0,'evidence':[]}
             with zipfile.ZipFile(p,'w') as z: z.writestr('bundle-manifest.json',json.dumps(manifest)); z.writestr('handoff-lock.json',lock); z.writestr('../escape.txt','x')
             checked,_=importer.validate(ROOT,CFG,p); self.assertEqual(checked['status'],'INVALID_EVIDENCE')
     def test_candidate_drift_is_rejected(self):
@@ -68,14 +68,28 @@ class OperationalHandoffTests(unittest.TestCase):
             local=json.loads((ROOT/CFG['output_distribution']/'handoff-lock.json').read_text()); local['candidate_digest']='0'*64
             (fake/CFG['output_distribution']/'handoff-lock.json').write_text(json.dumps(local))
             checked,_=importer.validate(fake,CFG,p); self.assertEqual(checked['status'],'INVALID_EVIDENCE'); self.assertIn('candidate digest mismatch',checked['errors'])
+    def test_stale_candidate_burn_in_is_rejected(self):
+        builder.build(ROOT,CFG)
+        with tempfile.TemporaryDirectory() as td:
+            work=Path(td); cfg=copy.deepcopy(CFG); cfg['output_distribution']='handoff'
+            (work/'handoff').mkdir(); lock_bytes=(ROOT/CFG['output_distribution']/'handoff-lock.json').read_bytes(); (work/'handoff'/'handoff-lock.json').write_bytes(lock_bytes)
+            lock=json.loads(lock_bytes); import hashlib
+            evidence_path='evidence/live-validation/v1.35.4/burn-in-events.jsonl'
+            event={'schema_version':2,'repository_version':'v1.35.4','event_id':'stale','candidate_digest':'0'*64}
+            payload=(json.dumps(event)+'\n').encode()
+            manifest={'schema_version':1,'repository_version':'v1.35.4','candidate_digest':lock['candidate_digest'],'handoff_lock_sha256':hashlib.sha256(lock_bytes).hexdigest(),'evidence_count':1,'evidence':[{'path':evidence_path,'sha256':hashlib.sha256(payload).hexdigest(),'size':len(payload)}]}
+            bundle=work/'stale.zip'
+            with zipfile.ZipFile(bundle,'w') as z: z.writestr('bundle-manifest.json',json.dumps(manifest)); z.writestr('handoff-lock.json',lock_bytes); z.writestr(evidence_path,payload)
+            checked,_=importer.validate(work,cfg,bundle); self.assertEqual(checked['status'],'INVALID_EVIDENCE'); self.assertTrue(any('candidate binding mismatch' in e for e in checked['errors']))
+
     def test_import_apply_writes_only_whitelisted_evidence(self):
         builder.build(ROOT,CFG)
         with tempfile.TemporaryDirectory() as td:
             work=Path(td); cfg=copy.deepcopy(CFG); cfg['output_distribution']='handoff'
             (work/'handoff').mkdir(); (work/'handoff'/'handoff-lock.json').write_bytes((ROOT/CFG['output_distribution']/'handoff-lock.json').read_bytes())
             lock=(work/'handoff'/'handoff-lock.json').read_bytes(); import hashlib
-            evidence_path='evidence/live-validation/v1.35.3/host-smoke.json'; payload=b'{"schema_version":1,"repository_version":"v1.35.3","records":[]}\n'
-            manifest={'schema_version':1,'repository_version':'v1.35.3','candidate_digest':json.loads(lock)['candidate_digest'],'handoff_lock_sha256':hashlib.sha256(lock).hexdigest(),'evidence_count':1,'evidence':[{'path':evidence_path,'sha256':hashlib.sha256(payload).hexdigest(),'size':len(payload)}]}
+            evidence_path='evidence/live-validation/v1.35.4/host-smoke.json'; payload=b'{"schema_version":1,"repository_version":"v1.35.4","records":[]}\n'
+            manifest={'schema_version':1,'repository_version':'v1.35.4','candidate_digest':json.loads(lock)['candidate_digest'],'handoff_lock_sha256':hashlib.sha256(lock).hexdigest(),'evidence_count':1,'evidence':[{'path':evidence_path,'sha256':hashlib.sha256(payload).hexdigest(),'size':len(payload)}]}
             bundle=work/'b.zip'
             with zipfile.ZipFile(bundle,'w') as z: z.writestr('bundle-manifest.json',json.dumps(manifest)); z.writestr('handoff-lock.json',lock); z.writestr(evidence_path,payload)
             checked,data=importer.validate(work,cfg,bundle); self.assertEqual(checked['status'],'PASS',checked); importer.apply(work,data); self.assertEqual((work/evidence_path).read_bytes(),payload)

@@ -1,10 +1,10 @@
 ---
 name: testing-quality
 description: "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality."
-skill_version: "1.6.3"
+skill_version: "1.6.4"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.35.3"
+last_repository_update: "v1.35.4"
 tags:
   - google-apps-script
   - testing
@@ -1946,3 +1946,17 @@ For Apps Script production releases, add a deployment-state contract test in add
 - version-count pressure is surfaced before the project reaches the platform history ceiling.
 
 `tools/audit_gas_deployment_state.py` provides a deterministic baseline for these checks. It consumes snapshots rather than mutating Apps Script state.
+
+## Candidate-Bound Evidence & Workspace Add-on Release-State Tests — v1.35.4
+
+Treat operational evidence as valid only for the exact frozen candidate that produced it. Burn-in journals and host lifecycle records should carry the current candidate digest, handoff-lock SHA-256, and environment-preflight SHA-256 when the release policy requires candidate binding. A repository-version match alone is insufficient.
+
+Add regression fixtures that prove:
+
+- stale candidate-bound burn-in events are rejected even when `repository_version` is unchanged;
+- host-smoke evidence cannot be reused after the handoff lock changes;
+- imported evidence bundles fail closed when semantic candidate binding disagrees with the authoritative lock;
+- empty/`NOT_RUN` placeholders remain valid before live execution begins.
+
+For Workspace Add-ons, test release-state contracts separately from editor/test-deployment behavior. Normalize Marketplace/App Configuration state into a controlled snapshot and fail release tests when a manifest host is missing/`UNSAVED`, Chat App Home is declared without its Cloud Console trigger, or Workspace Studio workflow triggers lack durable smoke evidence. Use `tools/audit_workspace_addon_release_state.py` for this deterministic contract test.
+
