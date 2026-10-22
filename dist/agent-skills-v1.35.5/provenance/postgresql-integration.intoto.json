@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-auto",
+        "packageName": "postgresql-integration",
+        "profile": "full-v1.35.5",
+        "repositoryVersion": "v1.35.5",
+        "sourcePath": "skills/05-postgresql-integration"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "c267802a5483210a56145eefa30b20007c806ca28797d1c55ccb27c3c0b91494"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/05-postgresql-integration"
+        },
+        {
+          "digest": {
+            "sha256": "afba21acb031a5ba55af38437fda9bac90336913d39a99d7a26ab0c9cdc47771"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.35.5.json"
+        },
+        {
+          "digest": {
+            "sha256": "092db74895c7b41ead6927eee3d4af6d90124afca6b96ec0500712eccb3d28d5"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "092db74895c7b41ead6927eee3d4af6d90124afca6b96ec0500712eccb3d28d5",
+          "repository": "v1.35.5"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "4af7c7f84b90ef81541886c6fad72cef404060a60bec156cd42947158faf3418"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.35.5/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "cc84c54f2c9d0632edb9eb131ba2d25d0969c8c341a68f7e6f057ed445eb897c"
+      },
+      "name": "postgresql-integration.skill"
+    }
+  ]
+}

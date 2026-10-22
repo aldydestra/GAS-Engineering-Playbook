@@ -1,10 +1,10 @@
 ---
 name: testing-quality
 description: "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality."
-skill_version: "1.6.4"
+skill_version: "1.6.5"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.35.4"
+last_repository_update: "v1.35.5"
 tags:
   - google-apps-script
   - testing
@@ -1960,3 +1960,18 @@ Add regression fixtures that prove:
 
 For Workspace Add-ons, test release-state contracts separately from editor/test-deployment behavior. Normalize Marketplace/App Configuration state into a controlled snapshot and fail release tests when a manifest host is missing/`UNSAVED`, Chat App Home is declared without its Cloud Console trigger, or Workspace Studio workflow triggers lack durable smoke evidence. Use `tools/audit_workspace_addon_release_state.py` for this deterministic contract test.
 
+
+
+## V2 Exit Acceptance Tests — v1.35.5
+
+Treat the end of the v1.x line as an operational acceptance problem, not a version-number decision. Add an explicit exit-plan test that distinguishes deterministic/static readiness from evidence that must come from a real operator environment.
+
+Required assertions:
+
+- static package, Shadow RC, release-subject, and handoff gates can be green while v2 remains `NO_GO`;
+- real host lifecycle and burn-in are never substituted by synthetic fixtures;
+- promotion approval is accepted only when the current promotion state is `READY_FOR_APPROVAL`;
+- approval records bind the exact promotion-context digest and become stale after candidate drift;
+- release closure remains incomplete until the signed immutable release ceremony passes.
+
+Use `tools/build_v2_exit_assistant.py` as the deterministic status surface and `tools/record_v2_approval.py` to test human approval binding without hand-editing JSON evidence.

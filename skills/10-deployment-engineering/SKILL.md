@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
 description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.14.0"
+skill_version: "1.15.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.35.4"
+last_repository_update: "v1.35.5"
 tags:
   - google-apps-script
   - deployment
@@ -2430,3 +2430,22 @@ Before publication, reconcile a normalized release snapshot covering:
 
 Use `tools/audit_workspace_addon_release_state.py` as a read-only gate. It does not mutate Marketplace or Cloud Console configuration.
 
+
+
+## Human-Action V2 Exit Closure — v1.35.5
+
+A mature release pipeline must say **who acts next**, not merely report `BLOCKED`. For the v2 cutover, separate the closure sequence into explicit ownership boundaries:
+
+```text
+deterministic candidate PASS
+→ external operator: real host lifecycle + burn-in
+→ authoritative repository: evidence import + live gate rebuild
+→ release owner: exact-context promotion approval
+→ release owner: signed immutable release ceremony
+→ operational closure PASS
+→ v1.x exit complete
+```
+
+Do not let tooling auto-approve promotion or fabricate real-use evidence. Automation may calculate the current promotion-context digest, reject stale approval, and render the exact commands/evidence still required.
+
+Use `tools/build_v2_exit_assistant.py` to generate that action plan and `tools/record_v2_approval.py` to record an explicit approval only after the promotion gate reaches `READY_FOR_APPROVAL`.

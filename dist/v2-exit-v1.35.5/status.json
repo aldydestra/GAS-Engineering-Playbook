@@ -1,0 +1,100 @@
+{
+  "actions": [
+    {
+      "commands": [
+        "python3 tools/verify_operator_kit.py dist/operational-handoff-v1.35.5/operational-evidence-operator-kit-v1.35.5.zip",
+        "python3 tools/preflight_operational_environment.py --allow-npx-bootstrap --probe-host",
+        "python3 tools/run_live_host_smoke.py --host gemini-cli --npx-bootstrap",
+        "python3 tools/record_burn_in.py record --channel canonical --consumer <alias> --summary <summary> --evidence-ref <ref>",
+        "python3 tools/record_burn_in.py record --channel package --consumer <alias> --summary <summary> --evidence-ref <ref>",
+        "# repeat observations after the minimum burn-in window, then:",
+        "python3 tools/record_burn_in.py finalize",
+        "python3 tools/collect_operational_evidence.py"
+      ],
+      "detail": "Requires >= 1 real host lifecycle(s), channels ['canonical', 'package'], >= 4 total sessions, >= 2 sessions/channel, and >= 24.0h usage window. Synthetic fixtures never count as release evidence.",
+      "expected_evidence": [
+        "host-smoke.json",
+        "burn-in-events.jsonl",
+        "consumer-burn-in.json",
+        "environment-preflight.json",
+        "operational evidence ZIP"
+      ],
+      "id": "external-operational-evidence",
+      "owner": "USER",
+      "required": true,
+      "title": "Run real host lifecycle and dual-channel burn-in"
+    },
+    {
+      "commands": [
+        "python3 tools/import_operational_evidence.py <returned-evidence.zip> --apply",
+        "python3 tools/build_live_validation.py",
+        "python3 tools/verify_live_validation.py",
+        "python3 tools/build_v2_promotion.py"
+      ],
+      "detail": "This step must run in the authoritative repository. Imported evidence is revalidated against the candidate lock and checksums.",
+      "expected_evidence": [
+        "dist/live-validation-*/manifest.json with v2_readiness=GO"
+      ],
+      "id": "authoritative-import",
+      "owner": "ASSISTANT/MAINTAINER",
+      "required": true,
+      "title": "Import and rebuild authoritative live gate"
+    },
+    {
+      "commands": [
+        "python3 tools/build_v2_promotion.py",
+        "python3 tools/record_v2_approval.py approve --approver <name> --evidence-ref <ticket-or-note>",
+        "python3 tools/build_v2_promotion.py",
+        "python3 tools/build_release_readiness.py"
+      ],
+      "detail": "Approval is intentionally human and binds the exact promotion-context SHA-256. Any candidate drift invalidates it.",
+      "expected_evidence": [
+        "evidence/live-validation/v1.35.5/v2-approval.json"
+      ],
+      "id": "human-promotion-approval",
+      "owner": "USER/RELEASE_OWNER",
+      "required": true,
+      "title": "Approve the exact promotion context"
+    },
+    {
+      "commands": [
+        "python3 tools/run_release_ceremony.py",
+        "python3 tools/run_release_ceremony.py --publish",
+        "python3 tools/build_operational_release_closure.py",
+        "python3 tools/verify_operational_release_closure.py"
+      ],
+      "detail": "Requires GitHub repository access, authenticated gh CLI (or equivalent connected GitHub workflow), immutable releases, and valid attestations for every frozen subject.",
+      "expected_evidence": [
+        "subject attestation verification",
+        "immutable release attestation",
+        "verified 21 release assets",
+        "closure.json=PASS"
+      ],
+      "id": "signed-release-closure",
+      "owner": "USER/RELEASE_OWNER",
+      "required": true,
+      "title": "Run signed immutable release ceremony"
+    }
+  ],
+  "errors": [],
+  "exit_status": "USER_ACTION_REQUIRED",
+  "next_checkpoint": "RUN_EXTERNAL_OPERATIONAL_EVIDENCE",
+  "repository_version": "v1.35.5",
+  "schema_version": 1,
+  "summary": {
+    "consumer_burn_in": "NOT_RUN",
+    "deterministic_candidate_ready": true,
+    "handoff_status": "HANDOFF_READY",
+    "host_lifecycle": "NOT_RUN",
+    "live_validation": "NO_GO",
+    "operational_release_closure": "BLOCKED",
+    "promotion": "BLOCKED",
+    "release_readiness": "BLOCKED"
+  },
+  "why_not_v2": [
+    "real live host lifecycle and required burn-in have not produced live-validation GO",
+    "exact promotion context has not received valid human approval",
+    "release candidate is not READY_TO_TAG",
+    "signed immutable operational release closure is not PASS"
+  ]
+}

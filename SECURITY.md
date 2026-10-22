@@ -76,3 +76,10 @@ Operational evidence must be bound to the exact frozen candidate, not only the h
 
 For Workspace Add-on publication, treat Apps Script deployment, Marketplace App Configuration, Chat App Home configuration, and Workspace Studio enablement as separate release-state surfaces. A host integration left `UNSAVED` or a declared surface without its required trigger/smoke evidence is a release-state defect, not merely a documentation warning.
 
+
+
+## v1.35.5 Human Approval and Exit Boundary
+
+The v2 exit assistant is advisory/deterministic and must not auto-create real operational evidence or auto-approve promotion. `tools/record_v2_approval.py` accepts approval only when the current promotion result is `READY_FOR_APPROVAL` and records the exact `promotion_context_sha256`. Candidate drift therefore invalidates old approval through the existing promotion verifier.
+
+Release ceremony credentials and signing authority remain outside the portable operator kit. External evidence collection is intentionally separated from authoritative approval and GitHub publication.

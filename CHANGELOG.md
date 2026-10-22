@@ -2,6 +2,86 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.35.5] - 2026-10-21
+
+### V2 Exit Assistant & Human-Action Closure Kit
+
+Patch release inside the frozen v1.35 Shadow RC line. v1.35.5 does not relax any v2 gate and does not manufacture live evidence. Its purpose is to turn the remaining `NO_GO` state into an explicit, machine-readable owner/action plan so the v1.x line can be closed deliberately.
+
+### Added — V2 Exit Assistant
+
+New:
+
+- `tools/build_v2_exit_assistant.py`;
+- `tools/verify_v2_exit_assistant.py`;
+- `tools/test_v2_exit_assistant.py`;
+- `packaging/v2-exit/exit-v1.35.5.json`;
+- generated `dist/v2-exit-v1.35.5/status.json`;
+- generated `dist/v2-exit-v1.35.5/V2_EXIT_PLAN.md`;
+- generated `docs/v2-exit-plan-v1.35.5.md`.
+
+The assistant reads the actual handoff, live-validation, promotion, readiness, release-subject, and operational-closure outputs and resolves the next checkpoint to one of: rebuild static candidate, run external operational evidence, approve promotion context, rebuild readiness, run signed release ceremony, or `READY_FOR_V2`.
+
+### Added — Exact-Context Human Approval Recorder
+
+New `tools/record_v2_approval.py` records `APPROVED`/`REJECTED` decisions against the exact current promotion-context SHA-256. It refuses approval unless promotion is already `READY_FOR_APPROVAL`, eliminating manual JSON editing and reducing stale-approval risk.
+
+### Operational ownership clarified
+
+The remaining v1.x closure is now explicit:
+
+```text
+static/Shadow RC candidate         automated / already healthy
+real host lifecycle               USER on real authenticated runtime
+dual-channel burn-in              USER / real usage evidence
+authoritative evidence import     maintainer/assistant
+promotion approval                USER / release owner
+signed immutable release ceremony USER / release owner + GitHub
+operational closure               automated verification
+```
+
+Current burn-in policy remains unchanged: >=4 sessions, >=2 sessions per `canonical` and `package` channel, >=1 unique consumer, and >=24 hours usage window.
+
+### Skill Version Updates
+
+| Skill | v1.35.4 | v1.35.5 | Change |
+|---|---:|---:|---|
+| 08 Testing & Quality | 1.6.4 | **1.6.5** | v1.x exit acceptance tests and human-action gate semantics |
+| 10 Deployment Engineering | 1.14.0 | **1.15.0** | explicit ownership/approval/ceremony closure flow |
+
+All other skill versions remain unchanged. Agent Skill 18/19 are not bumped for release cadence.
+
+### Validation
+
+```text
+canonical skills                         19
+normalized packages                      19
+package validation                       PASS (19/19)
+evaluation gate                          PASS
+host static compatibility                PASS_STATIC
+security/catalog/provenance              PASS_STATIC
+dual-distribution RC                     PASS_STATIC
+v2 cutover rehearsal                     PASS_STATIC
+v2 Shadow RC                             PASS_STATIC
+breaking-change freeze                   PASS
+release subject inventory                PASS_STATIC (21/21)
+operational handoff                      HANDOFF_READY
+portable operator kit                    PASS
+v2 exit assistant                        USER_ACTION_REQUIRED
+live host lifecycle                      NOT_RUN
+consumer burn-in                         NOT_RUN
+v2 promotion                             BLOCKED
+release readiness                        BLOCKED
+operational release closure              BLOCKED
+repository unittest suite                101/101 PASS
+trust/revocation integration             PASS
+```
+
+### v2 Decision
+
+Still **NO_GO**, but the remaining work is no longer ambiguous. The deterministic candidate is ready; v2 is waiting specifically on real operational evidence, explicit human approval, and signed immutable release closure.
+
+
 ## [v1.35.4] - 2026-10-20
 
 ### Candidate-Bound Evidence Chain & Workspace Add-on Release Drift Guard

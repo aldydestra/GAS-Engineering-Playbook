@@ -1,0 +1,129 @@
+{
+  "allowed_evidence_prefixes": [
+    "evidence/live-validation/v1.35.5/",
+    "evidence/operational-release/v1.35.5/"
+  ],
+  "candidate": {
+    "handoff_policy_sha256": "9af0ec1cbb48f480f61fabd66f3142355d0634e7f4b0cf0103bf160e886aae54",
+    "inputs": {
+      "contract_freeze": {
+        "path": "dist/v2-shadow-rc-v1.35.5/contract-freeze.json",
+        "sha256": "4e80172e4930539c2483d578f677786a687d3b32dc1ff1a30b9293c44c6568aa",
+        "size": 3407
+      },
+      "live_validation_config": {
+        "path": "packaging/live-validation/live-v1.35.5.json",
+        "sha256": "e1086f426ade36846296618010d9e681d32b87077819a37b403c35182fd82af3",
+        "size": 1826
+      },
+      "operator_support_files": [
+        {
+          "path": "dist/agent-skills-v1.35.5/packages/agent-skill-engineering.skill",
+          "sha256": "b2004a909a5eb117531b4c734183bc157e3aca5bef1849cb55abd488c94ea30a",
+          "size": 16634
+        },
+        {
+          "path": "dist/host-compat-v1.35.5/manifest.json",
+          "sha256": "4bb4e9de2c59976a4f6a4a2f3c0f673903bfe48627e57115e1a0eac20ed8621c",
+          "size": 1223
+        },
+        {
+          "path": "dist/dual-distribution-v1.35.5/release-index.json",
+          "sha256": "ddfed3bb317463c431dda05118a1818587142e386160f3e6da8ca8fc383d7b23",
+          "size": 2006
+        }
+      ],
+      "release_subject_inventory": {
+        "path": "dist/release-subjects-v1.35.5/inventory.json",
+        "sha256": "be92aec41df542709f600bb340f316fb9d92b7f25739a5b767d1db7c8e1e6078",
+        "size": 6049
+      },
+      "shadow_rc": {
+        "path": "dist/v2-shadow-rc-v1.35.5/shadow-rc.json",
+        "sha256": "889e3a4f25a4da9d2ad76bcf252b4bc0533a5e64ce238a29f467b4143dd3d4fc",
+        "size": 6049
+      },
+      "tools": [
+        {
+          "path": "tools/preflight_operational_environment.py",
+          "sha256": "a92fc3e99fbdcadb3fae5f05cfeab1585e6810f596ea4ae0e3a30cdb55d84829",
+          "size": 6741
+        },
+        {
+          "path": "tools/run_live_host_smoke.py",
+          "sha256": "63ba78c90d8bca59f7903be433e5b795c3fc0f3cd83e697e7cca0d2bdc1a38a0",
+          "size": 23988
+        },
+        {
+          "path": "tools/record_burn_in.py",
+          "sha256": "cbc222984f740f769a846f1f69c71849b729154f94e2987f0b34af1a1d954079",
+          "size": 17246
+        },
+        {
+          "path": "tools/build_live_validation.py",
+          "sha256": "56d53018ea1a5030fc1fab5700f5bef6e86aae660c1121431838d1104731c6a7",
+          "size": 31062
+        },
+        {
+          "path": "tools/verify_live_validation.py",
+          "sha256": "785801aeee8b6fe5d4b18820491d5f0fcbcf482f3b6b1d4c968583e2fbc6bbde",
+          "size": 2972
+        },
+        {
+          "path": "tools/build_v2_promotion.py",
+          "sha256": "c84de8d73852f3537a4bf75e7dcc7a4b0bbf6060de97c954cb760dfe476d22dd",
+          "size": 8345
+        },
+        {
+          "path": "tools/build_release_readiness.py",
+          "sha256": "cc93dd9fb8e277ecbeaa8b4406255c2cd68da50041882fdf73a30f3c9dc50728",
+          "size": 7856
+        },
+        {
+          "path": "tools/run_release_ceremony.py",
+          "sha256": "8fce3a17102a45cfad6d50a09f7ef8bff5c22d263a4d38cc3f44b4ab53e46750",
+          "size": 11054
+        },
+        {
+          "path": "tools/build_operational_release_closure.py",
+          "sha256": "798b5df654f79c9f55cbca86e2a8af2c6b91533bdd80da069057cdd39984d301",
+          "size": 10390
+        },
+        {
+          "path": "tools/build_operational_handoff.py",
+          "sha256": "6d98e8c491c19f1649d1b11e4ca536e190c57f4e1198172f8db30ecb28f9057c",
+          "size": 10097
+        },
+        {
+          "path": "tools/verify_operational_handoff.py",
+          "sha256": "9b34dad156779795cf5f6f40c3add2362e13158f6f558273c053431c47e53f9e",
+          "size": 3171
+        },
+        {
+          "path": "tools/collect_operational_evidence.py",
+          "sha256": "24fb33510e48b244bf51bc6cee440d23699b86768fc7d6e48c034c2275a805fc",
+          "size": 4931
+        },
+        {
+          "path": "tools/import_operational_evidence.py",
+          "sha256": "d83055fe20e52272594a70bd0e500ec29554769d5b7afeb2963d65b182cf2c15",
+          "size": 6368
+        },
+        {
+          "path": "tools/verify_operator_kit.py",
+          "sha256": "82240f4f64780a2ccfd19978f6baba8bde5437e9e4fe13e94aece0a8b49bfaac",
+          "size": 4808
+        }
+      ]
+    },
+    "repository_version": "v1.35.5",
+    "shadow_contract_digest": "4072c716a2f30b8e5197043499beb48c5f2726ab983dbb5ee1d4c5d7e4ac2eea",
+    "subject_count": 21,
+    "subject_inventory_sha256": "be92aec41df542709f600bb340f316fb9d92b7f25739a5b767d1db7c8e1e6078"
+  },
+  "candidate_digest": "e7c098b44363c95a41afa3df8812fded45d7788c934df8718cbc5fdd59dd951e",
+  "errors": [],
+  "handoff_status": "HANDOFF_READY",
+  "repository_version": "v1.35.5",
+  "schema_version": 2
+}

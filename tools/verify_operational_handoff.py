@@ -14,7 +14,7 @@ def sha256_file(p:Path)->str:
 def load(p:Path)->dict[str,Any]: return json.loads(p.read_text())
 def canonical(o:Any)->bytes: return json.dumps(o,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.4.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); out=root/cfg['output_distribution']; errors=[]
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.5.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); out=root/cfg['output_distribution']; errors=[]
     lockp=out/'handoff-lock.json'
     if not lockp.exists(): errors.append('handoff-lock.json missing'); lock={}
     else: lock=load(lockp)

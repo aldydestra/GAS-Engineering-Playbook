@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.35.5",
+  "inputs": {
+    "live": "dist/live-validation-v1.35.5/manifest.json",
+    "handoff": "dist/operational-handoff-v1.35.5/handoff-lock.json",
+    "promotion": "dist/v2-promotion-v1.35.5/promotion.json",
+    "readiness": "dist/release-readiness-v1.35.5/release-lock.json",
+    "closure": "dist/operational-release-closure-v1.35.5/closure.json",
+    "subjects": "dist/release-subjects-v1.35.5/inventory.json"
+  },
+  "operator_kit": "dist/operational-handoff-v1.35.5/operational-evidence-operator-kit-v1.35.5.zip",
+  "output_distribution": "dist/v2-exit-v1.35.5"
+}

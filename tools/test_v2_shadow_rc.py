@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'tools'))
 import build_v2_shadow_rc as b
-CFG=json.loads((ROOT/'packaging/v2-shadow-rc/shadow-v1.35.4.json').read_text())
+CFG=json.loads((ROOT/'packaging/v2-shadow-rc/shadow-v1.35.5.json').read_text())
 class ShadowRCTest(unittest.TestCase):
     def test_real_tree_passes_static_freeze(self):
         r=b.evaluate(ROOT,CFG); self.assertEqual(r['shadow_rc_status'],'PASS_STATIC',r)

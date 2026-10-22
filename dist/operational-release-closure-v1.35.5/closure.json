@@ -1,0 +1,42 @@
+{
+  "blockers": [
+    "live validation is NO_GO, expected GO",
+    "release readiness is BLOCKED, expected READY_TO_TAG"
+  ],
+  "checkpoint": "operational-release-closure",
+  "closure_status": "BLOCKED",
+  "errors": [],
+  "gates": {
+    "live_validation": "NO_GO",
+    "release_ceremony": "NOT_RUN",
+    "release_readiness": "BLOCKED",
+    "release_subject_inventory": "PASS_STATIC"
+  },
+  "inputs": {
+    "ceremony": {
+      "path": "evidence/operational-release/v1.35.5/ceremony.json",
+      "sha256": "f7b4257b274c97382be6ae818aedf68d3f7f145243bf53dbbea76684d2eaa108"
+    },
+    "live": {
+      "path": "dist/live-validation-v1.35.5/manifest.json",
+      "sha256": "7d05ce690d9039c226af5415cc6e002e2e7ae030c431c26dd794a91f94f9329e"
+    },
+    "readiness": {
+      "path": "dist/release-readiness-v1.35.5/release-lock.json",
+      "sha256": "15be918a48540ea6d73958910c52a726539beeb2876743ed696ac102fa912f04"
+    },
+    "subjects": {
+      "path": "dist/release-subjects-v1.35.5/inventory.json",
+      "sha256": "be92aec41df542709f600bb340f316fb9d92b7f25739a5b767d1db7c8e1e6078"
+    }
+  },
+  "policy": {
+    "require_asset_verification": true,
+    "require_exact_subject_inventory": true,
+    "require_immutable_release": true,
+    "require_release_attestation": true,
+    "require_subject_attestations": true
+  },
+  "repository_version": "v1.35.5",
+  "schema_version": 1
+}

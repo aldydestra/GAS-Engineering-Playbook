@@ -323,7 +323,7 @@ def aggregate(
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default=".")
-    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.4.json")
+    ap.add_argument("--config", default="packaging/live-validation/live-v1.35.5.json")
     sub = ap.add_subparsers(dest="command", required=True)
 
     rec = sub.add_parser("record", help="Append one real usage observation to the hash-chained journal")

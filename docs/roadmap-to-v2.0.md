@@ -643,6 +643,51 @@ all operational gates PASS
 → prepare v2.0.0 cutover
 ```
 
+### v1.35.5 — V2 Exit Assistant & Human-Action Closure Kit
+
+Status: **implemented — deterministic candidate ready; user operational action required**.
+
+This patch does not add another artificial prerequisite. It converts the existing prerequisites into a single machine-readable exit plan with explicit ownership.
+
+Implemented scope:
+
+- `dist/v2-exit-v1.35.5/status.json` and `V2_EXIT_PLAN.md`;
+- exact next-checkpoint resolution from current gate outputs;
+- human promotion approval recorder bound to current promotion-context SHA-256;
+- CI verification for exit-plan drift and premature approval;
+- Skills 08 and 10 updated for operational acceptance/release ownership semantics.
+
+Current exit state:
+
+```text
+deterministic candidate                  READY
+v2 Shadow RC                             PASS_STATIC
+release subjects                         PASS_STATIC (21/21)
+operational handoff                      HANDOFF_READY
+live host lifecycle                      NOT_RUN
+consumer burn-in                         NOT_RUN
+v2 exit status                           USER_ACTION_REQUIRED
+next checkpoint                          RUN_EXTERNAL_OPERATIONAL_EVIDENCE
+```
+
+The intended end of the v1.x line is now:
+
+```text
+real host + burn-in evidence
+→ authoritative import
+→ live-validation GO
+→ explicit current-context approval
+→ READY_TO_TAG
+→ signed immutable release ceremony
+→ operational closure PASS
+→ V1_EXIT_COMPLETE
+→ prepare v2.0.0
+```
+
+If the real execution exposes a non-breaking defect, fix it in v1.35.x and regenerate the candidate. If it requires changing the frozen package/host/major-version contract, explicitly break the Shadow RC and remain on v1.x.
+
+---
+
 # v2.0.0 — Package-First Repository Only If Gates Pass
 
 v2 may then make breaking structural changes such as:

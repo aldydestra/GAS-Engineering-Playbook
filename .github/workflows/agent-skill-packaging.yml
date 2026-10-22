@@ -7,19 +7,20 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'evidence/live-validation/v1.35.4/**'
-      - 'dist/agent-skills-v1.35.4/**'
-      - 'dist/host-compat-v1.35.4/**'
-      - 'dist/dual-distribution-v1.35.4/**'
-      - 'dist/live-validation-v1.35.4/**'
-      - 'dist/v2-cutover-rehearsal-v1.35.4/**'
-      - 'dist/v2-shadow-rc-v1.35.4/**'
-      - 'dist/v2-promotion-v1.35.4/**'
-      - 'dist/release-readiness-v1.35.4/**'
-      - 'dist/release-subjects-v1.35.4/**'
-      - 'dist/operational-handoff-v1.35.4/**'
-      - 'dist/operational-release-closure-v1.35.4/**'
-      - 'evidence/operational-release/v1.35.4/**'
+      - 'evidence/live-validation/v1.35.5/**'
+      - 'dist/agent-skills-v1.35.5/**'
+      - 'dist/host-compat-v1.35.5/**'
+      - 'dist/dual-distribution-v1.35.5/**'
+      - 'dist/live-validation-v1.35.5/**'
+      - 'dist/v2-cutover-rehearsal-v1.35.5/**'
+      - 'dist/v2-shadow-rc-v1.35.5/**'
+      - 'dist/v2-promotion-v1.35.5/**'
+      - 'dist/release-readiness-v1.35.5/**'
+      - 'dist/release-subjects-v1.35.5/**'
+      - 'dist/operational-handoff-v1.35.5/**'
+      - 'dist/operational-release-closure-v1.35.5/**'
+      - 'dist/v2-exit-v1.35.5/**'
+      - 'evidence/operational-release/v1.35.5/**'
       - 'packaging/v2-cutover-rehearsal/**'
       - 'packaging/v2-shadow-rc/**'
       - 'packaging/v2-promotion/**'
@@ -27,19 +28,21 @@ on:
       - 'packaging/release-subject-inventory/**'
       - 'packaging/operational-handoff/**'
       - 'packaging/operational-release-closure/**'
-      - 'reports/agent-skill-evaluation-v1.35.4.*'
-      - 'docs/host-compatibility-matrix-v1.35.4.md'
-      - 'docs/dual-distribution-rc-v1.35.4.md'
-      - 'docs/live-validation-operational-burn-in-v1.35.4.md'
-      - 'docs/v2-go-no-go-v1.35.4.md'
-      - 'docs/v2-cutover-rehearsal-v1.35.4.md'
-      - 'docs/v2-shadow-rc-breaking-change-freeze-v1.35.4.md'
-      - 'docs/gas-platform-refresh-v1.35.4.md'
-      - 'docs/v2-promotion-control-v1.35.4.md'
-      - 'docs/release-readiness-freeze-v1.35.4.md'
-      - 'docs/release-subject-inventory-v1.35.4.md'
-      - 'docs/operational-evidence-handoff-v1.35.4.md'
-      - 'docs/operational-release-closure-v1.35.4.md'
+      - 'packaging/v2-exit/**'
+      - 'reports/agent-skill-evaluation-v1.35.5.*'
+      - 'docs/host-compatibility-matrix-v1.35.5.md'
+      - 'docs/dual-distribution-rc-v1.35.5.md'
+      - 'docs/live-validation-operational-burn-in-v1.35.5.md'
+      - 'docs/v2-go-no-go-v1.35.5.md'
+      - 'docs/v2-cutover-rehearsal-v1.35.5.md'
+      - 'docs/v2-shadow-rc-breaking-change-freeze-v1.35.5.md'
+      - 'docs/gas-platform-refresh-v1.35.5.md'
+      - 'docs/v2-promotion-control-v1.35.5.md'
+      - 'docs/release-readiness-freeze-v1.35.5.md'
+      - 'docs/release-subject-inventory-v1.35.5.md'
+      - 'docs/operational-evidence-handoff-v1.35.5.md'
+      - 'docs/operational-release-closure-v1.35.5.md'
+      - 'docs/v2-exit-plan-v1.35.5.md'
   push:
     branches: [main]
     paths:
@@ -47,19 +50,20 @@ on:
       - 'packaging/**'
       - 'tools/**'
       - 'evals/agent-skills/**'
-      - 'evidence/live-validation/v1.35.4/**'
-      - 'dist/agent-skills-v1.35.4/**'
-      - 'dist/host-compat-v1.35.4/**'
-      - 'dist/dual-distribution-v1.35.4/**'
-      - 'dist/live-validation-v1.35.4/**'
-      - 'dist/v2-cutover-rehearsal-v1.35.4/**'
-      - 'dist/v2-shadow-rc-v1.35.4/**'
-      - 'dist/v2-promotion-v1.35.4/**'
-      - 'dist/release-readiness-v1.35.4/**'
-      - 'dist/release-subjects-v1.35.4/**'
-      - 'dist/operational-handoff-v1.35.4/**'
-      - 'dist/operational-release-closure-v1.35.4/**'
-      - 'evidence/operational-release/v1.35.4/**'
+      - 'evidence/live-validation/v1.35.5/**'
+      - 'dist/agent-skills-v1.35.5/**'
+      - 'dist/host-compat-v1.35.5/**'
+      - 'dist/dual-distribution-v1.35.5/**'
+      - 'dist/live-validation-v1.35.5/**'
+      - 'dist/v2-cutover-rehearsal-v1.35.5/**'
+      - 'dist/v2-shadow-rc-v1.35.5/**'
+      - 'dist/v2-promotion-v1.35.5/**'
+      - 'dist/release-readiness-v1.35.5/**'
+      - 'dist/release-subjects-v1.35.5/**'
+      - 'dist/operational-handoff-v1.35.5/**'
+      - 'dist/operational-release-closure-v1.35.5/**'
+      - 'dist/v2-exit-v1.35.5/**'
+      - 'evidence/operational-release/v1.35.5/**'
       - 'packaging/v2-cutover-rehearsal/**'
       - 'packaging/v2-shadow-rc/**'
       - 'packaging/v2-promotion/**'
@@ -67,19 +71,21 @@ on:
       - 'packaging/release-subject-inventory/**'
       - 'packaging/operational-handoff/**'
       - 'packaging/operational-release-closure/**'
-      - 'reports/agent-skill-evaluation-v1.35.4.*'
-      - 'docs/host-compatibility-matrix-v1.35.4.md'
-      - 'docs/dual-distribution-rc-v1.35.4.md'
-      - 'docs/live-validation-operational-burn-in-v1.35.4.md'
-      - 'docs/v2-go-no-go-v1.35.4.md'
-      - 'docs/v2-cutover-rehearsal-v1.35.4.md'
-      - 'docs/v2-shadow-rc-breaking-change-freeze-v1.35.4.md'
-      - 'docs/gas-platform-refresh-v1.35.4.md'
-      - 'docs/v2-promotion-control-v1.35.4.md'
-      - 'docs/release-readiness-freeze-v1.35.4.md'
-      - 'docs/release-subject-inventory-v1.35.4.md'
-      - 'docs/operational-evidence-handoff-v1.35.4.md'
-      - 'docs/operational-release-closure-v1.35.4.md'
+      - 'packaging/v2-exit/**'
+      - 'reports/agent-skill-evaluation-v1.35.5.*'
+      - 'docs/host-compatibility-matrix-v1.35.5.md'
+      - 'docs/dual-distribution-rc-v1.35.5.md'
+      - 'docs/live-validation-operational-burn-in-v1.35.5.md'
+      - 'docs/v2-go-no-go-v1.35.5.md'
+      - 'docs/v2-cutover-rehearsal-v1.35.5.md'
+      - 'docs/v2-shadow-rc-breaking-change-freeze-v1.35.5.md'
+      - 'docs/gas-platform-refresh-v1.35.5.md'
+      - 'docs/v2-promotion-control-v1.35.5.md'
+      - 'docs/release-readiness-freeze-v1.35.5.md'
+      - 'docs/release-subject-inventory-v1.35.5.md'
+      - 'docs/operational-evidence-handoff-v1.35.5.md'
+      - 'docs/operational-release-closure-v1.35.5.md'
+      - 'docs/v2-exit-plan-v1.35.5.md'
 
 jobs:
   build-and-verify:
@@ -177,31 +183,39 @@ jobs:
         run: python tools/verify_operational_release_closure.py
       - name: Test operational release closure and ceremony preflight
         run: python -m unittest tools/test_operational_release_closure.py tools/test_release_ceremony.py -v
+      - name: Build human-action v2 exit plan
+        run: python tools/build_v2_exit_assistant.py
+      - name: Verify v2 exit plan
+        run: python tools/verify_v2_exit_assistant.py
+      - name: Test v2 exit and approval semantics
+        run: python -m unittest tools/test_v2_exit_assistant.py tools/test_v2_approval.py -v
       - name: Ensure generated distributions and reports are committed and reproducible
         run: >-
           git diff --exit-code --
-          dist/agent-skills-v1.35.4
-          dist/host-compat-v1.35.4
-          dist/dual-distribution-v1.35.4
-          dist/live-validation-v1.35.4
-          dist/v2-cutover-rehearsal-v1.35.4
-          dist/v2-shadow-rc-v1.35.4
-          dist/v2-promotion-v1.35.4
-          dist/release-readiness-v1.35.4
-          dist/release-subjects-v1.35.4
-          dist/operational-handoff-v1.35.4
-          dist/operational-release-closure-v1.35.4
-          reports/agent-skill-evaluation-v1.35.4.json
-          reports/agent-skill-evaluation-v1.35.4.md
-          docs/host-compatibility-matrix-v1.35.4.md
-          docs/dual-distribution-rc-v1.35.4.md
-          docs/live-validation-operational-burn-in-v1.35.4.md
-          docs/v2-go-no-go-v1.35.4.md
-          docs/v2-cutover-rehearsal-v1.35.4.md
-          docs/v2-shadow-rc-breaking-change-freeze-v1.35.4.md
-          docs/gas-platform-refresh-v1.35.4.md
-          docs/v2-promotion-control-v1.35.4.md
-          docs/release-readiness-freeze-v1.35.4.md
-          docs/release-subject-inventory-v1.35.4.md
-          docs/operational-evidence-handoff-v1.35.4.md
-          docs/operational-release-closure-v1.35.4.md
+          dist/agent-skills-v1.35.5
+          dist/host-compat-v1.35.5
+          dist/dual-distribution-v1.35.5
+          dist/live-validation-v1.35.5
+          dist/v2-cutover-rehearsal-v1.35.5
+          dist/v2-shadow-rc-v1.35.5
+          dist/v2-promotion-v1.35.5
+          dist/release-readiness-v1.35.5
+          dist/release-subjects-v1.35.5
+          dist/operational-handoff-v1.35.5
+          dist/operational-release-closure-v1.35.5
+          dist/v2-exit-v1.35.5
+          reports/agent-skill-evaluation-v1.35.5.json
+          reports/agent-skill-evaluation-v1.35.5.md
+          docs/host-compatibility-matrix-v1.35.5.md
+          docs/dual-distribution-rc-v1.35.5.md
+          docs/live-validation-operational-burn-in-v1.35.5.md
+          docs/v2-go-no-go-v1.35.5.md
+          docs/v2-cutover-rehearsal-v1.35.5.md
+          docs/v2-shadow-rc-breaking-change-freeze-v1.35.5.md
+          docs/gas-platform-refresh-v1.35.5.md
+          docs/v2-promotion-control-v1.35.5.md
+          docs/release-readiness-freeze-v1.35.5.md
+          docs/release-subject-inventory-v1.35.5.md
+          docs/operational-evidence-handoff-v1.35.5.md
+          docs/operational-release-closure-v1.35.5.md
+          docs/v2-exit-plan-v1.35.5.md
