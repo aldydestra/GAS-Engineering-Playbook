@@ -1,10 +1,10 @@
 ---
 name: gas-core-engineering
 description: "Core Google Apps Script runtime engineering for triggers, LockService/concurrency, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, checkpoints, long-running jobs, and external HTTP calls. Use when the primary problem is GAS runtime behavior or core service usage."
-skill_version: "1.4.1"
+skill_version: "1.5.0"
 repository_introduced: "v1.2.0"
 status: "evolving"
-last_repository_update: "v1.35.1"
+last_repository_update: "v1.35.6"
 tags:
   - google-apps-script
   - google-workspace
@@ -1273,3 +1273,4 @@ The Maps service client-ID method `Maps.setAuthentication(clientId, signingKey)`
 
 Because some Apps Script documentation pages can lag platform retirement notices, resolve conflicts in this order for a release decision: current service reference + current release notes + migration/sunset guidance, then test the actual project.
 
+\n\n# v1.35.6 — GAS Runtime Compatibility Baseline\n\nFor maintained Apps Script projects, treat V8 as the only production runtime baseline. A production preflight should reject `runtimeVersion: "DEPRECATED_ES5"` and review code copied from Node.js/browser examples before deployment.\n\nServer-side `.gs` / `.js` code must not assume availability of:\n\n- native ES modules via `import` / `export`;\n- browser timers such as `setTimeout` / `setInterval`;\n- browser-global `fetch()`; use `UrlFetchApp.fetch()` or bounded `fetchAll()` instead;\n- browser/Node globals such as `window`, `document`, `navigator`, `performance`, or `process`;\n- Web Crypto; use compatible `Utilities` digest/HMAC/signature functions when applicable.\n\nDo not apply those server-runtime prohibitions blindly to HTML Service client JavaScript. Browser code inside served HTML runs in a browser context and has a different capability surface.\n\nUse `tools/audit_gas_project.py` as the executable production preflight for these checks.\n

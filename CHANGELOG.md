@@ -2,6 +2,108 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.35.6] - 2026-10-21
+
+### GAS Core Realignment & V2 Gate Simplification
+
+v1.35.6 corrects the release scope before the v2 major transition. The repository's product is a validated set of Google Apps Script engineering skills for AI agents; multi-day burn-in, human approval, signed immutable release ceremony, and operational release closure remain available as enterprise-governance controls but are no longer mandatory blockers for the core skill distribution.
+
+### Added — scope-aligned v2 core readiness
+
+New:
+
+- `tools/build_v2_core_readiness.py`;
+- `tools/verify_v2_core_readiness.py`;
+- `tools/test_v2_core_readiness.py`;
+- `packaging/v2-core-readiness/readiness-v1.35.6.json`;
+- `dist/v2-core-readiness-v1.35.6/`;
+- `docs/gas-core-realignment-v1.35.6.md`.
+
+The hard v2 core gate now requires:
+
+- 19/19 package validity and complete coverage;
+- deterministic evaluation parity;
+- static compatibility across supported host adapters;
+- Agent Skill security/trust gate;
+- package-first cutover rehearsal;
+- v2 Shadow RC and breaking-change freeze.
+
+Live validation and immutable signed operational closure can be made blocking by an enterprise policy, but the default project profile treats them as optional confidence/governance signals.
+
+Current result: **`READY_FOR_V2_CORE` / `V2_CORE_GO`**.
+
+### Changed — V2 Exit Assistant
+
+The v2 exit assistant now reads the scope-aligned core readiness result. With the default governance profile it reports:
+
+```text
+exit_status      CORE_READY
+next_checkpoint  READY_FOR_V2_CORE
+```
+
+Operational burn-in, promotion approval, and signed release closure remain listed as optional actions rather than false core blockers.
+
+### Hardened — Apps Script V8 runtime preflight
+
+`tools/audit_gas_project.py` schema advances to v3 and now rejects unsupported APIs in server-side `.gs` / `.js` / `.ts` code:
+
+- native ES module `import` / `export`;
+- browser timers such as `setTimeout` / `setInterval`;
+- browser-global `fetch()`;
+- browser/Node globals (`window`, `document`, `navigator`, `performance`, `process`);
+- unsupported browser/stream Web APIs;
+- Web Crypto usage where Apps Script-compatible `Utilities` should be used.
+
+HTML Service client JavaScript is explicitly excluded from these server-runtime checks so normal browser APIs do not produce false failures.
+
+### GAS guidance refresh
+
+Official Apps Script documentation reviewed for this release continues to support the repository's production baseline:
+
+- V8 is the maintained runtime and Rhino is retired;
+- Apps Script V8 is not a standard browser/Node runtime;
+- ordinary script runtime is documented at six minutes per execution;
+- minimizing service calls, batching, caching, and bounded `UrlFetchApp.fetchAll()` remain core performance practices.
+
+### Skill Version Updates
+
+| Skill | v1.35.5 | v1.35.6 | Material change |
+|---|---:|---:|---|
+| 01 GAS Core Engineering | 1.4.1 | **1.5.0** | V8 server-runtime compatibility baseline and executable audit alignment |
+| 06 Performance Engineering | 1.4.0 | **1.5.0** | service-call budget, bounded `fetchAll`, cache/batching and execution-ceiling guidance |
+| 08 Testing & Quality | 1.6.5 | **1.7.0** | distinct GAS server-runtime vs HTML Service browser-runtime regression strategy |
+| 10 Deployment Engineering | 1.15.0 | **1.16.0** | core skill publication gate separated from optional enterprise governance |
+
+Agent Skill 18/19 remain unchanged.
+
+### Validation
+
+```text
+canonical skills                         19
+normalized packages                      19
+package validation                       PASS (19/19)
+evaluation gate                          PASS
+host static compatibility                PASS_STATIC
+security/catalog/provenance              PASS_STATIC
+dual-distribution RC                     PASS_STATIC
+v2 cutover rehearsal                     PASS_STATIC
+v2 Shadow RC                             PASS_STATIC
+breaking-change freeze                   PASS
+release subject inventory                PASS_STATIC (21/21)
+operational handoff                      HANDOFF_READY
+v2 core readiness                        READY_FOR_V2_CORE
+v2 exit assistant                        CORE_READY
+optional live host lifecycle             NOT_RUN
+optional consumer burn-in                NOT_RUN
+optional signed operational closure      BLOCKED
+repository unittest suite                108/108 PASS
+```
+
+### v2 Decision
+
+**Core scope: GO.** The repository is ready to prepare v2.0.0 from the current GAS-skill contract unless a new core regression is found. Enterprise operational governance can continue independently and does not block the default v2 skill release.
+
+
 ## [v1.35.5] - 2026-10-21
 
 ### V2 Exit Assistant & Human-Action Closure Kit

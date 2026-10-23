@@ -1,10 +1,10 @@
 ---
 name: performance-engineering
 description: "Optimize Google Apps Script and Workspace automation performance: batch Spreadsheet/Drive calls, remove N+1 patterns, profile latency, use caching, chunking, checkpoints, quota/tool-call budgets, bounded pagination, and egress controls. Use when the primary goal is speed, scale, quota, memory, or runtime efficiency."
-skill_version: "1.4.0"
+skill_version: "1.5.0"
 repository_introduced: "v1.7.0"
 status: "evolving"
-last_repository_update: "v1.35.0"
+last_repository_update: "v1.35.6"
 tags:
   - google-apps-script
   - performance
@@ -2073,3 +2073,4 @@ measure workbook + script latency
 
 Apps Script libraries can add noticeable startup latency to short, repeated `google.script.run` calls. For UI-heavy applications, keep the synchronous dependency surface small and prefer coarse server calls over many tiny round-trips.
 
+\n\n# v1.35.6 — Service-Call Budget as a First-Class Constraint\n\nCurrent Apps Script best-practice guidance continues to favor minimizing calls to Workspace/external services, batching reads/writes, caching expensive stable reads, and using bounded continuation for work that cannot safely finish in one execution.\n\nFor HTTP fan-out, prefer `UrlFetchApp.fetchAll()` only for independent requests and keep the request set bounded. Parallelism does not remove external quotas, remote rate limits, Apps Script execution limits, or downstream retry/backoff requirements.\n\nTreat the six-minute ordinary execution limit as a planning ceiling, not a target. Long-running jobs should checkpoint before the limit and resume with idempotent state.\n

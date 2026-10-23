@@ -50,11 +50,14 @@ def build(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
     readiness = inputs.get('readiness', {})
     closure = inputs.get('closure', {})
     subjects = inputs.get('subjects', {})
+    core = inputs.get('core', {})
 
     deterministic_ok = all([
         handoff.get('handoff_status') == 'HANDOFF_READY',
         subjects.get('inventory_status') == 'PASS_STATIC',
     ])
+    core_ready = core.get('readiness_status') == 'READY_FOR_V2_CORE'
+    governance_optional = cfg.get('governance_profile', 'optional') == 'optional'
     live_go = live.get('v2_readiness') == 'GO'
     host_status = (live.get('host_smoke') or {}).get('status', 'UNKNOWN')
     burn_status = (live.get('consumer_burn_in') or {}).get('status', 'UNKNOWN')
@@ -69,7 +72,7 @@ def build(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
 
     actions: list[dict[str, Any]] = []
     actions.append(action(
-        'external-operational-evidence', 'USER', 'Run real host lifecycle and dual-channel burn-in', not live_go,
+        'external-operational-evidence', 'USER', 'Run real host lifecycle and dual-channel burn-in', (not governance_optional) and (not live_go),
         [
             f'python3 tools/verify_operator_kit.py {kit}',
             'python3 tools/preflight_operational_environment.py --allow-npx-bootstrap --probe-host',
@@ -84,7 +87,7 @@ def build(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
         f"Requires >= {host_count} real host lifecycle(s), channels {channels}, >= {policy.get('min_total_sessions')} total sessions, >= {policy.get('min_sessions_per_channel')} sessions/channel, and >= {policy.get('min_usage_window_hours')}h usage window. Synthetic fixtures never count as release evidence."
     ))
     actions.append(action(
-        'authoritative-import', 'ASSISTANT/MAINTAINER', 'Import and rebuild authoritative live gate', not live_go,
+        'authoritative-import', 'ASSISTANT/MAINTAINER', 'Import and rebuild authoritative live gate', (not governance_optional) and (not live_go),
         [
             'python3 tools/import_operational_evidence.py <returned-evidence.zip> --apply',
             'python3 tools/build_live_validation.py',
@@ -95,7 +98,7 @@ def build(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
         'This step must run in the authoritative repository. Imported evidence is revalidated against the candidate lock and checksums.'
     ))
     actions.append(action(
-        'human-promotion-approval', 'USER/RELEASE_OWNER', 'Approve the exact promotion context', promotion_status != 'APPROVED',
+        'human-promotion-approval', 'USER/RELEASE_OWNER', 'Approve the exact promotion context', (not governance_optional) and promotion_status != 'APPROVED',
         [
             'python3 tools/build_v2_promotion.py',
             'python3 tools/record_v2_approval.py approve --approver <name> --evidence-ref <ticket-or-note>',
@@ -106,7 +109,7 @@ def build(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
         'Approval is intentionally human and binds the exact promotion-context SHA-256. Any candidate drift invalidates it.'
     ))
     actions.append(action(
-        'signed-release-closure', 'USER/RELEASE_OWNER', 'Run signed immutable release ceremony', closure_status != 'PASS',
+        'signed-release-closure', 'USER/RELEASE_OWNER', 'Run signed immutable release ceremony', (not governance_optional) and closure_status != 'PASS',
         [
             'python3 tools/run_release_ceremony.py',
             'python3 tools/run_release_ceremony.py --publish',
@@ -119,6 +122,10 @@ def build(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
 
     if errors:
         status, next_checkpoint = 'INVALID_EVIDENCE', 'REPAIR_INPUTS'
+    elif not core_ready:
+        status, next_checkpoint = 'BLOCKED', 'REPAIR_CORE_V2_GATES'
+    elif governance_optional:
+        status, next_checkpoint = 'CORE_READY', 'READY_FOR_V2_CORE'
     elif closure_status == 'PASS':
         status, next_checkpoint = 'V1_EXIT_COMPLETE', 'READY_FOR_V2'
     elif not deterministic_ok:
@@ -140,6 +147,7 @@ def build(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
         'exit_status': status,
         'next_checkpoint': next_checkpoint,
         'summary': {
+            'core_v2_readiness': core.get('readiness_status'),
             'deterministic_candidate_ready': deterministic_ok,
             'handoff_status': handoff.get('handoff_status'),
             'host_lifecycle': host_status,
@@ -149,14 +157,15 @@ def build(root: Path, cfg: dict[str, Any]) -> dict[str, Any]:
             'release_readiness': readiness_status,
             'operational_release_closure': closure_status,
         },
-        'why_not_v2': [
+        'why_not_v2': ([] if core_ready else ['core GAS skill distribution gates have not reached READY_FOR_V2_CORE']),
+        'optional_governance_pending': [
             x for x in [
-                None if live_go else 'real live host lifecycle and required burn-in have not produced live-validation GO',
-                None if promotion_status == 'APPROVED' else 'exact promotion context has not received valid human approval',
-                None if readiness_status == 'READY_TO_TAG' else 'release candidate is not READY_TO_TAG',
-                None if closure_status == 'PASS' else 'signed immutable operational release closure is not PASS',
+                None if live_go else 'real host lifecycle / consumer burn-in not completed',
+                None if promotion_status == 'APPROVED' else 'human promotion approval not completed',
+                None if closure_status == 'PASS' else 'signed immutable operational release closure not completed',
             ] if x
         ],
+        'governance_profile': 'optional' if governance_optional else 'enterprise-blocking',
         'actions': actions,
         'errors': errors,
     }
@@ -179,23 +188,23 @@ def render(r: dict[str, Any]) -> str:
         f"# V2 Exit Plan — {r['repository_version']}", '',
         f"Exit status: **{r['exit_status']}**", '',
         f"Next checkpoint: **{r['next_checkpoint']}**", '',
-        '## Why v2 is not released yet', '',
+        '## Core v2 decision', '',
     ]
-    blockers = r.get('why_not_v2') or ['No remaining v1.x exit blockers.']
+    blockers = r.get('why_not_v2') or ['No remaining core v2 blockers for the GAS-skill distribution.']
     lines += [f'- {x}' for x in blockers]
     lines += ['', '## Gate snapshot', '', '| Gate | Status |', '|---|---|']
     for k, v in s.items(): lines.append(f"| `{k}` | `{v}` |")
-    lines += ['', '## Required actions', '']
+    lines += ['', '## Optional governance actions', '']
     for a in r['actions']:
         state = 'REQUIRED' if a['required'] else 'SATISFIED/NOT CURRENTLY REQUIRED'
         lines += [f"### {a['title']}", '', f"- Owner: **{a['owner']}**", f"- State: **{state}**", f"- {a['detail']}", '', '```bash', *a['commands'], '```', '']
-    lines += ['## Exit rule', '', 'Do not cut v2 until `exit_status` is `V1_EXIT_COMPLETE`. Static/synthetic PASS is insufficient for operational closure.', '']
+    lines += ['## Exit rule', '', 'Core v2 may proceed when `exit_status` is `CORE_READY` / `next_checkpoint` is `READY_FOR_V2_CORE`. Operational burn-in, human approval, and signed release closure remain optional governance controls unless an organization explicitly enables the enterprise-blocking profile.', '']
     return '\n'.join(lines)
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument('--root', default='.')
-    ap.add_argument('--config', default='packaging/v2-exit/exit-v1.35.5.json')
+    ap.add_argument('--config', default='packaging/v2-exit/exit-v1.35.6.json')
     a = ap.parse_args()
     root = Path(a.root).resolve()
     cfg = load(root / a.config)

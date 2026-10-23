@@ -4,14 +4,14 @@ from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'tools'))
 import preflight_operational_environment as pf
-CFG=json.loads((ROOT/'packaging/operational-handoff/handoff-v1.35.5.json').read_text())
+CFG=json.loads((ROOT/'packaging/operational-handoff/handoff-v1.35.6.json').read_text())
 
 class OperationalPreflightTests(unittest.TestCase):
     def fixture(self,td):
-        root=Path(td); out=root/'dist/operational-handoff-v1.35.5'; out.mkdir(parents=True)
-        lock={'schema_version':2,'repository_version':'v1.35.5','handoff_status':'HANDOFF_READY','candidate_digest':'abc123'}
+        root=Path(td); out=root/'dist/operational-handoff-v1.35.6'; out.mkdir(parents=True)
+        lock={'schema_version':2,'repository_version':'v1.35.6','handoff_status':'HANDOFF_READY','candidate_digest':'abc123'}
         (out/'handoff-lock.json').write_text(json.dumps(lock))
-        cfg=copy.deepcopy(CFG); cfg['output_distribution']='dist/operational-handoff-v1.35.5'
+        cfg=copy.deepcopy(CFG); cfg['output_distribution']='dist/operational-handoff-v1.35.6'
         return root,cfg
     def fake(self,path,version='0.64.0',rc=0):
         path.write_text(textwrap.dedent(f'''#!/usr/bin/env python3\nimport sys\nprint({version!r})\nraise SystemExit({rc})\n''')); path.chmod(0o755)

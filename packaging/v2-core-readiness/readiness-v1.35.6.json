@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "repository_version": "v1.35.6",
+  "scope": "gas-skills-for-ai",
+  "expected_skill_count": 19,
+  "inputs": {
+    "package_manifest": "dist/agent-skills-v1.35.6/manifest.json",
+    "evaluation_report": "reports/agent-skill-evaluation-v1.35.6.json",
+    "host_manifest": "dist/host-compat-v1.35.6/manifest.json",
+    "security_report": "dist/agent-skills-v1.35.6/security-report.json",
+    "cutover_rehearsal": "dist/v2-cutover-rehearsal-v1.35.6/cutover-manifest.json",
+    "shadow_rc": "dist/v2-shadow-rc-v1.35.6/shadow-rc.json"
+  },
+  "output_distribution": "dist/v2-core-readiness-v1.35.6",
+  "policy": {
+    "require_package_validity": true,
+    "require_evaluation_parity": true,
+    "require_static_host_compatibility": true,
+    "require_security_gate": true,
+    "require_cutover_rehearsal": true,
+    "require_shadow_rc": true,
+    "live_validation_blocking": false,
+    "operational_release_closure_blocking": false
+  },
+  "optional_inputs": {
+    "live_validation": "dist/live-validation-v1.35.6/manifest.json",
+    "operational_closure": "dist/operational-release-closure-v1.35.6/closure.json"
+  }
+}

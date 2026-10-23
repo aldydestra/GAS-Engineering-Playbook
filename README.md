@@ -4,30 +4,33 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.35.5 — V2 Exit Assistant & Human-Action Closure Kit
+## v1.35.6 — GAS Core Realignment & V2 Gate Simplification
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.5/` is the normalized installable package channel. The frozen v2 Shadow RC contract remains intact: package names, canonical rollback mappings, host-adapter identities, 21 signed release subjects, and skill major-version boundaries are unchanged.
+Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.6/` is the normalized installable package channel. v1.35.6 deliberately returns the project to its primary purpose: **giving AI agents reliable Google Apps Script engineering skills**.
 
-v1.35.5 focuses on **finishing the v1.x line correctly**. It adds a machine-readable V2 Exit Assistant that explains exactly why the candidate is still `NO_GO`, who owns the next action, which commands must run, and what evidence must return before the next gate can open. It also adds `tools/record_v2_approval.py` so human approval is recorded against the exact promotion-context digest rather than hand-edited JSON.
+The enterprise release-governance controls built during v1.30–v1.35 are retained, but 24-hour burn-in, human promotion approval, signed immutable ceremony, and operational closure are now **optional governance profiles** rather than hard blockers for the core skill distribution.
 
-Current deterministic state: **19/19 packages PASS**, evaluation parity PASS, v2 Shadow RC `PASS_STATIC`, release subjects **21/21 PASS_STATIC**, operational handoff `HANDOFF_READY`, portable operator kit PASS, and **101/101 unittest PASS** plus trust/revocation integration PASS.
-
-Current exit state is intentionally:
+A new scope-aligned gate is generated in `dist/v2-core-readiness-v1.35.6/`. The current candidate is:
 
 ```text
-v2 exit assistant          USER_ACTION_REQUIRED
-next checkpoint            RUN_EXTERNAL_OPERATIONAL_EVIDENCE
-live host lifecycle        NOT_RUN
-consumer burn-in           NOT_RUN
-v2 promotion               BLOCKED
-release readiness           BLOCKED
-operational closure         BLOCKED
+packages / coverage          PASS (19/19)
+evaluation parity            PASS
+static host compatibility    PASS
+security / trust             PASS_STATIC
+cutover rehearsal            PASS_STATIC
+Shadow RC / freeze           PASS_STATIC
+v2 core readiness            READY_FOR_V2_CORE
+optional live burn-in        NOT_RUN
+optional signed closure      BLOCKED
+repository tests             108/108 PASS
 ```
 
-What remains is real-world evidence and human release authority, not another static refactor. See:
+GAS-specific improvements in this release include executable V8 runtime compatibility checks that distinguish server-side Apps Script from HTML Service client JavaScript, plus refreshed performance/testing guidance around service-call budgets, batching, caching, bounded `UrlFetchApp.fetchAll()`, and the ordinary six-minute execution ceiling.
 
-- `dist/v2-exit-v1.35.5/V2_EXIT_PLAN.md`
-- `docs/v2-exit-plan-v1.35.5.md`
+See:
+
+- `docs/gas-core-realignment-v1.35.6.md`
+- `dist/v2-core-readiness-v1.35.6/V2_CORE_READINESS.md`
 - `docs/roadmap-to-v2.0.md`
 - `RELEASE_MANIFEST.md`
 
@@ -212,6 +215,7 @@ last_repository_update: "v1.13.0"
 | **v1.35.2** | **Portable Evidence Operator Kit & GAS/clasp Hardening: minimal candidate-bound execution kit, clasp path/credential/symlink preflight, web-app identity review, Chat App Home GA, and 77/77 regression tests** |
 | **v1.35.3** | **Operational Environment Preflight & GAS Deployment Drift Guard: exact host-runtime preflight, deployment/version reconciliation, and 90/90 regression tests** |
 | **v1.35.5** | **Candidate-Bound Evidence Chain & Workspace Add-on Release Drift Guard: exact-candidate live evidence binding, Marketplace/App Home/Studio release-state auditor, and 97/97 regression tests** |
+| **v1.35.6** | **GAS Core Realignment & V2 Gate Simplification: runtime-compatibility guardrails, optional governance profile, scope-aligned READY_FOR_V2_CORE gate** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 

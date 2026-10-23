@@ -42,6 +42,27 @@ class GasProjectAuditTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             p=self.project(td,{'runtimeVersion':'V8','webapp':{'access':'ANYONE_ANONYMOUS','executeAs':'USER_DEPLOYING'}})
             r=audit.audit(p); self.assertEqual(r['status'],'PASS'); self.assertIn('PUBLIC_WEBAPP_DEPLOYER_IDENTITY',{x['code'] for x in r['findings']})
+
+    def test_native_module_syntax_is_blocker(self):
+        with tempfile.TemporaryDirectory() as td:
+            r=audit.audit(self.project(td,{'runtimeVersion':'V8'},"import { x } from './x.js';\nfunction main(){ return x; }"))
+            self.assertEqual(r['status'],'FAIL'); self.assertIn('V8_NATIVE_MODULE_UNSUPPORTED',{x['code'] for x in r['findings']})
+    def test_browser_fetch_is_blocker_but_urlfetch_is_supported(self):
+        with tempfile.TemporaryDirectory() as td:
+            bad=audit.audit(self.project(td,{'runtimeVersion':'V8'},"function x(){ return fetch('https://example.com'); }"))
+            self.assertEqual(bad['status'],'FAIL'); self.assertIn('V8_BROWSER_FETCH_UNSUPPORTED',{x['code'] for x in bad['findings']})
+        with tempfile.TemporaryDirectory() as td:
+            good=audit.audit(self.project(td,{'runtimeVersion':'V8','urlFetchWhitelist':['https://example.com/']},"function x(){ return UrlFetchApp.fetch('https://example.com'); }"))
+            self.assertEqual(good['status'],'PASS')
+    def test_timer_and_node_globals_are_blockers(self):
+        with tempfile.TemporaryDirectory() as td:
+            r=audit.audit(self.project(td,{'runtimeVersion':'V8'},"function x(){ setTimeout(()=>{}, 10); return process.env.X; }"))
+            codes={x['code'] for x in r['findings']}; self.assertEqual(r['status'],'FAIL'); self.assertIn('V8_TIMER_API_UNSUPPORTED',codes); self.assertIn('V8_BROWSER_NODE_GLOBAL_UNSUPPORTED',codes)
+    def test_html_client_browser_apis_are_not_treated_as_server_runtime(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=self.project(td,{'runtimeVersion':'V8'}); (p/'Index.html').write_text("<script>setTimeout(()=>fetch('/x'), 10); console.log(window.location)</script>")
+            r=audit.audit(p); self.assertEqual(r['status'],'PASS')
+
     @unittest.skipIf(not hasattr(os,'symlink'),'symlink unsupported')
     def test_symlink_requires_review(self):
         with tempfile.TemporaryDirectory() as td:

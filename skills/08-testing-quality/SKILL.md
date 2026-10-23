@@ -1,10 +1,10 @@
 ---
 name: testing-quality
 description: "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality."
-skill_version: "1.6.5"
+skill_version: "1.7.0"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.35.5"
+last_repository_update: "v1.35.6"
 tags:
   - google-apps-script
   - testing
@@ -1975,3 +1975,4 @@ Required assertions:
 - release closure remains incomplete until the signed immutable release ceremony passes.
 
 Use `tools/build_v2_exit_assistant.py` as the deterministic status surface and `tools/record_v2_approval.py` to test human approval binding without hand-editing JSON evidence.
+\n\n# v1.35.6 — Runtime-Surface Tests for GAS\n\nTest server-side Apps Script and HTML Service client JavaScript as different runtime surfaces. Static checks for unsupported Apps Script V8 globals should target server-side `.gs` / `.js` / `.ts` sources and must not incorrectly fail browser APIs used inside HTML Service pages.\n\nMinimum production regression coverage should include:\n\n- manifest runtime pinned to V8;\n- no native module syntax pushed directly to Apps Script;\n- no server-side browser timers / global `fetch()` / Node globals;\n- supported `UrlFetchApp` alternatives remain accepted;\n- deployment and add-on manifest preflights remain clean.\n

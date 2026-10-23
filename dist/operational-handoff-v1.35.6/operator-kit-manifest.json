@@ -1,0 +1,130 @@
+{
+  "candidate_digest": "d5a7cce5a1ffbaf2c67b51810b0022a4d3a0df49160463d8b157e2c86a8a2dfc",
+  "files": [
+    {
+      "path": "OPERATOR_README.md",
+      "sha256": "3492e75d72cf281d989c5a6e5ce34caa0792685b77e2f772f898d8765973e99f",
+      "size": 1429
+    },
+    {
+      "path": "dist/agent-skills-v1.35.6/packages/agent-skill-engineering.skill",
+      "sha256": "47aa59af94c6abbcf672199982126966b661814c32c25c4c508eb6e4d0028de3",
+      "size": 16634
+    },
+    {
+      "path": "dist/dual-distribution-v1.35.6/release-index.json",
+      "sha256": "4df5523eb14c7787779016b42390d5af292b81bb0e8826e4cc6830e2ea454632",
+      "size": 2006
+    },
+    {
+      "path": "dist/host-compat-v1.35.6/manifest.json",
+      "sha256": "f89a68b10e52c55aaf88911e32d8fec727fc964c7040247faf432857aaf40474",
+      "size": 1223
+    },
+    {
+      "path": "dist/operational-handoff-v1.35.6/handoff-lock.json",
+      "sha256": "0f444022363c8f93e40f779377a84d02a18e466b9d25276864c03542dc3c4256",
+      "size": 4860
+    },
+    {
+      "path": "dist/release-subjects-v1.35.6/inventory.json",
+      "sha256": "1f554055907b0203b2bef975c452e6a0996fdb28daa0c02400d897770af03aa8",
+      "size": 6049
+    },
+    {
+      "path": "dist/v2-shadow-rc-v1.35.6/contract-freeze.json",
+      "sha256": "521b9135a0b954f8b38a8790c4f42fd8e67993cefdc8a4f2a5fe65092252b444",
+      "size": 3407
+    },
+    {
+      "path": "dist/v2-shadow-rc-v1.35.6/shadow-rc.json",
+      "sha256": "9a2a084c99d1ced2bfad420124174a2af43e05942494688ee9c2cf2daf91ac89",
+      "size": 6049
+    },
+    {
+      "path": "packaging/live-validation/live-v1.35.6.json",
+      "sha256": "48e49e89e5ec02b7eacee65a9bb887d7f04f2313925e3cd405ba145b1d0a27be",
+      "size": 1826
+    },
+    {
+      "path": "packaging/operational-handoff/handoff-v1.35.6.json",
+      "sha256": "0da1a11a6e427c6c178bb901bac5ce4fc574fd4a082d5218087a387cdd300377",
+      "size": 1636
+    },
+    {
+      "path": "tools/build_live_validation.py",
+      "sha256": "2c29843b68ae1956955112aeb373ca720ad01ed0a626eda11d2687ab00d0c48c",
+      "size": 31062
+    },
+    {
+      "path": "tools/build_operational_handoff.py",
+      "sha256": "bc2c6f5a31d0685a32d5c5f584f689d486e2b72a72cc10973160a372eaf7e52f",
+      "size": 10097
+    },
+    {
+      "path": "tools/build_operational_release_closure.py",
+      "sha256": "33a68b1b3d8c61667cd055811c965562625518c1cace36f363f24b6c5508e897",
+      "size": 10390
+    },
+    {
+      "path": "tools/build_release_readiness.py",
+      "sha256": "f1660eaf1779f6627b665f5bec115bb699dd3e2343342a63ed3ecfe1581252c4",
+      "size": 7856
+    },
+    {
+      "path": "tools/build_v2_promotion.py",
+      "sha256": "cead39af66b3d343a5e722b016d3e5ee5fbeb624e492f464c96e534678f87937",
+      "size": 8345
+    },
+    {
+      "path": "tools/collect_operational_evidence.py",
+      "sha256": "f5385912dc8e9249638c37fd43db4be72fbbd593b20908c35748207376e4286b",
+      "size": 4931
+    },
+    {
+      "path": "tools/import_operational_evidence.py",
+      "sha256": "1e2a106c4a9afa7b71d004ac3a929f643b0720d0f2ad17f0167cb8c971e6322f",
+      "size": 6368
+    },
+    {
+      "path": "tools/preflight_operational_environment.py",
+      "sha256": "06013c1abd206206d5f1113575aa08ea9a0bd3b7cdd90156e5af1ca940a62dcb",
+      "size": 6741
+    },
+    {
+      "path": "tools/record_burn_in.py",
+      "sha256": "df32d700d101cc52ec045530d651e8ce3d6bdfcc8bc000cc4437b2a878e65f7b",
+      "size": 17246
+    },
+    {
+      "path": "tools/run_live_host_smoke.py",
+      "sha256": "bd845d2610f227898e3ae7dee7ce29cc7bf1a1ae5524ef6cda91c1c0fc2e7c3d",
+      "size": 23988
+    },
+    {
+      "path": "tools/run_release_ceremony.py",
+      "sha256": "dfdf5b3b907d85d92327fadcbf623a8521ec8baae6da98c98c945c9eba3dfaf9",
+      "size": 11054
+    },
+    {
+      "path": "tools/verify_live_validation.py",
+      "sha256": "4ff6c97a830d1073167629c70972375699027692c9244a689d093254f21b47e3",
+      "size": 2972
+    },
+    {
+      "path": "tools/verify_operational_handoff.py",
+      "sha256": "d887c1d2fc6be6b76dcc2fde235b9eec0f6ddcd20dcef141209d47143b59812d",
+      "size": 3171
+    },
+    {
+      "path": "tools/verify_operator_kit.py",
+      "sha256": "82240f4f64780a2ccfd19978f6baba8bde5437e9e4fe13e94aece0a8b49bfaac",
+      "size": 4808
+    }
+  ],
+  "handoff_config_path": "packaging/operational-handoff/handoff-v1.35.6.json",
+  "handoff_lock_path": "dist/operational-handoff-v1.35.6/handoff-lock.json",
+  "handoff_lock_sha256": "0f444022363c8f93e40f779377a84d02a18e466b9d25276864c03542dc3c4256",
+  "repository_version": "v1.35.6",
+  "schema_version": 1
+}

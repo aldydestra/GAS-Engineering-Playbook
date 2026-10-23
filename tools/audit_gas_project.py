@@ -6,9 +6,16 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 CODE_SUFFIXES={'.gs','.js','.ts','.html'}
+SERVER_CODE_SUFFIXES={'.gs','.js','.ts'}
 DEPRECATED_MAPS_RE=re.compile(r'\bMaps\s*\.\s*setAuthentication\s*\(')
 URLFETCH_RE=re.compile(r'\bUrlFetchApp\s*\.\s*(?:fetch|fetchAll)\s*\(')
 OPENLINK_RE=re.compile(r'\b(?:CardService\s*\.\s*newOpenLink|newOpenLink)\s*\(|\.\s*setUrl\s*\(\s*["\']https?://',re.I)
+NATIVE_MODULE_RE=re.compile(r'(?m)^\s*(?:import\s+(?!\()|export\s+(?:default\s+)?(?:const|let|var|function|class|\{))')
+UNSUPPORTED_TIMER_RE=re.compile(r'\b(?:setTimeout|setInterval|clearTimeout|clearInterval)\s*\(')
+BROWSER_FETCH_RE=re.compile(r'(?<![.\w])fetch\s*\(')
+UNSUPPORTED_WEB_API_RE=re.compile(r'\b(?:FormData|URLSearchParams|ReadableStream|WritableStream|TextEncoder|TextDecoder|DOMException)\b')
+BROWSER_GLOBAL_RE=re.compile(r'\b(?:window|document|navigator|performance|process)\s*\.')
+WEB_CRYPTO_RE=re.compile(r'\bcrypto\s*\.')
 
 
 def load_json(path:Path)->dict[str,Any]:
@@ -70,7 +77,17 @@ def audit(project:Path,production:bool=True)->dict[str,Any]:
             try: code.append((p,p.read_text(encoding='utf-8',errors='replace')))
             except OSError: pass
     for p,text in code:
-        if DEPRECATED_MAPS_RE.search(text): add(findings,'ERROR','MAPS_CLIENT_ID_AUTH_RETIRED','Maps.setAuthentication(clientId, signingKey) is retired; migrate to the current API-key authentication method.',p.relative_to(project).as_posix())
+        rel=p.relative_to(project).as_posix()
+        if DEPRECATED_MAPS_RE.search(text): add(findings,'ERROR','MAPS_CLIENT_ID_AUTH_RETIRED','Maps.setAuthentication(clientId, signingKey) is retired; migrate to the current API-key authentication method.',rel)
+        # Apps Script V8 is modern JavaScript, but it is not Node.js or a browser runtime.
+        # Scan server-side files only; HTML-service client JavaScript legitimately has browser APIs.
+        if p.suffix.lower() in SERVER_CODE_SUFFIXES:
+            if NATIVE_MODULE_RE.search(text): add(findings,'ERROR','V8_NATIVE_MODULE_UNSUPPORTED','Native ES module import/export syntax is not supported by the Apps Script V8 runtime; bundle dependencies or use Apps Script libraries.',rel)
+            if UNSUPPORTED_TIMER_RE.search(text): add(findings,'ERROR','V8_TIMER_API_UNSUPPORTED','setTimeout/setInterval style timers are unavailable in Apps Script server-side V8. Use bounded synchronous work or trigger-based continuation.',rel)
+            if BROWSER_FETCH_RE.search(text): add(findings,'ERROR','V8_BROWSER_FETCH_UNSUPPORTED','Browser/global fetch() is unavailable in Apps Script server-side V8; use UrlFetchApp.fetch() or UrlFetchApp.fetchAll().',rel)
+            if UNSUPPORTED_WEB_API_RE.search(text): add(findings,'ERROR','V8_WEB_API_UNSUPPORTED','This browser/stream Web API is unavailable in Apps Script server-side V8; use an Apps Script-compatible alternative or polyfill only after compatibility review.',rel)
+            if BROWSER_GLOBAL_RE.search(text): add(findings,'ERROR','V8_BROWSER_NODE_GLOBAL_UNSUPPORTED','Browser/Node globals such as window, document, navigator, performance, or process are unavailable in Apps Script server-side V8.',rel)
+            if WEB_CRYPTO_RE.search(text): add(findings,'ERROR','V8_WEB_CRYPTO_UNSUPPORTED','Web Crypto is unavailable in Apps Script server-side V8; use Utilities digest/HMAC/signature functions where applicable.',rel)
     uses_fetch=any(URLFETCH_RE.search(t) for _,t in code)
     is_addon=isinstance(manifest,dict) and isinstance(manifest.get('addOns'),dict)
     if production and uses_fetch and not manifest.get('urlFetchWhitelist'):
@@ -94,7 +111,7 @@ def audit(project:Path,production:bool=True)->dict[str,Any]:
             add(findings,'WARN','WEBAPP_DEPLOYER_IDENTITY','Web app executes as the deployer; verify callers cannot inherit unintended deployer privileges.')
     audit_clasp(project,findings)
     counts={s:sum(1 for f in findings if f['severity']==s) for s in ('ERROR','WARN','INFO')}
-    return {'schema_version':2,'project':str(project),'mode':'production' if production else 'test','status':'PASS' if counts['ERROR']==0 else 'FAIL','counts':counts,'findings':findings}
+    return {'schema_version':3,'project':str(project),'mode':'production' if production else 'test','status':'PASS' if counts['ERROR']==0 else 'FAIL','counts':counts,'findings':findings}
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('project',nargs='?',default='.'); ap.add_argument('--test-deployment',action='store_true'); ap.add_argument('--json-output'); a=ap.parse_args(); result=audit(Path(a.project).resolve(),production=not a.test_deployment)

@@ -77,10 +77,10 @@ def evaluate(root:Path,cfg:dict[str,Any])->dict[str,Any]:
     }
 
 def render(r:dict[str,Any])->str:
-    s=r.get('summary',{}); lines=[f"# v2 Shadow RC & Breaking-Change Freeze — {r['repository_version']}",'',f"Shadow RC status: **{r['shadow_rc_status']}**",'',"This checkpoint freezes distribution contracts while still allowing non-breaking skill-content improvements, including the GAS refresh in v1.35.5.",'']
+    s=r.get('summary',{}); lines=[f"# v2 Shadow RC & Breaking-Change Freeze — {r['repository_version']}",'',f"Shadow RC status: **{r['shadow_rc_status']}**",'',"This checkpoint freezes distribution contracts while still allowing non-breaking skill-content improvements, including the GAS refresh in v1.35.6.",'']
     if r.get('contract_digest'): lines += ['## Frozen Contract','',f"Contract SHA-256: `{r['contract_digest']['value']}`",'',f"- package names: `{s.get('current_skills')}` / `{s.get('expected_skills')}`",f"- removed package names: `{s.get('removed_packages')}`",f"- added package names: `{s.get('added_packages')}`",f"- canonical mapping drifts: `{s.get('canonical_mapping_drifts')}`",f"- host contract changed: `{s.get('host_contract_changed')}`",f"- skill major-version drifts: `{s.get('skill_major_drifts')}`",'']
     if r.get('non_breaking_skill_version_changes'):
-        lines += ['## Allowed Non-Breaking Skill Updates','', '| Skill | Before | v1.35.5 |','|---|---:|---:|']
+        lines += ['## Allowed Non-Breaking Skill Updates','', '| Skill | Before | v1.35.6 |','|---|---:|---:|']
         for x in r['non_breaking_skill_version_changes']: lines.append(f"| `{x['package_name']}` | `{x['before']}` | `{x['after']}` |")
         lines.append('')
     if r.get('blockers'): lines += ['## Blockers','']+[f'- {x}' for x in r['blockers']]+['']
@@ -98,5 +98,5 @@ def build(root:Path,cfg:dict[str,Any])->dict[str,Any]:
     return r
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-shadow-rc/shadow-v1.35.5.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"v2 shadow RC: {r['shadow_rc_status']}")
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/v2-shadow-rc/shadow-v1.35.6.json'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"v2 shadow RC: {r['shadow_rc_status']}")
 if __name__=='__main__': main()

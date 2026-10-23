@@ -5,7 +5,7 @@ import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools'))
 import build_v2_promotion as promo
-CFG=json.loads((ROOT/'packaging/v2-promotion/promotion-v1.35.5.json').read_text())
+CFG=json.loads((ROOT/'packaging/v2-promotion/promotion-v1.35.6.json').read_text())
 V=CFG['repository_version']
 
 class PromotionTests(unittest.TestCase):

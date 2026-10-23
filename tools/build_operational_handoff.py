@@ -128,7 +128,7 @@ Status: **{result['handoff_status']}**
 
 Candidate digest: `{candidate_digest or 'N/A'}`
 
-The handoff now ships a portable operator kit. The external machine does not need the full repository for host lifecycle and burn-in evidence collection. The v1.35.5 kit also requires a candidate-bound environment preflight before the live runner proceeds.
+The handoff now ships a portable operator kit. The external machine does not need the full repository for host lifecycle and burn-in evidence collection. The v1.35.6 kit also requires a candidate-bound environment preflight before the live runner proceeds.
 
 ## Authoritative side
 
@@ -171,7 +171,7 @@ Promotion approval and release ceremony remain authoritative-side operations aft
     return result
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.5.json'); a=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.6.json'); a=ap.parse_args()
     root=Path(a.root).resolve(); cfg=load(root/a.config); r=build(root,cfg); print(f"operational handoff: {r['handoff_status']}")
     if r['handoff_status']!='HANDOFF_READY': raise SystemExit(2)
 if __name__=='__main__': main()

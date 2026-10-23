@@ -1,361 +1,258 @@
-# Release Manifest — v1.35.5
+# Release Manifest — v1.35.6
 
-## Release identity
+## 1. Release Identity
 
-- **Version:** `v1.35.5`
-- **Release name:** V2 Exit Assistant & Human-Action Closure Kit
-- **Release line:** v1.35.x v2 Shadow RC stabilization / v1.x exit closure
-- **Release date:** 2026-10-21
-- **Primary objective:** keep the frozen v2 package-first contract intact while converting the remaining operational blockers into an explicit, machine-readable owner/action plan that can be completed with real user/release-owner evidence.
-- **v2 decision:** `NO_GO` until real host lifecycle + dual-channel burn-in reach `GO`, the current promotion context receives explicit approval, release readiness becomes `READY_TO_TAG`, and signed immutable operational release closure reaches `PASS`.
+- **Repository:** GAS Engineering Playbook
+- **Version:** `v1.35.6`
+- **Release theme:** GAS Core Realignment & V2 Gate Simplification
+- **Primary product:** Google Apps Script engineering skills packaged for AI agents
+- **Canonical source:** `skills/`
+- **Normalized distribution:** `dist/agent-skills-v1.35.6/`
+- **Expected skill count:** 19
+- **Breaking-change policy:** v1.35 Shadow RC freeze remains active
+- **Core v2 decision:** `READY_FOR_V2_CORE` / `V2_CORE_GO`
 
-v1.35.5 is intentionally not v2.0.0. The deterministic candidate is already healthy; the remaining evidence depends on real authenticated execution and release authority. This release adds tooling to make those human/external steps precise without weakening the fail-closed gates.
+v1.35.6 corrects an over-expansion of release governance. The v1.30–v1.35 series added useful live-evidence, burn-in, approval, signing, and immutable-release controls, but those controls had become mandatory blockers for a repository whose actual product is a set of GAS skills for AI agents. This release separates **product correctness** from **optional enterprise governance**.
 
----
+## 2. Scope-Aligned v2 Contract
 
-## 1. Why v2 is not ready yet
+The default hard gate for v2 now requires:
 
-Current machine-generated exit state:
+1. all 19 canonical skills package successfully;
+2. package coverage is complete and package archives validate;
+3. canonical/package evaluation parity passes;
+4. supported AI host adapters pass static compatibility validation;
+5. Agent Skill security/trust/provenance gate passes;
+6. package-first cutover rehearsal passes;
+7. v2 Shadow RC / breaking-change freeze passes.
 
-```text
-v2 exit assistant                      USER_ACTION_REQUIRED
-next checkpoint                        RUN_EXTERNAL_OPERATIONAL_EVIDENCE
-deterministic candidate ready          true
-operational handoff                    HANDOFF_READY
-live host lifecycle                    NOT_RUN
-consumer burn-in                       NOT_RUN
-live validation                        NO_GO
-v2 promotion                           BLOCKED
-release readiness                      BLOCKED
-operational release closure            BLOCKED
-```
+The following remain available, but are **optional governance/confidence controls** under the default project policy:
 
-The blockers are causal, not independent defects:
+- authenticated live host lifecycle;
+- 24-hour dual-channel consumer burn-in;
+- human promotion approval;
+- signed immutable release ceremony;
+- operational release closure.
 
-```text
-host lifecycle NOT_RUN + burn-in NOT_RUN
-→ live validation NO_GO
-→ promotion BLOCKED
-→ readiness BLOCKED
-→ release ceremony cannot legitimately complete
-→ operational closure BLOCKED
-```
+A downstream organization may explicitly turn these back into blocking controls by adopting an enterprise policy.
 
-Static/synthetic tests cannot replace these steps because doing so would turn unavailable evidence into a false PASS.
+## 3. New v2 Core Readiness Layer
 
----
+### Added
 
-## 2. Added — V2 Exit Assistant
+- `tools/build_v2_core_readiness.py`
+- `tools/verify_v2_core_readiness.py`
+- `tools/test_v2_core_readiness.py`
+- `packaging/v2-core-readiness/readiness-v1.35.6.json`
+- `dist/v2-core-readiness-v1.35.6/readiness.json`
+- `dist/v2-core-readiness-v1.35.6/V2_CORE_READINESS.md`
+- `dist/v2-core-readiness-v1.35.6/SHA256SUMS`
 
-New files:
-
-- `tools/build_v2_exit_assistant.py`
-- `tools/verify_v2_exit_assistant.py`
-- `tools/test_v2_exit_assistant.py`
-- `packaging/v2-exit/exit-v1.35.5.json`
-- `dist/v2-exit-v1.35.5/status.json`
-- `dist/v2-exit-v1.35.5/V2_EXIT_PLAN.md`
-- `dist/v2-exit-v1.35.5/SHA256SUMS`
-- `docs/v2-exit-plan-v1.35.5.md`
-
-The assistant consumes the current authoritative outputs for:
-
-- live validation;
-- operational handoff;
-- v2 promotion;
-- release readiness;
-- operational release closure;
-- exact release-subject inventory.
-
-It resolves a single next checkpoint from the actual state rather than relying on manually maintained release notes.
-
-Possible next-checkpoint classes include:
+### Current core result
 
 ```text
-REPAIR_INPUTS
-REBUILD_STATIC_CANDIDATE
-RUN_EXTERNAL_OPERATIONAL_EVIDENCE
-APPROVE_PROMOTION_CONTEXT
-REBUILD_PROMOTION
-REBUILD_RELEASE_READINESS
-RUN_SIGNED_RELEASE_CEREMONY
-READY_FOR_V2
+package validity             PASS
+evaluation parity            PASS
+static host compatibility    PASS
+security gate                PASS
+cutover rehearsal            PASS_STATIC
+Shadow RC / freeze           PASS_STATIC
+----------------------------------------
+v2 core readiness            READY_FOR_V2_CORE
+decision                     V2_CORE_GO
 ```
 
-The current result is:
+This result does not claim that optional operational evidence has occurred. It states only that the **core GAS-skill distribution contract is ready**.
+
+## 4. V2 Exit Assistant Realignment
+
+`tools/build_v2_exit_assistant.py` remains available, but its semantics now follow the project scope.
+
+Default profile:
 
 ```text
-USER_ACTION_REQUIRED / RUN_EXTERNAL_OPERATIONAL_EVIDENCE
+exit_status      CORE_READY
+next_checkpoint  READY_FOR_V2_CORE
 ```
 
----
+The previous live/burn-in/approval/ceremony actions remain visible in the generated plan but are marked non-required under the default profile. An enterprise profile can still make them blocking.
 
-## 3. Added — exact-context human approval recorder
+This preserves all governance tooling without forcing it on the core skill release.
 
-New:
+## 5. GAS Runtime Compatibility Hardening
 
-- `tools/record_v2_approval.py`
-- `tools/test_v2_approval.py`
+`tools/audit_gas_project.py` advances from schema v2 to schema v3.
 
-The tool removes the need to hand-edit `v2-approval.json`.
+### New server-side V8 blockers
 
-Approval flow:
+For `.gs`, `.js`, and `.ts` server-side Apps Script sources, production preflight now rejects:
 
-```bash
-python3 tools/build_v2_promotion.py
-python3 tools/record_v2_approval.py approve \
-  --approver <name> \
-  --evidence-ref <ticket-or-note>
-python3 tools/build_v2_promotion.py
-python3 tools/build_release_readiness.py
-```
+- native ES module `import` / `export`;
+- `setTimeout`, `setInterval`, `clearTimeout`, `clearInterval`;
+- browser/global `fetch()`;
+- `FormData`, `URLSearchParams`, stream/text encoder APIs unsupported by Apps Script V8;
+- browser/Node globals such as `window`, `document`, `navigator`, `performance`, and `process`;
+- Web Crypto usage via `crypto.*`.
 
-Safety properties:
+Preferred Apps Script alternatives are documented where relevant, including:
 
-- approval is refused unless promotion is exactly `READY_FOR_APPROVAL`;
-- approval is bound to the current `promotion_context_sha256`;
-- candidate/input drift changes the promotion context and invalidates stale approval through the existing verifier;
-- rejection is explicit and recorded;
-- the tool does not auto-approve based on CI/static PASS.
+- `UrlFetchApp.fetch()` / bounded `UrlFetchApp.fetchAll()`;
+- trigger-based continuation for long-running work;
+- Apps Script `Utilities` digest/HMAC/signature functions.
 
-Current promotion-context SHA-256:
+### HTML Service runtime distinction
 
-`482bd210d8872054f55097e9c0a968e0bc343bad26b66a9f9705ba69c32aa6c3`
+The auditor deliberately does **not** apply server-side V8 restrictions to `.html` client JavaScript. HTML Service code executes in a browser and can legitimately use browser APIs such as `window`, timers, and browser `fetch()` where allowed by the web page/security context.
 
-This value will change after real live evidence is imported, so it must **not** be approved yet.
+This distinction prevents false positives while still catching common Node/browser-to-GAS copy/paste errors in server-side code.
 
----
+## 6. GAS Guidance Refresh
 
-## 4. What the user/release owner must do
+Official Apps Script guidance reviewed during v1.35.6 supports the following production baseline:
 
-### 4.1 Real supported-host lifecycle
+- V8 is the maintained Apps Script runtime; Rhino/`DEPRECATED_ES5` is retired.
+- Apps Script V8 is not a complete browser or Node.js runtime.
+- Native ES modules are not supported directly by Apps Script V8.
+- Browser timers and several Web APIs are unavailable server-side.
+- `UrlFetchApp.fetchAll()` is the platform mechanism for parallel independent outbound HTTP requests.
+- ordinary script execution is documented at six minutes per execution.
+- minimizing Workspace/external service calls, batching reads/writes, and caching expensive stable reads remain primary performance practices.
+- quota numbers must be treated as externally changeable platform limits and rechecked against official documentation when they materially affect design.
 
-Run the portable operator kit on a real machine that can access/authenticate the supported host runtime.
+## 7. Skill Version Changes
 
-Authoritative operator kit:
-
-`dist/operational-handoff-v1.35.5/operational-evidence-operator-kit-v1.35.5.zip`
-
-Whole-ZIP SHA-256:
-
-`601526acf383ada0882ce9335e5b1bbd5e96c15578d39a66491ae129fe6f12b0`
-
-Handoff candidate digest:
-
-`e7c098b44363c95a41afa3df8812fded45d7788c934df8718cbc5fdd59dd951e`
-
-External sequence:
-
-```bash
-python3 tools/verify_operator_kit.py \
-  dist/operational-handoff-v1.35.5/operational-evidence-operator-kit-v1.35.5.zip
-
-python3 tools/preflight_operational_environment.py \
-  --allow-npx-bootstrap \
-  --probe-host
-
-python3 tools/run_live_host_smoke.py \
-  --host gemini-cli \
-  --npx-bootstrap
-```
-
-The lifecycle must prove the configured install → activation → update → uninstall path and must remain bound to the exact candidate/preflight receipt.
-
-### 4.2 Real dual-channel burn-in
-
-Policy remains:
-
-| Requirement | Minimum |
-|---|---:|
-| Total sessions | 4 |
-| Canonical sessions | 2 |
-| Package sessions | 2 |
-| Unique consumers | 1 |
-| Usage window | 24 hours |
-| Blocking incidents | 0 |
-| Hash chain | required |
-
-Record at least one canonical + one package observation, then repeat after enough elapsed time that the full observation window is at least 24 hours.
-
-```bash
-python3 tools/record_burn_in.py record \
-  --channel canonical \
-  --consumer <alias> \
-  --summary <summary> \
-  --evidence-ref <ref>
-
-python3 tools/record_burn_in.py record \
-  --channel package \
-  --consumer <alias> \
-  --summary <summary> \
-  --evidence-ref <ref>
-```
-
-After the minimum window and session counts are satisfied:
-
-```bash
-python3 tools/record_burn_in.py finalize
-python3 tools/collect_operational_evidence.py
-```
-
-Return the generated evidence ZIP to the authoritative repository.
-
-### 4.3 Promotion approval
-
-After imported evidence makes live validation `GO`, rebuild promotion. Only when it says `READY_FOR_APPROVAL` should the release owner record approval with `tools/record_v2_approval.py`.
-
-### 4.4 Signed immutable release closure
-
-After approval makes release readiness `READY_TO_TAG`, run the release ceremony preflight and publication flow with repository signing/release authority.
-
-```bash
-python3 tools/run_release_ceremony.py
-python3 tools/run_release_ceremony.py --publish
-python3 tools/build_operational_release_closure.py
-python3 tools/verify_operational_release_closure.py
-```
-
-The ceremony requires valid subject attestations, immutable release support, exact frozen assets, and release attestation verification.
-
----
-
-## 5. What the assistant/maintainer can do after evidence is returned
-
-Once the user returns the operational evidence ZIP, the remaining deterministic work can be performed in the authoritative repository:
-
-```bash
-python3 tools/import_operational_evidence.py <returned-evidence.zip> --apply
-python3 tools/build_live_validation.py
-python3 tools/verify_live_validation.py
-python3 tools/build_v2_promotion.py
-python3 tools/build_v2_exit_assistant.py
-```
-
-If live validation becomes `GO`, the next machine-generated checkpoint should become `APPROVE_PROMOTION_CONTEXT` rather than `RUN_EXTERNAL_OPERATIONAL_EVIDENCE`.
-
-A connected GitHub integration or an authenticated `gh` CLI environment can then be used for the later signed release ceremony; this capability is deliberately not embedded in the external evidence kit.
-
----
-
-## 6. Skill version changes
-
-Only skills with material v1.x-exit behavior/guidance changes were bumped.
-
-| Skill | v1.35.4 | v1.35.5 | Material change |
+| Skill | v1.35.5 | v1.35.6 | Update |
 |---|---:|---:|---|
-| 08 — Testing & Quality | 1.6.4 | **1.6.5** | exit acceptance tests; real-evidence vs static/synthetic distinction; approval-binding tests |
-| 10 — Deployment Engineering | 1.14.0 | **1.15.0** | explicit owner/action v1.x closure sequence and exact-context approval workflow |
-| 14 — Workspace Add-ons & Chat | 1.6.0 | 1.6.0 | unchanged |
-| 18 — Agent Skill Supply-Chain Security | 1.12.0 | 1.12.0 | unchanged |
-| 19 — Agent Skill Engineering | 1.11.0 | 1.11.0 | unchanged |
+| 01 — GAS Core Engineering | 1.4.1 | **1.5.0** | V8 server-runtime compatibility baseline; server vs HTML Service runtime distinction; executable audit guidance |
+| 06 — Performance Engineering | 1.4.0 | **1.5.0** | service-call budget, bounded `fetchAll`, batching/cache guidance, execution ceiling as planning constraint |
+| 08 — Testing & Quality | 1.6.5 | **1.7.0** | runtime-surface regression tests and server/browser false-positive prevention |
+| 10 — Deployment Engineering | 1.15.0 | **1.16.0** | scope-aligned v2 gate; enterprise governance becomes optional policy |
 
-All other skill versions remain unchanged from v1.35.4.
+All other skills retain their prior versions. In particular, Agent Skill 18 and 19 are intentionally **not** bumped merely because release-gating behavior changed.
 
-No package name, package identity, canonical rollback identity, host-adapter identity, release-subject membership, or skill major version changed.
+## 8. Validation Results
 
----
-
-## 7. New/changed implementation surfaces
-
-### New
-
-- `tools/build_v2_exit_assistant.py`
-- `tools/verify_v2_exit_assistant.py`
-- `tools/test_v2_exit_assistant.py`
-- `tools/record_v2_approval.py`
-- `tools/test_v2_approval.py`
-- `packaging/v2-exit/exit-v1.35.5.json`
-- `dist/v2-exit-v1.35.5/`
-- `docs/v2-exit-plan-v1.35.5.md`
-
-### Changed
-
-- Skills 08 and 10
-- `.github/workflows/agent-skill-packaging.yml`
-- current-version packaging/evidence configs for v1.35.5
-- README / changelog / release notes / security / roadmap documentation
-- operational handoff/versioned evidence paths for the current patch candidate
-
----
-
-## 8. Validation
-
-### Deterministic/static gates
+### Distribution and routing
 
 ```text
 canonical skills                         19
 normalized packages                      19
 package validation                       PASS (19/19)
+package coverage                         PASS (19/19)
 evaluation gate                          PASS
-host static compatibility                PASS_STATIC
+description parity                       PASS (19/19)
+capability assertions                    PASS
+static host compatibility                PASS (3 adapters)
+```
+
+### Trust and cutover
+
+```text
 security/catalog/provenance              PASS_STATIC
+critical findings                        0
+high findings                            0
 dual-distribution RC                     PASS_STATIC
+rollback drill                           PASS_STATIC
 v2 cutover rehearsal                     PASS_STATIC
 v2 Shadow RC                             PASS_STATIC
 breaking-change freeze                   PASS
 release subject inventory                PASS_STATIC (21/21)
-operational handoff                      HANDOFF_READY
-portable operator kit                    PASS
-live-validation harness                  HARNESS_READY
-v2 exit assistant                        USER_ACTION_REQUIRED
 ```
 
-### Test suite
+### Scope-aligned v2 gate
 
 ```text
-repository unittest methods              101/101 PASS
+v2 core readiness                        READY_FOR_V2_CORE
+v2 core decision                         V2_CORE_GO
+v2 exit assistant                        CORE_READY
+next checkpoint                          READY_FOR_V2_CORE
+```
+
+### Optional governance state
+
+```text
+live-validation harness                  HARNESS_READY
+live host lifecycle                      NOT_RUN
+consumer burn-in                         NOT_RUN
+operational handoff                      HANDOFF_READY
+promotion                                BLOCKED
+release readiness                        BLOCKED
+signed operational closure               BLOCKED
+```
+
+These optional states are retained truthfully; they are simply no longer interpreted as defects in the core GAS-skill distribution.
+
+### Automated tests
+
+```text
+unit-test batch A                        63/63 PASS
+unit-test batch B                        45/45 PASS
+total repository unit tests              108/108 PASS
 trust/revocation integration             PASS
 ```
 
-The 101 tests were executed in two explicit batches (45 + 56) to avoid execution-time limits; both batches completed with zero failures/errors. The trust/revocation integration script also passed independently.
+New v1.35.6 coverage includes:
 
-### Operational gates
+- native ES module detection in GAS server code;
+- browser/global `fetch()` rejection server-side while accepting `UrlFetchApp`;
+- unsupported timer and Node-global detection;
+- HTML Service browser API false-positive prevention;
+- optional governance does not block `READY_FOR_V2_CORE`;
+- static/core failure still blocks v2;
+- enterprise policy can re-enable live-validation blocking.
 
-```text
-live host lifecycle                      NOT_RUN
-consumer burn-in                         NOT_RUN
-v2 readiness                             NO_GO
-v2 promotion                             BLOCKED
-release readiness                        BLOCKED
-operational release closure              BLOCKED
-v1 exit status                           USER_ACTION_REQUIRED
-next checkpoint                          RUN_EXTERNAL_OPERATIONAL_EVIDENCE
-```
+## 9. CI Changes
 
-These blocked states are expected and are the reason this release remains v1.35.x.
+`.github/workflows/agent-skill-packaging.yml` now builds, verifies, and tests the scope-aligned core readiness layer and includes its output in reproducibility checks.
 
----
+The signed-attestation workflow remains intact as an **optional enterprise-governance workflow**. It may continue requiring `READY_TO_TAG` when explicitly invoked; this does not redefine the default core v2 gate.
 
-## 9. Current candidate digests
+## 10. Files Added or Materially Changed
 
-| Surface | SHA-256 |
-|---|---|
-| Package manifest | `c7134e45091a400cfe44d6049c432e0d0708511dfeb6aa938d7e5bd63549faa2` |
-| Host manifest | `4bb4e9de2c59976a4f6a4a2f3c0f673903bfe48627e57115e1a0eac20ed8621c` |
-| Dual-distribution release index | `ddfed3bb317463c431dda05118a1818587142e386160f3e6da8ca8fc383d7b23` |
-| Live-validation manifest | `7d05ce690d9039c226af5415cc6e002e2e7ae030c431c26dd794a91f94f9329e` |
-| Cutover rehearsal | `e3b73331f1f42667732d43820d7d9f71da105e1f177fc89033af16192fd899a9` |
-| Shadow RC | `889e3a4f25a4da9d2ad76bcf252b4bc0533a5e64ce238a29f467b4143dd3d4fc` |
-| Release-subject inventory | `be92aec41df542709f600bb340f316fb9d92b7f25739a5b767d1db7c8e1e6078` |
-| Handoff lock | `ed227844f4bfbd706db2fce9554472bd92a58eba1bf1edadf7e18b81ddb2eca4` |
-| Promotion decision | `3ce5abf98514306d01871ddb4bc10415bf6147dd5acfbe194bcb56a703445485` |
-| Release-readiness lock | `15be918a48540ea6d73958910c52a726539beeb2876743ed696ac102fa912f04` |
-| Operational closure | `704d12e1ab4f1bf86a7cc10b343102ab8b90e69393102346286862f185163ce4` |
-| V2 exit status | `8af3fb602e7257324f3d0ade6ae8c439d8193c3ce76e23d4fe889272692d8d3a` |
-| Operator kit ZIP | `601526acf383ada0882ce9335e5b1bbd5e96c15578d39a66491ae129fe6f12b0` |
+### Added
 
----
+- `tools/build_v2_core_readiness.py`
+- `tools/verify_v2_core_readiness.py`
+- `tools/test_v2_core_readiness.py`
+- `packaging/v2-core-readiness/readiness-v1.35.6.json`
+- `docs/gas-core-realignment-v1.35.6.md`
+- `dist/v2-core-readiness-v1.35.6/`
 
-## 10. Exit rule
+### Materially changed
 
-The v1.x line can be considered operationally complete only when:
+- `tools/audit_gas_project.py`
+- `tools/test_gas_project_audit.py`
+- `tools/build_v2_exit_assistant.py`
+- `tools/verify_v2_exit_assistant.py`
+- `tools/test_v2_exit_assistant.py`
+- `.github/workflows/agent-skill-packaging.yml`
+- `skills/01-gas-core-engineering/SKILL.md`
+- `skills/06-performance-engineering/SKILL.md`
+- `skills/08-testing-quality/SKILL.md`
+- `skills/10-deployment-engineering/SKILL.md`
+- `README.md`
+- `CHANGELOG.md`
+- `GITHUB_RELEASE_NOTES.md`
+- `docs/roadmap-to-v2.0.md`
 
-```text
-live-validation             GO
-promotion                   APPROVED
-release readiness           READY_TO_TAG
-operational release closure PASS
-v2 exit assistant           V1_EXIT_COMPLETE
-```
+All current-version packaging/evidence configs have also been advanced to `v1.35.6` so the historical governance profile remains reproducible.
 
-Only then should the repository prepare the actual v2.0.0 package-first cutover.
+## 11. Known Limitations
+
+1. Static host compatibility does not prove a live host/model activation path. It is sufficient for the default core packaging gate but should not be represented as a real live execution claim.
+2. Deterministic trigger/evaluation parity is a repository proxy, not a live model-routing benchmark.
+3. Apps Script quotas can change without notice; numeric limits should be revalidated when they materially affect architecture.
+4. Static GAS runtime checks intentionally favor high-signal unsupported constructs; they are not a complete JavaScript parser or semantic type system.
+5. Enterprise users who require signed attestations, multi-day burn-in, human approvals, or immutable-release closure should explicitly enable the stricter governance profile.
+
+## 12. v2 Transition Rule
+
+The project no longer requires another v1.35.x release solely to collect optional governance evidence.
+
+The next release may be **v2.0.0** when:
+
+- the v1.35.6 core gate remains `READY_FOR_V2_CORE` after final packaging;
+- no new core GAS regression or breaking contract change is discovered;
+- v2 packaging/repository labeling is updated consistently.
+
+If a new GAS or core distribution defect is discovered before the major release, fix it in v1.35.x and rebuild the core gate. Optional governance evidence can continue independently before or after v2 according to downstream policy.

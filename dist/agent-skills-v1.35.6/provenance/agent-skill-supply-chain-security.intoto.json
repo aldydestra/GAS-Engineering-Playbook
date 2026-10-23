@@ -1,0 +1,70 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "urn:gas-engineering-playbook:build:agent-skill-package:v1",
+      "externalParameters": {
+        "mode": "legacy-manual",
+        "packageName": "agent-skill-supply-chain-security",
+        "profile": "full-v1.35.6",
+        "repositoryVersion": "v1.35.6",
+        "sourcePath": "skills/18-agent-skill-supply-chain-security"
+      },
+      "internalParameters": {
+        "deterministicZipTimestamp": "1980-01-01T00:00:00Z",
+        "referenceNaming": "content-hash"
+      },
+      "resolvedDependencies": [
+        {
+          "digest": {
+            "sha256": "8fad42875469e7ad17fe0603cf1c36634ee2a2a9d57ee986db382a971aebcff0"
+          },
+          "name": "canonical-skill-source",
+          "uri": "file:skills/18-agent-skill-supply-chain-security"
+        },
+        {
+          "digest": {
+            "sha256": "62410c81220370c85d03e1f96e7cc069aaa64f61178069357b1ec91aa38de2ed"
+          },
+          "name": "packaging-profile",
+          "uri": "file:packaging/agent-skills/full-v1.35.6.json"
+        },
+        {
+          "digest": {
+            "sha256": "bbaf3471fd586b7fdf451c7bc83cfc4ce5c21245767b60ee0e688f8fec8a59b9"
+          },
+          "name": "packager",
+          "uri": "file:tools/agent_skill_packager.py"
+        }
+      ]
+    },
+    "runDetails": {
+      "builder": {
+        "id": "urn:gas-engineering-playbook:builder:deterministic-local-packager",
+        "version": {
+          "packagerSha256": "bbaf3471fd586b7fdf451c7bc83cfc4ce5c21245767b60ee0e688f8fec8a59b9",
+          "repository": "v1.35.6"
+        }
+      },
+      "byproducts": [
+        {
+          "digest": {
+            "sha256": "c8d13804239af43839699d7b7b8a6287f29b86aeeb7f49090273b2e43b7c181e"
+          },
+          "name": "static-security-report",
+          "uri": "file:dist/agent-skills-v1.35.6/security-report.json"
+        }
+      ],
+      "gas_playbook_unsignedLocalStatement": true
+    }
+  },
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "subject": [
+    {
+      "digest": {
+        "sha256": "95b80623760a8a4693e97f66bba52db5d0ff0d3a1cba346e6804f53f3f6c39b2"
+      },
+      "name": "agent-skill-supply-chain-security.skill"
+    }
+  ]
+}

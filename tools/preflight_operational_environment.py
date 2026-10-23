@@ -86,7 +86,7 @@ def preflight(root:Path,cfg:dict[str,Any],host:str='gemini-cli',binary:str='gemi
     return receipt
 
 def main():
-    ap=argparse.ArgumentParser(description=__doc__); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.5.json'); ap.add_argument('--host',default='gemini-cli'); ap.add_argument('--binary',default='gemini'); ap.add_argument('--allow-npx-bootstrap',action='store_true'); ap.add_argument('--probe-host',action='store_true'); ap.add_argument('--timeout',type=int,default=60); ap.add_argument('--output')
+    ap=argparse.ArgumentParser(description=__doc__); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.6.json'); ap.add_argument('--host',default='gemini-cli'); ap.add_argument('--binary',default='gemini'); ap.add_argument('--allow-npx-bootstrap',action='store_true'); ap.add_argument('--probe-host',action='store_true'); ap.add_argument('--timeout',type=int,default=60); ap.add_argument('--output')
     a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); r=preflight(root,cfg,a.host,a.binary,a.allow_npx_bootstrap,a.probe_host,a.timeout)
     default=root/'evidence/live-validation'/cfg['repository_version']/'environment-preflight.json'; out=Path(a.output).resolve() if a.output else default; dump(out,r)
     print(json.dumps({'status':r['status'],'host':r['host_id'],'candidate_digest':r.get('candidate_digest'),'output':str(out)},indent=2))

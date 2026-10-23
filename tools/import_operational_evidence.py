@@ -84,7 +84,7 @@ def apply(root:Path,payloads:dict[str,bytes])->None:
         p=(root/rp).resolve(); p.relative_to(root.resolve()); p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(b)
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('bundle'); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.5.json'); ap.add_argument('--apply',action='store_true'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); result,payloads=validate(root,cfg,Path(a.bundle).resolve())
+    ap=argparse.ArgumentParser(); ap.add_argument('bundle'); ap.add_argument('--root',default='.'); ap.add_argument('--config',default='packaging/operational-handoff/handoff-v1.35.6.json'); ap.add_argument('--apply',action='store_true'); a=ap.parse_args(); root=Path(a.root).resolve(); cfg=load(root/a.config); result,payloads=validate(root,cfg,Path(a.bundle).resolve())
     if result['status']=='PASS' and a.apply: apply(root,payloads); result['applied']=True
     else: result['applied']=False
     print(json.dumps(result,indent=2));

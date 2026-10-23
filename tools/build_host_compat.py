@@ -64,8 +64,8 @@ def render_matrix(cfg: dict, records: list[dict]) -> str:
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument('--config',default='packaging/host-compat/hosts-v1.35.5.json')
-    ap.add_argument('--doc',default='docs/host-compatibility-matrix-v1.35.5.md')
+    ap.add_argument('--config',default='packaging/host-compat/hosts-v1.35.6.json')
+    ap.add_argument('--doc',default='docs/host-compatibility-matrix-v1.35.6.md')
     args=ap.parse_args()
     root=Path(__file__).resolve().parents[1]
     cfg=json.loads((root/args.config).read_text())

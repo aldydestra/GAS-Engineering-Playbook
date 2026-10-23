@@ -15,8 +15,8 @@ import run_live_host_smoke as runner
 import record_burn_in as burn
 import build_live_validation as builder
 
-CFG = json.loads((ROOT / "packaging/live-validation/live-v1.35.5.json").read_text())
-ARTIFACT = ROOT / "dist/agent-skills-v1.35.5/packages/agent-skill-engineering.skill"
+CFG = json.loads((ROOT / "packaging/live-validation/live-v1.35.6.json").read_text())
+ARTIFACT = ROOT / "dist/agent-skills-v1.35.6/packages/agent-skill-engineering.skill"
 
 
 def make_fake_gemini(path: Path, mode: str = "pass") -> None:
@@ -66,7 +66,7 @@ class LiveExecutionTests(unittest.TestCase):
         cfg["evidence_binding"] = {"required": False}
         er = Path(cfg["evidence_root"])
         er.mkdir(parents=True)
-        (er / "host-smoke.json").write_text(json.dumps({"schema_version":1,"repository_version":"v1.35.5","records":[]})+"\n")
+        (er / "host-smoke.json").write_text(json.dumps({"schema_version":1,"repository_version":"v1.35.6","records":[]})+"\n")
         return cfg
 
     def test_missing_runtime_is_blocked_and_not_promoted(self):
@@ -120,10 +120,10 @@ class LiveExecutionTests(unittest.TestCase):
 
     def test_burn_in_aggregate_requires_both_channels(self):
         events = [
-            {"schema_version":2,"repository_version":"v1.35.5","event_id":"legacy-a","observed_at":"2026-10-05T01:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok canonical","evidence_ref":"issue://1","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test"},
-            {"schema_version":2,"repository_version":"v1.35.5","event_id":"legacy-b","observed_at":"2026-10-05T02:00:00+00:00","channel":"package","consumer":"a","summary":"ok package","evidence_ref":"issue://2","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test"},
+            {"schema_version":2,"repository_version":"v1.35.6","event_id":"legacy-a","observed_at":"2026-10-05T01:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok canonical","evidence_ref":"issue://1","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test"},
+            {"schema_version":2,"repository_version":"v1.35.6","event_id":"legacy-b","observed_at":"2026-10-05T02:00:00+00:00","channel":"package","consumer":"a","summary":"ok package","evidence_ref":"issue://2","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test"},
         ]
-        result = burn.aggregate("v1.35.5", events, ["canonical", "package"], now_value=datetime.fromisoformat("2026-10-06T00:00:00+00:00"))
+        result = burn.aggregate("v1.35.6", events, ["canonical", "package"], now_value=datetime.fromisoformat("2026-10-06T00:00:00+00:00"))
         self.assertEqual(result["claimed_status"], "PASS")
         self.assertEqual(result["sessions"], 2)
         self.assertEqual(result["consumers"], 1)
@@ -153,26 +153,26 @@ class LiveExecutionTests(unittest.TestCase):
             ("2026-10-02T01:01:00+00:00", "package"),
         ]
         for idx, (at, channel) in enumerate(rows):
-            event = {"schema_version":2,"repository_version":"v1.35.5","event_id":f"e{idx}","observed_at":at,"channel":channel,"consumer":"a","summary":"ok","evidence_ref":f"fixture://{idx}","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","prev_event_sha256":previous}
+            event = {"schema_version":2,"repository_version":"v1.35.6","event_id":f"e{idx}","observed_at":at,"channel":channel,"consumer":"a","summary":"ok","evidence_ref":f"fixture://{idx}","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","prev_event_sha256":previous}
             event["event_sha256"] = burn.event_digest(event); previous = event["event_sha256"]; events.append(event)
-        result = burn.aggregate("v1.35.5", events, ["canonical","package"], policy, datetime.fromisoformat("2026-10-03T00:00:00+00:00"))
+        result = burn.aggregate("v1.35.6", events, ["canonical","package"], policy, datetime.fromisoformat("2026-10-03T00:00:00+00:00"))
         self.assertEqual(result["claimed_status"], "PASS")
         self.assertTrue(result["journal_integrity"]["valid"])
 
     def test_burn_in_chain_tamper_is_invalid(self):
         policy = burn.policy_from_config(CFG)
-        event = {"schema_version":2,"repository_version":"v1.35.5","event_id":"e1","observed_at":"2026-10-01T00:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok","evidence_ref":"fixture://1","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","prev_event_sha256":None}
+        event = {"schema_version":2,"repository_version":"v1.35.6","event_id":"e1","observed_at":"2026-10-01T00:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok","evidence_ref":"fixture://1","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","prev_event_sha256":None}
         event["event_sha256"] = burn.event_digest(event)
         event["summary"] = "tampered"
-        result = burn.aggregate("v1.35.5", [event], ["canonical","package"], policy, datetime.fromisoformat("2026-10-03T00:00:00+00:00"))
+        result = burn.aggregate("v1.35.6", [event], ["canonical","package"], policy, datetime.fromisoformat("2026-10-03T00:00:00+00:00"))
         self.assertEqual(result["claimed_status"], "INVALID_EVIDENCE")
 
     def test_burn_in_candidate_binding_rejects_stale_candidate(self):
         policy = burn.policy_from_config(CFG)
-        event = {"schema_version":2,"repository_version":"v1.35.5","event_id":"e-bind","observed_at":"2026-10-20T00:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok","evidence_ref":"fixture://bind","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","candidate_digest":"old","handoff_lock_sha256":"lock","environment_preflight_sha256":"preflight","prev_event_sha256":None}
+        event = {"schema_version":2,"repository_version":"v1.35.6","event_id":"e-bind","observed_at":"2026-10-20T00:00:00+00:00","channel":"canonical","consumer":"a","summary":"ok","evidence_ref":"fixture://bind","incident_severity":"none","incident_summary":"","blocking":False,"recorded_by":"unit-test","candidate_digest":"old","handoff_lock_sha256":"lock","environment_preflight_sha256":"preflight","prev_event_sha256":None}
         event["event_sha256"] = burn.event_digest(event)
         binding={"required":True,"candidate_digest":"new","handoff_lock_sha256":"lock","environment_preflight_sha256":"preflight"}
-        result=burn.aggregate("v1.35.5",[event],["canonical","package"],policy,datetime.fromisoformat("2026-10-20T01:00:00+00:00"),binding=binding)
+        result=burn.aggregate("v1.35.6",[event],["canonical","package"],policy,datetime.fromisoformat("2026-10-20T01:00:00+00:00"),binding=binding)
         self.assertEqual(result["claimed_status"],"INVALID_EVIDENCE")
         self.assertTrue(any("candidate_digest mismatch" in e for e in result["journal_integrity"]["errors"]))
 

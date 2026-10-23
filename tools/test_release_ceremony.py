@@ -4,7 +4,7 @@ from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'tools'))
 import run_release_ceremony as r
-CFG=json.loads((ROOT/'packaging/operational-release-closure/closure-v1.35.5.json').read_text()); V=CFG['repository_version']
+CFG=json.loads((ROOT/'packaging/operational-release-closure/closure-v1.35.6.json').read_text()); V=CFG['repository_version']
 def fake_gh(p:Path,immutable=True):
     p.write_text(textwrap.dedent(f'''#!/usr/bin/env python3
 import json,sys
