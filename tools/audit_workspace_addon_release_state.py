@@ -42,6 +42,24 @@ def audit(snapshot:dict[str,Any], policy:dict[str,Any]|None=None)->dict[str,Any]
     chat=snapshot.get('chat') if isinstance(snapshot.get('chat'),dict) else {}
     if bool(chat.get('app_home_declared')) and not bool(chat.get('cloud_console_app_home_trigger')):
         add(findings,'ERROR','CHAT_APP_HOME_TRIGGER_MISSING','Chat App Home is declared but its Cloud Console App Home trigger is not confirmed.')
+    if bool(chat.get('chat_app_config_managed_programmatically')):
+        if not bool(chat.get('developer_preview_enrolled')):
+            add(findings,'ERROR','CHAT_APP_CONFIG_PREVIEW_NOT_ENROLLED','Programmatic chatAppConfig management is Developer Preview and requires Developer Preview enrollment.')
+        if not bool(chat.get('gsuiteaddons_api_enabled')):
+            add(findings,'ERROR','CHAT_APP_CONFIG_API_DISABLED','Programmatic chatAppConfig management requires the Google Workspace Add-ons API (gsuiteaddons.googleapis.com).')
+        if str(chat.get('auth_principal_type') or '').lower() != 'user':
+            add(findings,'ERROR','CHAT_APP_CONFIG_USER_AUTH_REQUIRED','chatAppConfig methods require human user OAuth; service-account authentication is not supported.')
+        scopes={str(x) for x in chat.get('oauth_scopes',[]) if str(x).strip()}
+        if 'https://www.googleapis.com/auth/cloud-platform' not in scopes:
+            add(findings,'ERROR','CHAT_APP_CONFIG_SCOPE_MISSING','chatAppConfig management requires the cloud-platform OAuth scope.')
+        perms={str(x) for x in chat.get('iam_permissions',[]) if str(x).strip()}
+        mode=str(chat.get('programmatic_config_mode') or 'READ').upper()
+        required={'gsuiteaddons.chatAppConfigs.get','chat.bots.get'}
+        if mode in {'WRITE','READ_WRITE','UPDATE'}:
+            required |= {'gsuiteaddons.chatAppConfigs.update','chat.bots.update'}
+        missing=sorted(required-perms)
+        if missing:
+            add(findings,'ERROR','CHAT_APP_CONFIG_IAM_MISSING',f'Programmatic chatAppConfig mode {mode} is missing IAM permission(s): {", ".join(missing)}.')
     studio=snapshot.get('workspace_studio') if isinstance(snapshot.get('workspace_studio'),dict) else {}
     if bool(studio.get('workflow_triggers_declared')) and not bool(studio.get('extension_enabled')):
         add(findings,'ERROR','WORKSPACE_STUDIO_EXTENSION_DISABLED','workflowTriggers are declared but Workspace Studio extension state is not enabled.')

@@ -1,10 +1,10 @@
 ---
 name: gas-core-engineering
-description: "Core Google Apps Script runtime engineering for triggers, LockService/concurrency, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, checkpoints, long-running jobs, and external HTTP calls. Use when the primary problem is GAS runtime behavior or core service usage."
-skill_version: "1.5.0"
+description: "Core Google Apps Script runtime engineering for triggers, LockService and concurrent Google Sheet updates, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, checkpoints, long-running jobs, and external HTTP calls. Use when the primary problem is GAS runtime behavior, multi-execution locking, or core service usage."
+skill_version: "1.5.1"
 repository_introduced: "v1.2.0"
 status: "evolving"
-last_repository_update: "v1.35.6"
+last_repository_update: "v1.36.0"
 tags:
   - google-apps-script
   - google-workspace

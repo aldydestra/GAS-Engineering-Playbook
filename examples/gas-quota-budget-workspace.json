@@ -1,0 +1,19 @@
+{
+  "account_type": "workspace",
+  "daily": {
+    "url_fetch_calls": 60000,
+    "properties_rw": 250000,
+    "trigger_runtime_minutes": 240
+  },
+  "per_execution": {
+    "script_runtime_seconds": 240,
+    "url_fetch_response_bytes": 20971520
+  },
+  "concurrency": {
+    "simultaneous_exec_per_user": 15,
+    "simultaneous_exec_per_script": 300
+  },
+  "configuration": {
+    "triggers_per_user_per_script": 10
+  }
+}

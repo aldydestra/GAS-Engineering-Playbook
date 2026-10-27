@@ -1,10 +1,10 @@
 ---
 name: security-engineering
-description: "Secure Apps Script, Workspace, and adjacent agent integrations: authentication, authorization, least privilege, OAuth scopes, secrets, XSS/input validation, prompt injection, server-side permission checks, filtered/partial read semantics, and safe logging. Use for application/runtime trust boundaries rather than skill-package scanning. Use for threat modeling public/web endpoints and access-control failures as well as OAuth and prompt-injection risks."
-skill_version: "1.7.2"
+description: "Secure Google Apps Script and Workspace applications: authentication, authorization, least-privilege OAuth scopes, secrets, XSS/input validation, server-side permission checks, authorization-filtered or partial reads, web endpoint threat modeling, and safe logging. Use for GAS/Workspace trust boundaries and access-control failures."
+skill_version: "1.7.3"
 repository_introduced: "v1.8.0"
 status: "evolving"
-last_repository_update: "v1.35.2"
+last_repository_update: "v1.36.0"
 tags:
   - google-apps-script
   - security

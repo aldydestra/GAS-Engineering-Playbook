@@ -4,34 +4,50 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.35.6 — GAS Core Realignment & V2 Gate Simplification
+## v1.36.0 — GAS-Only Scope Lock & Platform Guardrails
 
-Canonical `skills/` remains authoritative while `dist/agent-skills-v1.35.6/` is the normalized installable package channel. v1.35.6 deliberately returns the project to its primary purpose: **giving AI agents reliable Google Apps Script engineering skills**.
+The active product is now explicitly **Google Apps Script / Google Workspace engineering**. AI systems may consume the skill files, but Agent Skill v2 promotion, live-agent burn-in, host-adapter governance, human approval, and signed-agent release ceremony are no longer roadmap goals.
 
-The enterprise release-governance controls built during v1.30–v1.35 are retained, but 24-hour burn-in, human promotion approval, signed immutable ceremony, and operational closure are now **optional governance profiles** rather than hard blockers for the core skill distribution.
-
-A new scope-aligned gate is generated in `dist/v2-core-readiness-v1.35.6/`. The current candidate is:
+The default distribution is now:
 
 ```text
-packages / coverage          PASS (19/19)
-evaluation parity            PASS
-static host compatibility    PASS
-security / trust             PASS_STATIC
-cutover rehearsal            PASS_STATIC
-Shadow RC / freeze           PASS_STATIC
-v2 core readiness            READY_FOR_V2_CORE
-optional live burn-in        NOT_RUN
-optional signed closure      BLOCKED
-repository tests             108/108 PASS
+16 GAS / Workspace engineering skills
+→ deterministic `.skill` packages
+→ GAS-only routing/capability parity
+→ GAS runtime / quota / deployment / add-on guardrails
 ```
 
-GAS-specific improvements in this release include executable V8 runtime compatibility checks that distinguish server-side Apps Script from HTML Service client JavaScript, plus refreshed performance/testing guidance around service-call budgets, batching, caching, bounded `UrlFetchApp.fetchAll()`, and the ordinary six-minute execution ceiling.
+The following skills remain available in the repository but are excluded from the default GAS core profile:
+
+- Skill 13 — AI Agent Integration
+- Skill 18 — Agent Skill Supply-Chain Security
+- Skill 19 — Agent Skill Engineering
+
+Current active release state:
+
+```text
+GAS core package coverage          PASS (16/16)
+GAS package validation             PASS (16/16)
+GAS routing/capability parity      PASS
+positive top-3 routing recall      99.15%
+negative routing specificity       100%
+capability assertions              30/30 PASS
+GAS production guardrail tests     PASS
+AI/V2 roadmap                      CANCELED / LEGACY
+```
+
+### GAS additions in v1.36.0
+
+- `tools/audit_gas_quota_budget.py` adds a dated, overrideable quota/capacity budget guard for Apps Script workloads.
+- Workspace Add-on release auditing now understands the 2026-10-23 Developer Preview `chatAppConfig` API, including user-OAuth, `cloud-platform`, API enablement, and IAM prerequisites.
+- GAS routing descriptions were tightened around concurrency/LockService, authorization-filtered reads, trigger/runtime observability, and GAS web-app promotion.
+- The default GitHub workflow is now `.github/workflows/gas-skill-quality.yml`. Historical Agent Skill workflows were moved under `legacy/ai-governance/`.
 
 See:
 
-- `docs/gas-core-realignment-v1.35.6.md`
-- `dist/v2-core-readiness-v1.35.6/V2_CORE_READINESS.md`
-- `docs/roadmap-to-v2.0.md`
+- `docs/gas-only-scope-lock-v1.36.0.md`
+- `docs/gas-only-roadmap.md`
+- `docs/gas-quota-budget-v1.36.0.md`
 - `RELEASE_MANIFEST.md`
 
 ## Foundation Status
@@ -216,6 +232,7 @@ last_repository_update: "v1.13.0"
 | **v1.35.3** | **Operational Environment Preflight & GAS Deployment Drift Guard: exact host-runtime preflight, deployment/version reconciliation, and 90/90 regression tests** |
 | **v1.35.5** | **Candidate-Bound Evidence Chain & Workspace Add-on Release Drift Guard: exact-candidate live evidence binding, Marketplace/App Home/Studio release-state auditor, and 97/97 regression tests** |
 | **v1.35.6** | **GAS Core Realignment & V2 Gate Simplification: runtime-compatibility guardrails, optional governance profile, scope-aligned READY_FOR_V2_CORE gate** |
+| **v1.36.0** | **GAS-Only Scope Lock & Platform Guardrails: 16-skill GAS core distribution, v2/AI-governance roadmap retirement, quota-budget audit, Chat app configuration preview guardrails** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 

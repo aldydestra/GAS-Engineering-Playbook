@@ -1,10 +1,10 @@
 ---
 name: deployment-engineering
-description: "Deploy and release Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, build pipelines, CI/CD, manifests, Marketplace listing state, Workspace Studio deployment, smoke tests, rollback, and environment promotion. Use for release/deployment lifecycle rather than application architecture."
-skill_version: "1.16.0"
+description: "Deploy and release Google Apps Script and Workspace solutions with clasp, immutable deployment IDs/versions, GAS web-app environment promotion, build pipelines, CI/CD, manifests, OAuth/external-runtime smoke tests, Marketplace listing state, Workspace Studio deployment, rollback, and release verification. Use for GAS release/deployment lifecycle rather than application architecture."
+skill_version: "1.17.0"
 repository_introduced: "v1.11.0"
 status: "evolving"
-last_repository_update: "v1.35.6"
+last_repository_update: "v1.36.0"
 tags:
   - google-apps-script
   - deployment
@@ -2450,3 +2450,36 @@ Do not let tooling auto-approve promotion or fabricate real-use evidence. Automa
 
 Use `tools/build_v2_exit_assistant.py` to generate that action plan and `tools/record_v2_approval.py` to record an explicit approval only after the promotion gate reaches `READY_FOR_APPROVAL`.
 \n\n# v1.35.6 — Core Skill Release vs Optional Enterprise Governance\n\nFor this repository, the product being released is a validated set of Google Apps Script skills for AI agents. The hard v2 release gate is therefore package validity, evaluation parity, static host compatibility, security/trust checks, cutover rehearsal, and breaking-change freeze.\n\nThe following remain supported but are **optional governance profiles**, not mandatory blockers for the core skill distribution:\n\n- multi-day consumer burn-in;\n- human promotion approval;\n- signed immutable release ceremony;\n- operational release closure.\n\nOrganizations with stronger compliance requirements may enable those gates as blocking policy. The default project policy should not confuse enterprise release governance with correctness of the GAS skill package itself.\n\nUse `tools/build_v2_core_readiness.py` to evaluate the scope-aligned v2 gate.\n
+## GAS-Only Release Model & Chat Configuration Preview — v1.36.0
+
+### V2 / Agent-Governance Roadmap Is Retired
+
+The repository no longer treats Agent Skill V2, multi-day agent burn-in, human promotion approval, or signed agent-package ceremony as the product roadmap. Those controls are retained only as historical/optional material.
+
+The default release path is now GAS-centered:
+
+```text
+GAS source + manifest
+→ static/runtime compatibility audit
+→ tests + quota budget
+→ clasp / deployment-state verification
+→ add-on / API release-state verification when applicable
+→ GAS skill bundle build + parity verification
+```
+
+### Programmatic Chat App Configuration Is Preview-Gated
+
+As of 2026-10-23, Google Workspace Add-ons API exposes Developer Preview methods to read/update the `projects/{project}/chatAppConfig` singleton for Chat apps built as Google Workspace Add-ons.
+
+Before using this as configuration-as-code, require all of the following:
+
+- project enrolled in the Google Workspace Developer Preview Program;
+- `gsuiteaddons.googleapis.com` enabled;
+- human user OAuth, not service-account authentication;
+- `https://www.googleapis.com/auth/cloud-platform` scope;
+- `gsuiteaddons.chatAppConfigs.get` + `chat.bots.get` for reads;
+- `gsuiteaddons.chatAppConfigs.update` + `chat.bots.update` for writes.
+
+For updates, use an explicit field mask when you intend a partial mutation. Repeated fields such as commands, URL patterns, or testing principals are replacement-oriented; do not assume an append/merge semantic.
+
+Keep a manual Cloud Console path available while this feature remains Developer Preview. Do not make a preview API the only production recovery mechanism.

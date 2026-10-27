@@ -1,10 +1,10 @@
 ---
 name: testing-quality
-description: "Test and evaluate Apps Script systems and Agent Skills using unit/integration/regression tests, contract assertions, adversarial fixtures, target-parser checks, trigger evals, held-out cases, baseline comparisons, pass rates, variance, token/time cost, and canonical-to-package parity. Use when proving correctness or quality."
-skill_version: "1.7.0"
+description: "Test and evaluate Google Apps Script and Workspace systems using unit/integration/regression tests, contract assertions, deployment fixtures, quota/runtime budgets, trigger tests, authorization tests, baseline comparisons, and production preflight checks. Use when proving GAS correctness, release quality, or platform compatibility."
+skill_version: "1.8.0"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.35.6"
+last_repository_update: "v1.36.0"
 tags:
   - google-apps-script
   - testing
@@ -1976,3 +1976,29 @@ Required assertions:
 
 Use `tools/build_v2_exit_assistant.py` as the deterministic status surface and `tools/record_v2_approval.py` to test human approval binding without hand-editing JSON evidence.
 \n\n# v1.35.6 — Runtime-Surface Tests for GAS\n\nTest server-side Apps Script and HTML Service client JavaScript as different runtime surfaces. Static checks for unsupported Apps Script V8 globals should target server-side `.gs` / `.js` / `.ts` sources and must not incorrectly fail browser APIs used inside HTML Service pages.\n\nMinimum production regression coverage should include:\n\n- manifest runtime pinned to V8;\n- no native module syntax pushed directly to Apps Script;\n- no server-side browser timers / global `fetch()` / Node globals;\n- supported `UrlFetchApp` alternatives remain accepted;\n- deployment and add-on manifest preflights remain clean.\n
+## GAS-Only Quality Gate & Quota Contract Tests — v1.36.0
+
+The active repository release scope is now Google Apps Script / Google Workspace engineering. Historical Agent Skill evaluation material remains available for repository history, but it is not part of the default GAS release gate.
+
+For production GAS changes, add executable quota-budget tests alongside functional tests. A useful contract fixture declares estimated:
+
+- daily URL Fetch calls;
+- PropertiesService reads/writes;
+- daily trigger runtime;
+- per-execution runtime;
+- custom-function or add-on execution duration where applicable;
+- expected concurrency per user and per script.
+
+Run `tools/audit_gas_quota_budget.py` in CI. Treat over-limit estimates as failures and low headroom as review warnings. Because official limits can change, tests must record the quota snapshot date or provide an explicit override file.
+
+The default quality ladder is now:
+
+```text
+static GAS/runtime preflight
+→ unit + contract tests
+→ quota/capacity budget
+→ deployment-state checks
+→ targeted Apps Script integration smoke test
+```
+
+Do not gate ordinary GAS skill releases on AI-agent burn-in, human promotion approval, or signed-agent-package ceremony.

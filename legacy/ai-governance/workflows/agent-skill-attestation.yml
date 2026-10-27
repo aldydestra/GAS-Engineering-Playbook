@@ -1,0 +1,101 @@
+name: Agent Skill Signed Attestations — Operational Closure
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v1.35.*'
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+  artifact-metadata: write
+
+jobs:
+  build-attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild packages and release evidence
+        run: |
+          python tools/agent_skill_packager.py
+          python tools/verify_agent_skill_dist.py
+          python tools/evaluate_agent_skill_parity.py
+          python tools/build_host_compat.py
+          python tools/verify_host_compat.py
+          python tools/build_agent_skill_trust.py
+          python tools/verify_agent_skill_trust.py
+          python tools/build_dual_distribution.py
+          python tools/verify_dual_distribution.py
+          python tools/build_live_validation.py
+          python tools/verify_live_validation.py
+          python tools/build_v2_cutover_rehearsal.py
+          python tools/verify_v2_cutover_rehearsal.py
+          python tools/build_v2_shadow_rc.py
+          python tools/verify_v2_shadow_rc.py
+          python tools/build_release_subject_inventory.py
+          python tools/verify_release_subject_inventory.py
+          python tools/build_operational_handoff.py
+          python tools/verify_operational_handoff.py
+          python tools/build_v2_promotion.py
+          python tools/verify_v2_promotion.py
+          python tools/build_release_readiness.py
+          python tools/verify_release_readiness.py
+          python tools/build_operational_release_closure.py
+          python tools/verify_operational_release_closure.py
+      - name: Enforce READY_TO_TAG before signing
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('dist/release-readiness-v1.35.6/release-lock.json'))
+          if r.get('readiness_status') != 'READY_TO_TAG':
+              raise SystemExit(f"release readiness is {r.get('readiness_status')}, expected READY_TO_TAG")
+          PY
+      - name: Generate signed GitHub artifact attestations
+        uses: actions/attest@v4
+        with:
+          subject-checksums: dist/release-subjects-v1.35.6/SUBJECTS_SHA256SUMS
+      - name: Upload release evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-skill-v1.35.6-evidence
+          path: |
+            dist/agent-skills-v1.35.6/catalog.json
+            dist/agent-skills-v1.35.6/security-report.json
+            dist/agent-skills-v1.35.6/provenance-index.json
+            dist/agent-skills-v1.35.6/provenance/
+            dist/agent-skills-v1.35.6/revocations.json
+            dist/agent-skills-v1.35.6/SHA256SUMS
+            dist/host-compat-v1.35.6/SHA256SUMS
+            dist/dual-distribution-v1.35.6/release-index.json
+            dist/dual-distribution-v1.35.6/migration-map.json
+            dist/dual-distribution-v1.35.6/rollback-drill.json
+            dist/dual-distribution-v1.35.6/SHA256SUMS
+            dist/live-validation-v1.35.6/manifest.json
+            dist/live-validation-v1.35.6/SHA256SUMS
+            dist/v2-cutover-rehearsal-v1.35.6/cutover-manifest.json
+            dist/v2-cutover-rehearsal-v1.35.6/rollback-map.json
+            dist/v2-cutover-rehearsal-v1.35.6/SHA256SUMS
+            dist/v2-shadow-rc-v1.35.6/shadow-rc.json
+            dist/v2-shadow-rc-v1.35.6/contract-freeze.json
+            dist/v2-shadow-rc-v1.35.6/SHA256SUMS
+            dist/v2-promotion-v1.35.6/promotion.json
+            dist/v2-promotion-v1.35.6/SHA256SUMS
+            dist/release-readiness-v1.35.6/release-lock.json
+            dist/release-readiness-v1.35.6/SHA256SUMS
+            dist/release-subjects-v1.35.6/inventory.json
+            dist/release-subjects-v1.35.6/SUBJECTS_SHA256SUMS
+            dist/release-subjects-v1.35.6/SHA256SUMS
+            dist/operational-handoff-v1.35.6/handoff-lock.json
+            dist/operational-handoff-v1.35.6/operator-kit-manifest.json
+            dist/operational-handoff-v1.35.6/operational-evidence-operator-kit-v1.35.6.zip
+            dist/operational-handoff-v1.35.6/OPERATIONS.md
+            dist/operational-handoff-v1.35.6/SHA256SUMS
+            dist/operational-release-closure-v1.35.6/closure.json
+            dist/operational-release-closure-v1.35.6/SHA256SUMS
+            evidence/live-validation/v1.35.6/
+            evidence/operational-release/v1.35.6/

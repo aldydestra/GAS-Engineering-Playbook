@@ -1,10 +1,10 @@
 ---
 name: workspace-addons-chat-engineering
 description: "Build Google Workspace Add-ons, Google Chat apps, and Workspace Studio extensions using CardService, host manifests, contextual/homepage cards, navigation/actions, Chat responses, workflow steps/starters, workflowTriggers, lifecycle callbacks, OAuth, and membership-visibility UI states. Use for Workspace-native add-on/chat/studio UX."
-skill_version: "1.6.0"
+skill_version: "1.7.0"
 repository_introduced: "v1.15.0"
 status: "evolving"
-last_repository_update: "v1.35.4"
+last_repository_update: "v1.36.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -37,7 +37,6 @@ This skill owns:
 - add-on-specific OAuth and URL allowlists;
 - host-specific testing;
 - publication/readiness concerns;
-- integration with external AI agents when Chat/add-on UX is the shell.
 
 Use Skill 12 for HtmlService web apps, sidebars, dialogs, and general frontend bundling.
 
@@ -55,7 +54,6 @@ Important current facts include:
 - manifest triggers are declared in the add-on manifest and cannot be created or modified using `ScriptApp`;
 - host-specific triggers and event objects differ across Gmail, Calendar, Drive, Docs, Sheets, Slides, Meet, and Chat;
 - `AddOnsResponseService` reached GA in Apps Script on March 12, 2026 for interactive responses in Google Chat extensions;
-- current Workspace add-on samples include ADK, A2A, and A2UI agent integrations.
 
 ---
 
@@ -1610,22 +1608,13 @@ Cross-reference Skills 07, 09, 16, and 17.
 - Apps Script release notes  
   https://developers.google.com/apps-script/release-notes
 
-## Google Chat / AI Integration
+## Google Chat Integration
 
 - Build Chat interfaces  
   https://developers.google.com/workspace/add-ons/chat/build
 
 - Chat app with Apps Script  
   https://developers.google.com/workspace/add-ons/chat/quickstart-apps-script
-
-- ADK agent quickstart  
-  https://developers.google.com/workspace/add-ons/chat/quickstart-adk-agent
-
-- A2A agent quickstart  
-  https://developers.google.com/workspace/add-ons/chat/quickstart-a2a-agent
-
-- A2UI agent quickstart  
-  https://developers.google.com/workspace/add-ons/chat/quickstart-a2ui-agent
 
 ---
 
@@ -1688,3 +1677,38 @@ The September 15, 2026 Marketplace SDK behavior explicitly surfaces newly added/
 
 Use `tools/audit_workspace_addon_release_state.py` against an operator-exported or CI-generated normalized snapshot. Keep the auditor read-only; Marketplace/Cloud Console mutation remains an explicit release operation.
 
+
+## Programmatic Chat App Configuration — Developer Preview v1.36.0
+
+Google added Developer Preview support on 2026-10-23 for reading and updating Chat app configuration for Chat apps built as Google Workspace Add-ons through the Google Workspace Add-ons API.
+
+The resource is a project singleton:
+
+```text
+projects/{PROJECT_NUMBER}/chatAppConfig
+```
+
+Use `GetChatAppConfig` to read configuration and `UpdateChatAppConfig` / `PATCH` to save the initial configuration or update an existing one.
+
+Important boundaries:
+
+- this API applies only to Chat apps built as Google Workspace Add-ons;
+- the Cloud project must be enrolled in the Developer Preview Program;
+- enable `gsuiteaddons.googleapis.com`;
+- authenticate as a **human user** with OAuth 2.0; service accounts are not supported for these methods;
+- include the `cloud-platform` OAuth scope;
+- reads require `gsuiteaddons.chatAppConfigs.get` and `chat.bots.get`;
+- writes additionally require `gsuiteaddons.chatAppConfigs.update` and `chat.bots.update`;
+- treat `FULL` vs `BASIC` read views deliberately;
+- use update masks for controlled updates;
+- repeated configuration lists are replacement-sensitive, so read/reconcile before writing when partial intent matters.
+
+Do not promote this preview surface to a mandatory deployment dependency. Keep the Cloud Console/manual configuration path documented until Google moves the API to GA and its operational contract is proven for your environment.
+
+`tools/audit_workspace_addon_release_state.py` can validate the normalized prerequisites when `chat_app_config_managed_programmatically` is enabled in a release-state snapshot.
+
+Official references:
+
+- https://developers.google.com/workspace/chat/configure-chat-api
+- https://developers.google.com/workspace/add-ons/reference/rest/v1/projects.chatAppConfig/get
+- https://developers.google.com/workspace/add-ons/reference/rest/v1/projects.chatAppConfig/patch

@@ -1,4 +1,9 @@
-# Roadmap to v2.0.0
+# Roadmap to v2.0.0 — CANCELED AS PRODUCT ROADMAP
+
+> **Superseded by v1.36.0.** The Agent Skill v2 roadmap is no longer an active objective. The project now follows `docs/gas-only-roadmap.md` and develops Google Apps Script / Google Workspace capability through v1.x. The historical roadmap is retained below for traceability only.
+
+---
+
 
 # Scope correction — v1.35.6
 

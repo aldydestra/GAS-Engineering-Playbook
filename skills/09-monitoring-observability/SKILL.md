@@ -1,10 +1,10 @@
 ---
 name: monitoring-observability
-description: "Design observability for Apps Script and Workspace workflows using structured logs, correlation IDs, metrics, retries, synthetic probes, reconciliation, incident classification, business-outcome checks, completeness-aware reads, and alert deduplication. Use when diagnosing or monitoring runtime behavior."
-skill_version: "1.9.0"
+description: "Design observability for Google Apps Script and Workspace workflows using structured logs, correlation IDs, trigger failure monitoring, execution duration, retries, metrics, synthetic probes, reconciliation, dependency/outage attribution, business-outcome checks, and alert deduplication. Use when diagnosing or monitoring GAS runtime behavior."
+skill_version: "1.9.1"
 repository_introduced: "v1.10.0"
 status: "evolving"
-last_repository_update: "v1.35.3"
+last_repository_update: "v1.36.0"
 tags:
   - google-apps-script
   - monitoring

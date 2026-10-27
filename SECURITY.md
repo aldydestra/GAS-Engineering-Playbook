@@ -83,3 +83,19 @@ For Workspace Add-on publication, treat Apps Script deployment, Marketplace App 
 The v2 exit assistant is advisory/deterministic and must not auto-create real operational evidence or auto-approve promotion. `tools/record_v2_approval.py` accepts approval only when the current promotion result is `READY_FOR_APPROVAL` and records the exact `promotion_context_sha256`. Candidate drift therefore invalidates old approval through the existing promotion verifier.
 
 Release ceremony credentials and signing authority remain outside the portable operator kit. External evidence collection is intentionally separated from authoritative approval and GitHub publication.
+
+## v1.36.0 Active Security Scope
+
+The active release scope is GAS/Workspace engineering. Agent Skill supply-chain, v2 promotion, human approval, live-agent burn-in, and signed-agent ceremony are historical/optional controls and are not default release requirements.
+
+The active production security checks prioritize:
+
+- Apps Script V8/runtime compatibility;
+- OAuth scope and authorization boundaries;
+- public web-app execution identity;
+- clasp path, symlink, credential, and destructive-sync safety;
+- immutable Apps Script deployment/version state;
+- Workspace Add-on Marketplace/configuration convergence;
+- quota/runtime headroom where exhaustion can become an availability/security issue.
+
+For Developer Preview programmatic Chat app configuration, never substitute service-account credentials for the required human-user OAuth flow. Require the `cloud-platform` scope and the documented Google Workspace Add-ons / Chat IAM permissions, and keep a manual recovery path while the API remains Preview.

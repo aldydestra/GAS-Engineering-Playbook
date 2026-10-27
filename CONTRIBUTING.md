@@ -447,3 +447,20 @@ Changes affecting skill content must regenerate and pass:
 
 Do not mark live-host, signed-attestation, or real-consumer evidence `PASS` unless it actually ran.
 
+
+## Active Contribution Scope — v1.36.0+
+
+The active roadmap is Google Apps Script / Google Workspace engineering.
+
+Prioritize contributions that improve:
+
+- Apps Script runtime correctness and resilience;
+- Sheets/Drive/Docs/Gmail/Calendar automation patterns;
+- performance, quotas, batching, caching, concurrency, and long-running jobs;
+- security, OAuth, deployment identity, and data handling;
+- testing, monitoring, incident diagnosis, and deployment;
+- HtmlService web apps and Workspace Add-ons/Chat/Studio;
+- Workspace APIs/events used by GAS systems;
+- database/hybrid architecture where GAS is part of the system.
+
+AI Agent Skill packaging, v2 promotion, live-agent burn-in, human approval, and signed-agent ceremony are legacy/optional topics and are not active roadmap milestones. Proposed work in those areas should not displace GAS engineering work.

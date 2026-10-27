@@ -1,10 +1,10 @@
 ---
 name: performance-engineering
 description: "Optimize Google Apps Script and Workspace automation performance: batch Spreadsheet/Drive calls, remove N+1 patterns, profile latency, use caching, chunking, checkpoints, quota/tool-call budgets, bounded pagination, and egress controls. Use when the primary goal is speed, scale, quota, memory, or runtime efficiency."
-skill_version: "1.5.0"
+skill_version: "1.6.0"
 repository_introduced: "v1.7.0"
 status: "evolving"
-last_repository_update: "v1.35.6"
+last_repository_update: "v1.36.0"
 tags:
   - google-apps-script
   - performance
@@ -1998,7 +1998,7 @@ Use:
 - pagination limits;
 - result caching where safe.
 
-Cross-reference Skills 13 and 16.
+Cross-reference Skill 16 for Workspace API/event transport budgets.
 
 # References
 
@@ -2074,3 +2074,35 @@ measure workbook + script latency
 Apps Script libraries can add noticeable startup latency to short, repeated `google.script.run` calls. For UI-heavy applications, keep the synchronous dependency surface small and prefer coarse server calls over many tiny round-trips.
 
 \n\n# v1.35.6 — Service-Call Budget as a First-Class Constraint\n\nCurrent Apps Script best-practice guidance continues to favor minimizing calls to Workspace/external services, batching reads/writes, caching expensive stable reads, and using bounded continuation for work that cannot safely finish in one execution.\n\nFor HTTP fan-out, prefer `UrlFetchApp.fetchAll()` only for independent requests and keep the request set bounded. Parallelism does not remove external quotas, remote rate limits, Apps Script execution limits, or downstream retry/backoff requirements.\n\nTreat the six-minute ordinary execution limit as a planning ceiling, not a target. Long-running jobs should checkpoint before the limit and resume with idempotent state.\n
+## GAS Quota Budget Guard — v1.36.0
+
+Treat quotas as an explicit capacity budget rather than waiting for production exceptions. As of the 2026-10-27 official quota snapshot, high-value limits include:
+
+| Metric | Consumer | Google Workspace |
+|---|---:|---:|
+| Script runtime | 6 min / execution | 6 min / execution |
+| Custom function runtime | 30 sec / execution | 30 sec / execution |
+| Workspace add-on runtime | 30 sec / execution | 30 sec / execution |
+| URL Fetch calls | 20,000 / day | 100,000 / day |
+| Properties read/write | 50,000 / day | 500,000 / day |
+| Trigger total runtime | 90 min / day | 6 hr / day |
+| Simultaneous executions / user | 30 | 30 |
+| Simultaneous executions / script | 1,000 | 1,000 |
+| Triggers / user / script | 20 | 20 |
+| URL Fetch response size | 50 MB / call | 50 MB / call |
+
+These are **dated engineering inputs**, not permanent constants. Google explicitly states quotas can change without notice.
+
+Use `tools/audit_gas_quota_budget.py` to compare an estimated workload against the current repository snapshot. Default policy warns at 80% utilization so designs preserve retry, burst, and operational headroom. Override the limits file when official values change instead of changing application logic around stale constants.
+
+For capacity planning, distinguish:
+
+```text
+per-execution hard limit
++ daily per-user quota
++ concurrent execution limit
++ downstream Workspace/API quota
++ application safety margin
+```
+
+Passing a daily budget does not prove a single execution is safe, and passing a single-execution budget does not prove daily capacity is safe.

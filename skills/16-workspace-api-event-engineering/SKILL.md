@@ -1,10 +1,10 @@
 ---
 name: workspace-api-event-engineering
-description: "Integrate Google Workspace APIs, Advanced Services, REST, Workspace Events/Pub/Sub, Workspace Studio triggers.fire, Chat membership/updateMask operations, product MCP/Universal Search, Developer Knowledge MCP/REST/gcloud, OAuth, pagination, quotas, retries, idempotency, and reconciliation. Use for API/event/tool transport engineering."
-skill_version: "1.5.1"
+description: "Integrate Google Apps Script with Google Workspace APIs, Advanced Services, REST, Workspace Events/Pub/Sub, Workspace Studio triggers.fire, Google Chat configuration and membership APIs, OAuth, pagination, quotas, retries, idempotency, and reconciliation. Use for GAS API/event transport engineering."
+skill_version: "1.6.0"
 repository_introduced: "v1.17.0"
 status: "evolving"
-last_repository_update: "v1.26.0"
+last_repository_update: "v1.36.0"
 tags:
   - google-workspace
   - google-apis
@@ -2802,3 +2802,27 @@ Cross-reference Skill 19 for Agent Skill packaging/trigger rules.
 
 - Gmail push notifications  
   https://developers.google.com/gmail/api/guides/push
+
+## Workspace Add-ons `chatAppConfig` API — v1.36.0
+
+For a Chat app implemented as a Google Workspace Add-on, the Google Workspace Add-ons API now exposes a Developer Preview configuration resource:
+
+```text
+GET   /v1/projects/{project}/chatAppConfig
+PATCH /v1/projects/{project}/chatAppConfig
+```
+
+Treat it as a control-plane API, not a message/event API.
+
+Integration rules:
+
+1. Use a Google Cloud **project number** in the resource name.
+2. Authenticate with human user credentials carrying `cloud-platform`; service accounts are not supported for this preview.
+3. Require read IAM permissions before treating a configuration snapshot as authoritative.
+4. Require update IAM permissions before mutation.
+5. Prefer explicit `updateMask` for controlled writes.
+6. Read current state before changing replacement-sensitive repeated fields.
+7. Keep preview dependencies isolated behind an adapter so a future API contract change does not leak through application code.
+8. Reconcile API state with Marketplace/App Configuration and the Apps Script deployment ID; no single surface proves the complete release state.
+
+This is intentionally a GAS/Workspace configuration concern. MCP/agent-specific transport is not part of the active v1.36 core distribution objective.

@@ -492,10 +492,18 @@ def deterministic_skill_zip(package_dir: Path, output_file: Path) -> None:
 
 
 def render_report(manifest: dict) -> str:
+    label = manifest.get("distribution_label", "Agent Skill")
+    scope_count = len(manifest.get("skills", []))
+    canonical_count = int(manifest.get("canonical_skill_count", scope_count))
+    scope_note = (
+        "All canonical skills are packaged."
+        if scope_count == canonical_count
+        else f"This profile packages {scope_count} selected skills from {canonical_count} canonical repository skills."
+    )
     rows = [
-        f"# Agent Skill Packaging Report — {BUILD_REPOSITORY_VERSION}",
+        f"# {label} Packaging Report — {BUILD_REPOSITORY_VERSION}",
         "",
-        "All canonical skills are packaged. Generated artifacts are distribution outputs; canonical source remains under `skills/`.",
+        scope_note + " Generated artifacts are distribution outputs; canonical source remains under `skills/`.",
         "",
         "| Package | Source | Mode | Source lines | Package SKILL lines | References | Reduction | Valid | Coverage |",
         "|---|---|---|---:|---:|---:|---:|---|---|",
@@ -510,11 +518,11 @@ def render_report(manifest: dict) -> str:
         "",
         "## Distribution Guarantees",
         "",
-        "- 19/19 canonical skills are represented in the distribution.",
+        f"- {scope_count}/{scope_count} skills selected by this profile are represented in the distribution.",
         "- Package names match package directories.",
         "- Main `SKILL.md` files are under 500 lines.",
         "- Legacy source content is preserved through generated references.",
-        "- Skill 19 is normalized from canonical `19-agent-skill-engineering` to distribution package `agent-skill-engineering`.",
+        *( ["- Skill 19 is normalized from canonical `19-agent-skill-engineering` to distribution package `agent-skill-engineering`."] if any(r.get("source") == "skills/19-agent-skill-engineering" for r in manifest.get("skills", [])) else [] ),
         "- `.skill` archives use deterministic file order, timestamps, permissions, and compression.",
         "- SHA-256 hashes are emitted in `SHA256SUMS`.",
         "",
@@ -540,6 +548,9 @@ def build(root: Path, config_path: Path, out_dir: Path) -> None:
     manifest = {
         "repository_version": BUILD_REPOSITORY_VERSION,
         "profile": BUILD_PROFILE,
+        "distribution_label": config.get("distribution_label", "Agent Skill"),
+        "scope": config.get("scope", "full-canonical"),
+        "excluded_sources": config.get("excluded_sources", []),
         "config": config_path.relative_to(root).as_posix(),
         "canonical_skill_count": len(list((root / "skills").glob("*/SKILL.md"))),
         "skills": [],

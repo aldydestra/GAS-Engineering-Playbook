@@ -2,6 +2,124 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.36.0] - 2026-10-27
+
+### GAS-Only Scope Lock & Platform Guardrails
+
+v1.36.0 ends the AI-centric v2 roadmap and re-establishes Google Apps Script / Google Workspace engineering as the only active product roadmap. AI systems may still consume the skill packages, but Agent Skill lifecycle governance is no longer a release objective.
+
+### Changed — active distribution scope
+
+The default release profile is now `packaging/gas-skills/core-v1.36.0.json` and packages **16 GAS/Workspace skills**.
+
+Excluded from the active core:
+
+- Skill 13 — AI Agent Integration;
+- Skill 18 — Agent Skill Supply-Chain Security;
+- Skill 19 — Agent Skill Engineering.
+
+Those skills and the historical v2/governance tooling remain available as legacy/optional material. They are not active release blockers.
+
+New active artifacts:
+
+- `tools/gas_skill_packager.py`;
+- `tools/verify_gas_skill_dist.py`;
+- `tools/evaluate_gas_skill_parity.py`;
+- `packaging/gas-skills/core-v1.36.0.json`;
+- `evals/gas-skills/`;
+- `dist/gas-skills-v1.36.0/`;
+- `reports/gas-skill-evaluation-v1.36.0.{json,md}`;
+- `.github/workflows/gas-skill-quality.yml`.
+
+Historical Agent Skill GitHub workflows were moved to `legacy/ai-governance/workflows/` so they no longer run automatically.
+
+### Added — executable GAS quota budget audit
+
+`tools/audit_gas_quota_budget.py` converts selected official Apps Script quotas into a dated capacity-planning guard. The built-in 2026-10-27 snapshot includes:
+
+- ordinary script runtime: 6 minutes / execution;
+- custom function runtime: 30 seconds / execution;
+- Workspace add-on runtime: 30 seconds / execution;
+- URL Fetch: 20,000/day consumer and 100,000/day Workspace;
+- Properties read/write: 50,000/day consumer and 500,000/day Workspace;
+- trigger runtime: 90 min/day consumer and 6 hr/day Workspace;
+- simultaneous executions: 30/user and 1,000/script;
+- triggers: 20/user/script;
+- URL Fetch response size: 50 MB/call.
+
+The auditor warns by default at 80% utilization and accepts `--limits` overrides because Google documents that quota values can change without notice.
+
+Added:
+
+- `tools/test_gas_quota_budget.py`;
+- `examples/gas-quota-budget-workspace.json`;
+- `reports/gas-quota-budget-example-v1.36.0.json`;
+- `docs/gas-quota-budget-v1.36.0.md`.
+
+### Added — Chat app configuration Developer Preview guard
+
+Google Workspace Add-ons release notes on 2026-10-23 introduced Developer Preview programmatic Chat app configuration for Chat apps built as Google Workspace Add-ons.
+
+`tools/audit_workspace_addon_release_state.py` now validates, when programmatic configuration is enabled:
+
+- Developer Preview enrollment;
+- `gsuiteaddons.googleapis.com` enabled;
+- human user OAuth rather than service-account authentication;
+- `cloud-platform` scope;
+- read IAM permissions (`gsuiteaddons.chatAppConfigs.get`, `chat.bots.get`);
+- update IAM permissions (`gsuiteaddons.chatAppConfigs.update`, `chat.bots.update`) for write mode.
+
+The skill guidance also records update-mask and repeated-field replacement semantics and keeps manual Cloud Console configuration as the fallback while the feature remains Preview.
+
+### Changed — GAS routing focus
+
+The GAS-only evaluation corpus removes Agent/MCP/LLM-specific routing cases. Discovery descriptions were tightened for GAS use cases such as:
+
+- LockService/concurrent Google Sheet updates;
+- authorization-filtered and partial reads;
+- trigger failures/execution duration/dependency outage attribution;
+- GAS web-app environment promotion and OAuth smoke testing.
+
+Current deterministic GAS-only parity:
+
+```text
+active skills                         16
+positive routing cases               118
+negative routing cases                29
+source/package description parity    16/16
+positive top-3 recall                99.15%
+negative specificity                 100%
+classification parity                100%
+capability assertions                30/30
+```
+
+### Skill Version Updates
+
+| Skill | v1.35.6 | v1.36.0 | Material change |
+|---|---:|---:|---|
+| 01 GAS Core Engineering | 1.5.0 | **1.5.1** | GAS-only routing emphasis for concurrency/LockService and concurrent Sheet updates |
+| 06 Performance Engineering | 1.5.0 | **1.6.0** | executable quota/capacity budget and dated official limit snapshot |
+| 07 Security Engineering | 1.7.2 | **1.7.3** | GAS/Workspace authorization-filtered read and access-control routing emphasis |
+| 08 Testing & Quality | 1.7.0 | **1.8.0** | GAS-only quality ladder and quota-contract testing |
+| 09 Monitoring & Observability | 1.9.0 | **1.9.1** | trigger/runtime/dependency failure observability routing emphasis |
+| 10 Deployment Engineering | 1.16.0 | **1.17.0** | GAS-only release model; Chat configuration Preview deployment rules |
+| 14 Workspace Add-ons & Chat | 1.6.0 | **1.7.0** | `chatAppConfig` Developer Preview configuration contract |
+| 16 Workspace API/Event Engineering | 1.5.1 | **1.6.0** | Chat app configuration control-plane API and GAS transport scope |
+
+### Validation
+
+```text
+GAS core packages                     PASS (16/16)
+GAS package coverage                  PASS (16/16)
+GAS deterministic rebuild            PASS
+GAS routing/capability parity         PASS
+GAS guardrail unittest suite          39/39 PASS
+quota example audit                   PASS
+legacy AI/V2 workflows                DISABLED FROM DEFAULT CI
+```
+
+The old 108-test Agent Skill governance suite remains historical evidence for v1.35.6; it is not the v1.36.0 release gate.
+
 ## [v1.35.6] - 2026-10-21
 
 ### GAS Core Realignment & V2 Gate Simplification
