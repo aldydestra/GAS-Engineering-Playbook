@@ -283,11 +283,6 @@
       "query": "I need a regression test strategy for a GAS migration before releasing it."
     },
     {
-      "id": "testing-quality-04",
-      "expected_skill": "testing-quality",
-      "query": "Help me design positive and negative trigger evals for a skill description."
-    },
-    {
       "id": "testing-quality-06",
       "expected_skill": "testing-quality",
       "query": "I need adversarial scanner tests for nested scripts, symlinks, archives, and compiled bytecode."
@@ -591,6 +586,26 @@
       "id": "workspace-governance-compliance-engineering-08",
       "expected_skill": "workspace-governance-compliance-engineering",
       "query": "Can you create a compliance engineering preflight for data residency, DLP, audit, and AI access?"
+    },
+    {
+      "id": "gas-core-engineering-09",
+      "expected_skill": "gas-core-engineering",
+      "query": "Design a resumable Apps Script job where the checkpoint advances only after durable writes and a single time trigger resumes the next chunk."
+    },
+    {
+      "id": "performance-engineering-09",
+      "expected_skill": "performance-engineering",
+      "query": "How much runtime headroom should each Apps Script chunk keep so it can persist state and schedule continuation before the six-minute ceiling?"
+    },
+    {
+      "id": "testing-quality-09",
+      "expected_skill": "testing-quality",
+      "query": "How do I test a crash after commit but before checkpoint update so replay proves the Apps Script job is idempotent?"
+    },
+    {
+      "id": "monitoring-observability-09",
+      "expected_skill": "monitoring-observability",
+      "query": "What job_id, checkpoint, attempt, continuation and outcome fields should I log across a multi-execution Apps Script workflow?"
     }
   ],
   "negative_cases": [

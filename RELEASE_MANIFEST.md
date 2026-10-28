@@ -1,340 +1,338 @@
-# Release Manifest — v1.36.0
+# Release Manifest — v1.37.0
 
 ## 1. Release Identity
 
-- **Repository:** GAS Engineering Playbook
-- **Version:** `v1.36.0`
-- **Release date:** 2026-10-27
-- **Release title:** **GAS-Only Scope Lock & Platform Guardrails**
-- **Primary objective:** Google Apps Script / Google Workspace engineering knowledge and executable engineering guardrails.
-- **Active distribution:** `dist/gas-skills-v1.36.0/`
-- **Active package profile:** `packaging/gas-skills/core-v1.36.0.json`
-- **Active CI:** `.github/workflows/gas-skill-quality.yml`
+- **Repository version:** `v1.37.0`
+- **Release date:** 2026-10-28
+- **Release name:** Execution Resilience & Final Pre-v2 Readiness
+- **Product scope:** Google Apps Script / Google Workspace engineering
+- **Active distribution:** `dist/gas-skills-v1.37.0/`
+- **Active package profile:** `packaging/gas-skills/core-v1.37.0.json`
+- **Final pre-v2 gate:** `dist/gas-v2-readiness-v1.37.0/readiness.json`
 
-## 2. Product Scope Decision
+## 2. Release Decision
 
-v1.36.0 formally cancels the AI-centric Agent Skill v2 roadmap.
+v1.37.0 is the **final pre-v2 release**.
 
-The project is not an Agent Skill lifecycle/governance product. The project is a **Google Apps Script engineering playbook**. An AI assistant can consume these skills, but AI host lifecycle, agent burn-in, human promotion approval, signed agent-package ceremony, or v2 package-first migration are not requirements for the GAS content to be correct or useful.
+The repository is not waiting for additional AI-agent governance, human approval, live-agent burn-in, or signed-agent ceremony. Those historical mechanisms remain legacy material only.
 
-The active development contract is now:
+The reason to create v2 is now narrow and GAS-specific:
 
-```text
-Google Apps Script / Workspace platform knowledge
-+ real engineering patterns
-+ executable GAS project/deployment/quota checks
-+ deterministic skill packaging
-+ GAS-only routing/capability parity
-```
+> simplify the public skill entry surface so users can ask for GAS help through one default skill without understanding the internal 16-skill taxonomy.
 
-No future major release is planned solely to advance Agent Skill packaging.
+v2 is therefore a usability/packaging breaking change, not a knowledge reset.
 
-## 3. Active GAS Skill Distribution
+## 3. Active GAS Core
 
-The default v1.36.0 profile packages **16 skills**:
+The active core remains 16 specialists:
 
-| # | Skill | Active core |
-|---:|---|---|
-| 01 | GAS Core Engineering | yes |
-| 02 | AppSheet Migration | yes |
-| 03 | Software Architecture | yes |
-| 04 | Database Engineering | yes |
-| 05 | PostgreSQL Integration | yes |
-| 06 | Performance Engineering | yes |
-| 07 | Security Engineering | yes |
-| 08 | Testing & Quality | yes |
-| 09 | Monitoring & Observability | yes |
-| 10 | Deployment Engineering | yes |
-| 11 | Documentation Engineering | yes |
-| 12 | Web App / Frontend Engineering | yes |
-| 14 | Workspace Add-ons & Chat Engineering | yes |
-| 15 | Product Design Engineering | yes |
-| 16 | Workspace API / Event Engineering | yes |
-| 17 | Workspace Governance & Compliance Engineering | yes |
+1. GAS Core Engineering
+2. AppSheet Migration
+3. Software Architecture
+4. Database Engineering
+5. PostgreSQL Integration
+6. Performance Engineering
+7. Security Engineering
+8. Testing & Quality
+9. Monitoring & Observability
+10. Deployment Engineering
+11. Documentation Engineering
+12. Web App / Frontend Engineering
+14. Workspace Add-ons & Chat Engineering
+15. Product Design Engineering
+16. Workspace API / Event Engineering
+17. Workspace Governance & Compliance Engineering
 
-### Excluded from default core
+Excluded legacy/optional AI-only extensions remain Skill 13, 18, and 19.
 
-| # | Skill | v1.36.0 status | Reason |
-|---:|---|---|---|
-| 13 | AI Agent Integration | legacy / optional | primary ownership is LLM/agent runtime behavior, not GAS engineering |
-| 18 | Agent Skill Supply-Chain Security | legacy / optional | primary ownership is AI skill-package governance |
-| 19 | Agent Skill Engineering | legacy / optional | primary ownership is Agent Skill packaging/host lifecycle |
+## 4. Stateful Job Reliability
 
-The excluded skills remain in the repository for traceability and optional use. They are not built into `dist/gas-skills-v1.36.0/` and are not part of the default release gate.
+### Problem closed in this release
 
-## 4. AI / V2 Governance Decommission
+Apps Script ordinary executions have a finite runtime ceiling. Long jobs therefore cannot be treated as one arbitrarily long function. They need explicit durable progress and safe replay semantics.
 
-The historical Agent Skill workflows were removed from the active GitHub Actions directory and stored at:
+v1.37.0 formalizes this state machine:
 
 ```text
-legacy/ai-governance/workflows/
+claim logical job
+→ acquire narrow lock
+→ load versioned checkpoint
+→ process bounded chunk
+→ commit durable output idempotently
+→ advance checkpoint only after commit
+→ release lock
+→ schedule at most one continuation when work remains
 ```
 
-This means they no longer execute on ordinary pull requests, pushes, or release work.
+### New deterministic guard
 
-Historical tooling and generated evidence from v1.24–v1.35.6 may remain in the repository. Their purpose is traceability, not an active roadmap.
+`tools/audit_gas_stateful_job.py`
 
-The following concepts are no longer default release blockers:
+It validates:
 
-- live AI-host lifecycle;
-- multi-day consumer/agent burn-in;
-- human promotion approval;
-- signed Agent Skill release ceremony;
-- immutable Agent Skill operational closure;
-- v2 Shadow RC promotion.
+- `job_id` availability for correlation/replay;
+- application chunk budget below the configured platform ceiling;
+- checkpoint storage backend;
+- PropertiesService value and total-store budgets;
+- durable commit before checkpoint advance;
+- checkpoint schema versioning and resume token;
+- LockService strategy for shared mutable state;
+- avoidance of broad locks around slow remote I/O;
+- continuation strategy, handler, deduplication and maximum active trigger count;
+- stable idempotency key fields;
+- duplicate-effect prevention;
+- bounded retry count;
+- explicit transient/permanent/auth/validation failure classification;
+- reconciliation/dead-letter sink;
+- minimum stateful-job telemetry fields.
 
-The historical roadmap file `docs/roadmap-to-v2.0.md` is marked canceled. The current roadmap is `docs/gas-only-roadmap.md`.
+Reference fixture:
 
-## 5. GAS-Only Packaging Pipeline
+`examples/gas-stateful-jobs/resumable-job-contract.json`
 
-### Added
+Reference result:
 
-- `tools/gas_skill_packager.py`
-- `tools/verify_gas_skill_dist.py`
-- `tools/test_gas_skill_packaging.py`
-- `tools/evaluate_gas_skill_parity.py`
-- `packaging/gas-skills/core-v1.36.0.json`
-- `evals/gas-skills/trigger-cases.json`
-- `evals/gas-skills/capability-assertions.json`
-- `dist/gas-skills-v1.36.0/`
-- `reports/gas-skill-evaluation-v1.36.0.json`
-- `reports/gas-skill-evaluation-v1.36.0.md`
+`reports/gas-stateful-job-example-v1.37.0.json` → **PASS**
 
-The low-level deterministic packager remains shared with the historical packaging implementation, but the supported entrypoint for the current release is `tools/gas_skill_packager.py`.
+## 5. Trigger Topology Reliability
 
-### Distribution guarantees
+### New deterministic guard
 
-```text
-active profile skills                  16
-packages built                         16
-package validation                     PASS 16/16
-coverage                               PASS 16/16
-deterministic archive generation       PASS
-relative reference validation          PASS
-main packaged SKILL.md <500 lines      PASS
-excluded AI-only skills in core        0
-```
+`tools/audit_gas_trigger_topology.py`
 
-## 6. GAS-Only Routing & Capability Evaluation
+It validates a normalized trigger inventory for:
 
-The previous routing corpus included Agent Skill, MCP, LLM, and autonomous-agent tasks. Those cases are not relevant to the current product scope and were removed from the active GAS evaluation corpus.
+- current trigger count against the documented 20/user/script limit;
+- duplicate trigger IDs;
+- duplicate handlers beyond policy limits;
+- singleton continuation policy;
+- trigger owner/type metadata;
+- source handler existence when `.gs` source is supplied;
+- unmanaged trigger handlers without explicit topology policy.
 
-Routing descriptions were strengthened for high-value GAS ownership boundaries:
+Reference fixture:
 
-- Skill 01: LockService, concurrent Google Sheet updates, multi-execution locking;
-- Skill 07: authorization-filtered/partial reads and GAS/Workspace access control;
-- Skill 09: trigger failures, execution duration, retries, dependency/outage attribution;
-- Skill 10: GAS web-app environment promotion and OAuth/external-runtime smoke testing.
+`examples/gas-stateful-jobs/trigger-topology.json`
 
-Current deterministic result:
+Reference result:
 
-```text
-active GAS skills                      16
-source/package description parity      16/16
-positive routing cases                 118
-negative routing cases                  29
-source positive top-3 recall           99.15%
-package positive top-3 recall          99.15%
-positive classification parity         100%
-source negative specificity            100%
-package negative specificity           100%
-negative classification parity         100%
-capability assertions                  30/30 PASS
-GAS parity gate                        PASS
-```
+`reports/gas-trigger-topology-example-v1.37.0.json` → **PASS**
 
-This is a deterministic routing proxy, not a claim about one specific live model host.
+## 6. Dated Platform Assumptions
 
-## 7. Executable GAS Quota Budget Guard
+The v1.37 guardrails use the current official Apps Script documentation snapshot reviewed on 2026-10-28.
 
-### New tool
+Important current limits include:
 
-`tools/audit_gas_quota_budget.py`
+| Limit | Current documented value |
+|---|---:|
+| Ordinary script runtime | 6 min/execution |
+| Simple trigger runtime | 30 sec/execution |
+| Properties value size | 9 KB/value |
+| Properties total storage | 500 KB/property store |
+| Triggers | 20/user/script |
+| Trigger total runtime — consumer | 90 min/day |
+| Trigger total runtime — Workspace | 6 hr/day |
 
-The tool evaluates estimated workload against a dated snapshot of official Apps Script quota/limit documentation.
-
-Built-in snapshot date: **2026-10-27**
-
-Official source:
-
-`https://developers.google.com/apps-script/guides/services/quotas`
-
-### Built-in high-value limits
-
-| Metric | Consumer | Google Workspace |
-|---|---:|---:|
-| Script runtime | 6 min/execution | 6 min/execution |
-| Custom function runtime | 30 sec/execution | 30 sec/execution |
-| Workspace add-on runtime | 30 sec/execution | 30 sec/execution |
-| URL Fetch calls | 20,000/day | 100,000/day |
-| Properties read/write | 50,000/day | 500,000/day |
-| Trigger total runtime | 90 min/day | 6 hr/day |
-| Simultaneous executions/user | 30 | 30 |
-| Simultaneous executions/script | 1,000 | 1,000 |
-| Triggers/user/script | 20 | 20 |
-| URL Fetch response size | 50 MB/call | 50 MB/call |
-
-Google states quota values can change without notice. Therefore:
-
-- the JSON report records `snapshot_date`;
-- the tool accepts `--limits` override input;
-- default warning threshold is 80% to preserve headroom;
-- the tool is a capacity guard, not a substitute for production quota telemetry.
-
-Added example:
-
-- `examples/gas-quota-budget-workspace.json`
-- `reports/gas-quota-budget-example-v1.36.0.json`
-
-Example result: **PASS**.
-
-## 8. Workspace Add-ons `chatAppConfig` Developer Preview
-
-Google Workspace Add-ons release notes dated **2026-10-23** introduced Developer Preview methods to programmatically read/update the Chat app configuration for Chat apps built as Google Workspace Add-ons.
-
-Resource:
-
-```text
-projects/{PROJECT_NUMBER}/chatAppConfig
-```
-
-Methods:
-
-```text
-GetChatAppConfig
-UpdateChatAppConfig / PATCH
-```
-
-### Guardrails added
-
-`tools/audit_workspace_addon_release_state.py` now validates programmatic configuration prerequisites when the normalized snapshot enables `chat_app_config_managed_programmatically`:
-
-- Developer Preview enrollment;
-- Google Workspace Add-ons API enabled (`gsuiteaddons.googleapis.com`);
-- **human user OAuth** principal;
-- required `cloud-platform` OAuth scope;
-- read IAM permissions:
-  - `gsuiteaddons.chatAppConfigs.get`
-  - `chat.bots.get`
-- write IAM permissions when mutation is enabled:
-  - `gsuiteaddons.chatAppConfigs.update`
-  - `chat.bots.update`
-
-Service-account authentication is treated as an error for this Preview path because current Google documentation does not support it.
-
-Skill guidance also records:
-
-- BASIC vs FULL read views;
-- explicit `updateMask` for controlled changes;
-- replacement-sensitive repeated fields;
-- read/reconcile-before-write behavior;
-- mandatory manual/Cloud Console fallback while the API remains Developer Preview.
+Google explicitly documents quotas/limits as subject to change. Production systems should refresh these assumptions rather than treating repository constants as permanent platform guarantees.
 
 Official references:
 
-- `https://developers.google.com/workspace/add-ons/release-notes`
-- `https://developers.google.com/workspace/chat/configure-chat-api`
-- `https://developers.google.com/workspace/add-ons/reference/rest/v1/projects.chatAppConfig/get`
-- `https://developers.google.com/workspace/add-ons/reference/rest/v1/projects.chatAppConfig/patch`
+- `https://developers.google.com/apps-script/guides/support/best-practices`
+- `https://developers.google.com/apps-script/guides/services/quotas`
+- `https://developers.google.com/apps-script/guides/triggers`
+- `https://developers.google.com/apps-script/guides/triggers/installable`
 
-## 9. Skill Version Changes
+## 7. GAS Routing & Capability Evaluation
 
-| Skill | v1.35.6 | v1.36.0 | Update |
+The GAS-only routing corpus now removes the final leftover case that evaluated AI skill-description triggering instead of GAS engineering.
+
+New intent cases cover:
+
+- resumable stateful-job architecture;
+- runtime headroom/chunk sizing;
+- checkpoint/idempotency crash-boundary testing;
+- continuation-chain observability.
+
+Final deterministic evaluation:
+
+```text
+active skills                         16
+positive routing cases               121
+negative routing cases                29
+source top-1 accuracy                85.12%
+package top-1 accuracy               85.12%
+source positive top-3 recall         100%
+package positive top-3 recall        100%
+source negative specificity          100%
+package negative specificity         100%
+classification parity                100%
+capability assertions                34/34 PASS
+```
+
+The top-3 routing gate is intentionally used as a candidate-selection proxy because v2 will route first to one task family and then progressively disclose specialist knowledge.
+
+## 8. v2 Simplification Contract
+
+### Goal
+
+Users should not need to choose from 16 specialist names before asking a GAS question.
+
+### Planned v2 public model
+
+```text
+one public entry skill: gas-engineering
+→ classify task family
+→ load 1 primary specialist
+→ optionally load 1 supporting specialist
+→ open deeper references only when required
+```
+
+### Six task families
+
+| Family | Primary | Supporting specialists |
+|---|---|---|
+| Runtime & Automation | GAS Core | Performance, Testing, Monitoring |
+| Architecture & Data | Software Architecture | Database, PostgreSQL |
+| Web App & UX | Web App / Frontend | Product Design |
+| Workspace Integrations | Workspace Add-ons & Chat | Workspace API / Event |
+| Security & Release | Security | Deployment, Governance & Compliance |
+| Migration & Documentation | AppSheet Migration | Documentation |
+
+Machine-readable contract:
+
+`packaging/gas-skills/v2-simplification-preview.json`
+
+Preview front door:
+
+`preview/v2/gas-engineering/SKILL.md`
+
+The mapping covers all 16 active skills **exactly once**. There are no orphan specialists and no legacy AI-only extensions in the v2 preview.
+
+## 9. Machine-Verifiable Final Pre-v2 Gate
+
+New tools:
+
+- `tools/build_gas_v2_readiness.py`
+- `tools/verify_gas_v2_readiness.py`
+- `tools/test_gas_v2_readiness.py`
+
+The gate verifies:
+
+- active distribution exactly matches the 16-skill GAS core;
+- GAS routing/capability evaluation is PASS;
+- stateful-job reference contract is PASS;
+- trigger-topology reference contract is PASS;
+- all 16 specialists map exactly once to the six v2 task families;
+- default v2 entry skill is `gas-engineering`;
+- default specialist fan-out is capped at two;
+- active CI remains GAS-only.
+
+Final result:
+
+```text
+READY_FOR_V2_SIMPLIFICATION
+```
+
+## 10. Skill Version Changes
+
+| Skill | v1.36.0 | v1.37.0 | Update |
 |---|---:|---:|---|
-| 01 — GAS Core Engineering | 1.5.0 | **1.5.1** | GAS-only routing: concurrency, LockService, concurrent Sheet updates |
-| 06 — Performance Engineering | 1.5.0 | **1.6.0** | quota/capacity budget snapshot and executable headroom audit |
-| 07 — Security Engineering | 1.7.2 | **1.7.3** | GAS/Workspace access-control and authorization-filtered read routing |
-| 08 — Testing & Quality | 1.7.0 | **1.8.0** | GAS-only release quality ladder and quota contract tests |
-| 09 — Monitoring & Observability | 1.9.0 | **1.9.1** | trigger/runtime/dependency failure observability routing |
-| 10 — Deployment Engineering | 1.16.0 | **1.17.0** | GAS-only release model and `chatAppConfig` Preview deployment contract |
-| 14 — Workspace Add-ons & Chat | 1.6.0 | **1.7.0** | programmatic Chat app configuration Developer Preview guidance |
-| 16 — Workspace API/Event Engineering | 1.5.1 | **1.6.0** | `chatAppConfig` control-plane API and GAS-centric transport scope |
+| 01 — GAS Core Engineering | 1.5.1 | **1.6.0** | formal stateful-job reliability contract, durable commit/checkpoint order, safe continuation |
+| 06 — Performance Engineering | 1.6.0 | **1.7.0** | runtime headroom, bounded chunk budgets, continuation efficiency |
+| 08 — Testing & Quality | 1.8.0 | **1.9.0** | crash-boundary, replay/idempotency and continuation-topology contract tests |
+| 09 — Monitoring & Observability | 1.9.1 | **1.10.0** | logical-job telemetry across multi-execution continuation chains |
 
-All other active skills retain their v1.35.6 skill versions.
+All other active specialist versions are unchanged from v1.36.0.
 
-Skills 13, 18, and 19 are not advanced because they are no longer active product scope.
+## 11. Active Test Results
 
-## 10. Active CI and Test Results
-
-### Active GAS guardrail unittest suite
+### Unit tests
 
 ```text
+GAS-only packaging tests                  4 PASS
 GAS project/runtime audit tests          14 PASS
+GAS quota-budget tests                    6 PASS
 GAS deployment-state tests                7 PASS
-GAS quota-budget tests                     6 PASS
+GAS stateful-job tests                     7 PASS
+GAS trigger-topology tests                 5 PASS
 Workspace Add-on release-state tests       8 PASS
-GAS-only packaging tests                   4 PASS
----------------------------------------------
-active GAS unittest total                 39/39 PASS
+v2 simplification/readiness tests          3 PASS
+-------------------------------------------------
+active GAS unittest total                54/54 PASS
 ```
 
-### Additional release gates
+### Additional gates
 
 ```text
-GAS-only build                            PASS
-GAS-only distribution verify              PASS (16/16)
-GAS routing/capability parity              PASS
-quota example workload                     PASS
+GAS distribution build                  PASS
+GAS distribution verify                 PASS (16/16)
+GAS routing/capability parity            PASS
+stateful-job example audit               PASS
+trigger-topology example audit           PASS
+v2 simplification map                    PASS
+v2 readiness verification                READY_FOR_V2_SIMPLIFICATION
 ```
 
-The historical 108-test Agent Skill governance suite from v1.35.6 is not represented as the v1.36.0 release gate because that would reintroduce the scope that was intentionally retired.
+## 12. Files Added in v1.37.0
 
-## 11. Files Added
+- `tools/audit_gas_stateful_job.py`
+- `tools/test_gas_stateful_job.py`
+- `tools/audit_gas_trigger_topology.py`
+- `tools/test_gas_trigger_topology.py`
+- `tools/build_gas_v2_readiness.py`
+- `tools/verify_gas_v2_readiness.py`
+- `tools/test_gas_v2_readiness.py`
+- `examples/gas-stateful-jobs/resumable-job-contract.json`
+- `examples/gas-stateful-jobs/trigger-topology.json`
+- `reports/gas-stateful-job-example-v1.37.0.json`
+- `reports/gas-trigger-topology-example-v1.37.0.json`
+- `packaging/gas-skills/core-v1.37.0.json`
+- `packaging/gas-skills/v2-simplification-preview.json`
+- `preview/v2/gas-engineering/SKILL.md`
+- `docs/stateful-jobs-v1.37.0.md`
+- `docs/v2-simplification-contract.md`
+- `dist/gas-skills-v1.37.0/`
+- `dist/gas-v2-readiness-v1.37.0/`
+
+## 13. Files Materially Changed
 
 - `.github/workflows/gas-skill-quality.yml`
-- `legacy/ai-governance/README.md`
-- `legacy/ai-governance/workflows/agent-skill-packaging.yml`
-- `legacy/ai-governance/workflows/agent-skill-attestation.yml`
-- `packaging/gas-skills/core-v1.36.0.json`
-- `evals/gas-skills/trigger-cases.json`
-- `evals/gas-skills/capability-assertions.json`
 - `tools/gas_skill_packager.py`
 - `tools/verify_gas_skill_dist.py`
-- `tools/test_gas_skill_packaging.py`
 - `tools/evaluate_gas_skill_parity.py`
-- `tools/audit_gas_quota_budget.py`
-- `tools/test_gas_quota_budget.py`
-- `examples/gas-quota-budget-workspace.json`
-- `reports/gas-quota-budget-example-v1.36.0.json`
-- `docs/gas-only-scope-lock-v1.36.0.md`
+- `tools/test_gas_skill_packaging.py`
+- `evals/gas-skills/trigger-cases.json`
+- `evals/gas-skills/capability-assertions.json`
+- Skills 01, 06, 08, 09
 - `docs/gas-only-roadmap.md`
-- `docs/gas-quota-budget-v1.36.0.md`
-- `dist/gas-skills-v1.36.0/`
-
-## 12. Files Materially Changed
-
-- `tools/agent_skill_packager.py` — report generation generalized so partial/GAS profiles do not claim 19/19 canonical coverage.
-- `tools/evaluate_agent_skill_parity.py` — report label made configurable for GAS-only evaluation.
-- `tools/audit_workspace_addon_release_state.py` — Chat `chatAppConfig` Preview prerequisites.
-- `tools/test_workspace_addon_release_state.py` — Preview auth/API/IAM regression tests.
-- Skills 01, 06, 07, 08, 09, 10, 14, 16.
 - `README.md`
+- `CONTRIBUTING.md`
+- `SECURITY.md`
 - `CHANGELOG.md`
 - `GITHUB_RELEASE_NOTES.md`
-- `SECURITY.md`
-- `docs/roadmap-to-v2.0.md` — historical roadmap explicitly canceled.
+- `RELEASE_MANIFEST.md`
 
-## 13. Known Limitations
+## 14. Known Limitations
 
-1. The quota auditor uses a dated repository snapshot; official limits remain authoritative and can change without notice.
-2. Quota estimates are architecture inputs, not live usage measurements.
-3. The `chatAppConfig` API is Developer Preview as of this release and must not be treated as a guaranteed GA contract.
-4. The GAS-only routing gate is deterministic BM25-based parity, not a live-model benchmark.
-5. Some active supporting skills retain historical references to AI/MCP features because they are part of the repository's evolution. Those topics are not active roadmap targets and the GAS-only evaluation corpus does not route for them.
-6. Historical AI/v2 tools remain present for traceability; only `.github/workflows/gas-skill-quality.yml` represents default CI policy.
+1. Stateful-job and trigger-topology auditors validate normalized design/runtime snapshots; they do not replace executing the workflow in the target Google Workspace environment.
+2. Trigger owner identity cannot be inferred from source code alone and must come from a normalized inventory/live environment.
+3. Apps Script quotas can change; official Google documentation remains authoritative.
+4. v2 preview validates taxonomy coverage and progressive-disclosure structure, but v2 packaging itself is intentionally deferred to the major release.
 
-## 14. Next Development Direction
+## 15. v2 Entry Condition
 
-The next release should remain in v1.x and deepen GAS itself, not Agent Skill lifecycle infrastructure.
+All planned pre-v2 structural gates are satisfied.
 
-Recommended next checkpoint: **v1.37.0 — Execution Resilience & Stateful Jobs**, focused on:
+The repository can now move to **v2.0.0 — Simplified GAS Skill Experience** without waiting for additional v1 capability releases.
 
-- resumable execution state machines;
-- trigger continuation and duplicate prevention;
-- LockService critical sections;
-- idempotent mutations;
-- retry/dead-letter/reconciliation patterns;
-- Properties/Cache state boundaries;
-- executable trigger/resumability audits.
+v2 should focus on:
 
-See `docs/gas-only-roadmap.md`.
+- one default `gas-engineering` entry skill;
+- six task families;
+- specialist progressive disclosure;
+- shorter activation context;
+- simpler installation/usage documentation;
+- preserving the 16 specialist modules as maintainable depth rather than exposing their taxonomy to every user.
+
+Sheets/Drive scale engineering, Add-on hardening, hybrid architecture and security deepening continue after v2 as capability releases on top of the simpler interface.

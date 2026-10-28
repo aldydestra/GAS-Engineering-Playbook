@@ -241,6 +241,38 @@
         "Vault",
         "Client-side Encryption"
       ]
+    },
+    {
+      "id": "gas-core-engineering-cap-03",
+      "skill": "gas-core-engineering",
+      "all_of": [
+        "durable",
+        "continuation"
+      ]
+    },
+    {
+      "id": "performance-engineering-cap-03",
+      "skill": "performance-engineering",
+      "all_of": [
+        "runtime",
+        "headroom"
+      ]
+    },
+    {
+      "id": "testing-quality-cap-03",
+      "skill": "testing-quality",
+      "all_of": [
+        "checkpoint",
+        "idempotent"
+      ]
+    },
+    {
+      "id": "monitoring-observability-cap-03",
+      "skill": "monitoring-observability",
+      "all_of": [
+        "job_id",
+        "CHECKPOINT_ADVANCED"
+      ]
     }
   ]
 }

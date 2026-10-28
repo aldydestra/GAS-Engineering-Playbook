@@ -1,10 +1,10 @@
 ---
 name: testing-quality
-description: "Test and evaluate Google Apps Script and Workspace systems using unit/integration/regression tests, contract assertions, deployment fixtures, quota/runtime budgets, trigger tests, authorization tests, baseline comparisons, and production preflight checks. Use when proving GAS correctness, release quality, or platform compatibility."
-skill_version: "1.8.0"
+description: "Test and evaluate Google Apps Script and Workspace systems using unit/integration/regression tests, stateful-job checkpoint/idempotent replay tests, deployment fixtures, quota/runtime budgets, trigger tests, authorization tests, baseline comparisons, and production preflight checks. Use when proving GAS correctness, failure-boundary safety, release quality, or platform compatibility."
+skill_version: "1.9.0"
 repository_introduced: "v1.9.0"
 status: "evolving"
-last_repository_update: "v1.36.0"
+last_repository_update: "v1.37.0"
 tags:
   - google-apps-script
   - testing
@@ -2002,3 +2002,19 @@ static GAS/runtime preflight
 ```
 
 Do not gate ordinary GAS skill releases on AI-agent burn-in, human promotion approval, or signed-agent-package ceremony.
+
+# v1.37.0 — Stateful Workflow Contract Tests
+
+Long-running Apps Script workflows need tests for failure boundaries, not only the happy path.
+
+At minimum test:
+
+1. crash before durable commit → checkpoint does not advance;
+2. crash after durable commit but before checkpoint write → replay does not duplicate the effect;
+3. duplicate continuation request → only one continuation remains active;
+4. retryable error → bounded retry with the same idempotency key;
+5. validation/auth/permanent error → no blind retry loop;
+6. oversized checkpoint → design-time failure before production;
+7. stale or missing trigger handler → topology audit failure.
+
+Use `tools/audit_gas_stateful_job.py` and `tools/audit_gas_trigger_topology.py` as deterministic contract tests, then complement them with live Apps Script integration tests for real trigger identity, authorization, and runtime behavior.

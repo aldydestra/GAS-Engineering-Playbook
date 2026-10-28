@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import agent_skill_packager as packager
 ROOT=Path(__file__).resolve().parents[1]
-CONFIG=ROOT/'packaging/gas-skills/core-v1.36.0.json'
+CONFIG=ROOT/'packaging/gas-skills/core-v1.37.0.json'
 
 def digest(p:Path)->str:return hashlib.sha256(p.read_bytes()).hexdigest()
 

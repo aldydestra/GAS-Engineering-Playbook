@@ -99,3 +99,10 @@ The active production security checks prioritize:
 - quota/runtime headroom where exhaustion can become an availability/security issue.
 
 For Developer Preview programmatic Chat app configuration, never substitute service-account credentials for the required human-user OAuth flow. Require the `cloud-platform` scope and the documented Google Workspace Add-ons / Chat IAM permissions, and keep a manual recovery path while the API remains Preview.
+
+
+## v1.37.0 Stateful Job Safety
+
+Resumable Apps Script workflows must treat replay and concurrency as security/integrity concerns. Advance checkpoints only after durable output, keep LockService critical sections narrow, deduplicate continuation triggers, and require stable idempotency keys for retryable mutations. Permanent/auth/validation failures must not enter blind retry loops; route them to an explicit reconciliation path.
+
+`tools/audit_gas_stateful_job.py` and `tools/audit_gas_trigger_topology.py` provide deterministic design-time checks. They do not replace live trigger ownership/authorization verification in the target Workspace environment.

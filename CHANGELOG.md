@@ -2,6 +2,106 @@
 
 All notable repository and skill changes are documented here.
 
+## [v1.37.0] - 2026-10-28
+
+### Execution Resilience & Final Pre-v2 Readiness
+
+v1.37.0 is the final pre-v2 GAS-only release. It closes the long-running/stateful execution reliability gap and defines the breaking-change contract for v2: simplify how users enter and route through the skill set while preserving all specialist knowledge.
+
+### Added — Stateful Job Reliability Guard
+
+New `tools/audit_gas_stateful_job.py` validates a normalized long-running job contract for:
+
+- bounded runtime/chunk headroom below the six-minute Apps Script execution ceiling;
+- PropertiesService checkpoint value/store sizing;
+- durable-commit-before-checkpoint ordering;
+- explicit LockService strategy for shared mutable state;
+- continuation trigger deduplication and maximum active trigger policy;
+- stable idempotency keys and duplicate-effect prevention;
+- bounded retry counts with transient/permanent/auth/validation classification;
+- reconciliation/dead-letter handling;
+- stateful-job correlation fields.
+
+Reference fixture: `examples/gas-stateful-jobs/resumable-job-contract.json`.
+
+### Added — Trigger Topology Guard
+
+New `tools/audit_gas_trigger_topology.py` validates normalized installable-trigger inventories for:
+
+- duplicate trigger IDs;
+- duplicate continuation handlers;
+- the current 20 triggers/user/script ceiling;
+- missing trigger owner/type metadata;
+- handler functions missing from supplied `.gs` source;
+- unmanaged trigger handlers with no explicit topology policy.
+
+Reference fixture: `examples/gas-stateful-jobs/trigger-topology.json`.
+
+### Added — v2 Simplification Contract and Readiness Gate
+
+v2 is now defined as a **GAS usability major release**, not an AI-governance release.
+
+New:
+
+- `packaging/gas-skills/v2-simplification-preview.json`;
+- `preview/v2/gas-engineering/SKILL.md`;
+- `docs/v2-simplification-contract.md`;
+- `tools/build_gas_v2_readiness.py`;
+- `tools/verify_gas_v2_readiness.py`;
+- `tools/test_gas_v2_readiness.py`;
+- `dist/gas-v2-readiness-v1.37.0/`.
+
+The preview maps all 16 active GAS specialists exactly once into six task families and defines one future public entry skill: `gas-engineering`.
+
+Current final pre-v2 result: **`READY_FOR_V2_SIMPLIFICATION`**.
+
+### Changed — GAS Routing Evaluation
+
+The last leftover AI-skill-routing case (`positive/negative trigger evals for a skill description`) was removed from the GAS-only corpus because it does not test GAS engineering capability.
+
+New stateful-workflow routing cases cover:
+
+- resumable core job design;
+- runtime headroom/chunk budgeting;
+- checkpoint/idempotency failure-boundary testing;
+- multi-execution job observability.
+
+Current deterministic result:
+
+```text
+active skills                         16
+positive routing cases               121
+negative routing cases                29
+source/package positive top-3        100%
+source/package negative specificity  100%
+classification parity                100%
+capability assertions                34/34 PASS
+```
+
+### Skill Version Updates
+
+| Skill | v1.36.0 | v1.37.0 | Material change |
+|---|---:|---:|---|
+| 01 GAS Core Engineering | 1.5.1 | **1.6.0** | formal stateful-job state machine, commit-before-checkpoint, continuation dedupe |
+| 06 Performance Engineering | 1.6.0 | **1.7.0** | runtime-headroom/chunk-budget contract for resumable work |
+| 08 Testing & Quality | 1.8.0 | **1.9.0** | crash-boundary, replay/idempotency, duplicate-continuation contract tests |
+| 09 Monitoring & Observability | 1.9.1 | **1.10.0** | stateful-job lifecycle telemetry and monotonic-progress observability |
+
+All other active specialist versions are unchanged.
+
+### Validation
+
+```text
+GAS core packages                    PASS (16/16)
+GAS package verification             PASS
+GAS routing/capability parity        PASS
+stateful-job reference audit         PASS
+trigger-topology reference audit     PASS
+active GAS unittest suite            54/54 PASS
+v2 simplification map                PASS (16/16 exactly once)
+final pre-v2 readiness               READY_FOR_V2_SIMPLIFICATION
+```
+
 ## [v1.36.0] - 2026-10-27
 
 ### GAS-Only Scope Lock & Platform Guardrails

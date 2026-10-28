@@ -18,8 +18,8 @@ def sha256(path:Path)->str:
 def main()->int:
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--root',default='.')
-    ap.add_argument('--config',default='packaging/gas-skills/core-v1.36.0.json')
-    ap.add_argument('--dist',default='dist/gas-skills-v1.36.0')
+    ap.add_argument('--config',default='packaging/gas-skills/core-v1.37.0.json')
+    ap.add_argument('--dist',default='dist/gas-skills-v1.37.0')
     a=ap.parse_args(); root=Path(a.root).resolve(); dist=(root/a.dist).resolve(); config=json.loads((root/a.config).read_text())
     mp=dist/'manifest.json'
     if not mp.exists(): print('missing manifest.json',file=sys.stderr); return 2

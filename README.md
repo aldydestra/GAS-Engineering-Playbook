@@ -4,50 +4,58 @@ Experience-driven Google Apps Script engineering skills, patterns, and practices
 
 > These are the engineering patterns I use and refine through real implementation. You can learn from them, adapt them, challenge them with evidence, and contribute improvements.
 
-## v1.36.0 — GAS-Only Scope Lock & Platform Guardrails
+## v1.37.0 — Execution Resilience & Final Pre-v2 Readiness
 
-The active product is now explicitly **Google Apps Script / Google Workspace engineering**. AI systems may consume the skill files, but Agent Skill v2 promotion, live-agent burn-in, host-adapter governance, human approval, and signed-agent release ceremony are no longer roadmap goals.
+v1.37.0 is the **final pre-v2 GAS-only release**. It closes the most important runtime-resilience gap for Apps Script and prepares a simpler v2 public entry surface without deleting specialist knowledge.
 
-The default distribution is now:
+The active distribution remains:
 
 ```text
-16 GAS / Workspace engineering skills
+16 GAS / Workspace specialist skills
 → deterministic `.skill` packages
 → GAS-only routing/capability parity
-→ GAS runtime / quota / deployment / add-on guardrails
+→ executable runtime/quota/deployment/add-on/stateful-job guardrails
 ```
 
-The following skills remain available in the repository but are excluded from the default GAS core profile:
-
-- Skill 13 — AI Agent Integration
-- Skill 18 — Agent Skill Supply-Chain Security
-- Skill 19 — Agent Skill Engineering
-
-Current active release state:
+The v2 target is intentionally simpler:
 
 ```text
-GAS core package coverage          PASS (16/16)
-GAS package validation             PASS (16/16)
-GAS routing/capability parity      PASS
-positive top-3 routing recall      99.15%
-negative routing specificity       100%
-capability assertions              30/30 PASS
-GAS production guardrail tests     PASS
-AI/V2 roadmap                      CANCELED / LEGACY
+one default front door: gas-engineering
+→ 6 intuitive task families
+→ 1 primary specialist
+→ at most 1 supporting specialist by default
+→ progressive disclosure to retained specialist depth
 ```
 
-### GAS additions in v1.36.0
+Current release state:
 
-- `tools/audit_gas_quota_budget.py` adds a dated, overrideable quota/capacity budget guard for Apps Script workloads.
-- Workspace Add-on release auditing now understands the 2026-10-23 Developer Preview `chatAppConfig` API, including user-OAuth, `cloud-platform`, API enablement, and IAM prerequisites.
-- GAS routing descriptions were tightened around concurrency/LockService, authorization-filtered reads, trigger/runtime observability, and GAS web-app promotion.
-- The default GitHub workflow is now `.github/workflows/gas-skill-quality.yml`. Historical Agent Skill workflows were moved under `legacy/ai-governance/`.
+```text
+GAS core packages                  PASS (16/16)
+GAS routing/capability parity      PASS
+positive top-3 routing recall      100%
+negative routing specificity       100%
+capability assertions              34/34 PASS
+stateful-job contract              PASS
+trigger-topology contract          PASS
+active GAS unittest suite          54/54 PASS
+v2 simplification readiness        READY_FOR_V2_SIMPLIFICATION
+```
+
+### GAS additions in v1.37.0
+
+- `tools/audit_gas_stateful_job.py` validates runtime headroom, checkpoint sizing/order, LockService strategy, continuation deduplication, idempotency, retry classification, reconciliation, and stateful-job telemetry.
+- `tools/audit_gas_trigger_topology.py` validates normalized installable-trigger inventory, duplicate handlers/IDs, owner metadata, source handler existence, and the current 20-trigger/user/script ceiling.
+- Skills 01, 06, 08, and 09 now define a shared stateful-job reliability contract.
+- The GAS-only evaluation corpus removes the final leftover AI-skill routing case and adds stateful-workflow intent coverage.
+- `preview/v2/gas-engineering/SKILL.md` and `packaging/gas-skills/v2-simplification-preview.json` define and test the future one-front-door model.
+- `tools/build_gas_v2_readiness.py` / `verify_gas_v2_readiness.py` make the final pre-v2 decision machine-verifiable.
 
 See:
 
-- `docs/gas-only-scope-lock-v1.36.0.md`
+- `docs/stateful-jobs-v1.37.0.md`
+- `docs/v2-simplification-contract.md`
 - `docs/gas-only-roadmap.md`
-- `docs/gas-quota-budget-v1.36.0.md`
+- `dist/gas-v2-readiness-v1.37.0/READINESS.md`
 - `RELEASE_MANIFEST.md`
 
 ## Foundation Status
@@ -56,13 +64,9 @@ See:
 
 Repository v1.14.0 began the **Capability Expansion** phase. v1.16.0 extends the playbook into product design and design-system engineering.
 
-The repository now contains:
+The active GAS distribution now contains **16 specialist skills** spanning runtime, migration, architecture, data, performance, security, testing, observability, deployment, documentation, web UI, add-ons/Chat, product design, Workspace APIs/events, and governance/compliance. Historical AI-only extensions remain in the repository as legacy material but are excluded from the active package profile.
 
-- 11 foundation skills,
-- 8 extension skills,
-- cross-skill evidence, technology-watch, source-refresh, design QA, API/event integration, governance/compliance engineering, agent-skill supply-chain security, Agent Skill engineering, and authoring guidance.
-
-Individual skills remain `status: evolving` because Apps Script, AppSheet, databases, AI protocols, tooling, and real project experience continue to change.
+Individual active skills remain `status: evolving` because Apps Script, Google Workspace APIs, AppSheet, databases, tooling, and real project experience continue to change.
 
 ---
 
@@ -233,6 +237,7 @@ last_repository_update: "v1.13.0"
 | **v1.35.5** | **Candidate-Bound Evidence Chain & Workspace Add-on Release Drift Guard: exact-candidate live evidence binding, Marketplace/App Home/Studio release-state auditor, and 97/97 regression tests** |
 | **v1.35.6** | **GAS Core Realignment & V2 Gate Simplification: runtime-compatibility guardrails, optional governance profile, scope-aligned READY_FOR_V2_CORE gate** |
 | **v1.36.0** | **GAS-Only Scope Lock & Platform Guardrails: 16-skill GAS core distribution, v2/AI-governance roadmap retirement, quota-budget audit, Chat app configuration preview guardrails** |
+| **v1.37.0** | **Execution Resilience & Final Pre-v2 Readiness: stateful-job/trigger-topology guardrails, 100% GAS top-3 routing recall, 6-family simplification contract, READY_FOR_V2_SIMPLIFICATION** |
 
 After v1.13.0, repository minor releases no longer need to correspond to skill numbers.
 

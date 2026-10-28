@@ -1,10 +1,10 @@
 ---
 name: performance-engineering
-description: "Optimize Google Apps Script and Workspace automation performance: batch Spreadsheet/Drive calls, remove N+1 patterns, profile latency, use caching, chunking, checkpoints, quota/tool-call budgets, bounded pagination, and egress controls. Use when the primary goal is speed, scale, quota, memory, or runtime efficiency."
-skill_version: "1.6.0"
+description: "Optimize Google Apps Script and Workspace automation performance: batch Spreadsheet/Drive calls, remove N+1 patterns, profile latency, use caching, chunking, runtime headroom, checkpoint/continuation budgets, quota/tool-call budgets, bounded pagination, and egress controls. Use when the primary goal is speed, scale, quota, memory, chunk sizing, or runtime efficiency."
+skill_version: "1.7.0"
 repository_introduced: "v1.7.0"
 status: "evolving"
-last_repository_update: "v1.36.0"
+last_repository_update: "v1.37.0"
 tags:
   - google-apps-script
   - performance
@@ -2106,3 +2106,20 @@ per-execution hard limit
 ```
 
 Passing a daily budget does not prove a single execution is safe, and passing a single-execution budget does not prove daily capacity is safe.
+
+# v1.37.0 — Budget Long Jobs as Chunks, Not as Six-Minute Runs
+
+The ordinary six-minute execution limit is a ceiling, not an operating target. Reserve enough time to persist state, release locks, emit outcome logs, and create/deduplicate the continuation trigger.
+
+A practical default is to design bounded chunks below roughly 80% of the platform ceiling, then tune with measured service-call latency. Do not blindly sleep until time expires.
+
+For resumable work, performance correctness includes:
+
+- small checkpoint payloads;
+- no remote I/O while holding a broad lock unless unavoidable;
+- no duplicate continuation triggers;
+- idempotent chunk replay;
+- bounded retry counts with failure classification;
+- a reconciliation path for records that cannot progress automatically.
+
+`tools/audit_gas_stateful_job.py` makes these assumptions explicit so timeout handling becomes testable architecture rather than scattered exception handling.

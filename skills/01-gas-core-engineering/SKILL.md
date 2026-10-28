@@ -1,10 +1,10 @@
 ---
 name: gas-core-engineering
-description: "Core Google Apps Script runtime engineering for triggers, LockService and concurrent Google Sheet updates, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, checkpoints, long-running jobs, and external HTTP calls. Use when the primary problem is GAS runtime behavior, multi-execution locking, or core service usage."
-skill_version: "1.5.1"
+description: "Core Google Apps Script runtime engineering for triggers, LockService and concurrent Google Sheet updates, SpreadsheetApp batching, PropertiesService/configuration, google.script.run callbacks, quotas, execution limits, resumable stateful jobs, durable commit-before-checkpoint ordering, continuation triggers, and external HTTP calls. Use when the primary problem is GAS runtime behavior, multi-execution locking, safe resume, or core service usage."
+skill_version: "1.6.0"
 repository_introduced: "v1.2.0"
 status: "evolving"
-last_repository_update: "v1.36.0"
+last_repository_update: "v1.37.0"
 tags:
   - google-apps-script
   - google-workspace
@@ -1274,3 +1274,27 @@ The Maps service client-ID method `Maps.setAuthentication(clientId, signingKey)`
 Because some Apps Script documentation pages can lag platform retirement notices, resolve conflicts in this order for a release decision: current service reference + current release notes + migration/sunset guidance, then test the actual project.
 
 \n\n# v1.35.6 — GAS Runtime Compatibility Baseline\n\nFor maintained Apps Script projects, treat V8 as the only production runtime baseline. A production preflight should reject `runtimeVersion: "DEPRECATED_ES5"` and review code copied from Node.js/browser examples before deployment.\n\nServer-side `.gs` / `.js` code must not assume availability of:\n\n- native ES modules via `import` / `export`;\n- browser timers such as `setTimeout` / `setInterval`;\n- browser-global `fetch()`; use `UrlFetchApp.fetch()` or bounded `fetchAll()` instead;\n- browser/Node globals such as `window`, `document`, `navigator`, `performance`, or `process`;\n- Web Crypto; use compatible `Utilities` digest/HMAC/signature functions when applicable.\n\nDo not apply those server-runtime prohibitions blindly to HTML Service client JavaScript. Browser code inside served HTML runs in a browser context and has a different capability surface.\n\nUse `tools/audit_gas_project.py` as the executable production preflight for these checks.\n
+# v1.37.0 — Stateful Job Reliability Contract
+
+For a workflow that can exceed one execution, treat the job as a durable state machine rather than a long function.
+
+Minimum contract:
+
+```text
+claim logical job
+→ acquire the narrowest required lock
+→ load versioned checkpoint
+→ process a bounded chunk
+→ commit durable output idempotently
+→ advance checkpoint only after commit
+→ release lock
+→ schedule at most one continuation if work remains
+```
+
+Use a stable `job_id`, `run_id`, resume cursor, and idempotency key. The checkpoint must never move ahead of durable output. A retry must either produce the same durable result or detect that the effect already exists.
+
+For continuation triggers, inspect existing project triggers before creating another one. Prefer one active continuation per logical job and delete/retire obsolete triggers. Remember that installable triggers run as the account that created them and count toward the per-user/per-script trigger quota.
+
+Use `tools/audit_gas_stateful_job.py` to validate the design contract and `tools/audit_gas_trigger_topology.py` to validate a normalized trigger inventory before production rollout.
+
+Current official limits used by the v1.37 guardrails include a six-minute ordinary script runtime, 9 KB per Properties value, 500 KB per property store, and 20 triggers per user per script. These values are dated assumptions and must be refreshed when Google changes the quota page.

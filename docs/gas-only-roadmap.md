@@ -1,159 +1,75 @@
 # GAS-Only Roadmap
 
-## Scope decision — v1.36.0
+## Scope
 
-The active product roadmap is now **Google Apps Script / Google Workspace engineering**.
+The active product is **Google Apps Script / Google Workspace engineering**. AI-agent governance is not a release objective.
 
-The previously planned Agent Skill v2 major release is canceled as a roadmap objective. AI hosts remain only a possible consumer of the knowledge; AI-agent packaging governance is not the product.
+The v2 major release is now justified only by one intentional breaking change: **simplifying the public skill entry surface** so a user can start with one GAS skill instead of choosing among 16 specialist names.
 
-### Active core
+## v1.36.0 — GAS Scope Lock & Platform Guardrails
 
-The default release profile packages 16 skills:
+Status: **complete**
 
-1. GAS Core Engineering
-2. AppSheet Migration
-3. Software Architecture
-4. Database Engineering
-5. PostgreSQL Integration
-6. Performance Engineering
-7. Security Engineering
-8. Testing & Quality
-9. Monitoring & Observability
-10. Deployment Engineering
-11. Documentation Engineering
-12. Web App / Frontend Engineering
-14. Workspace Add-ons & Chat Engineering
-15. Product Design Engineering
-16. Workspace API / Event Engineering
-17. Workspace Governance & Compliance Engineering
+- 16-skill GAS-only core profile;
+- GAS-only routing/evaluation;
+- AI/V2 governance removed from default CI;
+- quota/project/deployment/add-on guardrails.
 
-### Frozen optional/legacy extensions
+## v1.37.0 — Execution Resilience & Final Pre-v2 Readiness
 
-The following are excluded from the default GAS core distribution:
-
-- Skill 13 — AI Agent Integration
-- Skill 18 — Agent Skill Supply-Chain Security
-- Skill 19 — Agent Skill Engineering
-
-Historical v2 promotion, live-agent burn-in, host-adapter, signed-attestation, and operational-closure tooling is retained for reference but is not part of default CI or release acceptance.
-
----
-
-## v1.36.x — GAS Scope Lock & Platform Baseline
-
-Status: **v1.36.0 implemented**
+Status: **current / final pre-v2 target**
 
 Goals:
 
-- GAS-only active package profile;
-- GAS-only routing/evaluation corpus;
-- active CI no longer runs Agent Skill v2 governance;
-- executable quota/capacity budget audit;
-- Workspace Add-ons `chatAppConfig` Developer Preview readiness checks;
-- retain old AI governance only as legacy reference.
+- stateful long-running job contract;
+- checkpoint/commit ordering guard;
+- continuation-trigger deduplication/topology guard;
+- LockService and idempotency contract;
+- bounded retry + reconciliation contract;
+- stateful-job observability contract;
+- one-front-door v2 simplification preview;
+- machine-verifiable `READY_FOR_V2_SIMPLIFICATION` gate.
 
 Exit condition:
 
 ```text
-GAS core distribution 16/16 PASS
-GAS routing/capability parity PASS
-GAS runtime preflight tests PASS
-quota-budget tests PASS
-GAS deployment-state tests PASS
-Workspace Add-on release-state tests PASS
+GAS core distribution            PASS 16/16
+GAS routing/capability parity     PASS
+GAS production guardrails        PASS
+stateful-job contract             PASS
+trigger-topology contract         PASS
+v2 simplification map             PASS (16/16 mapped exactly once)
+active CI                         GAS_ONLY
+final readiness                   READY_FOR_V2_SIMPLIFICATION
 ```
 
----
+## v2.0.0 — Simplified GAS Skill Experience
 
-## v1.37.x — Execution Resilience & Stateful Jobs
+Planned breaking change: simplify the **public entry surface**, not the knowledge.
 
-Focus:
+Target:
 
-- resumable long-running jobs;
-- checkpoint/state-machine patterns;
-- trigger continuation and duplicate-trigger prevention;
-- LockService lease/critical-section patterns;
-- idempotency keys for Sheets/Drive/API mutations;
-- retry classification and dead-letter/reconciliation patterns;
-- PropertiesService/CacheService state-size limits and migration rules.
+```text
+one default skill: gas-engineering
+→ 6 intuitive task families
+→ 1 primary specialist
+→ at most 1 supporting specialist by default
+→ progressive disclosure to retained specialist references
+```
 
-Target tooling:
+The 16 current specialist skills remain the depth layer. v2 should remove taxonomy burden from users, not delete specialist knowledge.
 
-- workflow-state auditor;
-- trigger topology auditor;
-- resumability/idempotency test fixtures.
+See `docs/v2-simplification-contract.md`.
 
----
+## Post-v2 capability roadmap
 
-## v1.38.x — Sheets / Drive Scale Engineering
+After v2 stabilizes the simpler interface, capability development continues without requiring another taxonomy rewrite:
 
-Focus:
-
-- read/write batching and RangeList patterns;
-- sheet-size/formula-cost diagnostics;
-- Drive file inventory pagination and bounded traversal;
-- large export/import pipelines;
-- cache/materialized-read-model patterns;
-- when to move data from Sheets to SQL/BigQuery.
-
-Target tooling:
-
-- spreadsheet workload estimator;
-- N+1 service-call detector;
-- large-range/write-amplification test fixtures.
-
----
-
-## v1.39.x — Workspace Add-ons / Chat / Studio Production Hardening
-
-Focus:
-
-- CardService state and navigation;
-- Chat App Home lifecycle;
-- programmatic `chatAppConfig` when/if preview matures;
-- Marketplace draft/host-product reconciliation;
-- Workspace Studio custom starters and workflow triggers;
-- add-on 30-second execution budget;
-- authorization and test-deployment limitations.
-
----
-
-## v1.40.x — Hybrid Data & API Architecture
-
-Focus:
-
-- JDBC/PostgreSQL transaction boundaries;
-- connection/retry patterns under GAS quotas;
-- API gateway vs direct JDBC decisions;
-- incremental sync and reconciliation;
-- Workspace Events / Pub/Sub consumer patterns;
-- data ownership and source-of-truth contracts.
-
----
-
-## v1.41.x — Security, OAuth & Organizational Policy
-
-Focus:
-
-- granular OAuth authorization paths;
-- web-app execution identity;
-- least-privilege scope audits;
-- secrets and deployment configuration;
-- data-region compatibility;
-- Workspace Marketplace / add-on policy;
-- public endpoint abuse controls.
-
----
+- **v2.1** — Sheets / Drive scale engineering;
+- **v2.2** — Workspace Add-ons / Chat / Studio production hardening;
+- **v2.3** — hybrid data & API architecture;
+- **v2.4** — security, OAuth & organizational policy deepening.
 
 ## Versioning policy
 
-There is **no planned v2 solely for AI packaging**.
-
-A future major version should be considered only if the GAS playbook itself requires a breaking change, for example:
-
-- a new canonical skill taxonomy;
-- incompatible package schema;
-- removal/renaming of stable GAS skill identities;
-- major repository contract changes that downstream users must migrate.
-
-Until then, development continues normally through v1.x releases focused on GAS capability and correctness.
+Use a major version only for a breaking repository/public-skill contract. Platform knowledge refreshes and new GAS capabilities continue as minor/patch releases within the active major.

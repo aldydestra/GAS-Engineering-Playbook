@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "job_id": "daily-sync",
+  "shared_mutable_state": true,
+  "runtime": {
+    "platform_execution_seconds": 360,
+    "max_chunk_seconds": 240
+  },
+  "state": {
+    "backend": "script_properties",
+    "max_value_bytes": 4096,
+    "estimated_total_bytes": 65536
+  },
+  "checkpoint": {
+    "durable_commit_before_advance": true,
+    "versioned_schema": true,
+    "resume_token": true
+  },
+  "lock": {
+    "scope": "script",
+    "hold_remote_io": false
+  },
+  "continuation": {
+    "enabled": true,
+    "strategy": "time_trigger",
+    "handler": "resumeDailySync",
+    "deduplicate": true,
+    "max_active_triggers": 1
+  },
+  "idempotency": {
+    "key_fields": ["job_id", "source_id", "record_id"],
+    "duplicate_effect_prevented": true
+  },
+  "retry": {
+    "max_attempts": 3,
+    "classes": {
+      "TRANSIENT_NETWORK": "retry",
+      "RATE_LIMIT": "retry",
+      "AUTHORIZATION": "manual",
+      "VALIDATION": "dead_letter"
+    }
+  },
+  "reconciliation": {
+    "enabled": true,
+    "sink": "reconciliation_sheet"
+  },
+  "observability": {
+    "fields": ["job_id", "run_id", "checkpoint", "attempt", "outcome"]
+  }
+}

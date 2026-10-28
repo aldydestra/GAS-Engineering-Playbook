@@ -1,0 +1,14 @@
+{
+  "error_count": 0,
+  "finding_count": 0,
+  "findings": [],
+  "job_id": "daily-sync",
+  "limits": {
+    "properties_store_bytes": 512000,
+    "properties_value_bytes": 9216,
+    "script_runtime_seconds": 360,
+    "triggers_per_user_script": 20
+  },
+  "status": "PASS",
+  "warning_count": 0
+}

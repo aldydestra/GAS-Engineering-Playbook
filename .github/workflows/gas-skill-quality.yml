@@ -1,0 +1,90 @@
+name: GAS Skill Quality
+
+on:
+  pull_request:
+    paths:
+      - 'skills/**'
+      - 'packaging/gas-skills/**'
+      - 'preview/v2/**'
+      - 'evals/gas-skills/**'
+      - 'examples/gas-stateful-jobs/**'
+      - 'tools/gas_skill_packager.py'
+      - 'tools/verify_gas_skill_dist.py'
+      - 'tools/evaluate_gas_skill_parity.py'
+      - 'tools/audit_gas_*.py'
+      - 'tools/test_gas_*.py'
+      - 'tools/build_gas_v2_readiness.py'
+      - 'tools/verify_gas_v2_readiness.py'
+      - 'tools/audit_workspace_addon_release_state.py'
+      - 'tools/test_workspace_addon_release_state.py'
+      - 'dist/gas-skills-v1.37.0/**'
+      - 'dist/gas-v2-readiness-v1.37.0/**'
+      - 'reports/gas-skill-evaluation-v1.37.0.*'
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - 'packaging/gas-skills/**'
+      - 'preview/v2/**'
+      - 'evals/gas-skills/**'
+      - 'examples/gas-stateful-jobs/**'
+      - 'tools/gas_skill_packager.py'
+      - 'tools/verify_gas_skill_dist.py'
+      - 'tools/evaluate_gas_skill_parity.py'
+      - 'tools/audit_gas_*.py'
+      - 'tools/test_gas_*.py'
+      - 'tools/build_gas_v2_readiness.py'
+      - 'tools/verify_gas_v2_readiness.py'
+      - 'tools/audit_workspace_addon_release_state.py'
+      - 'tools/test_workspace_addon_release_state.py'
+      - 'dist/gas-skills-v1.37.0/**'
+      - 'dist/gas-v2-readiness-v1.37.0/**'
+      - 'reports/gas-skill-evaluation-v1.37.0.*'
+
+jobs:
+  gas-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test GAS-only packaging profile
+        run: python -m unittest tools/test_gas_skill_packaging.py -v
+      - name: Build GAS-only skill distribution
+        run: python tools/gas_skill_packager.py
+      - name: Verify GAS-only distribution
+        run: python tools/verify_gas_skill_dist.py
+      - name: Run GAS-only routing and capability parity
+        run: python tools/evaluate_gas_skill_parity.py
+      - name: Run GAS production and resilience guardrail tests
+        env:
+          PYTHONPATH: tools
+        run: >-
+          python -m unittest
+          tools/test_gas_project_audit.py
+          tools/test_gas_quota_budget.py
+          tools/test_gas_deployment_state.py
+          tools/test_gas_stateful_job.py
+          tools/test_gas_trigger_topology.py
+          tools/test_workspace_addon_release_state.py
+          -v
+      - name: Validate reference stateful-job contract
+        run: python tools/audit_gas_stateful_job.py examples/gas-stateful-jobs/resumable-job-contract.json
+      - name: Validate reference trigger topology
+        run: python tools/audit_gas_trigger_topology.py examples/gas-stateful-jobs/trigger-topology.json
+      - name: Build final pre-v2 GAS readiness
+        run: python tools/build_gas_v2_readiness.py
+      - name: Verify final pre-v2 GAS readiness
+        run: python tools/verify_gas_v2_readiness.py
+      - name: Test v2 simplification readiness contract
+        env:
+          PYTHONPATH: tools
+        run: python -m unittest tools/test_gas_v2_readiness.py -v
+      - name: Ensure generated GAS outputs are reproducible
+        run: >-
+          git diff --exit-code --
+          dist/gas-skills-v1.37.0
+          dist/gas-v2-readiness-v1.37.0
+          reports/gas-skill-evaluation-v1.37.0.json
+          reports/gas-skill-evaluation-v1.37.0.md
