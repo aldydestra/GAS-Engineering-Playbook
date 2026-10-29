@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import agent_skill_packager as packager
 ROOT=Path(__file__).resolve().parents[1]
-CONFIG=ROOT/'packaging/gas-skills/core-v1.37.0.json'
+CONFIG=ROOT/'packaging/gas-skills/core-v2.0.0.json'
 
 def digest(p:Path)->str:return hashlib.sha256(p.read_bytes()).hexdigest()
 
@@ -33,7 +33,7 @@ class GasSkillPackagingTests(unittest.TestCase):
     def test_report_names_gas_scope(self):
         with tempfile.TemporaryDirectory() as td:
             out=Path(td)/'dist'; packager.build(ROOT,CONFIG,out); text=(out/'PACKAGING_REPORT.md').read_text()
-            self.assertIn('GAS Engineering Skill Packaging Report',text)
+            self.assertIn('GAS Engineering Specialist Library Packaging Report',text)
             self.assertIn('16/16',text)
             self.assertNotIn('Skill 19 is normalized',text)
 if __name__=='__main__': unittest.main()

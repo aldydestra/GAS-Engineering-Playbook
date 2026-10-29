@@ -1,8 +1,0 @@
-{
-  "findings": [],
-  "handler_counts": {
-    "resumeDailySync": 1
-  },
-  "status": "PASS",
-  "trigger_count": 1
-}

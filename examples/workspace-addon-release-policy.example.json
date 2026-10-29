@@ -1,6 +1,0 @@
-{
-  "required_host_products": ["GMAIL", "CHAT"],
-  "require_draft_saved": true,
-  "require_review_submitted": true,
-  "require_studio_smoke_evidence": true
-}

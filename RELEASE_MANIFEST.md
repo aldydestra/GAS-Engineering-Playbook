@@ -1,338 +1,116 @@
-# Release Manifest — v1.37.0
+# Release Manifest — v2.0.0 GAS Engineering Playbook
 
-## 1. Release Identity
+**Release date:** 2026-10-29  
+**Status:** OFFICIAL RELEASE (static verification PASS; live host NOT_RUN)  
+**Product:** Google Apps Script/Google Workspace skill content, single-install public front door.  
+**Baseline:** v1.37.0 — final pre-v2 release.
 
-- **Repository version:** `v1.37.0`
-- **Release date:** 2026-10-28
-- **Release name:** Execution Resilience & Final Pre-v2 Readiness
-- **Product scope:** Google Apps Script / Google Workspace engineering
-- **Active distribution:** `dist/gas-skills-v1.37.0/`
-- **Active package profile:** `packaging/gas-skills/core-v1.37.0.json`
-- **Final pre-v2 gate:** `dist/gas-v2-readiness-v1.37.0/readiness.json`
+## 1. Executive scope
 
-## 2. Release Decision
+V2 menyederhanakan pengalaman dari **16 instalasi** menjadi **1 instalasi**. Materi 16 specialist tetap lengkap melalui referensi lokal. Tidak ada approval manual atau enterprise supply-chain attestation yang menghambat pemakaian.
 
-v1.37.0 is the **final pre-v2 release**.
+## 2. Detail implementasi
 
-The repository is not waiting for additional AI-agent governance, human approval, live-agent burn-in, or signed-agent ceremony. Those historical mechanisms remain legacy material only.
+- Satu `SKILL.md` publik (`gas-engineering`), YAML frontmatter valid dan <500 baris.
+- 6 task-family guides menjelaskan intent dan memilih 1 primary + maksimal 1 support untuk pembacaan pertama.
+- 16 specialist folders ditempatkan pada `references/specialists/`, mempertahankan setiap file referensi secara identik dari packaged v2 source.
+- Dua keluaran: default `gas-engineering.skill` dan 16 standalone `.skill` (opsional untuk expert).
+- Deterministic archive builder, ZIP inventory/source equality, SHA256SUMS, failed tamper acceptance test.
+- Struktur repository v2 dipangkas dari legacy AI-governance build/artefak lama sehingga lebih mudah dirawat.
 
-The reason to create v2 is now narrow and GAS-specific:
+## 3. Routing dan enam family
 
-> simplify the public skill entry surface so users can ask for GAS help through one default skill without understanding the internal 16-skill taxonomy.
-
-v2 is therefore a usability/packaging breaking change, not a knowledge reset.
-
-## 3. Active GAS Core
-
-The active core remains 16 specialists:
-
-1. GAS Core Engineering
-2. AppSheet Migration
-3. Software Architecture
-4. Database Engineering
-5. PostgreSQL Integration
-6. Performance Engineering
-7. Security Engineering
-8. Testing & Quality
-9. Monitoring & Observability
-10. Deployment Engineering
-11. Documentation Engineering
-12. Web App / Frontend Engineering
-14. Workspace Add-ons & Chat Engineering
-15. Product Design Engineering
-16. Workspace API / Event Engineering
-17. Workspace Governance & Compliance Engineering
-
-Excluded legacy/optional AI-only extensions remain Skill 13, 18, and 19.
-
-## 4. Stateful Job Reliability
-
-### Problem closed in this release
-
-Apps Script ordinary executions have a finite runtime ceiling. Long jobs therefore cannot be treated as one arbitrarily long function. They need explicit durable progress and safe replay semantics.
-
-v1.37.0 formalizes this state machine:
-
-```text
-claim logical job
-→ acquire narrow lock
-→ load versioned checkpoint
-→ process bounded chunk
-→ commit durable output idempotently
-→ advance checkpoint only after commit
-→ release lock
-→ schedule at most one continuation when work remains
-```
-
-### New deterministic guard
-
-`tools/audit_gas_stateful_job.py`
-
-It validates:
-
-- `job_id` availability for correlation/replay;
-- application chunk budget below the configured platform ceiling;
-- checkpoint storage backend;
-- PropertiesService value and total-store budgets;
-- durable commit before checkpoint advance;
-- checkpoint schema versioning and resume token;
-- LockService strategy for shared mutable state;
-- avoidance of broad locks around slow remote I/O;
-- continuation strategy, handler, deduplication and maximum active trigger count;
-- stable idempotency key fields;
-- duplicate-effect prevention;
-- bounded retry count;
-- explicit transient/permanent/auth/validation failure classification;
-- reconciliation/dead-letter sink;
-- minimum stateful-job telemetry fields.
-
-Reference fixture:
-
-`examples/gas-stateful-jobs/resumable-job-contract.json`
-
-Reference result:
-
-`reports/gas-stateful-job-example-v1.37.0.json` → **PASS**
-
-## 5. Trigger Topology Reliability
-
-### New deterministic guard
-
-`tools/audit_gas_trigger_topology.py`
-
-It validates a normalized trigger inventory for:
-
-- current trigger count against the documented 20/user/script limit;
-- duplicate trigger IDs;
-- duplicate handlers beyond policy limits;
-- singleton continuation policy;
-- trigger owner/type metadata;
-- source handler existence when `.gs` source is supplied;
-- unmanaged trigger handlers without explicit topology policy.
-
-Reference fixture:
-
-`examples/gas-stateful-jobs/trigger-topology.json`
-
-Reference result:
-
-`reports/gas-trigger-topology-example-v1.37.0.json` → **PASS**
-
-## 6. Dated Platform Assumptions
-
-The v1.37 guardrails use the current official Apps Script documentation snapshot reviewed on 2026-10-28.
-
-Important current limits include:
-
-| Limit | Current documented value |
-|---|---:|
-| Ordinary script runtime | 6 min/execution |
-| Simple trigger runtime | 30 sec/execution |
-| Properties value size | 9 KB/value |
-| Properties total storage | 500 KB/property store |
-| Triggers | 20/user/script |
-| Trigger total runtime — consumer | 90 min/day |
-| Trigger total runtime — Workspace | 6 hr/day |
-
-Google explicitly documents quotas/limits as subject to change. Production systems should refresh these assumptions rather than treating repository constants as permanent platform guarantees.
-
-Official references:
-
-- `https://developers.google.com/apps-script/guides/support/best-practices`
-- `https://developers.google.com/apps-script/guides/services/quotas`
-- `https://developers.google.com/apps-script/guides/triggers`
-- `https://developers.google.com/apps-script/guides/triggers/installable`
-
-## 7. GAS Routing & Capability Evaluation
-
-The GAS-only routing corpus now removes the final leftover case that evaluated AI skill-description triggering instead of GAS engineering.
-
-New intent cases cover:
-
-- resumable stateful-job architecture;
-- runtime headroom/chunk sizing;
-- checkpoint/idempotency crash-boundary testing;
-- continuation-chain observability.
-
-Final deterministic evaluation:
-
-```text
-active skills                         16
-positive routing cases               121
-negative routing cases                29
-source top-1 accuracy                85.12%
-package top-1 accuracy               85.12%
-source positive top-3 recall         100%
-package positive top-3 recall        100%
-source negative specificity          100%
-package negative specificity         100%
-classification parity                100%
-capability assertions                34/34 PASS
-```
-
-The top-3 routing gate is intentionally used as a candidate-selection proxy because v2 will route first to one task family and then progressively disclose specialist knowledge.
-
-## 8. v2 Simplification Contract
-
-### Goal
-
-Users should not need to choose from 16 specialist names before asking a GAS question.
-
-### Planned v2 public model
-
-```text
-one public entry skill: gas-engineering
-→ classify task family
-→ load 1 primary specialist
-→ optionally load 1 supporting specialist
-→ open deeper references only when required
-```
-
-### Six task families
-
-| Family | Primary | Supporting specialists |
+| Kategori | Spesialis utama | Spesialis pendukung tersedia |
 |---|---|---|
-| Runtime & Automation | GAS Core | Performance, Testing, Monitoring |
-| Architecture & Data | Software Architecture | Database, PostgreSQL |
-| Web App & UX | Web App / Frontend | Product Design |
-| Workspace Integrations | Workspace Add-ons & Chat | Workspace API / Event |
-| Security & Release | Security | Deployment, Governance & Compliance |
-| Migration & Documentation | AppSheet Migration | Documentation |
+| Runtime & Automation | `gas-core-engineering` | `performance-engineering`, `testing-quality`, `monitoring-observability` |
+| Architecture & Data | `software-architecture` | `database-engineering`, `postgresql-integration` |
+| Web App & UX | `web-app-frontend-engineering` | `product-design-engineering` |
+| Workspace Integrations | `workspace-addons-chat-engineering` | `workspace-api-event-engineering` |
+| Security & Release | `security-engineering` | `deployment-engineering`, `workspace-governance-compliance-engineering` |
+| Migration & Documentation | `appsheet-migration` | `documentation-engineering` |
 
-Machine-readable contract:
+## 4. Perubahan versi skill (lama → baru)
 
-`packaging/gas-skills/v2-simplification-preview.json`
+**Catatan penting:** tidak ada perubahan kode/isi pada 16 source specialist; oleh sebab itu versi specialist internal tidak dinaikkan. Versi publik `gas-engineering`: **`2.0.0-preview.1 → 2.0.0`**.
 
-Preview front door:
+| Spesialis | Sebelum (v1.37.0) | Di v2.0.0 |
+|---|---|---|
+| `gas-core-engineering` | `1.6.0` | `1.6.0` (konten dipertahankan) |
+| `appsheet-migration` | `1.3.1` | `1.3.1` (konten dipertahankan) |
+| `software-architecture` | `1.2.1` | `1.2.1` (konten dipertahankan) |
+| `database-engineering` | `1.2.1` | `1.2.1` (konten dipertahankan) |
+| `postgresql-integration` | `1.3.1` | `1.3.1` (konten dipertahankan) |
+| `performance-engineering` | `1.7.0` | `1.7.0` (konten dipertahankan) |
+| `security-engineering` | `1.7.3` | `1.7.3` (konten dipertahankan) |
+| `testing-quality` | `1.9.0` | `1.9.0` (konten dipertahankan) |
+| `monitoring-observability` | `1.10.0` | `1.10.0` (konten dipertahankan) |
+| `deployment-engineering` | `1.17.0` | `1.17.0` (konten dipertahankan) |
+| `documentation-engineering` | `1.6.1` | `1.6.1` (konten dipertahankan) |
+| `web-app-frontend-engineering` | `1.2.0` | `1.2.0` (konten dipertahankan) |
+| `workspace-addons-chat-engineering` | `1.7.0` | `1.7.0` (konten dipertahankan) |
+| `product-design-engineering` | `1.2.1` | `1.2.1` (konten dipertahankan) |
+| `workspace-api-event-engineering` | `1.6.0` | `1.6.0` (konten dipertahankan) |
+| `workspace-governance-compliance-engineering` | `1.2.1` | `1.2.1` (konten dipertahankan) |
 
-`preview/v2/gas-engineering/SKILL.md`
+## 5. Berkas baru atau diubah
 
-The mapping covers all 16 active skills **exactly once**. There are no orphan specialists and no legacy AI-only extensions in the v2 preview.
+| Lokasi | Fungsi |
+|---|---|
+| `dist/gas-engineering-v2.0.0/gas-engineering.skill` | Single-install archive utama |
+| `dist/gas-engineering-v2.0.0/gas-engineering/` | File skill yang dapat di-copy langsung |
+| `dist/gas-engineering-v2.0.0/manifest.json` | Metadata/digest dan source fidelity |
+| `dist/gas-engineering-v2.0.0/SHA256SUMS` | Checksum file utama |
+| `dist/gas-specialists-v2.0.0/` | Paket spesialis advanced (16) |
+| `packaging/gas-skills/task-families-v2.0.0.json` | Map rilis enam family |
+| `tools/build_gas_v2.py`, `tools/verify_gas_v2.py` | Deterministic builder dan verifier |
+| `tools/test_gas_v2_distribution.py` | Unit tests usability/source-integrity |
+| `.github/workflows/gas-v2-quality.yml` | CI GAS-only v2 |
+| `README.md`, `INSTALL.md`, `CHANGELOG.md`, `GITHUB_RELEASE_NOTES.md`, `RELEASE_MANIFEST.md` | Dokumentasi utama dan release records |
+| `docs/v2-architecture.md`, `docs/v2-migration-guide.md`, `docs/v2-roadmap.md` | Architecture, migrasi, tindak lanjut |
 
-## 9. Machine-Verifiable Final Pre-v2 Gate
+## 6. Quality gates dan evidence
 
-New tools:
+| Pemeriksaan | Hasil |
+|---|---|
+| 16 normalized packages dan source coverage | **PASS 16/16** |
+| One-install bundle / link and ZIP CRC / SHA | **PASS** |
+| Six-family exact specialist mapping | **PASS 6/6, 16/16** |
+| Deterministic archive rebuild | **PASS** |
+| Tampered specialist source rejected | **PASS** |
+| Routing proxy | **PASS (121 positive, 29 negative)** |
+| Positive top-3 recall dan negative specificity | **100% / 100%** |
+| Capability assertions | **PASS 34/34** |
+| Active GAS unit tests | **PASS 60/60 (57 baseline + 3 Windows Git tests)** |
+| Live AI host installation/activation | **NOT_RUN — bukan syarat rilis** |
 
-- `tools/build_gas_v2_readiness.py`
-- `tools/verify_gas_v2_readiness.py`
-- `tools/test_gas_v2_readiness.py`
+## 7. Integrity / artifact identity
 
-The gate verifies:
+- Main skill archive SHA-256: `d762a1396e54aadbded5cf566a9f4e52a2b56fe26da8814fdb6fd698a8304127`
+- Source manifest SHA-256: `48afa8eb1c017efb6634bace9a756d1f0658a2b283279682b20d8e392689cb55`
+- Task-family map SHA-256: `f014e19d6ba2653e7b68c5a8b15daa6d54f9a698cccecb63bc5b0e2bf3cb1c2c`
+- Main skill `SKILL.md` SHA-256: `4f733824a40708391cc51e0e78b5ea29affb0a3d6b6e2403c5da8104a843e6ba`
 
-- active distribution exactly matches the 16-skill GAS core;
-- GAS routing/capability evaluation is PASS;
-- stateful-job reference contract is PASS;
-- trigger-topology reference contract is PASS;
-- all 16 specialists map exactly once to the six v2 task families;
-- default v2 entry skill is `gas-engineering`;
-- default specialist fan-out is capped at two;
-- active CI remains GAS-only.
+`SHA256SUMS` di folder dist menjadi otoritas checksum release, sementara ZIP repo utama memiliki hash terpisah (ditampilkan saat rilis).
 
-Final result:
+## 8. Risiko / batasan
 
-```text
-READY_FOR_V2_SIMPLIFICATION
-```
+- Pengujian statis dan deterministic BM25 bukan bukti live model mengaktifkan skill secara benar. Instalasi live host dan ketepatan pemilihan topik masih perlu validasi bila lingkungan tersedia.
+- Tidak ada koneksi otomatis ke akun Google; user/host harus menyediakan project `.gs`, manifest, log, dan izin sesuai tugas.
+- Angka kuota, API preview, scope, dan kebijakan Workspace bisa berubah; validasi dokumentasi Google terbaru saat deploy produksi.
+- Sumber v1.x terkait AI-agent governance tidak masuk distribusi v2, tetapi tetap ada di paket arsip v1.37.0 bila sewaktu-waktu dibutuhkan untuk audit sejarah.
 
-## 10. Skill Version Changes
+## 9. Migrasi dan rollback
 
-| Skill | v1.36.0 | v1.37.0 | Update |
-|---|---:|---:|---|
-| 01 — GAS Core Engineering | 1.5.1 | **1.6.0** | formal stateful-job reliability contract, durable commit/checkpoint order, safe continuation |
-| 06 — Performance Engineering | 1.6.0 | **1.7.0** | runtime headroom, bounded chunk budgets, continuation efficiency |
-| 08 — Testing & Quality | 1.8.0 | **1.9.0** | crash-boundary, replay/idempotency and continuation-topology contract tests |
-| 09 — Monitoring & Observability | 1.9.1 | **1.10.0** | logical-job telemetry across multi-execution continuation chains |
+Ikuti `docs/v2-migration-guide.md`; skill bersifat konten/panduan, sehingga tidak mengubah file `.gs` atau data live. Rollback cukup menggunakan ulang artefak skill v1.37.0.
 
-All other active specialist versions are unchanged from v1.36.0.
+## 10. Status akhir
 
-## 11. Active Test Results
+**OFFICIAL v2.0.0 RELEASE: completed as a GAS-first, one-install skill content distribution.** Tidak mengklaim sertifikasi untuk host AI tertentu.
 
-### Unit tests
+## 11. Git portability maintenance — Windows (29 Oktober 2026)
 
-```text
-GAS-only packaging tests                  4 PASS
-GAS project/runtime audit tests          14 PASS
-GAS quota-budget tests                    6 PASS
-GAS deployment-state tests                7 PASS
-GAS stateful-job tests                     7 PASS
-GAS trigger-topology tests                 5 PASS
-Workspace Add-on release-state tests       8 PASS
-v2 simplification/readiness tests          3 PASS
--------------------------------------------------
-active GAS unittest total                54/54 PASS
-```
+Patch distribusi **tanpa perubahan versi maupun konten skill**: `dist/` sekarang ignored dari Git karena memperpanjang root path Windows, sedangkan `releases/v2.0.0/gas-engineering.skill` menjadi arsip biner install yang di-track. SHA-256 arsip tetap `d762a1396e54aadbded5cf566a9f4e52a2b56fe26da8814fdb6fd698a8304127`. Build lokal dan CI tetap menghasilkan dist yang sama secara deterministik, lalu CI membandingkan hasil dengan arsip committed dan mengecek checksum. Tidak ada pengurangan 16 spesialis/6 task-family.
 
-### Additional gates
+File baru: `releases/v2.0.0/gas-engineering.skill`, `releases/v2.0.0/SHA256SUMS`, `docs/windows-git-portability.md`, `tools/test_gas_windows_git_layout.py`. File diubah: `.gitignore`, `.github/workflows/gas-v2-quality.yml`, `README.md`, `INSTALL.md`, dan dokumentasi release.
 
-```text
-GAS distribution build                  PASS
-GAS distribution verify                 PASS (16/16)
-GAS routing/capability parity            PASS
-stateful-job example audit               PASS
-trigger-topology example audit           PASS
-v2 simplification map                    PASS
-v2 readiness verification                READY_FOR_V2_SIMPLIFICATION
-```
-
-## 12. Files Added in v1.37.0
-
-- `tools/audit_gas_stateful_job.py`
-- `tools/test_gas_stateful_job.py`
-- `tools/audit_gas_trigger_topology.py`
-- `tools/test_gas_trigger_topology.py`
-- `tools/build_gas_v2_readiness.py`
-- `tools/verify_gas_v2_readiness.py`
-- `tools/test_gas_v2_readiness.py`
-- `examples/gas-stateful-jobs/resumable-job-contract.json`
-- `examples/gas-stateful-jobs/trigger-topology.json`
-- `reports/gas-stateful-job-example-v1.37.0.json`
-- `reports/gas-trigger-topology-example-v1.37.0.json`
-- `packaging/gas-skills/core-v1.37.0.json`
-- `packaging/gas-skills/v2-simplification-preview.json`
-- `preview/v2/gas-engineering/SKILL.md`
-- `docs/stateful-jobs-v1.37.0.md`
-- `docs/v2-simplification-contract.md`
-- `dist/gas-skills-v1.37.0/`
-- `dist/gas-v2-readiness-v1.37.0/`
-
-## 13. Files Materially Changed
-
-- `.github/workflows/gas-skill-quality.yml`
-- `tools/gas_skill_packager.py`
-- `tools/verify_gas_skill_dist.py`
-- `tools/evaluate_gas_skill_parity.py`
-- `tools/test_gas_skill_packaging.py`
-- `evals/gas-skills/trigger-cases.json`
-- `evals/gas-skills/capability-assertions.json`
-- Skills 01, 06, 08, 09
-- `docs/gas-only-roadmap.md`
-- `README.md`
-- `CONTRIBUTING.md`
-- `SECURITY.md`
-- `CHANGELOG.md`
-- `GITHUB_RELEASE_NOTES.md`
-- `RELEASE_MANIFEST.md`
-
-## 14. Known Limitations
-
-1. Stateful-job and trigger-topology auditors validate normalized design/runtime snapshots; they do not replace executing the workflow in the target Google Workspace environment.
-2. Trigger owner identity cannot be inferred from source code alone and must come from a normalized inventory/live environment.
-3. Apps Script quotas can change; official Google documentation remains authoritative.
-4. v2 preview validates taxonomy coverage and progressive-disclosure structure, but v2 packaging itself is intentionally deferred to the major release.
-
-## 15. v2 Entry Condition
-
-All planned pre-v2 structural gates are satisfied.
-
-The repository can now move to **v2.0.0 — Simplified GAS Skill Experience** without waiting for additional v1 capability releases.
-
-v2 should focus on:
-
-- one default `gas-engineering` entry skill;
-- six task families;
-- specialist progressive disclosure;
-- shorter activation context;
-- simpler installation/usage documentation;
-- preserving the 16 specialist modules as maintainable depth rather than exposing their taxonomy to every user.
-
-Sheets/Drive scale engineering, Add-on hardening, hybrid architecture and security deepening continue after v2 as capability releases on top of the simpler interface.
+Untuk clone Git baru, `dist/` memang tidak ada sampai menjalankan builder; ini kondisi yang **disengaja**. Instruksi perbaikan repository yang sudah terlanjur men-stage dist ada di `docs/windows-git-portability.md`.

@@ -10,8 +10,8 @@ import argparse
 from pathlib import Path
 import agent_skill_packager as packager
 
-DEFAULT_CONFIG = "packaging/gas-skills/core-v1.37.0.json"
-DEFAULT_OUT = "dist/gas-skills-v1.37.0"
+DEFAULT_CONFIG = "packaging/gas-skills/core-v2.0.0.json"
+DEFAULT_OUT = "dist/gas-specialists-v2.0.0"
 
 
 def main() -> None:

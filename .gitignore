@@ -1,0 +1,16 @@
+# Python local caches and virtualenvs
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Local credentials / debug output (never commit secrets)
+.env
+.env.*
+!.env.example
+.clasprc.json
+*.log
+
+# Generated GAS distributions have deeply nested reference paths.
+# Keep them out of Git (Windows MAX_PATH safe); rebuild deterministically in CI.
+/dist/

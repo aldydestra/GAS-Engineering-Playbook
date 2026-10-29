@@ -1,0 +1,43 @@
+name: GAS v2 Skill Quality
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-gas-v2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build and verify 16 specialist references
+        run: |
+          python tools/gas_skill_packager.py
+          python tools/verify_gas_skill_dist.py
+      - name: Verify deterministic routing parity
+        run: python tools/evaluate_gas_skill_parity.py
+      - name: Build and verify the one-install skill
+        run: |
+          python tools/build_gas_v2.py
+          python tools/verify_gas_v2.py
+      - name: Run GAS quality tests and v2 distribution tests
+        env:
+          PYTHONPATH: tools
+        run: |
+          python -m unittest tools/test_gas_skill_packaging.py tools/test_gas_deployment_state.py tools/test_gas_project_audit.py tools/test_gas_quota_budget.py tools/test_gas_stateful_job.py tools/test_gas_trigger_topology.py tools/test_workspace_addon_release_state.py tools/test_gas_v2_distribution.py tools/test_gas_windows_git_layout.py -v
+      - name: Verify Git-safe release archive and deterministic output
+        run: |
+          test ! -n "$(git ls-files 'dist/**')" || { echo "ERROR: dist/ must not be tracked"; exit 1; }
+          cmp releases/v2.0.0/gas-engineering.skill dist/gas-engineering-v2.0.0/gas-engineering.skill
+          (cd releases/v2.0.0 && sha256sum -c SHA256SUMS)
+          git diff --exit-code -- reports/gas-skill-evaluation-v2.0.0.json reports/gas-skill-evaluation-v2.0.0.md
+      - name: Publish one-install skill as CI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gas-engineering-v2.0.0
+          path: dist/gas-engineering-v2.0.0/gas-engineering.skill
+          if-no-files-found: error
