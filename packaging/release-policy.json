@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "product": "gas-engineering",
+  "scope": "Google Apps Script and Google Workspace engineering skill",
+  "stable_release": {
+    "version": "2.0.0",
+    "artifact": "releases/v2.0.0/gas-engineering.skill",
+    "sha256": "d762a1396e54aadbded5cf566a9f4e52a2b56fe26da8814fdb6fd698a8304127",
+    "checksum_file": "releases/v2.0.0/SHA256SUMS"
+  },
+  "development": {
+    "branch": "main",
+    "commits_are_releases": false,
+    "generated_dist_tracked": false,
+    "snapshot_reports_under_dist": true
+  },
+  "versioning": {
+    "major": "backward-incompatible public entry or skill contract change",
+    "minor": "backward-compatible GAS capability milestone completed and tested",
+    "patch": "backward-compatible bug/security/platform-compatibility fix",
+    "documentation": "unreleased commit unless corrections materially affect use"
+  },
+  "release_requirements": {
+    "gas_only": true,
+    "six_task_families": 6,
+    "specialist_count": 16,
+    "source_distribution_parity": true,
+    "routing_and_capability_regression": true,
+    "automated_tests": true,
+    "sha256_and_zip_integrity": true,
+    "documentation_and_migration": true,
+    "no_critical_known_regressions": true,
+    "live_host_evidence": "optional; do not claim PASS when NOT_RUN",
+    "human_approval": "optional",
+    "burn_in": "optional",
+    "signed_attestation": "optional"
+  },
+  "roadmap": [
+    {
+      "milestone": "2.1.0",
+      "name": "Reliable GAS Jobs",
+      "deliverables": [
+        "production-safe resumable job template",
+        "checkpoint/commit reconciliation",
+        "trigger ownership and deduplication",
+        "retry/dead-letter tests"
+      ],
+      "stage": "planned"
+    },
+    {
+      "milestone": "2.2.0",
+      "name": "Sheets & Drive Scale",
+      "deliverables": [
+        "incremental scan/write patterns",
+        "quota-aware batching and profiling",
+        "safe partial replay"
+      ],
+      "stage": "planned"
+    },
+    {
+      "milestone": "2.3.0",
+      "name": "Web Apps & Deployment",
+      "deliverables": [
+        "HtmlService UX patterns",
+        "web-app security preflight",
+        "clasp multi-environment release recipes"
+      ],
+      "stage": "planned"
+    },
+    {
+      "milestone": "2.4.0",
+      "name": "Workspace Integration",
+      "deliverables": [
+        "Workspace add-on/Chat patterns",
+        "GA versus Preview separation",
+        "event/retry and OAuth contracts"
+      ],
+      "stage": "planned"
+    }
+  ]
+}

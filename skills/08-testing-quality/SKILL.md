@@ -2018,3 +2018,9 @@ At minimum test:
 7. stale or missing trigger handler → topology audit failure.
 
 Use `tools/audit_gas_stateful_job.py` and `tools/audit_gas_trigger_topology.py` as deterministic contract tests, then complement them with live Apps Script integration tests for real trigger identity, authorization, and runtime behavior.
+
+## Stateful job failure-injection — v2.1 development (unreleased)
+
+Untuk `GASReliableJobs`, uji setidaknya: sink berhasil menulis tetapi checkpoint belum maju; restart dari checkpoint lama; dua percobaan pada `record_id` yang sama tidak membuat duplikat; trigger continuation tunggal; lock contention; pause/resume; retry transient yang dibatasi; error permanen yang dipindahkan ke `FAILED`; dan trigger dibersihkan saat terminal.
+
+Contract tests contoh dijalankan dengan `node tests/node/test_reliable_jobs.cjs` di repository. **Node service fakes bukan pengganti uji live Apps Script**; tetap perlukan smoke manual untuk trigger berbasis waktu, izin, dan quota akun yang digunakan.

@@ -14,30 +14,35 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run reliable GAS job contract/fault-injection tests (Node service fakes)
+        run: node tests/node/test_reliable_jobs.cjs
       - name: Build and verify 16 specialist references
         run: |
           python tools/gas_skill_packager.py
           python tools/verify_gas_skill_dist.py
-      - name: Verify deterministic routing parity
+      - name: Verify deterministic routing parity (development reports only)
         run: python tools/evaluate_gas_skill_parity.py
+      - name: Check stable release freeze and development release policy
+        run: python tools/check_release_policy.py
       - name: Build and verify the one-install skill
         run: |
           python tools/build_gas_v2.py
           python tools/verify_gas_v2.py
-      - name: Run GAS quality tests and v2 distribution tests
+      - name: Run GAS quality tests, distribution and release policy tests
         env:
           PYTHONPATH: tools
         run: |
-          python -m unittest tools/test_gas_skill_packaging.py tools/test_gas_deployment_state.py tools/test_gas_project_audit.py tools/test_gas_quota_budget.py tools/test_gas_stateful_job.py tools/test_gas_trigger_topology.py tools/test_workspace_addon_release_state.py tools/test_gas_v2_distribution.py tools/test_gas_windows_git_layout.py -v
+          python -m unittest tools/test_gas_skill_packaging.py tools/test_gas_deployment_state.py tools/test_gas_project_audit.py tools/test_gas_quota_budget.py tools/test_gas_stateful_job.py tools/test_gas_trigger_topology.py tools/test_workspace_addon_release_state.py tools/test_gas_v2_distribution.py tools/test_gas_windows_git_layout.py tools/test_gas_reliable_jobs_assets.py tools/test_release_policy.py -v
       - name: Verify Git-safe release archive and deterministic output
         run: |
           test ! -n "$(git ls-files 'dist/**')" || { echo "ERROR: dist/ must not be tracked"; exit 1; }
-          cmp releases/v2.0.0/gas-engineering.skill dist/gas-engineering-v2.0.0/gas-engineering.skill
           (cd releases/v2.0.0 && sha256sum -c SHA256SUMS)
-          git diff --exit-code -- reports/gas-skill-evaluation-v2.0.0.json reports/gas-skill-evaluation-v2.0.0.md
-      - name: Publish one-install skill as CI artifact
+      - name: Upload development build (not a GitHub Release)
         uses: actions/upload-artifact@v4
         with:
-          name: gas-engineering-v2.0.0
+          name: gas-engineering-development
           path: dist/gas-engineering-v2.0.0/gas-engineering.skill
           if-no-files-found: error

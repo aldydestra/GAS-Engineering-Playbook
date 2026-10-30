@@ -1,5 +1,24 @@
 # Changelog — GAS Engineering Playbook
 
+## [Unreleased] — GAS v2.x development workflow (30 Oktober 2026)
+
+- Menetapkan **milestone-based releases** (SemVer MAJOR/MINOR/PATCH) tanpa membuat GitHub Release pada setiap commit.
+- Menetapkan roadmap v2.1–v2.4 GAS dan checklist penerimaan; release hanya setelah fitur relevan stabil dan quality gate lulus.
+- Membekukan archive resmi `releases/v2.0.0/` dan memisahkan laporan/ZIP development di `dist/` agar perubahan sumber berikutnya tidak terblokir oleh perbandingan dengan rilis lama.
+- Menambah release policy checker, unit test, PR template, dan panduan kontribusi; **isi 16 spesialis serta archive v2.0.0 tetap tidak berubah**.
+- **Belum ada tag, GitHub Release, maupun pembaruan versi publik.**
+
+
+### v2.1 development checkpoint — Reliable GAS Jobs (belum rilis)
+
+- Menambah `GASReliableJobs` (`.gs`), `SheetUpsertExample.gs` dan runbook untuk long-running jobs.
+- Mengimplementasikan cursor `ScriptProperties`, single-handler continuation trigger, `ScriptLock`, pre-armed watchdog, commit-before-checkpoint, bounded transient retry, pause/resume dan explicit FAILED reconciliation.
+- Menambahkan test Node dengan Google Apps Script service fakes untuk failure injection (termasuk replay setelah sink write, hard-stop stale state, duplicate source keys, idempotent upsert, dan retry/cleanup).
+- Memperbaiki legacy skill packager agar asset `.gs` sumber ikut disalin byte-identical ke 16 specialist packages dan satu-install bundle, bukan hilang akibat normalisasi `SKILL.md`.
+- Mengembangkan panduan GAS Core & Testing pada source branch; **tidak menaikkan versi internal skill sebelum rilis stabil**. GitHub Release tetap v2.0.0; CI build development bukan tag rilis.
+- Keterbatasan: pengujian service-fake/static tidak membuktikan live Google account trigger/OAuth/quota; `LIVE_GAS_SMOKE = NOT_RUN`.
+
+
 ## [v2.0.0] — 2026-10-29 — Official GAS Simplification Release
 
 **Major release: perubahan antarmuka penggunaan skill, bukan reset materi.**

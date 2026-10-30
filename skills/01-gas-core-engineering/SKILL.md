@@ -1298,3 +1298,16 @@ For continuation triggers, inspect existing project triggers before creating ano
 Use `tools/audit_gas_stateful_job.py` to validate the design contract and `tools/audit_gas_trigger_topology.py` to validate a normalized trigger inventory before production rollout.
 
 Current official limits used by the v1.37 guardrails include a six-minute ordinary script runtime, 9 KB per Properties value, 500 KB per property store, and 20 triggers per user per script. These values are dated assumptions and must be refreshed when Google changes the quota page.
+
+## Reliable GAS Jobs starter — v2.1 development (unreleased)
+
+Untuk pekerjaan GAS yang berpotensi melebihi batas satu eksekusi, lihat **contoh runnable** yang dibundel:
+
+- `examples/reliable-jobs/ReliableJobs.gs` — cursor di ScriptProperties, ScriptLock, pre-armed watchdog time-trigger, retry terbatas, pause/resume, dan terminal cleanup.
+- `examples/reliable-jobs/SheetUpsertExample.gs` — contoh commit output idempotent menggunakan upsert `record_id` + `SpreadsheetApp.flush()` **sebelum** cursor maju.
+
+**Integrasi minimum:** copy kedua `.gs` ke proyek V8, isi Spreadsheet ID, siapkan `SOURCE` dan `TARGET` dengan header `record_id,value`, kemudian jalankan `startReliableSheetUpsert()` sekali dengan akun pemilik trigger. Pengguna lain tidak boleh membuat trigger handler yang sama dengan akun berbeda.
+
+**Critical safety contract:** jangan memindahkan checkpoint sebelum *durable output commit*. Jika server terhenti tepat setelah commit dan sebelum penyimpanan cursor, eksekusi berikutnya **pasti bisa mengulang input**, sehingga efek output wajib aman diulang berdasarkan stable business key. `committed:true` merupakan kontrak adapter, bukan transaksi atomik lintas Google services. Uji secara langsung dengan data nonproduksi sebelum dipakai pada pekerjaan mahal atau irreversible (email, API pembayaran, external POST).
+
+Lihat `docs/reliable-gas-jobs-v2.1-development.md` pada repository untuk penjelasan fault-injection dan batasan. Ini adalah materi pengembangan v2.1; **bukan** pengumuman rilis baru.

@@ -345,7 +345,24 @@ def build_legacy(root: Path, entry: dict, package_dir: Path, default_max_section
                 fragments.append({"kind":"topic","id":str(n),"file":f"references/{g['file']}","sha256":sha256_bytes(blocks[n].encode())})
             (refs / g["file"]).write_text("\n\n".join(x for x in chunks if x is not None).strip() + "\n", encoding="utf-8")
 
+    # Legacy sources may carry runnable GAS examples. Preserve these resources
+    # byte-for-byte beside generated references so the one-install skill does
+    # not silently omit usable .gs templates. The SKILL.md body continues to
+    # be normalized through the existing progressive-disclosure references.
+    copied_resources = {}
+    for path in sorted(p for p in source_dir.rglob("*") if p.is_file() and p.name != "SKILL.md"):
+        if any(part in {".git", ".svn", ".hg", "__pycache__"} for part in path.parts) or path.suffix in {".pyc", ".pyo"}:
+            continue
+        if path.is_symlink():
+            raise ValueError(f"legacy skill resource may not be a symlink: {path}")
+        rel = path.relative_to(source_dir)
+        target = package_dir / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(path.read_bytes())
+        copied_resources[rel.as_posix()] = sha256_file(path)
+
     return {
+        "copied_resource_sha256": copied_resources,
         "mode": entry["mode"],
         "parser": parser_kind,
         "fragment_count": len(fragments),

@@ -12,6 +12,17 @@ AI membaca skill utama, menentukan satu dari enam kategori pekerjaan, lalu membu
 
 > Host yang tidak mendukung format `.skill` dapat membaca file `SKILL.md` dan folder `references/` yang sama secara manual. Paket ini tidak menghubungkan akun Google atau menjalankan skrip secara otomatis.
 
+## Pengembangan aktif — v2.1 Reliable GAS Jobs (Unreleased)
+
+Rilis stabil terakhir **tetap v2.0.0**. Repository sekarang memiliki starter GAS `.gs` untuk pekerjaan panjang dan resumable, termasuk contoh upsert Google Sheets, auto-continuation, lock, retry terbatas, pause/recovery, serta fault-injection test. Ini **development checkpoint**, belum diterbitkan sebagai GitHub Release.
+
+- Implementasi: [`examples/gas-reliable-jobs-v2.1/`](examples/gas-reliable-jobs-v2.1/)
+- Panduan operator & batasan: [`docs/reliable-gas-jobs-v2.1-development.md`](docs/reliable-gas-jobs-v2.1-development.md)
+- Ringkasan checkpoint/versi skill: [`docs/v2.1-development-report.md`](docs/v2.1-development-report.md)
+- Pengujian: `node tests/node/test_reliable_jobs.cjs` dan `python -m unittest discover -s tools -p 'test_*.py'`.
+
+Source contoh juga termasuk di `skills/01-gas-core-engineering/examples/reliable-jobs/`, lalu dibundel ke satu skill hasil build. **Jangan menimpa `releases/v2.0.0/`** dengan hasil build development.
+
 ## Enam kategori tugas
 
 | Kategori | Spesialis utama | Spesialis pendukung tersedia |
@@ -54,6 +65,14 @@ Versi utama **`gas-engineering` berubah dari preview `2.0.0-preview.1` menjadi r
 
 Dokumentasi rinci: `RELEASE_MANIFEST.md`, `CHANGELOG.md`, `GITHUB_RELEASE_NOTES.md`, `docs/v2-architecture.md`, dan `docs/v2-migration-guide.md`.
 
+## Pengembangan v2.x dan kapan menerbitkan rilis
+
+**Versi stabil terakhir tetap v2.0.0.** Perubahan baru dikembangkan pada `main` sebagai commit/PR; **CI artifact bukan GitHub Release**. Milestone terdekat: **v2.1 — Reliable GAS Jobs** (resumable jobs, lock, checkpoint/commit reconciliation, retry, trigger cleanup). Tahap berikutnya: v2.2 Sheets/Drive Scale, v2.3 Web App/Deployment, v2.4 Workspace Integrations.
+
+Rilis mengikuti **Semantic Versioning**: `MAJOR` untuk perubahan breaking, `MINOR` untuk fitur GAS kompatibel yang lengkap dan stabil, `PATCH` untuk perbaikan penting. Tidak ada jadwal rilis otomatis; bug keamanan/data-integrity dapat memicu patch lebih awal. Arsip v2.0.0 tidak ditimpa oleh development build.
+
+Baca [roadmap](docs/v2-roadmap.md), [release policy](docs/release-policy.md), dan [panduan kontribusi](CONTRIBUTING.md). Periksa konsistensi policy dengan `python tools/check_release_policy.py`.
+
 ## Build dan pengujian (opsional)
 
 ```bash
@@ -62,6 +81,7 @@ python tools/verify_gas_skill_dist.py
 python tools/evaluate_gas_skill_parity.py
 python tools/build_gas_v2.py
 python tools/verify_gas_v2.py
+python tools/check_release_policy.py
 PYTHONPATH=tools python -m unittest discover -s tools -p 'test_gas_*.py' -v
 PYTHONPATH=tools python -m unittest tools/test_workspace_addon_release_state.py -v
 ```

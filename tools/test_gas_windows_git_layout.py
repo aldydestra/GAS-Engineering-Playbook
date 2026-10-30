@@ -14,21 +14,21 @@ class WindowsGitLayoutTests(unittest.TestCase):
         gitignore=(ROOT/'.gitignore').read_text().splitlines()
         self.assertIn('/dist/',gitignore)
         source_paths=[p.relative_to(ROOT).as_posix() for p in ROOT.rglob('*')
-                      if p.is_file() and 'dist' not in p.relative_to(ROOT).parts
-                      and '__pycache__' not in p.relative_to(ROOT).parts]
+                      if p.is_file() and not set(p.relative_to(ROOT).parts) &
+                      {'dist', '__pycache__', '.git', '.pytest_cache', '.venv'}]
         self.assertTrue(source_paths)
         self.assertLessEqual(max(map(len,source_paths)),95,
                              'Long source-controlled paths risk Windows MAX_PATH')
 
-    def test_committed_archive_matches_deterministic_builder(self):
+    def test_committed_archive_is_immutable_and_checksummed(self):
         archive=ROOT/'releases/v2.0.0/gas-engineering.skill'
-        generated=ROOT/'dist/gas-engineering-v2.0.0/gas-engineering.skill'
         self.assertTrue(archive.is_file())
-        self.assertTrue(generated.is_file())
-        self.assertEqual(archive.read_bytes(),generated.read_bytes())
         digest=hashlib.sha256(archive.read_bytes()).hexdigest()
+        self.assertEqual('d762a1396e54aadbded5cf566a9f4e52a2b56fe26da8814fdb6fd698a8304127',digest)
         self.assertEqual(f'{digest}  gas-engineering.skill\n',
                          (archive.parent/'SHA256SUMS').read_text())
+        # Development builds can change as we work toward v2.1.0.
+        # They must not be required to match an older, immutable release.
 
     def test_installable_archive_still_contains_all_specialists(self):
         archive=ROOT/'releases/v2.0.0/gas-engineering.skill'
