@@ -29,3 +29,7 @@ git push origin HEAD
 ```
 
 `dist/` diabaikan Git karena nested path panjang di Windows; arsip stable tetap berada di `releases/v2.0.0/`. Node 22 diperlukan hanya untuk contract tests lokal/CI; kode Apps Script tidak memerlukan Node di runtime Google.
+
+### Checkpoint 2 update
+
+If updating an earlier v2.1 development checkout, extract the new **checkpoint 2 patch** over it. `preflightReliableSheetUpsert()` is read-only; run it before starting the demo. Re-run Node + Python and all packaging checks. Do not tag or publish GitHub Release: `v2.0.0` remains stable and the v2.1 milestone is still incomplete.

@@ -3890,3 +3890,11 @@ Operationally, v1.35.2 also replaces the full-repository external handoff assump
 
 No Agent Skill package identity/host contract/major-version change was required.
 
+
+### GAS v2.1 checkpoint 2 — 2026-10-30 (verified references)
+
+- Official [`Trigger.getUniqueId()` reference](https://developers.google.com/apps-script/reference/script/trigger): identifies an installable trigger; handler name does not establish ownership.
+- Official [Installable Triggers](https://developers.google.com/apps-script/guides/triggers/installable): trigger runs as creator and another creator's trigger may be invisible to the current user; use a dedicated owner for resumable jobs.
+- Official [ClockTriggerBuilder](https://developers.google.com/apps-script/reference/script/clock-trigger-builder): `after()` is a minimum delay, not exact scheduling.
+- Official [Apps Script quotas](https://developers.google.com/apps-script/guides/services/quotas): ordinary execution 6 min, property value 9 KB, trigger quota 20/user/script (snapshot as of review; Google may change limits).
+- Current starter uses the above only as engineering assumptions; no live Google trigger/authorization test was performed.

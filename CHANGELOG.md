@@ -9,6 +9,13 @@
 - **Belum ada tag, GitHub Release, maupun pembaruan versi publik.**
 
 
+### v2.1 development checkpoint 2 — Trigger Ownership & Staging Safety (belum rilis)
+
+- Trigger wake kini disimpan sebagai `wakeTriggerUid`, diidentifikasi via `Trigger.getUniqueId()`; cleanup tidak menghapus trigger lain ber-handler sama. Penggantian trigger: create → persist → delete old, dan save failure menghapus wake baru tanpa menyentuh wake lama.
+- `begin()` tidak lagi diam-diam mereset job ID yang sudah selesai. Konfigurasi runtime dan cursor diperketat menjadi safe integers.
+- Menambahkan preflight read-only semua SOURCE/TARGET keys (batas 50k data rows), coalesced target writes, dan stress replay 1.200 rows.
+- Fault-injection diperluas; live GAS tetap belum diuji. Status `v2.1.0 IN_DEVELOPMENT`, tanpa tag/release dan tanpa bump skill version prematur.
+
 ### v2.1 development checkpoint — Reliable GAS Jobs (belum rilis)
 
 - Menambah `GASReliableJobs` (`.gs`), `SheetUpsertExample.gs` dan runbook untuk long-running jobs.
@@ -18,6 +25,14 @@
 - Mengembangkan panduan GAS Core & Testing pada source branch; **tidak menaikkan versi internal skill sebelum rilis stabil**. GitHub Release tetap v2.0.0; CI build development bukan tag rilis.
 - Keterbatasan: pengujian service-fake/static tidak membuktikan live Google account trigger/OAuth/quota; `LIVE_GAS_SMOKE = NOT_RUN`.
 
+
+
+### v2.1 development checkpoint 3 — Source Seal & Read-Only Reconciliation (2 November 2026; Unreleased)
+
+- Adds candidate-bound `jobId`-scoped SOURCE SHA-256 seal with a 10k-row demo cap and verification at each continuation invocation. Input drift pauses execution while preserving the committed cursor and unrelated triggers.
+- Adds read-only committed-prefix TARGET audit (missing/mismatched/duplicate keys) and requires `recoverFailedSheetUpsertAfterReconciliation(true)` plus a passing audit. This is an **operator acknowledgement for data recovery**, not release governance.
+- Hardens `record_id` normalization and prototype-safe indexing; extends Node fault-injection matrix.
+- No GitHub release/tag/skill version bump; stable `releases/v2.0.0` unchanged; live GAS staging `NOT_RUN`.
 
 ## [v2.0.0] — 2026-10-29 — Official GAS Simplification Release
 

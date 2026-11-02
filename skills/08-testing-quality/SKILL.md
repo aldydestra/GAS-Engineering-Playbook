@@ -2024,3 +2024,11 @@ Use `tools/audit_gas_stateful_job.py` and `tools/audit_gas_trigger_topology.py` 
 Untuk `GASReliableJobs`, uji setidaknya: sink berhasil menulis tetapi checkpoint belum maju; restart dari checkpoint lama; dua percobaan pada `record_id` yang sama tidak membuat duplikat; trigger continuation tunggal; lock contention; pause/resume; retry transient yang dibatasi; error permanen yang dipindahkan ke `FAILED`; dan trigger dibersihkan saat terminal.
 
 Contract tests contoh dijalankan dengan `node tests/node/test_reliable_jobs.cjs` di repository. **Node service fakes bukan pengganti uji live Apps Script**; tetap perlukan smoke manual untuk trigger berbasis waktu, izin, dan quota akun yang digunakan.
+
+### v2.1 checkpoint 2 — adverse trigger & staging tests (unreleased)
+
+Test that unrelated triggers with the same handler survive pause/completion, replacement scheduling failure preserves the prior wake, a persistence failure removes the newly created wake, and `COMPLETED` job IDs cannot restart implicitly. Test source duplicates **across** batch boundaries, a 1,200-row replay scenario and contiguous target write grouping. These Node fakes validate contracts only; account-specific trigger creation, quotas and OAuth require live staging evidence.
+
+### v2.1 checkpoint 3 — source seal fault-injection (Unreleased)
+
+Add negative tests for `SOURCE` value edit, insert, delete, reorder *between* timer invocations; require job PAUSED and no cursor advance. Test TARGET missing/mismatched/duplicate keys, reconciliation read-only behavior, explicit FAILED recovery acknowledgment, 10k-row seal bound, prototype-shaped `record_id`, and no changes to unrelated triggers. Clearly distinguish a boundary hash check from immutable snapshots; evaluate mid-invocation mutation and real GAS OAuth/quotas separately.

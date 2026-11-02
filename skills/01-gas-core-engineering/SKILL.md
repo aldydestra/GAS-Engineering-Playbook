@@ -1311,3 +1311,13 @@ Untuk pekerjaan GAS yang berpotensi melebihi batas satu eksekusi, lihat **contoh
 **Critical safety contract:** jangan memindahkan checkpoint sebelum *durable output commit*. Jika server terhenti tepat setelah commit dan sebelum penyimpanan cursor, eksekusi berikutnya **pasti bisa mengulang input**, sehingga efek output wajib aman diulang berdasarkan stable business key. `committed:true` merupakan kontrak adapter, bukan transaksi atomik lintas Google services. Uji secara langsung dengan data nonproduksi sebelum dipakai pada pekerjaan mahal atau irreversible (email, API pembayaran, external POST).
 
 Lihat `docs/reliable-gas-jobs-v2.1-development.md` pada repository untuk penjelasan fault-injection dan batasan. Ini adalah materi pengembangan v2.1; **bukan** pengumuman rilis baru.
+
+### v2.1 checkpoint 2 — trigger ownership, preflight, replay
+
+For resumable Sheets jobs, do not select triggers for deletion by handler name alone. Use the **recorded** `Trigger.getUniqueId()` and a single trigger-owner account. Create and persist a replacement wake before deleting its predecessor; a trigger/quota failure must not delete an unrelated wake.
+
+Before starting the `record_id` upsert demo, run `preflightReliableSheetUpsert()` to inspect bounded SOURCE/TARGET keys (read-only). It does not lock or freeze the source; immutable input remains a production requirement. Consecutive target updates are batched, but very large TARGET sheets still need a real index/capacity benchmark. See starter assets in `examples/reliable-jobs/`.
+
+### v2.1 checkpoint 3 — source drift and reconciled recovery (Unreleased)
+
+Before starting the demo, run read-only preflight. `startReliableSheetUpsert()` stores a bounded SOURCE SHA-256 seal in ScriptProperties (10k data rows maximum). Every `resumeReliableSheetUpsert()` checks SOURCE at **invocation start**; detected drift pauses while preserving the committed cursor. `auditReliableSheetUpsert()` checks committed TARGET rows read-only, and `recoverFailedSheetUpsertAfterReconciliation(true)` also requires a passing prefix audit. Source must still be frozen during *each* execution: hashing is **not** snapshot isolation. See bundled `examples/reliable-jobs/SheetUpsertExample.gs` and repository Checkpoint 3 runbook.

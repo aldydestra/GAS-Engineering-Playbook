@@ -21,6 +21,8 @@ Rilis stabil terakhir **tetap v2.0.0**. Repository sekarang memiliki starter GAS
 - Ringkasan checkpoint/versi skill: [`docs/v2.1-development-report.md`](docs/v2.1-development-report.md)
 - Pengujian: `node tests/node/test_reliable_jobs.cjs` dan `python -m unittest discover -s tools -p 'test_*.py'`.
 
+Checkpoint kedua v2.1 memperketat trigger berdasarkan ID yang dimiliki, preflight staging read-only, batch update TARGET dan simulated replay 1,200 baris. Detail: [`docs/v2.1-checkpoint-2-recovery-and-trigger-ownership.md`](docs/v2.1-checkpoint-2-recovery-and-trigger-ownership.md). **Live Google staging tetap NOT_RUN.**
+
 Source contoh juga termasuk di `skills/01-gas-core-engineering/examples/reliable-jobs/`, lalu dibundel ke satu skill hasil build. **Jangan menimpa `releases/v2.0.0/`** dengan hasil build development.
 
 ## Enam kategori tugas
@@ -108,3 +110,5 @@ git push origin main
 ```
 
 Jika repository belum punya commit dan `git rm` tidak menemukan file, itu normal: `.gitignore` akan mencegah staging selanjutnya. Bila root repository terlalu dalam, gunakan lokasi seperti `C:\gas-playbook`. Lihat `docs/windows-git-portability.md` untuk panduan dan troubleshooting.
+
+**v2.1 development Checkpoint 3 (Unreleased, 2 November 2026):** source-change seal (SHA-256, <=10k demo rows), read-only committed-prefix reconciliation, guarded FAILED recovery and extended fault-injection. See `docs/v2.1-checkpoint-3-source-seal-reconciliation.md`. The GitHub Release remains v2.0.0 stable.

@@ -18,6 +18,12 @@ V2 menyederhanakan penggunaan menjadi **satu front door, enam task-family, dan e
 - **Belum tervalidasi:** live trigger/OAuth/kuota di lingkungan GAS, pengujian dengan dataset skala produksi, dan regresi atas mutable source row insert/delete.
 - **Keputusan rilis:** tetap `IN_DEVELOPMENT`; bukan v2.1.0 stable. Rilis hanya setelah acceptance criteria milestone dinilai cukup dan berhasil diuji.
 
+## Checkpoint 2 v2.1 — Trigger Ownership & Staging Safety (Unreleased)
+
+- Trigger cleanup berdasarkan `getUniqueId()` bukan handler name, dan replacement dibuat sebelum watchdog lama dihapus.
+- Preflight audit sumber dan target read-only (duplicate IDs lintas batch), write coalescing, serta stress replay 1,200 row dalam Node fakes.
+- Masih **belum** ada bukti live Apps Script/Google OAuth/trigger performance. Lihat `docs/v2.1-checkpoint-2-recovery-and-trigger-ownership.md`.
+
 ## Cross-cutting tracks (setiap milestone)
 
 - **Akurasi Google Apps Script:** verifikasi dokumentasi resmi untuk kuota, runtime, OAuth, API, dan fitur preview; catat tanggal saat diverifikasi di `docs/technology-watch.md`.
@@ -42,3 +48,9 @@ V2 menyederhanakan penggunaan menjadi **satu front door, enam task-family, dan e
 - `DEFERRED`: tidak memenuhi kualitas, kembali ke development (tidak perlu memaksakan tanggal).
 
 Rujuk `docs/release-policy.md` untuk aturan versi, quality gate dan prosedur rilis. Tidak ada kembali ke roadmap AI governance atau kewajiban human approval.
+
+## Checkpoint 3 v2.1 — Bounded SOURCE seal & read-only reconciliation (2 November 2026)
+
+- SOURCE SHA-256 chained fingerprint (<=10k rows) prevents silent positional-cursor drift **between** invocations; mismatch pauses job. No transaction/isolation guarantee within one invocation.
+- Prefix-level reconciliation audit is read-only, and FAILED recovery must pass audit and receive an explicit operator acknowledgement.
+- Completed in local Node simulation only. Live staging remains `NOT_RUN`; development build and CI are not GitHub Releases.

@@ -37,12 +37,15 @@ At run start, a watchdog trigger is pre-armed for `maxRunMs + 60s` (default 4 mi
 
 1. Create staging Sheets `SOURCE` / `TARGET`, each with row 1 `record_id | value`. Data in `SOURCE` **must not be reordered/edited** during a running job; use a snapshot for production.
 2. Copy `.gs` files to one Apps Script V8 project. Set `GAS_RJ_DEMO_SHEET_ID` to the staging spreadsheet ID. Keep one trigger owner account.
-3. Run `startReliableSheetUpsert()` manually and authorize Spreadsheet, Properties, trigger scopes. Observe `inspectReliableSheetUpsert()`. `resumeReliableSheetUpsert` is a global installable trigger handler.
+3. First run **`preflightReliableSheetUpsert()`** (read-only, bounded scan up to 50,000 data rows) to detect blank/duplicate keys across batches; it does not freeze SOURCE. Then run `startReliableSheetUpsert()` manually and authorize Spreadsheet, Properties, trigger scopes. Observe `inspectReliableSheetUpsert()`. `resumeReliableSheetUpsert` is a global installable trigger handler.
 4. Check `TARGET` has one row per unique `record_id`; verify repeated reads and restart/timeout cannot multiply rows. For manual intervention, `pauseReliableSheetUpsert()` then `restartPausedSheetUpsert()`.
 5. Exercise error paths in a staging copy: missing tab, duplicate target IDs, duplicate source IDs, `SpreadsheetApp.flush()` failure and permission denial. Fix the root cause before restarting a FAILED job. Verify audit logs against per-account trigger owner identity.
 
 ## Safety limitations
 
+- Trigger cleanup now operates on the recorded `wakeTriggerUid` only, not all handler-matching triggers. Creating a replacement before deleting the prior trigger needs a spare trigger slot. Trigger creation and saving the UID are not atomic; a hard crash in between may leave an orphan that needs manual investigation. `getProjectTriggers()` is account-visible only.
+- Completed jobs cannot be silently restarted with the same `jobId`; use a new logical job ID for a new run.
+- The Sheets example batches contiguous existing-row updates and reads only target keys, but still scans the target key column each chunk. This is **not** an indexed high-scale database; benchmark and migrate to keyed storage for very large TARGET sheets.
 - The starter keeps `ScriptLock` across short Spreadsheet calls, intentionally serializing a single job's mutation/flush. **Do not add UrlFetch/long remote I/O inside the critical section.** This example is not a multi-job scheduler; using one continuation handler across different jobs can delete another job's triggers.
 - `getProjectTriggers()` only returns triggers visible to the executing user; dedicated owner account strongly recommended.
 - `ScriptProperties` is appropriate for a short cursor, **not data payload or credentials**; don't write large arrays, OAuth tokens, customer PII, or verbose exception strings into state.
@@ -50,6 +53,8 @@ At run start, a watchdog trigger is pre-armed for `maxRunMs + 60s` (default 4 mi
 - The sample uses a bounded per-run batch count and time budget, but execution time also depends on actual sheet latency and quota. There is no guarantee of completion before 6 minutes on arbitrary input.
 - Source row insertions/deletions during processing can invalidate cursor semantics. For mutable sources use immutable IDs and an index/key-range checkpoint, not sheet row offsets.
 - Staging tests with service fakes do not prove the actual Google quota, OAuth consent, trigger execution identity or production throughput. **Live GAS smoke = NOT_RUN** until performed in a real Google account.
+
+See `docs/v2.1-checkpoint-2-recovery-and-trigger-ownership.md` for exact trigger identity, preflight, fault-injection and staging acceptance details.
 
 ## Regression and milestone exit
 
@@ -69,3 +74,7 @@ python tools/check_release_policy.py
 ### Recovery status `FAILED`
 
 `FAILED` tidak dapat diulang menggunakan `begin()`/`resume()` secara diam-diam. Diagnosis masalah, rekonsiliasi output yang sudah tertulis, dan pastikan key idempotensi dapat digunakan kembali, lalu jalankan `recoverFailedSheetUpsertAfterReconciliation()`; ia mempertahankan cursor terakhir, **tidak** meresetnya ke awal. Jika output ternyata sebagian salah, lakukan perbaikan sink secara eksplisit sebelum recovery.
+
+## Checkpoint 3 — SOURCE seal and reconciliation (2 November 2026)
+
+The demo's `start` records a short `jobId`-bound SHA-256 chained SOURCE digest in ScriptProperties (<=10k data rows). `resume` checks the digest at invocation start, PAUSES on drift and retains the committed cursor. This **does not** make row-offset cursors safe against edits within the same invocation; freeze SOURCE or use a real snapshot. The read-only `auditReliableSheetUpsert()` checks only the committed prefix against TARGET. FAILED recovery requires `recoverFailedSheetUpsertAfterReconciliation(true)` after reviewing in-flight side effects and receiving `COMMITTED_PREFIX_PASS`. Source seal and auditing add Sheets reads and must be benchmarked in real GAS staging. For matrices and boundaries see `docs/v2.1-checkpoint-3-source-seal-reconciliation.md`.

@@ -1,7 +1,7 @@
 'use strict';
 // Local contract/fault-injection tests with Apps Script service fakes.
 // These are NOT proof that installable triggers, quotas, or Sheets run live on Google.
-const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict'),path=require('path');
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict'),path=require('path'),crypto=require('node:crypto');
 const base=path.resolve(__dirname,'../../examples/gas-reliable-jobs-v2.1');
 const lib=fs.readFileSync(path.join(base,'ReliableJobs.gs'),'utf8');
 const demo=fs.readFileSync(path.join(base,'SheetUpsertExample.gs'),'utf8');
@@ -15,14 +15,17 @@ function make(opts={}) {
       setProperty:(k,v)=>{if(opts.failSave && opts.failSave(k,JSON.parse(v)))throw Error('simulated persistence outage');data.set(k,v);}})},
     LockService:{getScriptLock:()=>({tryLock:()=>{if(opts.contended)return false;if(held)throw Error('concurrent');held=true;return true;},releaseLock:()=>{held=false;}})},
     ScriptApp:{getProjectTriggers:()=>triggers.slice(),deleteTrigger:t=>{triggers=triggers.filter(x=>x!==t);},
-      newTrigger:(handler)=>({timeBased:()=>({after:(ms)=>({create:()=>{if(opts.failTrigger)throw Error('trigger denied');
-        const t={id:++seq,handler,delay:ms,getHandlerFunction:()=>handler};triggers.push(t);return t;}})})})},
+      newTrigger:(handler)=>({timeBased:()=>({after:(ms)=>({create:()=>{if(opts.failTrigger && (typeof opts.failTrigger!=='function' || opts.failTrigger()))throw Error('trigger denied');
+        const t={id:++seq,handler,delay:ms,getHandlerFunction:()=>handler,getUniqueId:()=>String(t.id)};triggers.push(t);return t;}})})})},
+    Utilities:{DigestAlgorithm:{SHA_256:'sha256'},Charset:{UTF_8:'utf8'},
+      computeDigest:(algorithm,value,charset)=>Array.from(crypto.createHash(algorithm).update(value,charset).digest()).map(b=>b>127?b-256:b)},
     Date:Date,Logger:{log:()=>{}},console:console
   };
   vm.createContext(fake);vm.runInContext(lib,fake);
   return {j:fake.GASReliableJobs,fake,state:()=>JSON.parse(data.get('GASRJ1:sync')||'null'),triggers:()=>triggers.slice(),
     // Simulate hard process death: fresh service, same persistence/trigger state.
-    resurrect:()=>{vm.runInContext(lib,fake);return fake.GASReliableJobs;}};
+    resurrect:()=>{vm.runInContext(lib,fake);return fake.GASReliableJobs;},
+    addExternalTrigger:(handler)=>{const t={id:++seq,handler,delay:999,getHandlerFunction:()=>handler,getUniqueId:()=>String(t.id)};triggers.push(t);return t;}};
 }
 test('checkpoint advances after committed batch; terminal wake cleanup',()=>{
   const x=make(),seen=[];x.j.begin(cfg);
@@ -104,10 +107,10 @@ test('continuation creation failure keeps previous cursor (no write)',()=>{
   assert.equal(x.state().cursor,2);
 });
 // Integration-style test for the bundled Sheets upsert worker with mocked Sheets service.
-function sheet(rows) {
-  return {rows, getLastRow(){return this.rows.length;},getRange(r,c,n,m){let self=this;
+function sheet(rows,name='SOURCE') {
+  return {rows,name,writeCalls:0,getName(){return this.name;},getLastRow(){return this.rows.length;},getRange(r,c,n,m){let self=this;
     return {getValues:()=>self.rows.slice(r-1,r-1+n).map(x=>x.slice(c-1,c-1+m)),
-      setValues(vals){vals.forEach((v,i)=>{while(self.rows.length<r+i)self.rows.push(['','']);
+      setValues(vals){self.writeCalls+=1;vals.forEach((v,i)=>{while(self.rows.length<r+i)self.rows.push(['','']);
       for(let j=0;j<m;j++)self.rows[r+i-1][c-1+j]=v[j];});}};}};
 }
 test('real example upsert replay changes existing row not duplicate',()=>{
@@ -143,5 +146,201 @@ test('duplicate source identifiers are rejected',()=>{
   x.fake.SpreadsheetApp={openById:()=>({getSheetByName:n=>n==='SOURCE'?src:dst}),flush:()=>{}};
   vm.runInContext(demo,x.fake);x.fake.GAS_RJ_DEMO_SHEET_ID='test-id';
   assert.throws(()=>x.fake.gasRJUpsertChunk_(2,2,'demo'),/RJ_DEMO_DUPLICATE_SOURCE_KEY/);
+});
+test('same-handler unrelated trigger survives all job lifecycle cleanup',()=>{
+  const x=make(),external=x.addExternalTrigger(cfg.handler);
+  x.j.begin(cfg);
+  assert.equal(x.triggers().length,2);
+  x.j.run(cfg,cursor=>({nextCursor:cursor+1,processed:1,done:true,committed:true}));
+  assert.equal(x.triggers().length,1);assert.equal(x.triggers()[0],external);
+});
+test('schedule replacement failure preserves prior owned watchdog',()=>{
+  let count=0;
+  const x=make({failSave:(k,s)=>s.wakeTriggerUid==='2' && count++===0});
+  x.j.begin(cfg);const previous=x.triggers()[0];
+  assert.throws(()=>x.j.resume(cfg),/simulated persistence outage/);
+  assert.equal(x.triggers().length,1);
+  assert.equal(x.triggers()[0],previous);
+  assert.equal(x.state().wakeTriggerUid,'1');
+});
+test('completed job cannot be silently restarted under same jobId',()=>{
+  const x=make();x.j.begin(cfg);
+  x.j.run(cfg,cursor=>({nextCursor:cursor+1,processed:1,done:true,committed:true}));
+  assert.throws(()=>x.j.begin(cfg),/RJ_JOB_ALREADY_EXISTS/);
+  assert.equal(x.state().status,'COMPLETED');
+});
+test('only owned trigger removed on pause, unrelated trigger remains',()=>{
+  const x=make(),external=x.addExternalTrigger(cfg.handler);
+  x.j.begin(cfg);x.j.pause(cfg);
+  assert.equal(x.triggers().length,1);assert.equal(x.triggers()[0],external);
+  x.j.resume(cfg);assert.equal(x.triggers().length,2);
+});
+test('trigger creation failure on active job preserves existing wake',()=>{
+  let calls=0;
+  const x=make({failTrigger:()=>++calls===2});
+  x.j.begin(cfg);const owned=x.triggers()[0];
+  assert.throws(()=>x.j.resume(cfg),/trigger denied/);
+  assert.equal(x.triggers().length,1);assert.equal(x.triggers()[0],owned);
+});
+test('staging preflight detects duplicate source keys across distinct batches',()=>{
+  const x=make(),src=sheet([['record_id','value'],['a',1],['b',2],['a',3]],'SOURCE');
+  const dst=sheet([['record_id','value']],'TARGET');
+  x.fake.SpreadsheetApp={openById:()=>({getSheetByName:n=>n==='SOURCE'?src:dst}),flush:()=>{}};
+  vm.runInContext(demo,x.fake);x.fake.GAS_RJ_DEMO_SHEET_ID='stage';
+  assert.throws(()=>x.fake.preflightReliableSheetUpsert(),/RJ_DEMO_DUPLICATE_SOURCE_KEY/);
+  assert.equal(dst.writeCalls,0);
+});
+test('staging preflight passes bounded valid data without writes',()=>{
+  const x=make(),src=sheet([['record_id','value'],['a',1],['b',2],['c',3]],'SOURCE');
+  const dst=sheet([['record_id','value'],['z',0]],'TARGET');
+  x.fake.SpreadsheetApp={openById:()=>({getSheetByName:n=>n==='SOURCE'?src:dst}),flush:()=>{}};
+  vm.runInContext(demo,x.fake);x.fake.GAS_RJ_DEMO_SHEET_ID='stage';
+  const r=x.fake.preflightReliableSheetUpsert();
+  assert.equal(r.status,'PREFLIGHT_PASS');assert.equal(r.sourceRows,3);
+  assert.equal(r.targetRows,1);assert.equal(src.writeCalls+dst.writeCalls,0);
+});
+test('contiguous target updates use one batched write instead of one per row',()=>{
+  const x=make(),src=sheet([['record_id','value'],['a',5],['b',6],['c',7]],'SOURCE');
+  const dst=sheet([['record_id','value'],['a',1],['b',2],['c',3]],'TARGET');
+  x.fake.SpreadsheetApp={openById:()=>({getSheetByName:n=>n==='SOURCE'?src:dst}),flush:()=>{}};
+  vm.runInContext(demo,x.fake);x.fake.GAS_RJ_DEMO_SHEET_ID='stage';
+  const r=x.fake.gasRJUpsertChunk_(2,3,'demo');
+  assert.equal(r.processed,3);assert.equal(dst.writeCalls,1);
+  assert.deepEqual(dst.rows,[['record_id','value'],['a',5],['b',6],['c',7]]);
+});
+test('runtime config rejects NaN, strings, and unsafe cursors',()=>{
+  const x=make();
+  assert.throws(()=>x.j.begin({...cfg,maxRunMs:'180000'}),/RJ_CONFIG_RUNTIME/);
+  assert.throws(()=>x.j.begin({...cfg,maxRunMs:NaN}),/RJ_CONFIG_RUNTIME/);
+  assert.throws(()=>x.j.begin({...cfg,initialCursor:Number.MAX_SAFE_INTEGER+1}),/RJ_CONFIG_CURSOR/);
+});
+test('1,200 rows in multiple executions survive first-batch replay without duplicates',()=>{
+  const x=make(),rows=[['record_id','value']];
+  for(let i=1;i<=1200;i++)rows.push(['ID-'+i,i]);
+  const src=sheet(rows,'SOURCE'),dst=sheet([['record_id','value']],'TARGET');
+  x.fake.SpreadsheetApp={openById:()=>({getSheetByName:n=>n==='SOURCE'?src:dst}),flush:()=>{}};
+  vm.runInContext(demo,x.fake);x.fake.GAS_RJ_DEMO_SHEET_ID='stage';
+  assert.equal(x.fake.preflightReliableSheetUpsert().sourceRows,1200);
+  const conf={...cfg,batchSize:100,maxBatchesPerRun:3};
+  x.j.begin(conf);let first=true,r;
+  for(let i=0;i<8;i++) {
+    r=x.j.run(conf,(cursor,n,jid)=>{
+      const res=x.fake.gasRJUpsertChunk_(cursor,n,jid);
+      if(first){first=false;const e=Error('simulated post-commit outage');e.code='TRANSIENT';throw e;}
+      return res;
+    });
+    if(r.status==='COMPLETED')break;
+  }
+  assert.equal(r.status,'COMPLETED');assert.equal(x.state().processed,1200);
+  assert.equal(dst.rows.length,1201);
+  assert.equal(new Set(dst.rows.slice(1).map(r=>r[0])).size,1200);
+  assert.equal(x.triggers().length,0);
+});
+
+function sealedDemo(rows,options={}) {
+  const x=make();
+  const src=sheet([['record_id','value'],...rows],'SOURCE');
+  const dst=sheet([['record_id','value']],'TARGET');
+  x.fake.SpreadsheetApp={openById:()=>({getSheetByName:n=>n==='SOURCE'?src:dst}),flush:()=>{}};
+  vm.runInContext(demo,x.fake);
+  x.fake.GAS_RJ_DEMO_SHEET_ID='staging-only';
+  x.fake.GAS_RJ_DEMO_CONFIG={jobId:'sync',handler:'resumeSync',batchSize:1,
+    initialCursor:2,maxRunMs:5000,maxBatchesPerRun:1,maxRetries:1,...options};
+  return {x,src,dst};
+}
+test('source seal is pinned at start and audited across a resumed execution',()=>{
+  const {x,dst}=sealedDemo([['a',1],['b',2],['c',3]]);
+  assert.equal(x.fake.startReliableSheetUpsert().status,'WAITING');
+  assert.equal(x.state().cursor,3);
+  assert.equal(x.fake.gasRJAssertSourceSeal_().status,'SOURCE_UNCHANGED');
+  assert.equal(x.fake.auditReliableSheetUpsert().status,'COMMITTED_PREFIX_PASS');
+  assert.equal(x.fake.resumeReliableSheetUpsert().status,'WAITING');
+  assert.equal(x.fake.resumeReliableSheetUpsert().status,'COMPLETED');
+  assert.equal(x.fake.auditReliableSheetUpsert().committedRows,3);
+  assert.equal(x.fake.auditReliableSheetUpsert().matched,3);
+  assert.equal(dst.rows.length,4);
+});
+test('value mutation pauses job; cursor and unrelated triggers remain intact',()=>{
+  const {x,src}=sealedDemo([['a',1],['b',2],['c',3]]);
+  const unrelated=x.addExternalTrigger('resumeSync');
+  x.fake.startReliableSheetUpsert();const cursor=x.state().cursor;
+  src.rows[2][1]=999;
+  assert.throws(()=>x.fake.resumeReliableSheetUpsert(),/RJ_SOURCE_DRIFT/);
+  assert.equal(x.state().status,'PAUSED');assert.equal(x.state().cursor,cursor);
+  assert.deepEqual(x.triggers(),[unrelated]);
+  assert.throws(()=>x.fake.restartPausedSheetUpsert(),/RJ_SOURCE_DRIFT/);
+});
+test('SOURCE insert / delete / reorder rejected by sealed runner',()=>{
+  for(const mutate of [
+    rows=>rows.push(['z',22]),
+    rows=>rows.splice(2,1),
+    rows=>{let tmp=rows[2];rows[2]=rows[3];rows[3]=tmp;}
+  ]) {
+    const {x,src}=sealedDemo([['a',1],['b',2],['c',3]]);
+    x.fake.startReliableSheetUpsert();mutate(src.rows);
+    assert.throws(()=>x.fake.resumeReliableSheetUpsert(),/RJ_SOURCE_DRIFT/);
+    assert.equal(x.state().status,'PAUSED');
+  }
+});
+test('reconciliation audit reports missing/mismatch without modifying TARGET',()=>{
+  const {x,dst}=sealedDemo([['a',1],['b',2],['c',3]]);
+  x.fake.startReliableSheetUpsert();x.fake.resumeReliableSheetUpsert();
+  const before=dst.writeCalls;
+  dst.rows[1][1]=88;dst.rows.splice(2,1);
+  const a=x.fake.auditReliableSheetUpsert();
+  assert.equal(a.status,'RECONCILIATION_REQUIRED');
+  assert.equal(a.mismatched,1);assert.equal(a.missing,1);
+  assert.equal(dst.writeCalls,before);
+});
+test('target duplicate keys detected by reconciliation, including prototype-like keys',()=>{
+  const {x,dst}=sealedDemo([['__proto__','safe'],['constructor','safe2']]);
+  x.fake.startReliableSheetUpsert();x.fake.resumeReliableSheetUpsert();
+  assert.equal(x.fake.auditReliableSheetUpsert().status,'COMMITTED_PREFIX_PASS');
+  assert.equal(dst.rows.length,3);
+  dst.rows.push(['constructor','bad']);
+  const a=x.fake.auditReliableSheetUpsert();
+  assert.equal(a.targetDuplicateKeys,1);assert.equal(a.status,'RECONCILIATION_REQUIRED');
+});
+test('recovery wrapper requires explicit acknowledgement and valid prefix audit',()=>{
+  const {x,dst}=sealedDemo([['a',1],['b',2],['c',3]]);
+  x.fake.startReliableSheetUpsert();
+  // Simulate a failure AFTER one prefix batch committed.
+  x.j.run(x.fake.GAS_RJ_DEMO_CONFIG,()=>{throw Error('permanent');});
+  assert.equal(x.state().status,'FAILED');
+  assert.throws(()=>x.fake.recoverFailedSheetUpsertAfterReconciliation(),/RJ_RECOVERY_EXPLICIT_APPROVAL_REQUIRED/);
+  dst.rows[1][1]=5;
+  assert.throws(()=>x.fake.recoverFailedSheetUpsertAfterReconciliation(true),/RJ_RECOVERY_AUDIT_FAILED/);
+  dst.rows[1][1]=1;
+  assert.equal(x.fake.recoverFailedSheetUpsertAfterReconciliation(true).status,'WAITING');
+  assert.equal(x.state().cursor,3);
+});
+test('strict source seal bound rejects oversize jobs before trigger creation',()=>{
+  const rows=Array.from({length:10001},(_,i)=>['id-'+i,i]);
+  const {x}=sealedDemo(rows);
+  assert.throws(()=>x.fake.startReliableSheetUpsert(),/RJ_SOURCE_SEAL_LIMIT_USE_SNAPSHOT/);
+  assert.equal(x.state(),null);assert.equal(x.triggers().length,0);
+});
+test('empty/null/noncanonical record keys are rejected, not silently converted',()=>{
+  for (const id of ['',null,{},true]) {
+    const {x}=sealedDemo([[id,1]]);
+    assert.throws(()=>x.fake.preflightReliableSheetUpsert(),/RJ_DEMO_INVALID_KEY/);
+  }
+});
+test('seal verification does not write Sheets after healthy start',()=>{
+  const {x,src,dst}=sealedDemo([['a',1],['b',2],['c',3]]);
+  x.fake.startReliableSheetUpsert();const before=src.writeCalls+dst.writeCalls;
+  x.fake.gasRJAssertSourceSeal_();
+  assert.equal(before,src.writeCalls+dst.writeCalls);
+});
+test('1,200-row sealed job completes across executions without duplicates',()=>{
+  const rows=Array.from({length:1200},(_,i)=>['id-'+i,i]);
+  const {x,dst}=sealedDemo(rows,{batchSize:100,maxBatchesPerRun:3});
+  let r=x.fake.startReliableSheetUpsert();
+  for(let i=0;i<10 && r.status!=='COMPLETED';i++) r=x.fake.resumeReliableSheetUpsert();
+  assert.equal(r.status,'COMPLETED');
+  assert.equal(x.fake.auditReliableSheetUpsert().status,'COMMITTED_PREFIX_PASS');
+  assert.equal(x.fake.auditReliableSheetUpsert().matched,1200);
+  assert.equal(dst.rows.length,1201);
+  assert.equal(x.triggers().length,0);
 });
 console.log('Reliable GAS Jobs: '+ran+' tests PASS (Node fakes; live GAS NOT_RUN)');
