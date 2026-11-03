@@ -343,4 +343,153 @@ test('1,200-row sealed job completes across executions without duplicates',()=>{
   assert.equal(dst.rows.length,1201);
   assert.equal(x.triggers().length,0);
 });
+test('correct installable trigger UID is admitted and stale UID is ignored before state mutation',()=>{
+  const x=make(),conf={...cfg,maxBatchesPerRun:1};x.j.begin(conf);
+  const initial=x.state().wakeTriggerUid;
+  assert.equal(x.j.checkWakeEvent(conf,{triggerUid:initial}).status,'OWNED_TRIGGER');
+  let called=0;
+  const r=x.j.run(conf,cur=>{called++;return {nextCursor:cur+1,processed:1,done:false,committed:true};},{triggerUid:initial});
+  assert.equal(r.status,'WAITING');assert.equal(called,1);
+  const current=x.state().wakeTriggerUid;
+  assert.notEqual(initial,current);
+  const checkpoint=x.state().cursor;
+  const ignored=x.j.run(conf,()=>{throw Error('stale worker executed');},{triggerUid:initial});
+  assert.equal(ignored.status,'STALE_TRIGGER_IGNORED');
+  assert.equal(x.state().cursor,checkpoint);
+  assert.equal(x.state().wakeTriggerUid,current);
+  assert.equal(x.triggers().length,1);
+});
+test('foreign same-handler trigger is ignored; manual call remains available',()=>{
+  const x=make();x.j.begin(cfg);
+  const foreign=x.addExternalTrigger(cfg.handler);
+  const before=x.state().wakeTriggerUid;
+  assert.equal(x.j.checkWakeEvent(cfg,{triggerUid:foreign.getUniqueId()}).status,'STALE_TRIGGER_IGNORED');
+  assert.equal(x.j.run(cfg,()=>{throw Error('unowned triggered');},{triggerUid:foreign.getUniqueId()}).status,'STALE_TRIGGER_IGNORED');
+  assert.equal(x.state().wakeTriggerUid,before);
+  assert.equal(x.j.checkWakeEvent(cfg,undefined).status,'MANUAL_INVOCATION');
+  const done=x.j.run(cfg,cur=>({nextCursor:cur+1,processed:1,done:true,committed:true}));
+  assert.equal(done.status,'COMPLETED');
+  assert.deepEqual(x.triggers(),[foreign]);
+});
+test('malformed trigger event fails closed without generating wake or moving cursor',()=>{
+  const x=make();x.j.begin(cfg);const before=JSON.stringify(x.state());
+  for(const e of [null,{}, {triggerUid:null},{triggerUid:''},{triggerUid:{}},{triggerUid:Infinity}]) {
+    assert.throws(()=>x.j.run(cfg,()=>({}),e),/RJ_TRIGGER_UID_REQUIRED/);
+  }
+  assert.equal(JSON.stringify(x.state()),before);
+  assert.equal(x.triggers().length,1);
+});
+test('Google numeric trigger UID string conversion is supported without integer parsing',()=>{
+  const x=make();x.j.begin(cfg);
+  assert.equal(x.j.checkWakeEvent(cfg,{triggerUid:1}).status,'OWNED_TRIGGER');
+});
+test('stale event on demo handler does not read SOURCE or change state',()=>{
+  const {x,src,dst}=sealedDemo([['a',1],['b',2]]);
+  x.fake.startReliableSheetUpsert();
+  const prior=x.state().wakeTriggerUid;
+  x.fake.resumeReliableSheetUpsert();
+  const before=JSON.stringify(x.state()),writes=dst.writeCalls;
+  src.getRange=()=>{throw Error('stale handler unexpectedly read SOURCE');};
+  const ignored=x.fake.resumeReliableSheetUpsert({triggerUid:prior});
+  assert.equal(ignored.status,'STALE_TRIGGER_IGNORED');
+  assert.equal(JSON.stringify(x.state()),before);
+  assert.equal(dst.writeCalls,writes);
+});
+test('owned trigger event executes demo and rotates trigger UID',()=>{
+  const {x,dst}=sealedDemo([['a',1],['b',2],['c',3]]);
+  x.fake.startReliableSheetUpsert();
+  const uid=x.state().wakeTriggerUid;
+  const r=x.fake.resumeReliableSheetUpsert({triggerUid:uid});
+  assert.equal(r.status,'WAITING');
+  assert.notEqual(x.state().wakeTriggerUid,uid);
+  assert.equal(dst.rows.length,3);
+});
+test('source change during a single invocation cannot mix new SOURCE rows into in-flight batches',()=>{
+  const {x,src,dst}=sealedDemo([['a',1],['b',2],['c',3],['d',4]],{batchSize:1,maxBatchesPerRun:2});
+  // First batch executes synchronously in start(), then mutate while next run's
+  // TARGET write occurs, after next invocation snapshot has been captured.
+  x.fake.startReliableSheetUpsert();
+  const original=dst.getRange.bind(dst); let mutated=false;
+  dst.getRange=function(...args){
+    const rng=original(...args);
+    if(args[0]===4 && args[2]===1 && args[3]===2) {
+      const originalSet=rng.setValues;
+      rng.setValues=(rows)=>{originalSet(rows);
+        if(!mutated){mutated=true;src.rows[4][1]=999;src.rows.push(['z',99]);}
+      };
+    }
+    return rng;
+  };
+  const r=x.fake.resumeReliableSheetUpsert();
+  assert.equal(r.status,'COMPLETED');
+  assert.equal(mutated,true);
+  assert.deepEqual(dst.rows,[['record_id','value'],['a',1],['b',2],['c',3],['d',4]]);
+  assert.equal(x.fake.auditReliableSheetUpsert().sourceUnchanged,false);
+});
+test('source modification between invocations is still rejected with snapshot runner',()=>{
+  const {x,src,dst}=sealedDemo([['a',1],['b',2],['c',3]]);
+  x.fake.startReliableSheetUpsert();src.rows[3][1]=666;
+  const before=dst.writeCalls;
+  assert.throws(()=>x.fake.resumeReliableSheetUpsert(),/RJ_SOURCE_DRIFT/);
+  assert.equal(x.state().status,'PAUSED');assert.equal(dst.writeCalls,before);
+});
+test('staging report is read-only and distinguishes missing owned wake',()=>{
+  const {x,src,dst}=sealedDemo([['a',1],['b',2]]);
+  const before=x.fake.inspectReliableSheetUpsertStaging();
+  assert.equal(before.jobStatus,'NOT_STARTED');
+  x.fake.startReliableSheetUpsert();
+  const writes=src.writeCalls+dst.writeCalls;
+  const r=x.fake.inspectReliableSheetUpsertStaging();
+  assert.equal(r.jobStatus,'WAITING');assert.equal(r.visibleOwnedWakeCount,1);
+  assert.equal(r.triggerState,'INSPECTED');
+  assert.equal(src.writeCalls+dst.writeCalls,writes);
+  x.fake.ScriptApp.deleteTrigger(x.triggers()[0]);
+  assert.equal(x.fake.inspectReliableSheetUpsertStaging().triggerState,'CHECK_OWNER_OR_REARM');
+});
+test('invalid event rejects before SOURCE seal even for paused demo',()=>{
+  const {x,src}=sealedDemo([['a',1],['b',2]]);
+  x.fake.startReliableSheetUpsert();
+  src.getRange=()=>{throw Error('must not read');};
+  assert.throws(()=>x.fake.resumeReliableSheetUpsert({}),/RJ_TRIGGER_UID_REQUIRED/);
+});
+test('unsafe numeric trigger UID is rejected; never compare lossy numbers',()=>{
+  const x=make();x.j.begin(cfg);
+  assert.throws(()=>x.j.run(cfg,()=>{}, {triggerUid:Number.MAX_SAFE_INTEGER+2}),/RJ_TRIGGER_UID_REQUIRED/);
+  assert.equal(x.state().cursor,2);
+});
+test('snapshot character budget rejects oversized source before schedule or output',()=>{
+  const {x,dst}=sealedDemo([['x','z'.repeat(2_000_100)]]);
+  assert.throws(()=>x.fake.startReliableSheetUpsert(),/RJ_SOURCE_SNAPSHOT_TOO_LARGE/);
+  assert.equal(x.state(),null);assert.equal(dst.writeCalls,0);
+});
+test('UID rotated between preflight and lock is fenced inside run',()=>{
+  const {x,src,dst}=sealedDemo([['a',1],['b',2],['c',3]]);
+  x.fake.startReliableSheetUpsert();
+  const oldUid=x.state().wakeTriggerUid,beforeCursor=x.state().cursor,beforeWrites=dst.writeCalls;
+  const real=src.getRange.bind(src);let rotated=false;
+  src.getRange=function(r,c,n,m) {
+    if(r===2 && c===1 && !rotated) {
+      rotated=true;
+      x.j.resume(x.fake.GAS_RJ_DEMO_CONFIG); // intervening continuation owner rotation
+    }
+    return real(r,c,n,m);
+  };
+  const result=x.fake.resumeReliableSheetUpsert({triggerUid:oldUid});
+  assert.equal(rotated,true);
+  assert.equal(result.status,'STALE_TRIGGER_IGNORED');
+  assert.equal(x.state().cursor,beforeCursor);
+  assert.notEqual(x.state().wakeTriggerUid,oldUid);
+  assert.equal(dst.writeCalls,beforeWrites);
+});
+test('one verified SOURCE scan serves all batches within an invocation',()=>{
+  const {x,src}=sealedDemo([['a',1],['b',2],['c',3],['d',4],['e',5]],{batchSize:1,maxBatchesPerRun:3});
+  x.fake.startReliableSheetUpsert();
+  const original=src.getRange.bind(src);let dataScans=0;
+  src.getRange=function(r,c,n,m) {
+    if(r>=2 && c===1 && m===2)dataScans++;
+    return original(r,c,n,m);
+  };
+  assert.equal(x.fake.resumeReliableSheetUpsert().status,'COMPLETED');
+  assert.equal(dataScans,1);
+});
 console.log('Reliable GAS Jobs: '+ran+' tests PASS (Node fakes; live GAS NOT_RUN)');

@@ -1971,3 +1971,8 @@ next_action
 Emit explicit state transitions such as `CHUNK_STARTED`, `CHUNK_COMMITTED`, `CHECKPOINT_ADVANCED`, `CONTINUATION_SCHEDULED`, `RETRY_SCHEDULED`, `RECONCILIATION_REQUIRED`, and `JOB_COMPLETED`.
 
 The monitoring question is not merely "did the trigger run?" It is "did the logical job make monotonic durable progress without duplicate effects?"
+
+
+## v2.1 checkpoint 4 — Owned Wake Diagnostics (Unreleased)
+
+Report `jobStatus`, `cursor`, `visibleOwnedWakeCount`, and `triggerState` without including SOURCE/TARGET row values, Google IDs, or secrets. `CHECK_OWNER_OR_REARM` means the *calling account* cannot see exactly one installed wake matching the persisted UID; it is not proof of a missing trigger in another account. Use the sample read-only `inspectReliableSheetUpsertStaging()` for staging triage; do not auto-delete same-handler triggers by name.

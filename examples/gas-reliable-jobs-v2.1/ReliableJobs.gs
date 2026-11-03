@@ -131,11 +131,32 @@ var GASReliableJobs = (function () {
     if (code === 'TRANSIENT' || code === 'RATE_LIMIT') return 'TRANSIENT';
     return 'PERMANENT'; // conservative default: no unclassified automatic retry
   }
-  function run(c0, processChunk) {
+  // Installable time-driven events include triggerUid. Manual calls omit event.
+  // Validate both before source reads and under the script lock in run().
+  function validateWakeState(s,event) {
+    if (event === undefined) return {status:'MANUAL_INVOCATION',cursor:s.cursor};
+    if (!event || typeof event !== 'object' ||
+        !Object.prototype.hasOwnProperty.call(event,'triggerUid') ||
+        !((typeof event.triggerUid === 'string' && event.triggerUid.length > 0) ||
+          (typeof event.triggerUid === 'number' && Number.isSafeInteger(event.triggerUid) && event.triggerUid >= 0)))
+      throw new Error('RJ_TRIGGER_UID_REQUIRED');
+    // Do not parse trigger UIDs as integers; IDs can exceed JS safe-integer range.
+    if (!s.wakeTriggerUid || String(event.triggerUid) !== s.wakeTriggerUid)
+      return {status:'STALE_TRIGGER_IGNORED',cursor:s.cursor};
+    return {status:'OWNED_TRIGGER',cursor:s.cursor};
+  }
+  function checkWakeEvent(c0,event) {
+    var c=config(c0),s=read(c);
+    if (!s) throw new Error('RJ_JOB_NOT_FOUND');
+    return validateWakeState(s,event);
+  }
+  function run(c0, processChunk, event) {
     var c=config(c0);
     if (typeof processChunk !== 'function') throw new Error('RJ_WORKER_MISSING');
     return locked(function(){
       var s=read(c); if (!s) throw new Error('RJ_JOB_NOT_FOUND');
+      var ownership=validateWakeState(s,event);
+      if (ownership.status==='STALE_TRIGGER_IGNORED') return ownership;
       if (s.status === 'COMPLETED' || s.status === 'FAILED' || s.status === 'PAUSED') {
         clearWake(c,s);return {status:s.status,cursor:s.cursor};
       }
@@ -179,5 +200,5 @@ var GASReliableJobs = (function () {
       }
     });
   }
-  return {begin:begin,resume:resume,pause:pause,recoverFailed:recoverFailed,status:status,run:run};
+  return {begin:begin,resume:resume,pause:pause,recoverFailed:recoverFailed,status:status,checkWakeEvent:checkWakeEvent,run:run};
 })();

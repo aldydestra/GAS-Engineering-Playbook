@@ -54,3 +54,10 @@ Rujuk `docs/release-policy.md` untuk aturan versi, quality gate dan prosedur ril
 - SOURCE SHA-256 chained fingerprint (<=10k rows) prevents silent positional-cursor drift **between** invocations; mismatch pauses job. No transaction/isolation guarantee within one invocation.
 - Prefix-level reconciliation audit is read-only, and FAILED recovery must pass audit and receive an explicit operator acknowledgement.
 - Completed in local Node simulation only. Live staging remains `NOT_RUN`; development build and CI are not GitHub Releases.
+
+
+## Checkpoint 4 v2.1 — Event UID fencing & per-execution SOURCE snapshot (3 November 2026; Unreleased)
+
+- Live continuation event `e.triggerUid` must match persisted owned UID; a stale/foreign event is a no-op **before** Sheets reads, and rechecked under script lock before processing.
+- Per-run snapshot binds all multi-batch chunks to one pinned SOURCE version; row/character caps avoid unbounded example memory. Changes after capture will be caught at next invocation; this is **not** transactional isolation.
+- Read-only staging diagnostics and a real-GAS acceptance checklist added. No live credentials supplied; `LIVE_GAS_SMOKE=NOT_RUN`, so keep v2.1 in development until smoke evidence is reviewed.

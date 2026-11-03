@@ -2032,3 +2032,8 @@ Test that unrelated triggers with the same handler survive pause/completion, rep
 ### v2.1 checkpoint 3 — source seal fault-injection (Unreleased)
 
 Add negative tests for `SOURCE` value edit, insert, delete, reorder *between* timer invocations; require job PAUSED and no cursor advance. Test TARGET missing/mismatched/duplicate keys, reconciliation read-only behavior, explicit FAILED recovery acknowledgment, 10k-row seal bound, prototype-shaped `record_id`, and no changes to unrelated triggers. Clearly distinguish a boundary hash check from immutable snapshots; evaluate mid-invocation mutation and real GAS OAuth/quotas separately.
+
+
+### v2.1 checkpoint 4 — Continuation event fencing and snapshot consistency (Unreleased)
+
+Add contract/fault-injection tests for: matching `e.triggerUid`, stale UID after wake rotation, unrelated same-handler trigger, malformed/unsafe trigger ID, stale event that must not read SOURCE, and a race between external preflight and the under-lock UID guard. Verify that SOURCE edits **during** one invocation never mix versions across that invocation's chunks, while edits **between** invocations still pause the cursor; test limits on serialized snapshot size. Staging inspection must not create/delete triggers or write Sheets. These Node service-fake tests do not replace live Apps Script/OAuth checks.

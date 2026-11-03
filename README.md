@@ -112,3 +112,8 @@ git push origin main
 Jika repository belum punya commit dan `git rm` tidak menemukan file, itu normal: `.gitignore` akan mencegah staging selanjutnya. Bila root repository terlalu dalam, gunakan lokasi seperti `C:\gas-playbook`. Lihat `docs/windows-git-portability.md` untuk panduan dan troubleshooting.
 
 **v2.1 development Checkpoint 3 (Unreleased, 2 November 2026):** source-change seal (SHA-256, <=10k demo rows), read-only committed-prefix reconciliation, guarded FAILED recovery and extended fault-injection. See `docs/v2.1-checkpoint-3-source-seal-reconciliation.md`. The GitHub Release remains v2.0.0 stable.
+
+
+**v2.1 development Checkpoint 4 (Unreleased, 3 November 2026):** stale/foreign installable trigger events now fail closed using `e.triggerUid` + persisted `getUniqueId()` (including an under-lock second check); each invocation processes one bounded sealed SOURCE snapshot instead of mixing live rows across batches. Added read-only staging ownership diagnostics. The Node suite is a simulation; live GAS remains `NOT_RUN`. See `docs/v2.1-checkpoint-4-trigger-fencing-and-snapshot.md`.
+
+Checkpoint 4 development report: [`docs/v2.1-checkpoint-4-development-report.md`](docs/v2.1-checkpoint-4-development-report.md), staging evidence template: [`docs/v2.1-checkpoint-4-staging-evidence-template.md`](docs/v2.1-checkpoint-4-staging-evidence-template.md).

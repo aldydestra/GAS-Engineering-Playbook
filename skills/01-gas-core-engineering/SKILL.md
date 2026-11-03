@@ -1321,3 +1321,12 @@ Before starting the `record_id` upsert demo, run `preflightReliableSheetUpsert()
 ### v2.1 checkpoint 3 — source drift and reconciled recovery (Unreleased)
 
 Before starting the demo, run read-only preflight. `startReliableSheetUpsert()` stores a bounded SOURCE SHA-256 seal in ScriptProperties (10k data rows maximum). Every `resumeReliableSheetUpsert()` checks SOURCE at **invocation start**; detected drift pauses while preserving the committed cursor. `auditReliableSheetUpsert()` checks committed TARGET rows read-only, and `recoverFailedSheetUpsertAfterReconciliation(true)` also requires a passing prefix audit. Source must still be frozen during *each* execution: hashing is **not** snapshot isolation. See bundled `examples/reliable-jobs/SheetUpsertExample.gs` and repository Checkpoint 3 runbook.
+
+
+## v2.1 development Checkpoint 4 — Event-bound continuation and per-run SOURCE snapshot (Unreleased)
+
+When an installable continuation trigger invokes a job handler, validate `e.triggerUid` against the persisted owned `Trigger.getUniqueId()` **before** reading SOURCE or writing TARGET, then verify again under `LockService` immediately before work. An expired or foreign UID must be a no-op, even if its trigger shares the same handler name. Manual execution remains explicit: no event argument. Do not use unsafe-number conversion of large trigger IDs.
+
+For positional-cursor Sheets jobs, capture a **bounded and SHA-256-verified in-memory SOURCE snapshot once per invocation** and process every chunk from that snapshot. Verify the pinned seal between invocations and pause on drift; do not imply transactional isolation for a mutable live Sheet. The example caps both row count (10,000) and approximate serialized character volume (2 million). Larger or high-write-concurrency workloads need a persistent immutable staging snapshot and an ID-based cursor.
+
+Example source: `examples/reliable-jobs/ReliableJobs.gs` and `examples/reliable-jobs/SheetUpsertExample.gs` (part of this specialist package). Operator entry points include `inspectReliableSheetUpsertStaging()` (read-only), `preflightReliableSheetUpsert()` (read-only), and the explicit start/resume functions. Never clear triggers from another owner by handler name.

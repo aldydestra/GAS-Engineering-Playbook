@@ -34,6 +34,14 @@
 - Hardens `record_id` normalization and prototype-safe indexing; extends Node fault-injection matrix.
 - No GitHub release/tag/skill version bump; stable `releases/v2.0.0` unchanged; live GAS staging `NOT_RUN`.
 
+### v2.1 development checkpoint 4 — Event-bound trigger fencing & SOURCE snapshot (3 November 2026; Unreleased)
+
+- Rejects stale/foreign installable continuation events using `e.triggerUid` vs persisted `getUniqueId()` before source reads, with second check under `ScriptLock`. Manual runs still omit event; missing/malformed/unsafe UID fails closed.
+- Captures a verified bounded SOURCE snapshot once per invocation, reused across that invocation's batches; inter-invocation drift still pauses. Example limits: 10k rows and 2M serialized characters.
+- Adds read-only `inspectReliableSheetUpsertStaging()` for current-account wake diagnostics; does not modify triggers or Sheets.
+- Adds Node trigger-event, race/digest and mid-run mutation fault injection; updates skill references and staging acceptance runbook.
+- No skill semver bump, GitHub Release or tag; v2.0.0 stable archive remains unchanged. Live GAS still `NOT_RUN`.
+
 ## [v2.0.0] — 2026-10-29 — Official GAS Simplification Release
 
 **Major release: perubahan antarmuka penggunaan skill, bukan reset materi.**
