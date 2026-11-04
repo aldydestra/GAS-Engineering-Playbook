@@ -78,3 +78,8 @@ python tools/check_release_policy.py
 ## Checkpoint 3 — SOURCE seal and reconciliation (2 November 2026)
 
 The demo's `start` records a short `jobId`-bound SHA-256 chained SOURCE digest in ScriptProperties (<=10k data rows). `resume` checks the digest at invocation start, PAUSES on drift and retains the committed cursor. This **does not** make row-offset cursors safe against edits within the same invocation; freeze SOURCE or use a real snapshot. The read-only `auditReliableSheetUpsert()` checks only the committed prefix against TARGET. FAILED recovery requires `recoverFailedSheetUpsertAfterReconciliation(true)` after reviewing in-flight side effects and receiving `COMMITTED_PREFIX_PASS`. Source seal and auditing add Sheets reads and must be benchmarked in real GAS staging. For matrices and boundaries see `docs/v2.1-checkpoint-3-source-seal-reconciliation.md`.
+
+
+## Checkpoint 5 — Google staging harness (4 November 2026; Unreleased)
+
+Copy `StagingValidation.gs` into the same disposable Google Apps Script V8 project. `startReliableJobsStagingProbe()` intentionally installs a *separate* one-shot trigger; after Google invokes its handler, `inspectReliableJobsStagingProbe().status` should become `OBSERVED`. Its event is independent of the reliable job handler and never writes SOURCE/TARGET. `benchmarkReliableJobsStagingRead1200()` measures **read and SHA-256 digest only** over 1,200 rows in three samples. `exportReliableJobsStagingEvidenceJson()` is read-only and returns a sanitized report; the repository validator checks only logical consistency, **not proof of a live Google execution**. Full procedure: `docs/v2.1-checkpoint-5-staging-harness.md`.

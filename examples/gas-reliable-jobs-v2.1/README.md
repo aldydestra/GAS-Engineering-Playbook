@@ -19,3 +19,6 @@ Penulisan TARGET memakai pengelompokan baris berurutan untuk mengurangi service 
 
 
 **Checkpoint 4:** `resumeReliableSheetUpsert(e)` now checks installable trigger `e.triggerUid` against the stored wake UID, and the runner checks again under `LockService`. Stale/foreign events do not write or advance the cursor. Each invocation reads **one sealed SOURCE snapshot**, and all of that invocation's batches consume the same input version (10k rows / 2M serialized-character demo budget). Read-only `inspectReliableSheetUpsertStaging()` helps identify missing *visible* owned wake; it cannot list triggers owned by a different account. See `docs/v2.1-checkpoint-4-trigger-fencing-and-snapshot.md`.
+
+
+**Checkpoint 5 — Staging Harness (4 November 2026):** Copy `StagingValidation.gs` as the third file. Run `startReliableJobsStagingProbe()` to create one isolated time-driven probe, then inspect `inspectReliableJobsStagingProbe()` after the Google event arrives. `benchmarkReliableJobsStagingRead1200()` only reads+hashes SOURCE rows; `exportReliableJobsStagingEvidenceJson()` returns sanitized read-only evidence after the job runs. Verify copied JSON with `python tools/verify_gas_staging_evidence.py staging-evidence.json`; the report is **self-reported**, not independently authenticated live proof. See `docs/v2.1-checkpoint-5-staging-harness.md`.

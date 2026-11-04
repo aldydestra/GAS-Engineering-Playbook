@@ -13,18 +13,18 @@ DIST=ROOT/'dist/gas-engineering-v2.0.0/gas-engineering'
 
 class ReliableGASStarterTest(unittest.TestCase):
     def test_canonical_source_and_skill_asset_identical(self):
-        for name in ('ReliableJobs.gs','SheetUpsertExample.gs'):
+        for name in ('ReliableJobs.gs','SheetUpsertExample.gs','StagingValidation.gs'):
             self.assertEqual((EX/name).read_bytes(),(PKG/name).read_bytes(),name)
 
     def test_one_install_bundle_contains_exact_starter(self):
-        for name in ('ReliableJobs.gs','SheetUpsertExample.gs'):
+        for name in ('ReliableJobs.gs','SheetUpsertExample.gs','StagingValidation.gs'):
             p=DIST/'references/specialists/gas-core-engineering/examples/reliable-jobs'/name
             self.assertEqual((EX/name).read_bytes(),p.read_bytes(),str(p))
 
     def test_one_install_archive_contains_exact_starter(self):
         zpath=ROOT/'dist/gas-engineering-v2.0.0/gas-engineering.skill'
         with zipfile.ZipFile(zpath) as z:
-            for name in ('ReliableJobs.gs','SheetUpsertExample.gs'):
+            for name in ('ReliableJobs.gs','SheetUpsertExample.gs','StagingValidation.gs'):
                 key='references/specialists/gas-core-engineering/examples/reliable-jobs/'+name
                 self.assertEqual((EX/name).read_bytes(),z.read(key))
 

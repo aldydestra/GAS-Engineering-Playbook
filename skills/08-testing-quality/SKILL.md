@@ -2037,3 +2037,8 @@ Add negative tests for `SOURCE` value edit, insert, delete, reorder *between* ti
 ### v2.1 checkpoint 4 — Continuation event fencing and snapshot consistency (Unreleased)
 
 Add contract/fault-injection tests for: matching `e.triggerUid`, stale UID after wake rotation, unrelated same-handler trigger, malformed/unsafe trigger ID, stale event that must not read SOURCE, and a race between external preflight and the under-lock UID guard. Verify that SOURCE edits **during** one invocation never mix versions across that invocation's chunks, while edits **between** invocations still pause the cursor; test limits on serialized snapshot size. Staging inspection must not create/delete triggers or write Sheets. These Node service-fake tests do not replace live Apps Script/OAuth checks.
+
+
+### v2.1 checkpoint 5 — Google-hosted probe evidence (Unreleased)
+
+Local Node service fakes can confirm UID fencing, idempotency and read-only staging diagnostics, but **cannot** attest that Google scheduled a trigger. For real staging, run the isolated probe in `StagingValidation.gs` and collect the sanitized self-reported JSON; the Python evidence linter may return `READY_FOR_OPERATOR_REVIEW` only, never a cryptographic `LIVE_PASS`. Benchmark read/hash on 1,200 rows separately from actual TARGET writes and execution/runtime observations. Do not expose OAuth tokens, customer rows, account emails or spreadsheet IDs in shared reports.

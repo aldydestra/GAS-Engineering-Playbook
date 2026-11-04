@@ -61,3 +61,10 @@ Rujuk `docs/release-policy.md` untuk aturan versi, quality gate dan prosedur ril
 - Live continuation event `e.triggerUid` must match persisted owned UID; a stale/foreign event is a no-op **before** Sheets reads, and rechecked under script lock before processing.
 - Per-run snapshot binds all multi-batch chunks to one pinned SOURCE version; row/character caps avoid unbounded example memory. Changes after capture will be caught at next invocation; this is **not** transactional isolation.
 - Read-only staging diagnostics and a real-GAS acceptance checklist added. No live credentials supplied; `LIVE_GAS_SMOKE=NOT_RUN`, so keep v2.1 in development until smoke evidence is reviewed.
+
+
+## Checkpoint 5 v2.1 — Staging harness & benchmark evidence (4 November 2026; Unreleased)
+
+- Added isolated installable time-trigger probe with UID-scoped deletion, self-reported sanitized evidence, and 1,200-row SOURCE read+hash benchmarking.
+- Contract tests and evidence linter are local checks only. Google staging (`LIVE_GAS_SMOKE`) remains `NOT_RUN` pending account-side operator execution and review.
+- **No release**: keep `v2.0.0 STABLE`; do not tag v2.1.0 until acceptance evidence and milestone quality gates are reviewed.

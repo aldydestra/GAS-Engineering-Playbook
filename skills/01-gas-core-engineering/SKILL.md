@@ -1330,3 +1330,8 @@ When an installable continuation trigger invokes a job handler, validate `e.trig
 For positional-cursor Sheets jobs, capture a **bounded and SHA-256-verified in-memory SOURCE snapshot once per invocation** and process every chunk from that snapshot. Verify the pinned seal between invocations and pause on drift; do not imply transactional isolation for a mutable live Sheet. The example caps both row count (10,000) and approximate serialized character volume (2 million). Larger or high-write-concurrency workloads need a persistent immutable staging snapshot and an ID-based cursor.
 
 Example source: `examples/reliable-jobs/ReliableJobs.gs` and `examples/reliable-jobs/SheetUpsertExample.gs` (part of this specialist package). Operator entry points include `inspectReliableSheetUpsertStaging()` (read-only), `preflightReliableSheetUpsert()` (read-only), and the explicit start/resume functions. Never clear triggers from another owner by handler name.
+
+
+## v2.1 development Checkpoint 5 — Staging-only trigger probe and evidence (Unreleased)
+
+Use `examples/reliable-jobs/StagingValidation.gs` in a **disposable GAS staging project** only. The opt-in `startReliableJobsStagingProbe()` creates a separate one-shot trigger; evidence includes only the observed UID **type/status**, not raw UID. `benchmarkReliableJobsStagingRead1200()` measures read+SHA-256 (not write throughput), and `exportReliableJobsStagingEvidenceJson()` exports a sanitized, read-only report for external review. Do not infer live verification from a report or from Node fakes. The current account cannot list another account's project triggers. Detailed runbook: repository `docs/v2.1-checkpoint-5-staging-harness.md`.

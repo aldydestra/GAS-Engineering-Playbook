@@ -42,6 +42,16 @@
 - Adds Node trigger-event, race/digest and mid-run mutation fault injection; updates skill references and staging acceptance runbook.
 - No skill semver bump, GitHub Release or tag; v2.0.0 stable archive remains unchanged. Live GAS still `NOT_RUN`.
 
+
+### v2.1 development checkpoint 5 — Live Staging Harness & Read Benchmark (4 November 2026; Unreleased)
+
+- Adds an opt-in one-shot staging trigger probe with UID-scoped ownership/cleanup, no SOURCE/TARGET writes, and an explicit current-account visibility boundary.
+- Adds sanitized, read-only staging collection for preflight, job status, trigger visibility, committed-prefix audit and three repeated read+SHA-256 measurements of 1,200 SOURCE rows. These measurements are not write-throughput claims.
+- Adds fail-closed evidence structure linter which **cannot authenticate live execution**; only marks records ready for operator review after consistent `COMPLETED`/`OBSERVED`/reconciliation evidence.
+- Extends local Node/Python tests, asset fidelity and CI, without release tag, skill version bump or modification of frozen v2.0.0 archive.
+- Live GAS test remains `NOT_RUN`; actual staging evidence must be collected in an authorized disposable Google project.
+
+
 ## [v2.0.0] — 2026-10-29 — Official GAS Simplification Release
 
 **Major release: perubahan antarmuka penggunaan skill, bukan reset materi.**

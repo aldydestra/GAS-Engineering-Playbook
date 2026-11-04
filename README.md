@@ -25,6 +25,10 @@ Checkpoint kedua v2.1 memperketat trigger berdasarkan ID yang dimiliki, prefligh
 
 Source contoh juga termasuk di `skills/01-gas-core-engineering/examples/reliable-jobs/`, lalu dibundel ke satu skill hasil build. **Jangan menimpa `releases/v2.0.0/`** dengan hasil build development.
 
+
+**Checkpoint 5 (4 Nov 2026):** `StagingValidation.gs` menyediakan probe trigger terpisah, benchmark read-only 1.200 baris, dan ekspor evidence sanitasi. File baru otomatis ikut one-install development bundle. Panduan: [`docs/v2.1-checkpoint-5-staging-harness.md`](docs/v2.1-checkpoint-5-staging-harness.md). Pengujian di Google nyata masih `NOT_RUN`; ZIP ini tetap development.
+
+
 ## Enam kategori tugas
 
 | Kategori | Spesialis utama | Spesialis pendukung tersedia |
