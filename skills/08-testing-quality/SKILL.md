@@ -2042,3 +2042,8 @@ Add contract/fault-injection tests for: matching `e.triggerUid`, stale UID after
 ### v2.1 checkpoint 5 — Google-hosted probe evidence (Unreleased)
 
 Local Node service fakes can confirm UID fencing, idempotency and read-only staging diagnostics, but **cannot** attest that Google scheduled a trigger. For real staging, run the isolated probe in `StagingValidation.gs` and collect the sanitized self-reported JSON; the Python evidence linter may return `READY_FOR_OPERATOR_REVIEW` only, never a cryptographic `LIVE_PASS`. Benchmark read/hash on 1,200 rows separately from actual TARGET writes and execution/runtime observations. Do not expose OAuth tokens, customer rows, account emails or spreadsheet IDs in shared reports.
+
+
+### v2.1 Checkpoint 6 — false-ready staging prevention (Unreleased)
+
+Test that a manual-only completed job is **not** enough to validate continuation. Require `triggerRuns >= 1`, confirm stale/foreign trigger UIDs never increase the count, and compare `processed`, `cursor`, SOURCE row count and read-only TARGET audit. Three benchmark digests must match internally; changing SOURCE between samples produces `SOURCE_CHANGED_DURING_BENCHMARK`. The Python verifier rejects self-inconsistent evidence and returns blocker codes; it never authenticates the Google scheduler. Test live ownership and Google Executions separately in a disposable staging account.

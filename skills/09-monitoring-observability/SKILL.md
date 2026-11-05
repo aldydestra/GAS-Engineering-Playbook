@@ -1976,3 +1976,8 @@ The monitoring question is not merely "did the trigger run?" It is "did the logi
 ## v2.1 checkpoint 4 — Owned Wake Diagnostics (Unreleased)
 
 Report `jobStatus`, `cursor`, `visibleOwnedWakeCount`, and `triggerState` without including SOURCE/TARGET row values, Google IDs, or secrets. `CHECK_OWNER_OR_REARM` means the *calling account* cannot see exactly one installed wake matching the persisted UID; it is not proof of a missing trigger in another account. Use the sample read-only `inspectReliableSheetUpsertStaging()` for staging triage; do not auto-delete same-handler triggers by name.
+
+
+### v2.1 Checkpoint 6 — count only admitted job invocations (Unreleased)
+
+For resilient jobs, record `manualRuns` and `triggerRuns` only after an invocation passes script-lock and UID ownership checks. Do not log raw trigger UIDs, spreadsheet IDs or business data. Compare those counters with the read-only trigger inventory and completed-cursor audit; missing owned continuation after `COMPLETED` is not proven by handler name alone. Counts are **self-reported telemetry**, not tamper-proof live-origin proof; review Google Executions when validating real scheduling.

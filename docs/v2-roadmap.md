@@ -68,3 +68,11 @@ Rujuk `docs/release-policy.md` untuk aturan versi, quality gate dan prosedur ril
 - Added isolated installable time-trigger probe with UID-scoped deletion, self-reported sanitized evidence, and 1,200-row SOURCE read+hash benchmarking.
 - Contract tests and evidence linter are local checks only. Google staging (`LIVE_GAS_SMOKE`) remains `NOT_RUN` pending account-side operator execution and review.
 - **No release**: keep `v2.0.0 STABLE`; do not tag v2.1.0 until acceptance evidence and milestone quality gates are reviewed.
+
+
+## Checkpoint 6 v2.1 — Continuation telemetry & evidence integrity (5 November 2026; Unreleased)
+
+- `manualRuns` and `triggerRuns` distinguish direct startup from admitted `triggerUid` continuation; stale/foreign invocations cannot increment these counters.
+- Benchmark SOURCE now compares internal SHA-256 across all three read samples and fails closed on concurrent data drift.
+- Evidence v2/CP6 cross-checks source count, processed, cursor, TARGET prefix audit, owned-trigger cleanup, probe timing and run counters. The linter returns blocker codes, but stays `SELF_REPORTED_UNVERIFIED`.
+- **Release status unchanged:** 16 GAS specialists and single-install distribution remain intact; stable v2.0.0 preserved, v2.1.0 still IN_DEVELOPMENT, live GAS test NOT_RUN.

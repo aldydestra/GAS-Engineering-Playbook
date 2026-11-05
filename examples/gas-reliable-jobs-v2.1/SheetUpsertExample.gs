@@ -185,6 +185,7 @@ function inspectReliableSheetUpsertStaging() {
   }).length : 0;
   var needsWake=!!s && (s.status==='PENDING' || s.status==='WAITING' || s.status==='RUNNING');
   return {jobStatus:s ? s.status : 'NOT_STARTED',cursor:s ? s.cursor : null,
+    triggerRuns:s ? s.triggerRuns || 0 : 0,manualRuns:s ? s.manualRuns || 0 : 0,
     visibleOwnedWakeCount:owned,visibleSameHandlerCount:all.length,
     triggerState:needsWake && owned!==1 ? 'CHECK_OWNER_OR_REARM' : 'INSPECTED',
     note:'Visible triggers belong to current Google account only; no cross-account claim.'};

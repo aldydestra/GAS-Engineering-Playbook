@@ -492,4 +492,29 @@ test('one verified SOURCE scan serves all batches within an invocation',()=>{
   assert.equal(x.fake.resumeReliableSheetUpsert().status,'COMPLETED');
   assert.equal(dataScans,1);
 });
+test('run counters distinguish valid installable trigger execution from manual invocation',()=>{
+  const x=make(),conf={...cfg,maxBatchesPerRun:1};x.j.begin(conf);
+  assert.equal(x.state().triggerRuns,0);assert.equal(x.state().manualRuns,0);
+  x.j.run(conf,cur=>({nextCursor:cur+1,processed:1,done:false,committed:true}));
+  assert.equal(x.state().manualRuns,1);assert.equal(x.state().triggerRuns,0);
+  const uid=x.state().wakeTriggerUid;
+  x.j.run(conf,cur=>({nextCursor:cur+1,processed:1,done:false,committed:true}),{triggerUid:uid});
+  assert.equal(x.state().manualRuns,1);assert.equal(x.state().triggerRuns,1);
+  const before=JSON.stringify(x.state());
+  assert.equal(x.j.run(conf,()=>{throw Error('stale should not run');},{triggerUid:uid}).status,'STALE_TRIGGER_IGNORED');
+  assert.equal(JSON.stringify(x.state()),before);
+});
+test('historical job state without run counters is readable with zero defaults',()=>{
+  const x=make();x.j.begin(cfg);
+  const s=x.state();delete s.triggerRuns;delete s.manualRuns;
+  x.fake.PropertiesService.getScriptProperties().setProperty('GASRJ1:sync',JSON.stringify(s));
+  assert.equal(x.j.status(cfg).triggerRuns,0);assert.equal(x.j.status(cfg).manualRuns,0);
+  assert.equal(x.j.status(cfg).cursor,2);
+});
+test('corrupted run counters are rejected fail closed',()=>{
+  const x=make();x.j.begin(cfg);
+  const s=x.state();s.triggerRuns=-1;
+  x.fake.PropertiesService.getScriptProperties().setProperty('GASRJ1:sync',JSON.stringify(s));
+  assert.throws(()=>x.j.status(cfg),/RJ_INVALID_STATE/);
+});
 console.log('Reliable GAS Jobs: '+ran+' tests PASS (Node fakes; live GAS NOT_RUN)');

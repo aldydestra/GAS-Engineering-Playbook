@@ -83,3 +83,7 @@ The demo's `start` records a short `jobId`-bound SHA-256 chained SOURCE digest i
 ## Checkpoint 5 — Google staging harness (4 November 2026; Unreleased)
 
 Copy `StagingValidation.gs` into the same disposable Google Apps Script V8 project. `startReliableJobsStagingProbe()` intentionally installs a *separate* one-shot trigger; after Google invokes its handler, `inspectReliableJobsStagingProbe().status` should become `OBSERVED`. Its event is independent of the reliable job handler and never writes SOURCE/TARGET. `benchmarkReliableJobsStagingRead1200()` measures **read and SHA-256 digest only** over 1,200 rows in three samples. `exportReliableJobsStagingEvidenceJson()` is read-only and returns a sanitized report; the repository validator checks only logical consistency, **not proof of a live Google execution**. Full procedure: `docs/v2.1-checkpoint-5-staging-harness.md`.
+
+## Checkpoint 6 (5 November 2026; Unreleased)
+
+Staging evidence CP6 records admitted `triggerRuns` vs `manualRuns` and checks that a 1,200-row SOURCE read benchmark has consistent SHA-256 digest across all 3 samples. Cross-check completed `processed`, cursor, owned trigger cleanup and read-only TARGET audit before the report can be `READY_FOR_OPERATOR_REVIEW`. Export schema v2 supersedes CP5 export schema v1; older reports require recapture with all three updated `.gs` files. This is local/structural validation, **not** Google-hosted authenticated evidence. See `docs/v2.1-checkpoint-6-execution-evidence-integrity.md`. Stable v2.0.0 archive and internal skill versions remain unchanged.

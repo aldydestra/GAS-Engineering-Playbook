@@ -1335,3 +1335,8 @@ Example source: `examples/reliable-jobs/ReliableJobs.gs` and `examples/reliable-
 ## v2.1 development Checkpoint 5 — Staging-only trigger probe and evidence (Unreleased)
 
 Use `examples/reliable-jobs/StagingValidation.gs` in a **disposable GAS staging project** only. The opt-in `startReliableJobsStagingProbe()` creates a separate one-shot trigger; evidence includes only the observed UID **type/status**, not raw UID. `benchmarkReliableJobsStagingRead1200()` measures read+SHA-256 (not write throughput), and `exportReliableJobsStagingEvidenceJson()` exports a sanitized, read-only report for external review. Do not infer live verification from a report or from Node fakes. The current account cannot list another account's project triggers. Detailed runbook: repository `docs/v2.1-checkpoint-5-staging-harness.md`.
+
+
+### v2.1 Checkpoint 6 — admitted continuation counters (Unreleased)
+
+`ReliableJobs.gs` now tracks `manualRuns` and `triggerRuns` in its version-1 checkpoint, incremented **only inside the lock after wake UID validation**; missing counters in an older development checkpoint default to zero without resetting the cursor. Stale trigger events do not count. `StagingValidation.gs` rejects benchmark input drift across three internal SHA-256 reads and requires real-job continuation, clean trigger ownership, full SOURCE/cursor/TARGET reconciliation, and probe observation before self-reported evidence can be *ready for review*. Neither a synthetic event nor a sanitized JSON report establishes authenticated Google execution. See repository `docs/v2.1-checkpoint-6-execution-evidence-integrity.md`.

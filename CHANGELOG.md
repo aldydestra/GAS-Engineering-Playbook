@@ -52,6 +52,15 @@
 - Live GAS test remains `NOT_RUN`; actual staging evidence must be collected in an authorized disposable Google project.
 
 
+
+### v2.1 development checkpoint 6 — Continuation Telemetry & Evidence Integrity (5 November 2026; Unreleased)
+
+- Menambah counter `triggerRuns`/`manualRuns` setelah UID ownership diverifikasi di dalam `ScriptLock`; stale event tidak menambah counter. State development lama tanpa counter tetap dapat dibaca tanpa mereset cursor.
+- Benchmark SOURCE 1.200 baris membandingkan digest ketiga sampel dan menandai `SOURCE_CHANGED_DURING_BENCHMARK` bila terjadi drift, tanpa mengekspos digest atau baris.
+- Evidence `v2.1-cp6` kini memerlukan job-trigger continuation, trigger cleanup, konsistensi SOURCE/processed/cursor/TARGET audit dan timestamp probe. Linter menghasilkan blocker codes tetapi tetap `SELF_REPORTED_UNVERIFIED`.
+- Menambah test adversarial, dokumentasi operator, dan sinkronisasi asset source/.skill. Tetap **Unreleased**; stable v2.0.0 tidak berubah dan live Google staging `NOT_RUN`.
+
+
 ## [v2.0.0] — 2026-10-29 — Official GAS Simplification Release
 
 **Major release: perubahan antarmuka penggunaan skill, bukan reset materi.**

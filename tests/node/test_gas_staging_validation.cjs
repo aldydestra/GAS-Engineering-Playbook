@@ -95,19 +95,20 @@ test('1200-row benchmark records three measurements without exposing source data
   const rows=[['record_id','value']];for(let i=0;i<1200;i++)rows.push(['secret-ID-'+i,'secret-data-'+i]);
   const x=harness({rows});const r=x.svc.benchmarkReliableJobsStagingRead1200();
   assert.equal(r.status,'MEASURED');assert.equal(r.samples,3);assert.equal(r.rows,1200);
+  assert.equal(r.sourceConsistency,'STABLE');
   assert.ok(r.minMs<=r.medianMs&&r.medianMs<=r.maxMs);
   assert.equal(JSON.stringify(r).includes('secret-'),false);
 });
 test('self-reported evidence stays incomplete before a job has run',()=>{
   const x=harness();const r=x.svc.collectReliableJobsStagingEvidence();
-  assert.equal(r.schema,'gas-reliable-jobs-staging-evidence/v1');
+  assert.equal(r.schema,'gas-reliable-jobs-staging-evidence/v2');
   assert.equal(r.reviewHint,'INCOMPLETE_STAGING_EVIDENCE');
   assert.equal(r.liveVerification,'OPERATOR_REVIEW_REQUIRED');
   assert.equal(r.checks.committedPrefixAudit.status,'NOT_RUN');
 });
 test('completed staged 1200-row matching target creates review hint but not verified live PASS',()=>{
   const rows=[['record_id','value']];for(let i=0;i<1200;i++)rows.push(['k'+i,i]);
-  const x=harness({rows,target:rows.map(r=>r.slice()),jobState:{status:'COMPLETED',cursor:1202,processed:1200,retries:0}});
+  const x=harness({rows,target:rows.map(r=>r.slice()),jobState:{status:'COMPLETED',cursor:1202,processed:1200,retries:0,triggerRuns:3,manualRuns:1}});
   const digest=x.svc.gasRJSealRows_(rows.slice(1));
   x.props.set(x.svc.gasRJSealProperty_(),JSON.stringify(digest));
   x.svc.startReliableJobsStagingProbe();
@@ -126,7 +127,7 @@ test('report catches environment errors with safe code instead of exception mess
 });
 test('uncompleted job never gets review-ready hint despite successful probe',()=>{
   const rows=[['record_id','value']];for(let i=0;i<1200;i++)rows.push(['k'+i,i]);
-  const x=harness({rows,target:rows.map(r=>r.slice()),jobState:{status:'WAITING',cursor:100,processed:98,retries:0}});
+  const x=harness({rows,target:rows.map(r=>r.slice()),jobState:{status:'WAITING',cursor:100,processed:98,retries:0,triggerRuns:0,manualRuns:1}});
   x.props.set(x.svc.gasRJSealProperty_(),JSON.stringify(x.svc.gasRJSealRows_(rows.slice(1))));
   x.svc.startReliableJobsStagingProbe();x.svc.handleReliableJobsStagingProbe({triggerUid:'1'});
   assert.equal(x.svc.collectReliableJobsStagingEvidence().reviewHint,'INCOMPLETE_STAGING_EVIDENCE');
@@ -139,5 +140,33 @@ test('owner-reviewed reset needs explicit acknowledgement and remains staging-on
   assert.equal(x.svc.inspectReliableJobsStagingProbe().status,'NOT_RUN');
   assert.equal(x.triggers.length,1); // hidden trigger not silently deleted
   assert.equal(x.svc.handleReliableJobsStagingProbe({triggerUid:'1'}).status,'NOT_REGISTERED');
+});
+test('benchmark catches SOURCE value drift between samples without leaking hashes',()=>{
+  const rows=[['record_id','value']];for(let i=0;i<1200;i++)rows.push(['private-'+i,i]);
+  const x=harness({rows}); const getRange=x.src.getRange.bind(x.src);let reads=0;
+  x.src.getRange=function(r,c,n,m) {
+    if(r===2 && n===1200 && ++reads===2) this.rows[45][1]=999999;
+    return getRange(r,c,n,m);
+  };
+  const r=x.svc.benchmarkReliableJobsStagingRead1200();
+  assert.equal(r.status,'SOURCE_CHANGED_DURING_BENCHMARK');
+  assert.equal(r.sourceConsistency,'DRIFT_DETECTED');
+  assert.equal(JSON.stringify(r).includes('private-'),false);
+  assert.equal(JSON.stringify(r).includes('digest'),false);
+});
+test('no job trigger continuation means report stays incomplete despite completed rows',()=>{
+  const rows=[['record_id','value']];for(let i=0;i<1200;i++)rows.push(['k'+i,i]);
+  const x=harness({rows,target:rows.map(r=>r.slice()),jobState:{status:'COMPLETED',cursor:1202,processed:1200,retries:0,triggerRuns:0,manualRuns:4}});
+  x.props.set(x.svc.gasRJSealProperty_(),JSON.stringify(x.svc.gasRJSealRows_(rows.slice(1))));
+  x.svc.startReliableJobsStagingProbe();x.svc.handleReliableJobsStagingProbe({triggerUid:'1'});
+  const report=x.svc.collectReliableJobsStagingEvidence();
+  assert.equal(report.reviewHint,'INCOMPLETE_STAGING_EVIDENCE');
+});
+test('inconsistent committed row count prevents review-ready report',()=>{
+  const rows=[['record_id','value']];for(let i=0;i<1200;i++)rows.push(['k'+i,i]);
+  const x=harness({rows,target:rows.map(r=>r.slice()),jobState:{status:'COMPLETED',cursor:1201,processed:1199,retries:0,triggerRuns:2,manualRuns:1}});
+  x.props.set(x.svc.gasRJSealProperty_(),JSON.stringify(x.svc.gasRJSealRows_(rows.slice(1))));
+  x.svc.startReliableJobsStagingProbe();x.svc.handleReliableJobsStagingProbe({triggerUid:'1'});
+  assert.equal(x.svc.collectReliableJobsStagingEvidence().reviewHint,'INCOMPLETE_STAGING_EVIDENCE');
 });
 console.log('STAGING VALIDATION:',passed,'/',passed,'local contract tests PASS; LIVE NOT_RUN');

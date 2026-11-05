@@ -1,5 +1,5 @@
 /**
- * Reliable GAS Jobs v2.1 — Checkpoint 5 staging harness (UNRELEASED).
+ * Reliable GAS Jobs v2.1 — Checkpoint 6 staging integrity harness (UNRELEASED).
  * Copy into the SAME disposable Apps Script V8 project as ReliableJobs.gs and
  * SheetUpsertExample.gs. No SOURCE/TARGET writes are performed by this file.
  * Only startReliableJobsStagingProbe() creates a separate, one-shot trigger.
@@ -114,7 +114,7 @@ function gasRJStagingCheck_(callback) {
 function benchmarkReliableJobsStagingRead1200() {
   var pair=gasRJSheetPair_(),last=pair.src.getLastRow();
   if (last<1201) return {status:'INSUFFICIENT_ROWS',requiredRows:1200,availableRows:Math.max(0,last-1)};
-  var times=[];
+  var times=[],digests=[];
   for (var i=0;i<3;i++) {
     var start=Date.now();
     var rows=pair.src.getRange(2,1,1200,2).getValues();
@@ -122,13 +122,17 @@ function benchmarkReliableJobsStagingRead1200() {
     var normalized=rows.map(function(r){return [gasRJKey_(r[0]),r[1]];});
     if (JSON.stringify(normalized).length>GAS_RJ_SOURCE_SNAPSHOT_MAX_CHARS)
       throw new Error('RJ_STAGING_BENCH_TOO_LARGE');
-    gasRJSealRows_(normalized);
+    // Keep the digests in memory only; never export source content or raw hashes.
+    digests.push(gasRJSealRows_(normalized).digest);
     times.push(Math.max(0,Date.now()-start));
   }
   times.sort(function(a,b){return a-b;});
-  return {status:'MEASURED',mode:'READ_ONLY_SOURCE_AND_SHA256',rows:1200,samples:3,
+  var stable=digests.every(function(v){return v===digests[0];});
+  return {status:stable?'MEASURED':'SOURCE_CHANGED_DURING_BENCHMARK',
+    mode:'READ_ONLY_SOURCE_AND_SHA256',rows:1200,samples:3,
+    sourceConsistency:stable?'STABLE':'DRIFT_DETECTED',
     minMs:times[0],medianMs:times[1],maxMs:times[2],
-    note:'Not a TARGET-write benchmark; review in conjunction with real job duration.'};
+    note:'Read + hash only. SOURCE was '+(stable?'stable':'modified')+' across samples; no TARGET write claim.'};
 }
 /**
  * Read-only sanitized evidence. Do not publish IDs, emails, tokens or record data.
@@ -136,14 +140,15 @@ function benchmarkReliableJobsStagingRead1200() {
  */
 function collectReliableJobsStagingEvidence() {
   var state=gasRJStagingCheck_(function(){return GASReliableJobs.status(GAS_RJ_DEMO_CONFIG);});
-  var report={schema:'gas-reliable-jobs-staging-evidence/v1',checkpoint:'v2.1-cp5',
+  var report={schema:'gas-reliable-jobs-staging-evidence/v2',checkpoint:'v2.1-cp6',
     generatedAt:new Date().toISOString(),captureMode:'READ_ONLY_SELF_REPORTED',
     liveVerification:'OPERATOR_REVIEW_REQUIRED',
     checks:{
       preflight:gasRJStagingCheck_(preflightReliableSheetUpsert),
       job:state.status==='OK'?{status:'OK',result:state.result?{
         status:state.result.status,cursor:state.result.cursor,processed:state.result.processed,
-        retries:state.result.retries}:null}:state,
+        retries:state.result.retries,triggerRuns:state.result.triggerRuns || 0,
+        manualRuns:state.result.manualRuns || 0}:null}:state,
       triggerOwnership:gasRJStagingCheck_(inspectReliableSheetUpsertStaging),
       stagingProbe:gasRJStagingCheck_(inspectReliableJobsStagingProbe),
       readBenchmark1200:gasRJStagingCheck_(benchmarkReliableJobsStagingRead1200)
@@ -152,22 +157,37 @@ function collectReliableJobsStagingEvidence() {
     report.checks.committedPrefixAudit=gasRJStagingCheck_(function(){
       var a=auditReliableSheetUpsert();
       // Return counts/status only, never row values or the SOURCE digest.
-      return {status:a.status,matched:a.matched,missing:a.missing,mismatched:a.mismatched,
+      return {status:a.status,committedRows:a.committedRows,matched:a.matched,
+        missing:a.missing,mismatched:a.mismatched,
         duplicateKeys:a.targetDuplicateKeys,sourceUnchanged:a.sourceUnchanged};
     });
   } else report.checks.committedPrefixAudit={status:'NOT_RUN'};
   var f=report.checks.preflight,p=report.checks.stagingProbe,
       b=report.checks.readBenchmark1200,j=report.checks.job,
-      a=report.checks.committedPrefixAudit;
-  report.reviewHint=(f.status==='OK' && f.result.status==='PREFLIGHT_PASS' &&
-    f.result.sourceRows>=1200 &&
-    j.status==='OK' && j.result && j.result.status==='COMPLETED' && j.result.processed>=1200 &&
-    p.status==='OK' && p.result.status==='OBSERVED' && p.result.observedAt &&
-    b.status==='OK' && b.result.status==='MEASURED' && b.result.rows===1200 &&
-    b.result.samples===3 && a.status==='OK' &&
-    a.result.status==='COMMITTED_PREFIX_PASS' && a.result.sourceUnchanged===true &&
-    a.result.missing===0 && a.result.mismatched===0 && a.result.duplicateKeys===0) ?
-    'READY_FOR_OPERATOR_REVIEW':'INCOMPLETE_STAGING_EVIDENCE';
+      t=report.checks.triggerOwnership,a=report.checks.committedPrefixAudit;
+  // All checks are sanitized and self-reported. Cross-check values so a partial
+  // run, orphaned owned wake, or changed benchmark input cannot look review-ready.
+  var n=f.status==='OK' && f.result && f.result.sourceRows;
+  var complete=(f.result && f.result.status==='PREFLIGHT_PASS' && typeof n==='number' && Number.isSafeInteger(n) && n>=1200 &&
+    j.status==='OK' && j.result && j.result.status==='COMPLETED' &&
+    j.result.processed===n && j.result.cursor===n+2 &&
+    Number.isSafeInteger(j.result.triggerRuns) && j.result.triggerRuns>=1 &&
+    Number.isSafeInteger(j.result.manualRuns) && j.result.manualRuns>=1 &&
+    t.status==='OK' && t.result && t.result.jobStatus==='COMPLETED' &&
+    t.result.triggerState==='INSPECTED' && t.result.visibleOwnedWakeCount===0 &&
+    t.result.cursor===j.result.cursor && t.result.triggerRuns===j.result.triggerRuns &&
+    t.result.manualRuns===j.result.manualRuns &&
+    p.status==='OK' && p.result && p.result.status==='OBSERVED' &&
+    p.result.observedAt && p.result.visibleOwnedCount===0 &&
+    !isNaN(Date.parse(p.result.createdAt)) && !isNaN(Date.parse(p.result.observedAt)) &&
+    Date.parse(p.result.createdAt)<=Date.parse(p.result.observedAt) &&
+    Date.parse(p.result.observedAt)<=Date.parse(report.generatedAt) &&
+    b.status==='OK' && b.result && b.result.status==='MEASURED' &&
+    b.result.sourceConsistency==='STABLE' && b.result.rows===1200 && b.result.samples===3 &&
+    a.status==='OK' && a.result && a.result.status==='COMMITTED_PREFIX_PASS' &&
+    a.result.sourceUnchanged===true && a.result.committedRows===n && a.result.matched===n &&
+    a.result.missing===0 && a.result.mismatched===0 && a.result.duplicateKeys===0);
+  report.reviewHint=complete?'READY_FOR_OPERATOR_REVIEW':'INCOMPLETE_STAGING_EVIDENCE';
   return report;
 }
 function exportReliableJobsStagingEvidenceJson() {

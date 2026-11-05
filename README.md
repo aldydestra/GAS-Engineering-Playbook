@@ -29,6 +29,10 @@ Source contoh juga termasuk di `skills/01-gas-core-engineering/examples/reliable
 **Checkpoint 5 (4 Nov 2026):** `StagingValidation.gs` menyediakan probe trigger terpisah, benchmark read-only 1.200 baris, dan ekspor evidence sanitasi. File baru otomatis ikut one-install development bundle. Panduan: [`docs/v2.1-checkpoint-5-staging-harness.md`](docs/v2.1-checkpoint-5-staging-harness.md). Pengujian di Google nyata masih `NOT_RUN`; ZIP ini tetap development.
 
 
+
+**Checkpoint 6 (5 Nov 2026):** Staging evidence sekarang mengharuskan minimal satu continuation `triggerUid` milik job (`triggerRuns`) setelah start manual (`manualRuns`), memeriksa kestabilan SOURCE antartiga sampel benchmark dan mencocokkan processed/cursor/audit TARGET/trigger cleanup. Format JSON baru `gas-reliable-jobs-staging-evidence/v2`, checkpoint `v2.1-cp6`; evidence CP5 tidak dipromosikan otomatis. Semua hasil tetap *self-reported* sampai bukti Google Executions ditinjau. Lihat [`docs/v2.1-checkpoint-6-execution-evidence-integrity.md`](docs/v2.1-checkpoint-6-execution-evidence-integrity.md). **v2.0.0 tetap STABLE.**
+
+
 ## Enam kategori tugas
 
 | Kategori | Spesialis utama | Spesialis pendukung tersedia |

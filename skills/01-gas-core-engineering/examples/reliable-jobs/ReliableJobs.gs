@@ -30,9 +30,14 @@ var GASReliableJobs = (function () {
     var s = JSON.parse(raw);
     if (s.schema !== 1 || !STATES[s.status] || !Number.isSafeInteger(s.cursor) || s.cursor < 1 ||
         !Number.isInteger(s.retries) || s.retries < 0 || s.jobId !== c.jobId || s.handler !== c.handler ||
+        (s.triggerRuns !== undefined && (!Number.isSafeInteger(s.triggerRuns) || s.triggerRuns < 0)) ||
+        (s.manualRuns !== undefined && (!Number.isSafeInteger(s.manualRuns) || s.manualRuns < 0)) ||
         (s.wakeTriggerUid !== null && s.wakeTriggerUid !== undefined &&
          (typeof s.wakeTriggerUid !== 'string' || s.wakeTriggerUid.length > 150)))
       throw new Error('RJ_INVALID_STATE');
+    // Read historical development state with missing counters without resetting its cursor.
+    if (s.triggerRuns === undefined) s.triggerRuns=0;
+    if (s.manualRuns === undefined) s.manualRuns=0;
     return s;
   }
   function save(c,s) {
@@ -85,7 +90,8 @@ var GASReliableJobs = (function () {
     }
   }
   function initial(c) { return {schema:1,jobId:c.jobId,handler:c.handler,status:'PENDING',
-    cursor:c.initialCursor,retries:0,processed:0,updatedAt:new Date().toISOString(),lastErrorClass:null,wakeTriggerUid:null}; }
+    cursor:c.initialCursor,retries:0,processed:0,triggerRuns:0,manualRuns:0,
+    updatedAt:new Date().toISOString(),lastErrorClass:null,wakeTriggerUid:null}; }
   function begin(c0) {
     var c=config(c0);
     return locked(function(){
@@ -163,6 +169,12 @@ var GASReliableJobs = (function () {
       // A past RUNNING state means the previous instance may have timed out.
       // Restart from its OLD checkpoint; processChunk MUST safely upsert on replay.
       replaceWake(c,s,c.maxRunMs+60000);
+      // Count admitted invocations, not scheduled triggers. Invalid/stale events never count.
+      // A trigger event is observable, but this field alone is NOT authenticated live proof.
+      if (s.triggerRuns >= Number.MAX_SAFE_INTEGER || s.manualRuns >= Number.MAX_SAFE_INTEGER)
+        throw new Error('RJ_EXECUTION_COUNTER_LIMIT');
+      if (ownership.status==='OWNED_TRIGGER') s.triggerRuns+=1;
+      else s.manualRuns+=1;
       s.status='RUNNING';save(c,s);
       var deadline=Date.now()+c.maxRunMs;
       var batches=0;
