@@ -33,6 +33,11 @@ Source contoh juga termasuk di `skills/01-gas-core-engineering/examples/reliable
 **Checkpoint 6 (5 Nov 2026):** Staging evidence sekarang mengharuskan minimal satu continuation `triggerUid` milik job (`triggerRuns`) setelah start manual (`manualRuns`), memeriksa kestabilan SOURCE antartiga sampel benchmark dan mencocokkan processed/cursor/audit TARGET/trigger cleanup. Format JSON baru `gas-reliable-jobs-staging-evidence/v2`, checkpoint `v2.1-cp6`; evidence CP5 tidak dipromosikan otomatis. Semua hasil tetap *self-reported* sampai bukti Google Executions ditinjau. Lihat [`docs/v2.1-checkpoint-6-execution-evidence-integrity.md`](docs/v2.1-checkpoint-6-execution-evidence-integrity.md). **v2.0.0 tetap STABLE.**
 
 
+
+## Checkpoint 7 — Gunakan playbook GAS langsung di ChatGPT (Unreleased)
+
+Untuk **chat biasa**, build `python tools/build_chatgpt_context.py`, lalu unggah **`dist/chatgpt-v2.1-cp7/GAS_CHATGPT_CONTEXT.txt`**. Anda dapat menambahkan referensi 16 skill atau kode starter `.gs` berbentuk `.txt` hanya bila diperlukan. Untuk ChatGPT Project, tempel `chatgpt/CHATGPT_PROJECT_INSTRUCTIONS.txt` ke Project Instructions dan tambahkan file konteks sebagai sumber. **Unggah bukan instalasi otomatis** dari file `.skill` dan tidak memberikan akses Google atau mengeksekusi Apps Script. Baca [`docs/v2.1-checkpoint-7-chatgpt-compatibility.md`](docs/v2.1-checkpoint-7-chatgpt-compatibility.md).
+
 ## Enam kategori tugas
 
 | Kategori | Spesialis utama | Spesialis pendukung tersedia |

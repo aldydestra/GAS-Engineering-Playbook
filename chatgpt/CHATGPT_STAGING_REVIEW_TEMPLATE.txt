@@ -1,0 +1,12 @@
+CONTOH PERMINTAAN CHATGPT UNTUK REVIEW STAGING RELIABLE GAS JOBS
+
+Saya menggunakan GAS Engineering Playbook v2.1 Checkpoint 7 (development). Tolong audit hasil staging dari Reliable GAS Jobs. Saya akan melampirkan laporan export yang sudah disanitasi atau menempelkan JSON-nya. Verifikasi konsistensi berdasarkan kontrak `gas-reliable-jobs-staging-evidence/v2` (CP6), terutama:
+- status dan jumlah SOURCE vs cursor/processed;
+- minimal 1 manual start dan minimal 1 continuation yang membawa `triggerUid` valid;
+- hasil benchmark 3 sampel dan kestabilan SOURCE;
+- TARGET reconciliation (matched/missing/duplicate);
+- status trigger ownership dan cleanup.
+
+Tolong keluarkan: status siap ditinjau atau tidak, blocker berdasarkan bukti, risiko data duplikat/hilang, langkah diagnosis yang aman, dan apa yang masih perlu saya verifikasi pada halaman Google Executions. **Jangan nyatakan `LIVE PASS` hanya karena laporan JSON valid**. Jangan memerlukan ID spreadsheet, UID trigger, token, email pengguna, atau data pribadi.
+
+Saya paham bahwa file yang saya unggah adalah referensi dan tidak memberikan akses otomatis ke Google Apps Script.

@@ -1,5 +1,12 @@
 # Changelog — GAS Engineering Playbook
 
+## v2.1 development checkpoint 7 — ChatGPT Reference Compatibility (6 November 2026; Unreleased)
+
+- Menambahkan *ChatGPT Context Pack* sebagai dokumen `.txt` yang dapat diunggah ke percakapan atau referensi Project tanpa mengklaim instalasi otomatis format `.skill`.
+- Context routing tetap 1 front-door / 6 task-family / 16 GAS specialist; referensi penuh menyalin 16 `SKILL.md` apa adanya dan bundel Reliable Jobs memuat 3 `.gs` byte-identical.
+- Generator Python deterministik + manifest hash sumber, verifikasi tamper, dan unit test; `dist/` tetap tidak ikut Git commit.
+- Tidak membuat GitHub Release, tag, ataupun menimpa `releases/v2.0.0`. Semua live Google runtime masih `NOT_RUN`.
+
 ## [Unreleased] — GAS v2.x development workflow (30 Oktober 2026)
 
 - Menetapkan **milestone-based releases** (SemVer MAJOR/MINOR/PATCH) tanpa membuat GitHub Release pada setiap commit.

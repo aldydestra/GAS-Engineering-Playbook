@@ -76,3 +76,8 @@ Rujuk `docs/release-policy.md` untuk aturan versi, quality gate dan prosedur ril
 - Benchmark SOURCE now compares internal SHA-256 across all three read samples and fails closed on concurrent data drift.
 - Evidence v2/CP6 cross-checks source count, processed, cursor, TARGET prefix audit, owned-trigger cleanup, probe timing and run counters. The linter returns blocker codes, but stays `SELF_REPORTED_UNVERIFIED`.
 - **Release status unchanged:** 16 GAS specialists and single-install distribution remain intact; stable v2.0.0 preserved, v2.1.0 still IN_DEVELOPMENT, live GAS test NOT_RUN.
+
+
+### v2.1 Checkpoint 7 — ChatGPT Reference Compatibility (6 November 2026)
+
+Context Pack `.txt` untuk penggunaan langsung melalui ChatGPT chat/Project, tanpa mengubah one-install `.skill` atau 16 specialist. Generator dan pemeriksaan integritas ada di `tools/build_chatgpt_context.py`; instruksi dan batasan di `docs/v2.1-checkpoint-7-chatgpt-compatibility.md`. Ini masih **Unreleased**; live Google Apps Script dan aktivasi otomatis oleh ChatGPT tidak diklaim.

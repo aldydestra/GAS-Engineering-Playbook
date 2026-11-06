@@ -25,3 +25,6 @@ Penulisan TARGET memakai pengelompokan baris berurutan untuk mengurangi service 
 
 
 **Checkpoint 6 — Continuation Telemetry & Stable Benchmark (5 Nov 2026):** `GASReliableJobs` mencatat `triggerRuns` dan `manualRuns` terpisah; stale/foreign events tidak dihitung. Tiga sampel benchmark read+SHA-256 sekarang harus konsisten; jika SOURCE berubah, `SOURCE_CHANGED_DURING_BENCHMARK` tidak dianggap valid. Export evidence v2/`v2.1-cp6` hanya *ready for operator review* setelah sekurang-kurangnya satu owned-trigger continuation, target audit berjumlah sama dengan SOURCE/processed/cursor dan owned trigger tidak tersisa. Jalankan ulang staging dengan **semua** file `.gs` CP6 dan baca `docs/v2.1-checkpoint-6-execution-evidence-integrity.md`.
+
+
+**Checkpoint 7 — ChatGPT conversation handoff:** untuk meminta ChatGPT membantu review starter/kasus recovery, build `python tools/build_chatgpt_context.py` lalu unggah `dist/chatgpt-v2.1-cp7/GAS_CHATGPT_CONTEXT.txt` dan jika perlu `GAS_CHATGPT_RELIABLE_JOBS.txt`. File `.txt` hanya referensi, bukan instalasi otomatis atau bukti live Google. Baca `docs/v2.1-checkpoint-7-chatgpt-compatibility.md`.
