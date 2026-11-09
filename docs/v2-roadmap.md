@@ -81,3 +81,7 @@ Rujuk `docs/release-policy.md` untuk aturan versi, quality gate dan prosedur ril
 ### v2.1 Checkpoint 7 — ChatGPT Reference Compatibility (6 November 2026)
 
 Context Pack `.txt` untuk penggunaan langsung melalui ChatGPT chat/Project, tanpa mengubah one-install `.skill` atau 16 specialist. Generator dan pemeriksaan integritas ada di `tools/build_chatgpt_context.py`; instruksi dan batasan di `docs/v2.1-checkpoint-7-chatgpt-compatibility.md`. Ini masih **Unreleased**; live Google Apps Script dan aktivasi otomatis oleh ChatGPT tidak diklaim.
+
+## v2.1 Checkpoint 8 (9 November 2026, Unreleased)
+
+Gemini Apps/Gems interoperability added as a **reference handoff**, with a deterministic 10-file ZIP and 16-specialist mapping; Gemini CLI continues to use the single `.skill` entry. Stable v2.0.0 remains frozen; live Gemini behavior and GAS staging are not asserted as tested. Details: `docs/v2.1-checkpoint-8-gemini-compatibility.md`. Next milestone remains field evidence for Reliable GAS Jobs and further GAS production-readiness; interoperability does not trigger a new release.

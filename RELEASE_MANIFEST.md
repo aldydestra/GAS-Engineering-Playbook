@@ -114,3 +114,7 @@ Patch distribusi **tanpa perubahan versi maupun konten skill**: `dist/` sekarang
 File baru: `releases/v2.0.0/gas-engineering.skill`, `releases/v2.0.0/SHA256SUMS`, `docs/windows-git-portability.md`, `tools/test_gas_windows_git_layout.py`. File diubah: `.gitignore`, `.github/workflows/gas-v2-quality.yml`, `README.md`, `INSTALL.md`, dan dokumentasi release.
 
 Untuk clone Git baru, `dist/` memang tidak ada sampai menjalankan builder; ini kondisi yang **disengaja**. Instruksi perbaikan repository yang sudah terlanjur men-stage dist ada di `docs/windows-git-portability.md`.
+
+## Development appendix — v2.1 Checkpoint 8 (9 November 2026; UNRELEASED)
+
+This appendix does **not** change the official v2.0.0 stable release manifest or its artifact SHA-256. Adds deterministic Gemini Apps/Gems reference handoff with a ten-member ZIP (16 specialist `SKILL.md` across six family reference files), Gem instructions, Reliable GAS Jobs code examples and a SHA-256 manifest. A separate Gemini CLI install route continues to use the existing `gas-engineering.skill` package. Source skill versions stay unchanged: see `docs/v2.1-checkpoint-8-development-report.md` for the full previous/current version table and file-level release details. Local regression: 105/105 Python + 70/70 Node PASS (175/175 total), 16/16 GAS specialists, routing/one-install/ZIP + stable SHA256 PASS. Build/tests are local only; real Gemini Apps, Gems, Gemini CLI and Apps Script staging remain `NOT_RUN`. No GitHub Release or tag is created.

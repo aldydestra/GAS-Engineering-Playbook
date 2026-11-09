@@ -38,6 +38,12 @@ Source contoh juga termasuk di `skills/01-gas-core-engineering/examples/reliable
 
 Untuk **chat biasa**, build `python tools/build_chatgpt_context.py`, lalu unggah **`dist/chatgpt-v2.1-cp7/GAS_CHATGPT_CONTEXT.txt`**. Anda dapat menambahkan referensi 16 skill atau kode starter `.gs` berbentuk `.txt` hanya bila diperlukan. Untuk ChatGPT Project, tempel `chatgpt/CHATGPT_PROJECT_INSTRUCTIONS.txt` ke Project Instructions dan tambahkan file konteks sebagai sumber. **Unggah bukan instalasi otomatis** dari file `.skill` dan tidak memberikan akses Google atau mengeksekusi Apps Script. Baca [`docs/v2.1-checkpoint-7-chatgpt-compatibility.md`](docs/v2.1-checkpoint-7-chatgpt-compatibility.md).
 
+## Checkpoint 8 — Gunakan Playbook GAS di Gemini (Unreleased)
+
+**Gemini Chat:** unggah `GEMINI_GAS_CONTEXT.txt` (paling praktis), lalu satu file `GAS_FAMILY_*.txt` yang sesuai. Alternatif: ZIP `gas-gemini-context-v2.1-cp8.zip` berisi **tepat 10 file**, mengikuti batas upload ZIP Gemini Apps saat audit (9 November 2026). **Gemini Gems:** gunakan `GEMINI_GEM_INSTRUCTIONS.txt` sebagai Instructions dan unggah referensi sebagai Knowledge. **Gemini CLI:** instal arsip skill satu pintu (bukan ZIP reference Chat) melalui mekanisme Agent Skills CLI.
+
+Bangun file dengan `python tools/build_gemini_context.py` (hasil di `dist/gemini-v2.1-cp8/`). Verifikasi dengan `python tools/build_gemini_context.py --verify`. Lihat [`docs/v2.1-checkpoint-8-gemini-compatibility.md`](docs/v2.1-checkpoint-8-gemini-compatibility.md) untuk langkah, batasan, dan sumber resmi. File tersebut adalah **bahan referensi**, bukan aktivasi skill otomatis dan bukan akses ke akun GAS. Live Gemini upload/Gem/CLI masih **NOT_RUN**.
+
 ## Enam kategori tugas
 
 | Kategori | Spesialis utama | Spesialis pendukung tersedia |

@@ -68,6 +68,13 @@
 - Menambah test adversarial, dokumentasi operator, dan sinkronisasi asset source/.skill. Tetap **Unreleased**; stable v2.0.0 tidak berubah dan live Google staging `NOT_RUN`.
 
 
+### v2.1 development checkpoint 8 — Gemini Chat/Gems Reference Compatibility (9 November 2026; Unreleased)
+
+- Adds Gemini reference adapter with exactly ten ZIP members: one quick context, six full specialist-family references covering all 16 specialists, Gem instructions, Reliable GAS Jobs examples, and SHA256 manifest.
+- Adds reproducible builder and fail-closed verifier with negative tests for tampering, duplicate mappings, source identity drift and path traversal.
+- Documents Gemini Apps versus Gems versus Gemini CLI (uploaded references are **not** automatically activated Agent Skills), and tracks live Gemini/GAS execution as `NOT_RUN`.
+- Updates GAS-only CI; preserves all 16 specialist `skill_version`s and frozen `v2.0.0` archive; no GitHub Release/tag.
+
 ## [v2.0.0] — 2026-10-29 — Official GAS Simplification Release
 
 **Major release: perubahan antarmuka penggunaan skill, bukan reset materi.**
