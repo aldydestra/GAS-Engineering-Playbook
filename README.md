@@ -44,6 +44,12 @@ Untuk **chat biasa**, build `python tools/build_chatgpt_context.py`, lalu unggah
 
 Bangun file dengan `python tools/build_gemini_context.py` (hasil di `dist/gemini-v2.1-cp8/`). Verifikasi dengan `python tools/build_gemini_context.py --verify`. Lihat [`docs/v2.1-checkpoint-8-gemini-compatibility.md`](docs/v2.1-checkpoint-8-gemini-compatibility.md) untuk langkah, batasan, dan sumber resmi. File tersebut adalah **bahan referensi**, bukan aktivasi skill otomatis dan bukan akses ke akun GAS. Live Gemini upload/Gem/CLI masih **NOT_RUN**.
 
+## Checkpoint 9 — Claude Chat, Projects, Custom Skills & GAS Staging (Unreleased)
+
+Untuk **Claude Chat/Projects**, jalankan `python tools/build_claude_context.py` setelah membangun skill utama. Unggah `dist/claude-v2.1-cp9/CLAUDE_GAS_CONTEXT.txt`, lalu satu `GAS_FAMILY_*.txt` sesuai kebutuhan. Untuk **Claude Custom Skills**, unggah `gas-claude-skill-v2.1-cp9.zip` melalui `Customize → Skills` (dengan fitur code execution aktif). Untuk **Claude Code**, ekstrak ZIP agar tersedia `.claude/skills/gas-engineering/SKILL.md`. Lampiran `.txt` dalam chat **bukan** instalasi skill. Panduan: [`docs/v2.1-checkpoint-9-claude-compatibility.md`](docs/v2.1-checkpoint-9-claude-compatibility.md).
+
+Peningkatan GAS baru: `StagingValidation.gs` dapat membuat **spreadsheet staging baru** berisi 1.200 baris sintetis menggunakan `createReliableJobsSyntheticStagingFixture('CREATE_DISPOSABLE_STAGING_FIXTURE')` dengan persetujuan eksplisit. Tidak pernah memodifikasi `GAS_RJ_DEMO_SHEET_ID`; status terinspeksi tanpa membocorkan ID. **Live Google Apps Script dan upload native Claude masih NOT_RUN** sampai pengguna menjalankannya secara sah. **v2.0.0 tetap stabil; v2.1.0 belum GitHub Release.**
+
 ## Enam kategori tugas
 
 | Kategori | Spesialis utama | Spesialis pendukung tersedia |

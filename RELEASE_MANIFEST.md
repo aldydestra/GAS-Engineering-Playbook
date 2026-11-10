@@ -118,3 +118,22 @@ Untuk clone Git baru, `dist/` memang tidak ada sampai menjalankan builder; ini k
 ## Development appendix — v2.1 Checkpoint 8 (9 November 2026; UNRELEASED)
 
 This appendix does **not** change the official v2.0.0 stable release manifest or its artifact SHA-256. Adds deterministic Gemini Apps/Gems reference handoff with a ten-member ZIP (16 specialist `SKILL.md` across six family reference files), Gem instructions, Reliable GAS Jobs code examples and a SHA-256 manifest. A separate Gemini CLI install route continues to use the existing `gas-engineering.skill` package. Source skill versions stay unchanged: see `docs/v2.1-checkpoint-8-development-report.md` for the full previous/current version table and file-level release details. Local regression: 105/105 Python + 70/70 Node PASS (175/175 total), 16/16 GAS specialists, routing/one-install/ZIP + stable SHA256 PASS. Build/tests are local only; real Gemini Apps, Gems, Gemini CLI and Apps Script staging remain `NOT_RUN`. No GitHub Release or tag is created.
+
+
+## Development Appendix — Checkpoint 9 (10 November 2026, Unreleased)
+
+**Official release tetap v2.0.0.** Checkpoint 9 tidak menerbitkan tag, GitHub Release baru, atau mengganti `releases/v2.0.0/gas-engineering.skill`.
+
+| Item | Isi | Status |
+|---|---|---|
+| Claude Chat/Projects pack | 10 referensi `.txt`/JSON dengan 16 specialist penuh dan SHA-256 | Build/verify lokal |
+| Claude native skill ZIP | `gas-engineering/SKILL.md`, 6 task-families, 16 specialist penuh | Build/verify lokal, live NOT_RUN |
+| GAS staging fixture | Spreadsheet **baru**, 1.200 baris sintetis, consent eksplisit, lock dan partial-create guard | Node fakes PASS, live NOT_RUN |
+| 16 specialist internal versions | Tidak diubah sejak CP8; GAS Core 1.6.0, Testing 1.9.0, Monitoring 1.10.0 | Unreleased |
+| GitHub stable archive v2.0.0 | Dibekukan, dipastikan checksum tidak berubah | Frozen |
+
+File baru/diubah dan prosedur lengkap ada di `docs/v2.1-checkpoint-9-development-report.md`, `docs/v2.1-checkpoint-9-claude-compatibility.md` dan `APPLY_V2_1_CHECKPOINT_9.md`. Hasil test final harus diperiksa dalam pipeline saat artefak dibangun; dokumen ini bukan bukti live host.
+
+### Checkpoint 9 — Local regression verification
+
+`115/115` Python unit tests, `74/74` Node tests, **`189/189` total PASS**; routing, 16 specialists, one-install build, ChatGPT+Gemini compatibility pack, and Claude two-format pack all validated locally. `releases/v2.0.0/SHA256SUMS` verified. This is **not** evidence of Claude or Google live integration; `IN_DEVELOPMENT` retained.

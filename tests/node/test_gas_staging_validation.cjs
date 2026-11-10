@@ -169,4 +169,48 @@ test('inconsistent committed row count prevents review-ready report',()=>{
   x.svc.startReliableJobsStagingProbe();x.svc.handleReliableJobsStagingProbe({triggerUid:'1'});
   assert.equal(x.svc.collectReliableJobsStagingEvidence().reviewHint,'INCOMPLETE_STAGING_EVIDENCE');
 });
+
+
+
+test('fixture creation requires explicit consent and never opens existing demo sheet',()=>{
+  const x=harness();
+  assert.throws(()=>x.svc.createReliableJobsSyntheticStagingFixture(),/RJ_STAGING_FIXTURE_EXPLICIT_CONSENT_REQUIRED/);
+  assert.equal(x.svc.inspectReliableJobsSyntheticStagingFixture().status,'NOT_CREATED');
+  assert.equal(x.src.writeCalls+x.dst.writeCalls,0);
+});
+test('fixture generates 1200 unique synthetic rows in an isolated new spreadsheet',()=>{
+  const x=harness();const created=[];let opens=0;
+  function writable(){const rows=[];return {rows,getRange(r,c,n,m){return {setValues(data){for(let i=0;i<data.length;i++)rows[r-1+i]=data[i].slice();}}},
+    setName(name){this.name=name;}};}
+  x.svc.SpreadsheetApp.openById=function(){opens++;throw new Error('MUST_NOT_OPEN_EXISTING');};
+  x.svc.SpreadsheetApp.create=function(name){
+    const source=writable(),target=writable();const item={source,target,name};created.push(item);
+    return {getId:()=> 'PRIVATE_FIXTURE_ID',getSheets:()=>[source],insertSheet:n=>{target.setName(n);return target;}};
+  };
+  x.svc.SpreadsheetApp.flush=()=>{};
+  const r=x.svc.createReliableJobsSyntheticStagingFixture('CREATE_DISPOSABLE_STAGING_FIXTURE');
+  assert.equal(r.status,'READY');assert.equal(r.rows,1200);assert.equal(created.length,1);assert.equal(opens,0);
+  assert.equal(created[0].source.rows.length,1201);assert.equal(created[0].target.rows.length,1);
+  assert.equal(created[0].source.rows[1][0],'SYNTHETIC_0001');
+  assert.equal(created[0].source.rows[1200][0],'SYNTHETIC_1200');
+  assert.equal(new Set(created[0].source.rows.slice(1).map(r=>r[0])).size,1200);
+  const safe=x.svc.inspectReliableJobsSyntheticStagingFixture();
+  assert.equal(safe.status,'READY');assert.equal(JSON.stringify(safe).includes('PRIVATE_FIXTURE_ID'),false);
+  assert.throws(()=>x.svc.createReliableJobsSyntheticStagingFixture('CREATE_DISPOSABLE_STAGING_FIXTURE'),/RJ_STAGING_FIXTURE_ALREADY_REGISTERED/);
+  assert.equal(created.length,1);
+});
+test('partial staging fixture is registered before writes and cannot be blindly duplicated',()=>{
+  const x=harness();let created=0;
+  x.svc.SpreadsheetApp.create=()=>{created++;return {getId:()=> 'SENSITIVE_ID',getSheets:()=>[{setName:()=>{},getRange:()=>({setValues:()=>{throw new Error('SIMULATED_WRITE_FAILURE');}})}],insertSheet:()=>({getRange:()=>({setValues:()=>{}})})};};
+  assert.throws(()=>x.svc.createReliableJobsSyntheticStagingFixture('CREATE_DISPOSABLE_STAGING_FIXTURE'),/SIMULATED_WRITE_FAILURE/);
+  assert.equal(x.svc.inspectReliableJobsSyntheticStagingFixture().status,'CREATED_NEEDS_POPULATION');
+  assert.throws(()=>x.svc.createReliableJobsSyntheticStagingFixture('CREATE_DISPOSABLE_STAGING_FIXTURE'),/RJ_STAGING_FIXTURE_ALREADY_REGISTERED/);
+  assert.equal(created,1);
+});
+test('fixture lock contention does not create spreadsheet',()=>{
+  const x=harness({lockBusy:true});let created=0;
+  x.svc.SpreadsheetApp.create=()=>{created++;throw new Error('NO');};
+  assert.equal(x.svc.createReliableJobsSyntheticStagingFixture('CREATE_DISPOSABLE_STAGING_FIXTURE').status,'LOCK_BUSY');
+  assert.equal(created,0);
+});
 console.log('STAGING VALIDATION:',passed,'/',passed,'local contract tests PASS; LIVE NOT_RUN');

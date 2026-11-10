@@ -85,3 +85,8 @@ Context Pack `.txt` untuk penggunaan langsung melalui ChatGPT chat/Project, tanp
 ## v2.1 Checkpoint 8 (9 November 2026, Unreleased)
 
 Gemini Apps/Gems interoperability added as a **reference handoff**, with a deterministic 10-file ZIP and 16-specialist mapping; Gemini CLI continues to use the single `.skill` entry. Stable v2.0.0 remains frozen; live Gemini behavior and GAS staging are not asserted as tested. Details: `docs/v2.1-checkpoint-8-gemini-compatibility.md`. Next milestone remains field evidence for Reliable GAS Jobs and further GAS production-readiness; interoperability does not trigger a new release.
+
+
+## Checkpoint 9 — Claude interoperability + synthetic staging (10 November 2026; Unreleased)
+
+Dua delivery mode dihasilkan dari sumber GAS yang sama: `.txt` untuk Claude Chat/Projects (file diunggah sebagai referensi) dan ZIP `gas-engineering/` untuk native Claude Custom Skills/Claude Code. Skill metadata disesuaikan ke batas Claude tanpa mengubah 16 spesialis. `StagingValidation.gs` menambah opt-in fixture spreadsheet baru berisi 1.200 baris sintetis, menjaga existing spreadsheet dan trigger. Pengujian simulasi lokal tidak menggantikan verifikasi Claude/GAS live. Baca `docs/v2.1-checkpoint-9-claude-compatibility.md` dan `docs/v2.1-checkpoint-9-development-report.md`.

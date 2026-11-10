@@ -1,5 +1,13 @@
 # Changelog — GAS Engineering Playbook
 
+## v2.1 development checkpoint 9 — Claude Compatibility & Synthetic GAS Staging (10 November 2026; Unreleased)
+
+- Claude Chat/Projects reference pack: 10 file datar yang dibentuk deterministik dari 16 specialist dan enam task-family; verifikasi hash serta deteksi drift.
+- Claude native skill ZIP: satu folder root `gas-engineering/`, metadata disesuaikan ke batas deskripsi Claude ≤200 karakter tanpa mengubah isi 16 spesialis maupun artefak stable v2.0.0.
+- Starter GAS `StagingValidation.gs` menambahkan opt-in pembuatan spreadsheet staging baru berisi 1.200 baris sintetis. Lock, explicit consent, no-touch-existing-spreadsheet dan partial-create guard diuji dengan Node service fakes.
+- Menambah dokumentasi operator, CI build/verify Claude, dan pengujian regresi. Semua tetap pengembangan `Unreleased`, tidak membuat tag/GitHub Release atau mengubah checksum rilis stabil.
+- Live Claude Chat/Skills/Code dan live GAS staging: `NOT_RUN`.
+
 ## v2.1 development checkpoint 7 — ChatGPT Reference Compatibility (6 November 2026; Unreleased)
 
 - Menambahkan *ChatGPT Context Pack* sebagai dokumen `.txt` yang dapat diunggah ke percakapan atau referensi Project tanpa mengklaim instalasi otomatis format `.skill`.

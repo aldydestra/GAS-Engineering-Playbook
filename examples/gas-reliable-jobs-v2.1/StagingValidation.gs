@@ -194,3 +194,59 @@ function exportReliableJobsStagingEvidenceJson() {
   // Copy the returned JSON string into a local .json file. No Drive writes.
   return JSON.stringify(collectReliableJobsStagingEvidence(),null,2);
 }
+
+/**
+ * Checkpoint 9: explicit, opt-in creation of a NEW synthetic staging spreadsheet.
+ * Never writes to GAS_RJ_DEMO_SHEET_ID, SOURCE/TARGET of an existing spreadsheet,
+ * Drive files other than the newly created fixture, or real business data.
+ * Record the returned ID locally in GAS_RJ_DEMO_SHEET_ID; do NOT share it as evidence.
+ */
+var GAS_RJ_STAGING_FIXTURE_KEY = 'GASRJ1:STAGING:SYNTHETIC_FIXTURE';
+var GAS_RJ_STAGING_FIXTURE_SIZE = 1200;
+function createReliableJobsSyntheticStagingFixture(confirmation) {
+  if (confirmation !== 'CREATE_DISPOSABLE_STAGING_FIXTURE')
+    throw new Error('RJ_STAGING_FIXTURE_EXPLICIT_CONSENT_REQUIRED');
+  return gasRJStagingLock_(function() {
+    var props=PropertiesService.getScriptProperties();
+    if (props.getProperty(GAS_RJ_STAGING_FIXTURE_KEY))
+      throw new Error('RJ_STAGING_FIXTURE_ALREADY_REGISTERED');
+    // Standalone fixture; this does NOT open or modify the configured demo spreadsheet.
+    var ss=SpreadsheetApp.create('GAS Reliable Jobs - Synthetic Staging Fixture');
+    var fixture={schema:1,spreadsheetId:ss.getId(),createdAt:new Date().toISOString(),rows:GAS_RJ_STAGING_FIXTURE_SIZE,
+      status:'CREATED_NEEDS_POPULATION'};
+    // Persist immediately: if a later write fails, a retry must not silently
+    // create another spreadsheet; operator can inspect the original ID locally.
+    props.setProperty(GAS_RJ_STAGING_FIXTURE_KEY,JSON.stringify(fixture));
+    var source=ss.getSheets()[0];
+    source.setName('SOURCE');
+    var target=ss.insertSheet('TARGET');
+    source.getRange(1,1,1,2).setValues([['record_id','value']]);
+    target.getRange(1,1,1,2).setValues([['record_id','value']]);
+    for (var start=0;start<GAS_RJ_STAGING_FIXTURE_SIZE;start+=300) {
+      var count=Math.min(300,GAS_RJ_STAGING_FIXTURE_SIZE-start),data=[];
+      for (var k=0;k<count;k++) {
+        var n=start+k+1;
+        data.push(['SYNTHETIC_'+('0000'+n).slice(-4),n*17]);
+      }
+      source.getRange(start+2,1,count,2).setValues(data);
+    }
+    SpreadsheetApp.flush();
+    fixture.status='READY';
+    props.setProperty(GAS_RJ_STAGING_FIXTURE_KEY,JSON.stringify(fixture));
+    return {status:'READY',rows:fixture.rows,spreadsheetId:fixture.spreadsheetId,
+      nextStep:'Paste spreadsheetId locally into GAS_RJ_DEMO_SHEET_ID, then inspect preflight. Never paste ID into shared evidence.'};
+  });
+}
+/** Read-only, sanitized fixture status. No spreadsheet ID in returned evidence. */
+function inspectReliableJobsSyntheticStagingFixture() {
+  var raw=PropertiesService.getScriptProperties().getProperty(GAS_RJ_STAGING_FIXTURE_KEY);
+  if (!raw) return {status:'NOT_CREATED'};
+  var s;
+  try {s=JSON.parse(raw);}catch(e){throw new Error('RJ_STAGING_FIXTURE_STATE_INVALID');}
+  if (s.schema!==1 || typeof s.spreadsheetId!=='string' || !s.spreadsheetId ||
+      s.rows!==GAS_RJ_STAGING_FIXTURE_SIZE ||
+      (s.status!=='READY' && s.status!=='CREATED_NEEDS_POPULATION'))
+    throw new Error('RJ_STAGING_FIXTURE_STATE_INVALID');
+  return {status:s.status,rows:s.rows,createdAt:s.createdAt,
+    note:'Fixture is synthetic and separate; no configured production spreadsheet was modified.'};
+}

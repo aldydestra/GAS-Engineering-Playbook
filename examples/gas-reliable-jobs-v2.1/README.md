@@ -28,3 +28,6 @@ Penulisan TARGET memakai pengelompokan baris berurutan untuk mengurangi service 
 
 
 **Checkpoint 7 — ChatGPT conversation handoff:** untuk meminta ChatGPT membantu review starter/kasus recovery, build `python tools/build_chatgpt_context.py` lalu unggah `dist/chatgpt-v2.1-cp7/GAS_CHATGPT_CONTEXT.txt` dan jika perlu `GAS_CHATGPT_RELIABLE_JOBS.txt`. File `.txt` hanya referensi, bukan instalasi otomatis atau bukti live Google. Baca `docs/v2.1-checkpoint-7-chatgpt-compatibility.md`.
+
+
+**Checkpoint 9 — Synthetic staging fixture (10 Nov 2026):** opsional jalankan `createReliableJobsSyntheticStagingFixture('CREATE_DISPOSABLE_STAGING_FIXTURE')` dari `StagingValidation.gs` untuk membuat **spreadsheet baru** berisi `SOURCE` 1.200 baris sintetis dan `TARGET` kosong ber-header. Fungsi ini tidak menyentuh spreadsheet yang dikonfigurasi. ID hanya ditampilkan secara lokal untuk disalin ke `GAS_RJ_DEMO_SHEET_ID` sebelum preflight; `inspectReliableJobsSyntheticStagingFixture()` hanya menampilkan status aman tanpa ID. **Tidak mengulang** otomatis setelah kegagalan parsial (`CREATED_NEEDS_POPULATION`), dan tidak otomatis menghapus spreadsheet. Lakukan seluruhnya pada akun Google staging. Baca `docs/v2.1-checkpoint-9-claude-compatibility.md`.
